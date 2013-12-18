@@ -1,0 +1,39 @@
+.controls {
+    margin: 24px 16px 0 16px;
+
+    .control {
+        height: 32px;
+        width: 80px;
+        display: inline-block;
+        border-radius: 3px;
+        box-shadow: 0 0 1px #000;
+        background-color: #A63A37;
+        border: 1px solid #000;
+        margin: 0 8px;
+        text-decoration: none;
+    }
+    .control:active, .control.active {
+        background-color: #56211B;
+    }
+    .control:active .icon, .control.active .icon {
+        margin-top: 1px;
+    }
+    .control .icon {
+        height: 32px;
+        width: 32px;
+        background-image: url($img + '/player_sprite.png');
+        margin: 0 auto;
+    }
+    .prev .icon {
+        background-position: 0 0;
+    }
+    .play .icon {
+        background-position: -64px 0;
+    }
+    .pause .icon {
+        background-position: -32px 0;
+    }
+    .next .icon {
+        background-position: -96px 0;
+    }
+}

@@ -1,0 +1,16 @@
+<div class="option">
+    Me: 
+    <select class="toLanguage">
+        {{#each toLanguages}}
+            <option value="{{id}}">{{label}}</option>
+        {{/each}}
+    </select>
+</div>
+<div class="option">
+    To Learn: 
+    <select class="fromLanguage">
+        {{#each fromLanguages}}
+            <option value="{{id}}" {{#if selected}}selected="true"{{/if}}>{{label}}</option>
+        {{/each}}
+    </select>
+</div>

@@ -1,0 +1,34 @@
+.subtitlesScroller {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+
+    .viewport {
+        height: 480px;
+        overflow: hidden;
+    }
+    .noSubtitles {
+        margin-top: 16px;
+    }
+    .subtitles li {
+        font-size: 14px;
+        line-height: 24px;
+        overflow: hidden;
+        white-space: nowrap;
+        margin-bottom: 16px;
+    }
+    .subtitles li.selected {
+        font-size: 24px;
+        line-height: 36px;
+        color: #FFF;
+    }
+    .subtitles a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+        color: #FFF;
+    }
+    .timestamp {
+        color: #FF0000;
+        margin-left: 12px;
+    }
+}
