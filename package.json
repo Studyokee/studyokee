@@ -43,6 +43,7 @@
     "grunt-jshint2": "~0.1.6",
     "mockery": "~1.4.0",
     "squirejs": "~0.1.0",
-    "proxyquire": "~0.5.2"
+    "proxyquire": "~0.5.2",
+    "grunt-cli": "~0.1.11"
   }
 }
