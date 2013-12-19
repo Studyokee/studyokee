@@ -3,10 +3,12 @@ define () ->
 
     constructor: () ->
       @lastSong = ''
-      @url = 'http://localhost:3000/api'
+      @url = '/api'
 
     getSegments: (rdioKey, language, callback) ->
       console.log('DATA PROVIDER: retrieving subtitles for rdioKey: ' + rdioKey + ' with translation in: ' + language)
+      start = new Date().getTime()
+
       @lastSong = currentSong = rdioKey
 
       subtitlesRetrieved = false
@@ -22,14 +24,16 @@ define () ->
           song =
             original: subtitles
             translation: translation
+
+          diff = (new Date().getTime()) - start
+          console.log('DATA PROVIDER: time to load lyrics and translation: ' + diff)
           callback(song)
 
       $.ajax(
         type: 'GET'
         url: @url + '/songs/' + rdioKey + '/translations/' + language
         success: (res) ->
-          console.log('DATA PROVIDER: retrieved translation: ')
-          console.log(JSON.stringify(res, null, 4))
+          console.log('DATA PROVIDER: retrieved translation')
           translation = res
           translationRetrieved = true
           onSuccess()
@@ -39,53 +43,10 @@ define () ->
         type: 'GET'
         url: @url + '/songs/' + rdioKey + '/subtitles'
         success: (res) ->
-          console.log('DATA PROVIDER: retrieved subtitles: ')
-          console.log(JSON.stringify(res, null, 4))
+          console.log('DATA PROVIDER: retrieved subtitles')
           subtitles = res
           subtitlesRetrieved = true
           onSuccess()
-      )
-
-    createSong: (rdioKey, originalLanguage, callback) ->
-      console.log('DATA PROVIDER: create song in language: ' + originalLanguage + ' for rdio key: ' + rdioKey + ' :')
-
-      song =
-        metadata:
-          language: originalLanguage
-
-      $.ajax(
-        type: 'PUT'
-        url: @url + '/songs/' + rdioKey
-        data: data: song
-        success: () ->
-          console.log('DATA PROVIDER: finished creating song')
-          callback()
-      )
-
-    saveSubtitles: (rdioKey, subtitles, callback) ->
-      console.log('DATA PROVIDER: save subtitles for rdio key: ' + rdioKey + ', new subtitles: ')
-      console.log(subtitles)
-
-      $.ajax(
-        type: 'PUT'
-        url: @url + '/songs/' + rdioKey + '/subtitles'
-        data: data: subtitles
-        success: () ->
-          console.log('DATA PROVIDER: finished saving subtitles')
-          callback()
-      )
-
-    saveTranslation: (rdioKey, language, lyrics, callback) ->
-      console.log('DATA PROVIDER: save translation for \'' + language + '\', new lyrics: ')
-      console.log(lyrics)
-
-      $.ajax(
-        type: 'PUT'
-        url: @url + '/songs/' + rdioKey + '/translations/' + language
-        data: data: lyrics
-        success: () ->
-          console.log('DATA PROVIDER: finished saving translation')
-          callback()
       )
 
     getSuggestions: (fromLanguage, toLanguage, callback) ->

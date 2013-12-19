@@ -108,7 +108,7 @@ module.exports = function (grunt) {
                     '**/*.js',
                     '!node_modules/**/*.js',
                     '!public/**/*.js',
-                    '!app/api/rdio.js'
+                    '!app/api/rdio/rdio.js'
                 ],
                 options: {
                     jshint: {

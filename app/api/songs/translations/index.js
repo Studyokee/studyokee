@@ -8,7 +8,6 @@ var app = express();
 var assert = require('assert');
 
 app.get('/:rdioKey/translations/:language', function (req, res) {
-    assert(req.hasOwnProperty('rdioData'));
     assert(req.hasOwnProperty('song'));
 
     var toLanguage = req.params.language;
@@ -18,8 +17,7 @@ app.get('/:rdioKey/translations/:language', function (req, res) {
     if (translation && translation.data) {
         res.json(200, translation.data);
     } else {
-        var rdioData = req.rdioData;
-        var getSubtitlesRequest = Song.getSubtitles(rdioData.artist, rdioData.name);
+        var getSubtitlesRequest = Song.getSubtitles(song.rdioData.artist, song.rdioData.name);
 
         getSubtitlesRequest.done(function (subtitles) {
             console.log('fetched subtitles');

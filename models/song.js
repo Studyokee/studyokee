@@ -13,10 +13,9 @@ var songSchema = mongoose.Schema({
         unique: true
     },
     metadata: {
-        language: { // original language
-            type: String
-        }
+        language: String
     },
+    rdioData: Object,
     translations: [{
         language: String,
         data: [String]

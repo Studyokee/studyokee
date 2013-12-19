@@ -35,23 +35,26 @@ define [
 
           @ready = true
         )
-        $('#api').rdio('GAlSWrxf_____zk4ZmdtbjVyeGU5dnU3aHRxNTJ1ZXkyYWxvY2FsaG9zdLdC0PEcjVgFr9fwe2O80JE=')
-        $('#api').bind('positionChanged.rdio', (e, position) =>
-          if @enableLogging
-            console.log('RDIO POSITION CHANGE: ' + position)
+        this.getPlaybackToken((token) =>
+          $('#api').rdio(token)
+          $('#api').bind('positionChanged.rdio', (e, position) =>
+            if @enableLogging
+              console.log('RDIO POSITION CHANGE: ' + position)
 
-          @position = position
-          @lastPositionMeasurement = new Date().getTime()
-        )
-        $('#api').bind('playStateChanged.rdio', (e, playState) =>
-          if @enableLogging
-            console.log('RDIO PLAYSTATE CHANGE: ' + playState)
+            @position = position
+            @lastPositionMeasurement = new Date().getTime()
+          )
+          $('#api').bind('playStateChanged.rdio', (e, playState) =>
+            if @enableLogging
+              console.log('RDIO PLAYSTATE CHANGE: ' + playState)
 
-          if playState is 1
-            this.startPlaying()
-          else
-            this.stopPlaying()
+            if playState is 1
+              this.startPlaying()
+            else
+              this.stopPlaying()
+          )
         )
+        
       )
 
     startPlaying: () ->
@@ -142,13 +145,21 @@ define [
       @lastSearch = query
       $.ajax(
         type: 'GET'
-        url: 'http://localhost:3000/api/search/' + query
+        url: '/api/rdio/search/' + query
         success: (data) =>
           if query isnt @lastSearch
             return
 
-          results = $.parseJSON(data).result.results
-          callback(results)
+          callback(data)
+      )
+
+    getPlaybackToken: (callback) ->
+      $.ajax(
+        type: 'GET'
+        url: '/api/rdio/getPlaybackToken'
+        success: (token) =>
+          console.log(JSON.stringify(token, null, 4))
+          callback(token)
       )
 
   return RdioPlayer
