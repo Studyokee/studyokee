@@ -58,7 +58,6 @@ define [
           translation: translation[i]
           ts: subtitles[i].ts
         )
-      console.log('Formatted data: ' + JSON.stringify(data, null, 4))
 
       return data
 

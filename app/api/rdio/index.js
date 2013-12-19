@@ -9,7 +9,7 @@ var config = {
     rdio_api_shared: process.env.RDIO_SHARED_SECRET,
     callback_url: '/'
 };
-var rdio = require('../rdio')(config);
+var rdio = require('./rdio')(config);
 
 var app = express();
 
@@ -23,7 +23,7 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/auth/rdio');
 }
 
-app.get('/:query',
+app.get('/search/:query',
     ensureAuthenticated,
     function (req, res) {
         console.log('Query: ' + req.params.query);
@@ -34,8 +34,22 @@ app.get('/:query',
                 method: 'search'
             };
 
-            rdio.api(user.oauth.token, user.oauth.tokenSecret, data, function (err, searchResults) {
+            rdio.api(user.oauth.token, user.oauth.tokenSecret, data, function (err, rdioResults) {
+                var searchResults = JSON.parse(rdioResults).result.results;
                 res.json(200, searchResults);
+            });
+        });
+    }
+);
+
+app.get('/getPlaybackToken',
+    ensureAuthenticated,
+    function (req, res) {
+        User.getByRdioId(req.user.id).then(function (user) {
+            console.log('host: ' + req.host);
+            rdio.getPlaybackToken(user.oauth.token, user.oauth.tokenSecret, req.host, function (err, rdioResults) {
+                var token = JSON.parse(rdioResults).result;
+                res.json(200, token);
             });
         });
     }

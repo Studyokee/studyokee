@@ -11,7 +11,7 @@ var config = {
     rdio_api_shared: process.env.RDIO_SHARED_SECRET,
     callback_url: '/'
 };
-var rdio = require('../rdio')(config);
+var rdio = require('../rdio/rdio')(config);
 
 var app = express();
 
@@ -22,22 +22,34 @@ app.configure(function() {
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-
     res.redirect('/auth/rdio');
 }
 
 function getData (req, res, next) {
     var rdioKey = req.params.rdioKey;
     Song.getByRdioKey(rdioKey).then(function (song) {
+        req.song = song;
+        if (song.rdioData) {
+            next();
+        }
+
+        // Get rdio data
         User.getByRdioId(req.user.id).then(function (user) {
             var data = {
                 keys: [rdioKey],
                 method: 'get'
             };
 
-            rdio.api(user.oauth.token, user.oauth.tokenSecret, data, function (err, rdioData) {
+            rdio.api(user.oauth.token, user.oauth.tokenSecret, data, function (err, rdioResult) {
+                var rdioData = JSON.parse(rdioResult).result[rdioKey];
+                
+                var updates = {
+                    rdioData: rdioData
+                };
+                song.update(updates);
+                
+                song.rdioData = rdioData;
                 req.song = song;
-                req.rdioData = JSON.parse(rdioData).result[rdioKey];
                 next();
             });
         });
@@ -45,7 +57,6 @@ function getData (req, res, next) {
 }
 
 app.get('/:rdioKey/*', ensureAuthenticated, getData);
-app.put('/:rdioKey/*', ensureAuthenticated, getData);
 
 app.use(require('./subtitles'));
 app.use(require('./translations'));

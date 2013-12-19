@@ -6,9 +6,9 @@ var app = express();
 var assert = require('assert');
 
 app.get('/:rdioKey/subtitles', function (req, res) {
-    assert(req.hasOwnProperty('rdioData'));
+    assert(req.hasOwnProperty('song'));
 
-    Song.getSubtitles(req.rdioData.artist, req.rdioData.name).then(function (subtitles) {
+    Song.getSubtitles(req.song.rdioData.artist, req.song.rdioData.name).then(function (subtitles) {
         res.json(200, subtitles);
     }).fail(function (err) {
         res.json(500, {
