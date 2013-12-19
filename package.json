@@ -2,6 +2,9 @@
   "name": "studyokee-api",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "test": "./node_modules/grunt-cli/bin/grunt test"
+  },
   "dependencies": {
     "express": "3.2.6",
     "request": "~2.27.0",

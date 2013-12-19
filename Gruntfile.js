@@ -16,13 +16,16 @@ module.exports = function (grunt) {
         env: {
             development: {
                 PORT: 3000,
-                MONGO_URL: 'mongodb://localhost/studyokee',
+                MONGOHQ_URL: 'mongodb://localhost/studyokee',
                 src: '.env',
                 URL: 'http://localhost:'
             },
             test: {
-                MONGO_URL: 'mongodb://localhost/studyokee-test',
+                MONGOHQ_URL: 'mongodb://localhost/studyokee-test',
                 src: '.env'
+            },
+            travis: {
+                MONGOHQ_URL: 'mongodb://localhost/studyokee-test'
             }
         },
         watch: {
@@ -235,6 +238,7 @@ module.exports = function (grunt) {
     grunt.registerTask('keep-alive', function () {
         this.async();
     });
+    grunt.registerTask('travis', ['env:travis', 'mochaTest']);
     grunt.registerTask('test', ['env:test', 'mongod', 'mochaTest']);
     grunt.registerTask('default', ['env:development', 'preprocessor', 'autoprefixer', 'compass', 'mongod', 'server', 'watch']);
 };
