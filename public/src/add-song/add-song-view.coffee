@@ -16,6 +16,7 @@ define [
         this.model.set(
           suggestions: []
         )
+        this.$('.search').val('')
         this.model.trigger('select', suggestion)
       )
       this.listenTo(this.model, 'change:suggestions', () =>

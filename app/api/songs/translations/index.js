@@ -1,6 +1,7 @@
 'use strict';
 
 var Song = require('../../../../models/song');
+var ViewCounter = require('../../../../models/viewCounter');
 
 var express = require('express');
 var q = require('q');
@@ -16,6 +17,7 @@ app.get('/:rdioKey/translations/:language', function (req, res) {
 
     if (translation && translation.data) {
         res.json(200, translation.data);
+        ViewCounter.logView(req.song.metadata.language, toLanguage, req.params.rdioKey);
     } else {
         var getSubtitlesRequest = Song.getSubtitles(song.rdioData.artist, song.rdioData.name);
 
@@ -62,6 +64,8 @@ app.get('/:rdioKey/translations/:language', function (req, res) {
                     song.update(updates, function () {
                         console.log('saved translation in \'' + language + '\'');
                     });
+                    
+                    ViewCounter.logView(language, toLanguage, req.params.rdioKey);
                 });
             });
         });

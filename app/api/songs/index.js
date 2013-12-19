@@ -3,7 +3,6 @@
 var express = require('express');
 var passport = require('passport');
 
-var User = require('../../../models/user');
 var Song = require('../../../models/song');
 
 var config = {
@@ -28,30 +27,26 @@ function ensureAuthenticated(req, res, next) {
 function getData (req, res, next) {
     var rdioKey = req.params.rdioKey;
     Song.getByRdioKey(rdioKey).then(function (song) {
-        req.song = song;
         if (song.rdioData) {
+            req.song = song;
             next();
         }
 
-        // Get rdio data
-        User.getByRdioId(req.user.id).then(function (user) {
-            var data = {
-                keys: [rdioKey],
-                method: 'get'
+        var data = {
+            keys: [rdioKey],
+            method: 'get'
+        };
+        rdio.api(null, null, data, function (err, rdioResult) {
+            var rdioData = JSON.parse(rdioResult).result[rdioKey];
+            
+            var updates = {
+                rdioData: rdioData
             };
-
-            rdio.api(user.oauth.token, user.oauth.tokenSecret, data, function (err, rdioResult) {
-                var rdioData = JSON.parse(rdioResult).result[rdioKey];
-                
-                var updates = {
-                    rdioData: rdioData
-                };
-                song.update(updates);
-                
-                song.rdioData = rdioData;
-                req.song = song;
-                next();
-            });
+            song.update(updates);
+            
+            song.rdioData = rdioData;
+            req.song = song;
+            next();
         });
     });
 }
@@ -60,5 +55,6 @@ app.get('/:rdioKey/*', ensureAuthenticated, getData);
 
 app.use(require('./subtitles'));
 app.use(require('./translations'));
+app.use('/suggestions', require('./suggestions'));
 
 module.exports = app;
