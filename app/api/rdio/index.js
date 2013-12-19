@@ -2,6 +2,7 @@
 
 var express = require('express');
 var passport = require('passport');
+var q = require('q');
 var User = require('../../../models/user');
 
 var config = {
@@ -24,19 +25,23 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.get('/search/:query',
-    ensureAuthenticated,
     function (req, res) {
-        console.log('Query: ' + req.params.query);
-        User.getByRdioId(req.user.id).then(function (user) {
+        q.resolve().then(function () {
+            console.log('Query: ' + req.params.query);
             var data = {
                 query: req.params.query,
                 types: ['Track'],
                 method: 'search'
             };
 
-            rdio.api(user.oauth.token, user.oauth.tokenSecret, data, function (err, rdioResults) {
+            rdio.api(null, null, data, function (err, rdioResults) {
                 var searchResults = JSON.parse(rdioResults).result.results;
                 res.json(200, searchResults);
+            });
+        }).fail(function (err) {
+            console.log(err);
+            res.json(500, {
+                err: err
             });
         });
     }
@@ -45,11 +50,18 @@ app.get('/search/:query',
 app.get('/getPlaybackToken',
     ensureAuthenticated,
     function (req, res) {
-        User.getByRdioId(req.user.id).then(function (user) {
-            console.log('host: ' + req.host);
-            rdio.getPlaybackToken(user.oauth.token, user.oauth.tokenSecret, req.host, function (err, rdioResults) {
-                var token = JSON.parse(rdioResults).result;
-                res.json(200, token);
+        q.resolve().then(function () {
+            User.getByRdioId(req.user.id).then(function (user) {
+                console.log('host: ' + req.host);
+                rdio.getPlaybackToken(user.oauth.token, user.oauth.tokenSecret, req.host, function (err, rdioResults) {
+                    var token = JSON.parse(rdioResults).result;
+                    res.json(200, token);
+                });
+            });
+        }).fail(function (err) {
+            console.log(err);
+            res.json(500, {
+                err: err
             });
         });
     }

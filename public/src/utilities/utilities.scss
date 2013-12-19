@@ -5,11 +5,12 @@
     z-index: 100;
     height: 100%;
     width: 100%;
+    background-color: #262626;
 }
 .spinner {
     height: 30px;
     width: 30px;
-    background-image: url('img/loading.png');
+    background-image: url($img + '/loading.png');
     -webkit-animation:spin 0.6s infinite steps(11);
     margin-left: auto;
     margin-right: auto;

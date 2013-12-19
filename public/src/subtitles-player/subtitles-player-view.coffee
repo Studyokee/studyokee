@@ -22,7 +22,6 @@ define [
 
       this.subtitlesView = new SubtitlesScrollerView(
         model: this.model
-        showTimestamps: true
       )
 
       this.subtitlesControlsView = new SubtitlesControlsView(
