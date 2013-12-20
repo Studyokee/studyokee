@@ -16,16 +16,16 @@ module.exports = function (grunt) {
         env: {
             development: {
                 PORT: 3000,
-                MONGOHQ_URL: 'mongodb://localhost/studyokee',
+                MONGO_URL: 'mongodb://localhost/studyokee',
                 src: '.env',
                 URL: 'http://localhost:'
             },
             test: {
-                MONGOHQ_URL: 'mongodb://localhost/studyokee-test',
+                MONGO_URL: 'mongodb://localhost/studyokee-test',
                 src: '.env'
             },
             travis: {
-                MONGOHQ_URL: 'mongodb://localhost/studyokee-test'
+                MONGO_URL: 'mongodb://localhost/studyokee-test'
             }
         },
         watch: {

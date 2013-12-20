@@ -51,7 +51,7 @@ define [
       this.$el.html(Handlebars.templates['main'](this.model.toJSON()))
 
       this.$('.settingsContainer').html(this.languageSettingsView.render().el)
-      #this.$('.suggestionsContainer').html(this.suggestionsView.render().el)
+      this.$('.suggestionsContainer').html(this.suggestionsView.render().el)
       this.$('.addSongContainer').html(this.addSongView.render().el)
       this.$('.playerContainer').html(this.subtitlesPlayerView.render().el)
 
