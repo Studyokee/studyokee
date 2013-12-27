@@ -149,29 +149,6 @@ module.exports = function (grunt) {
                 reporter: 'json-stream'
             }
         },
-        requirejs: {
-        },
-        compass: {
-            options: {
-                sassDir: 'public/styles',
-                cssDir: '.tmp/styles',
-                generatedImagesDir: '.tmp/images/generated',
-                imagesDir: 'public/images',
-                javascriptsDir: 'public/scripts',
-                fontsDir: 'public/styles/fonts',
-                importPath: 'public/bower_components',
-                httpImagesPath: '/images',
-                httpGeneratedImagesPath: '/images/generated',
-                httpFontsPath: '/styles/fonts',
-                relativeAssets: false,
-                assetCacheBuster: false
-            },
-            server: {
-                options: {
-                    debugInfo: true
-                }
-            }
-        },
         autoprefixer: {
             options: {
                 browsers: ['last 1 version']
@@ -210,15 +187,6 @@ module.exports = function (grunt) {
                     'public/styles/main.css': 'public/styles/main.styl'
                 }
             }
-        },
-        connect: {
-            server: {
-                options: {
-                    port: 3000,
-                    // change this to '0.0.0.0' to access the server from outside
-                    hostname: 'localhost'
-                }
-            }
         }
     });
     grunt.registerTask('preprocessor', [
@@ -226,12 +194,13 @@ module.exports = function (grunt) {
         'coffeelint',
         'coffee',
         'handlebars',
-        'stylus'
+        'stylus',
+        'autoprefixer'
     ]);
     grunt.registerTask('keep-alive', function () {
         this.async();
     });
     grunt.registerTask('travis', ['env:travis', 'mochaTest']);
     grunt.registerTask('test', ['env:test', 'mongod', 'mochaTest']);
-    grunt.registerTask('default', ['env:development', 'preprocessor', 'autoprefixer', 'mongod', 'server', 'watch']);
+    grunt.registerTask('default', ['env:development', 'preprocessor', 'mongod', 'server', 'watch']);
 };
