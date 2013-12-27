@@ -2,15 +2,10 @@
 
 module.exports = function (grunt) {
     // load all grunt tasks
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    require('matchdep').filter('grunt-*').forEach(grunt.loadNpmTasks);
     grunt.loadTasks('tasks');
     // show elapsed time at the end
     require('time-grunt')(grunt);
-    // load all grunt tasks
-    require('load-grunt-tasks')(grunt);
-    grunt.loadNpmTasks('grunt-coffeelint');
-    grunt.loadNpmTasks('grunt-contrib-coffee');
-    grunt.loadNpmTasks('grunt-contrib-connect');
 
     var DEFAULT_PORT = 3000;
 
