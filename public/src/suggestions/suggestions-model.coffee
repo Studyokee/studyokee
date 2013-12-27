@@ -45,6 +45,12 @@ define [
       dataProvider = this.get('dataProvider')
       suggestions = dataProvider.getSuggestions(fromLanguage, toLanguage, fn)
 
+    getSuggestion: (key) ->
+      suggestions = this.get('suggestions')
+      for suggestion in suggestions
+        if suggestion.key is key
+          return suggestion
+      return null
   )
 
   return SuggestionsModel
