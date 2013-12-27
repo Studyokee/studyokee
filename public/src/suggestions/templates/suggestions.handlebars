@@ -3,7 +3,10 @@ Suggestions:
     {{#each suggestions}}
         <li>
             <div>
-                <a data-id='{{id}}'>{{id}}</a>
+                <a data-key='{{key}}'>
+                    <div>{{name}}</div>
+                    <div class="artist">{{artist}}</div>
+                </a>
             </div>
         </li>
     {{/each}}

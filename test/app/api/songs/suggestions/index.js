@@ -59,8 +59,8 @@ describe('suggestions tests', function () {
                 .end(getRequest.makeNodeResolver());
             return getRequest.promise;
         }).then(function (res) {
-            chai.expect(res.body[rdioKey1].key).to.equal(rdioKey1);
-            chai.expect(res.body[rdioKey2].key).to.equal(rdioKey2);
+            chai.expect(res.body[0].key).to.equal(rdioKey1);
+            chai.expect(res.body[1].key).to.equal(rdioKey2);
             done();
         }).fail(function (err) {
             if (err) { return done(new Error(err)); }

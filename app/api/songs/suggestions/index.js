@@ -28,14 +28,19 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
 
         var rdioRequest = q.defer();
         rdio.api(null, null, data, rdioRequest.makeNodeResolver());
-        return rdioRequest.promise;
-    }).spread(function (rdioResult) {
-        var parsedResult = JSON.parse(rdioResult);
-        if (parsedResult.result) {
-            res.json(200, parsedResult.result);
-        } else {
-            res.json(200, []);
-        }
+        return rdioRequest.promise.spread(function (rdioResult) {
+            var parsedResult = JSON.parse(rdioResult);
+            if (parsedResult.result) {
+                var suggestions = [];
+                for (var i = 0; i < topViewed.length; i++) {
+                    var rdioKey = topViewed[i].rdioKey;
+                    suggestions.push(parsedResult.result[rdioKey]);
+                }
+                res.json(200, suggestions);
+            } else {
+                res.json(200, []);
+            }
+        });
     }).fail(function (err) {
         console.log(err);
         res.json(500, {

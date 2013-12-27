@@ -10,28 +10,23 @@ define [
 
     initialize: () ->
       this.listenTo(this.model, 'change:suggestions', () =>
-        this.showSuggestions()
+        this.render()
       )
 
     render: () ->
-      this.showSuggestions()
+      this.$el.html(Handlebars.templates['suggestions'](this.model.toJSON()))
 
-      return this
-
-    showSuggestions: () ->
-      model =
-        suggestions: this.model.get('suggestions')
-
-      this.$el.html(Handlebars.templates['suggestions'](model))
-
-      this.$('a').on('click', (event) =>
+      that = this
+      this.$('a').on('click', (event) ->
         target = $(event.target)
-        song =
-          id: target.attr('data-id')
-        this.model.set(
+        key = $(this).attr('data-key')
+        song = that.model.getSuggestion(key)
+        that.model.set(
           selectedSong: song
         )
       )
+
+      return this
   )
 
   return SuggestionsView

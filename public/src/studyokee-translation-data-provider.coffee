@@ -53,21 +53,14 @@ define () ->
       console.log('DATA PROVIDER: get suggestions from \'' + fromLanguage + '\' to \'' + toLanguage + '\'')
       $.ajax(
         type: 'GET'
-        url: @url + '/songs'
+        url: @url + '/songs/suggestions/' + fromLanguage + '/' + toLanguage
         data:
           fromLanguage: fromLanguage
           toLanguage: toLanguage
         success: (result) ->
-          suggestions = []
-          _.each(result, (song) ->
-            suggestion =
-              id: song.rdioKey
-            suggestions.push(suggestion)
-          )
-
           console.log('DATA PROVIDER: retrieved suggestions from \'' + fromLanguage + '\' to \'' + toLanguage + '\'')
-          console.log(JSON.stringify(suggestions))
-          callback(suggestions)
+          console.log(JSON.stringify(result))
+          callback(result)
       )
 
   return StudyokeeTranslationDataProvider
