@@ -233,5 +233,5 @@ module.exports = function (grunt) {
     });
     grunt.registerTask('travis', ['env:travis', 'mochaTest']);
     grunt.registerTask('test', ['env:test', 'mongod', 'mochaTest']);
-    grunt.registerTask('default', ['env:development', 'preprocessor', 'autoprefixer', 'compass', 'mongod', 'server', 'watch']);
+    grunt.registerTask('default', ['env:development', 'preprocessor', 'autoprefixer', 'mongod', 'server', 'watch']);
 };
