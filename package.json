@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "test": "./node_modules/grunt-cli/bin/grunt test"
+    "test": "./node_modules/grunt-cli/bin/grunt test",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "dependencies": {
     "express": "3.2.6",
@@ -21,9 +22,14 @@
     "querystring": "~0.2.0",
     "url": "~0.7.9",
     "crypto": "0.0.3",
-    "oauth": "~0.9.10"
-  },
-  "devDependencies": {
+    "oauth": "~0.9.10",
+
+
+
+
+
+
+
     "grunt": "~0.4.1",
     "matchdep": "~0.1.2",
     "grunt-env": "~0.4.0",
