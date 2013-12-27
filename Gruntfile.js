@@ -47,7 +47,7 @@ module.exports = function (grunt) {
                 files: ['public/src/**/*.styl',],
                 tasks: [
                     'stylus'
-                ]
+                ]   
             },
             styles: {
                 files: ['public/styles/{,*/}*.css'],
@@ -189,9 +189,11 @@ module.exports = function (grunt) {
             }
         }
     });
-    grunt.registerTask('preprocessor', [
+    grunt.registerTask('lint', [
         'jshint2',
-        'coffeelint',
+        'coffeelint'
+    ]);
+    grunt.registerTask('preprocessor', [
         'coffee',
         'handlebars',
         'stylus',
@@ -200,7 +202,7 @@ module.exports = function (grunt) {
     grunt.registerTask('keep-alive', function () {
         this.async();
     });
-    grunt.registerTask('travis', ['env:travis', 'mochaTest']);
-    grunt.registerTask('test', ['env:test', 'mongod', 'mochaTest']);
-    grunt.registerTask('default', ['env:development', 'preprocessor', 'mongod', 'server', 'watch']);
+    grunt.registerTask('travis', ['lint', 'env:travis', 'mochaTest']);
+    grunt.registerTask('test', ['lint', 'env:test', 'mongod', 'mochaTest']);
+    grunt.registerTask('default', ['env:development', 'lint', 'preprocessor', 'mongod', 'server', 'watch']);
 };
