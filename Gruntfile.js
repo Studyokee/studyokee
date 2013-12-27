@@ -12,13 +12,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-coffee');
     grunt.loadNpmTasks('grunt-contrib-connect');
 
+    var DEFAULT_PORT = 3000;
+
     grunt.initConfig({
         env: {
             development: {
-                PORT: 3000,
+                PORT: DEFAULT_PORT,
                 MONGOHQ_URL: 'mongodb://localhost/studyokee',
                 src: '.env',
-                URL: 'http://localhost:'
+                URL: 'http://localhost:' + DEFAULT_PORT
             },
             test: {
                 MONGOHQ_URL: 'mongodb://localhost/studyokee-test',
