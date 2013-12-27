@@ -43,15 +43,11 @@ module.exports = function (grunt) {
                     'handlebars'
                 ]
             },
-            sass: {
-                files: ['public/src/**/*.scss',],
+            stylus: {
+                files: ['public/src/**/*.styl',],
                 tasks: [
-                    'sass'
+                    'stylus'
                 ]
-            },
-            compass: {
-                files: ['public/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
             },
             styles: {
                 files: ['public/styles/{,*/}*.css'],
@@ -197,21 +193,21 @@ module.exports = function (grunt) {
                 rjsConfig: 'public/scripts/main.js'
             }
         },
-        sass: {
+        stylus: {
             dist: {
                 options: {
-                    style: 'compressed'
+                    compress: true
                 },
                 files: {
-                    'public/styles/main.css': 'public/styles/main.scss'
+                    'public/styles/main.css': 'public/styles/main.styl'
                 }
             },
             dev: {
                 options: {
-                    style: 'expanded'
+                    compress: false
                 },
                 files: {
-                    'public/styles/main.css': 'public/styles/main.scss'
+                    'public/styles/main.css': 'public/styles/main.styl'
                 }
             }
         },
@@ -230,7 +226,7 @@ module.exports = function (grunt) {
         'coffeelint',
         'coffee',
         'handlebars',
-        'sass'
+        'stylus'
     ]);
     grunt.registerTask('keep-alive', function () {
         this.async();
