@@ -44,10 +44,10 @@ module.exports = function (grunt) {
                 ]
             },
             stylus: {
-                files: ['public/src/**/*.styl',],
+                files: ['public/src/**/*.styl'],
                 tasks: [
                     'stylus'
-                ]   
+                ]
             },
             styles: {
                 files: ['public/styles/{,*/}*.css'],
