@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGOHQ_URL);
 
 var express = require('express');
 var app = express();
