@@ -2,23 +2,20 @@
 
 module.exports = function (grunt) {
     // load all grunt tasks
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    require('matchdep').filter('grunt-*').forEach(grunt.loadNpmTasks);
     grunt.loadTasks('tasks');
     // show elapsed time at the end
     require('time-grunt')(grunt);
-    // load all grunt tasks
-    require('load-grunt-tasks')(grunt);
-    grunt.loadNpmTasks('grunt-coffeelint');
-    grunt.loadNpmTasks('grunt-contrib-coffee');
-    grunt.loadNpmTasks('grunt-contrib-connect');
+
+    var DEFAULT_PORT = 3000;
 
     grunt.initConfig({
         env: {
             development: {
-                PORT: 3000,
+                PORT: DEFAULT_PORT,
                 MONGOHQ_URL: 'mongodb://localhost/studyokee',
                 src: '.env',
-                URL: 'http://localhost:'
+                URL: 'http://localhost:' + DEFAULT_PORT
             },
             test: {
                 MONGOHQ_URL: 'mongodb://localhost/studyokee-test',
@@ -46,15 +43,11 @@ module.exports = function (grunt) {
                     'handlebars'
                 ]
             },
-            sass: {
-                files: ['public/src/**/*.scss',],
+            stylus: {
+                files: ['public/src/**/*.styl'],
                 tasks: [
-                    'sass'
+                    'stylus'
                 ]
-            },
-            compass: {
-                files: ['public/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
             },
             styles: {
                 files: ['public/styles/{,*/}*.css'],
@@ -156,29 +149,6 @@ module.exports = function (grunt) {
                 reporter: 'json-stream'
             }
         },
-        requirejs: {
-        },
-        compass: {
-            options: {
-                sassDir: 'public/styles',
-                cssDir: '.tmp/styles',
-                generatedImagesDir: '.tmp/images/generated',
-                imagesDir: 'public/images',
-                javascriptsDir: 'public/scripts',
-                fontsDir: 'public/styles/fonts',
-                importPath: 'public/bower_components',
-                httpImagesPath: '/images',
-                httpGeneratedImagesPath: '/images/generated',
-                httpFontsPath: '/styles/fonts',
-                relativeAssets: false,
-                assetCacheBuster: false
-            },
-            server: {
-                options: {
-                    debugInfo: true
-                }
-            }
-        },
         autoprefixer: {
             options: {
                 browsers: ['last 1 version']
@@ -200,45 +170,39 @@ module.exports = function (grunt) {
                 rjsConfig: 'public/scripts/main.js'
             }
         },
-        sass: {
+        stylus: {
             dist: {
                 options: {
-                    style: 'compressed'
+                    compress: true
                 },
                 files: {
-                    'public/styles/main.css': 'public/styles/main.scss'
+                    'public/styles/main.css': 'public/styles/main.styl'
                 }
             },
             dev: {
                 options: {
-                    style: 'expanded'
+                    compress: false
                 },
                 files: {
-                    'public/styles/main.css': 'public/styles/main.scss'
-                }
-            }
-        },
-        connect: {
-            server: {
-                options: {
-                    port: 3000,
-                    // change this to '0.0.0.0' to access the server from outside
-                    hostname: 'localhost'
+                    'public/styles/main.css': 'public/styles/main.styl'
                 }
             }
         }
     });
-    grunt.registerTask('preprocessor', [
+    grunt.registerTask('lint', [
         'jshint2',
-        'coffeelint',
+        'coffeelint'
+    ]);
+    grunt.registerTask('preprocessor', [
         'coffee',
         'handlebars',
-        'sass'
+        'stylus',
+        'autoprefixer'
     ]);
     grunt.registerTask('keep-alive', function () {
         this.async();
     });
-    grunt.registerTask('travis', ['env:travis', 'mochaTest']);
-    grunt.registerTask('test', ['env:test', 'mongod', 'mochaTest']);
-    grunt.registerTask('default', ['env:development', 'preprocessor', 'autoprefixer', 'compass', 'mongod', 'server', 'watch']);
+    grunt.registerTask('travis', ['lint', 'env:travis', 'mochaTest']);
+    grunt.registerTask('test', ['lint', 'env:test', 'mongod', 'mochaTest']);
+    grunt.registerTask('default', ['env:development', 'lint', 'preprocessor', 'mongod', 'server', 'watch']);
 };

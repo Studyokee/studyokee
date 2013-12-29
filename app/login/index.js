@@ -28,7 +28,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new RdioStrategy({
         consumerKey: process.env.RDIO_API_KEY,
         consumerSecret: process.env.RDIO_SHARED_SECRET,
-        callbackURL: process.env.URL + process.env.PORT + '/auth/rdio/callback'
+        callbackURL: process.env.URL + '/auth/rdio/callback'
     },
     function(token, tokenSecret, profile, done) {
         console.log('profile: ' + JSON.stringify(profile, null, 4));

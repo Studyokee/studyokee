@@ -1,0 +1,43 @@
+.songList {
+    .noSongs {
+        margin: 8px;
+    }
+
+    .trackName {
+        font-size: 14px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .artist {
+        color: $textSubdued;
+        font-size: 12px;
+        font-style: italic;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    ul {
+        margin: 0;
+    }
+    a {
+        display: list-item;
+        cursor: pointer;
+    }
+    a:hover, a:active {
+        background-color: $bgHighlight;
+        color: $linkColor;
+    }
+
+    .song {
+        padding: 4px;
+
+        .icon {
+            float: left;
+            margin-right: 8px;
+            display: block;
+            height: 32px;
+            width: 32px;
+        }
+    }
+}
