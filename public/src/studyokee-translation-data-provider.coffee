@@ -70,9 +70,6 @@ define () ->
       $.ajax(
         type: 'GET'
         url: @url + '/songs/suggestions/' + fromLanguage + '/' + toLanguage
-        data:
-          fromLanguage: fromLanguage
-          toLanguage: toLanguage
         success: (result) =>
           if @settings.get('enableLogging')
             endTime = new Date().getTime()
