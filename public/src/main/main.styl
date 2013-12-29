@@ -1,6 +1,6 @@
 html, body {
     margin: 0;
-    background: $bgMain;
+    background-color: $bgMain;
     color: $textNormal;
     font-family: Lucida Grande,Lucida Sans Unicode,Arial,sans-serif;
 }
@@ -42,27 +42,51 @@ ul {
             font-size: 28px;
             line-height: 50px;
         }
+        .subtitle {
+            font-size: 12px;
+            line-height: 50px;
+            color: $textSubdued;
+        }
     }
 
     .main {
-        margin-top: 1px;
-        width: 800px;
+        position: relative;
 
         .menu {
             float: left;
             width: 240px;
-            height: 618px;
         }
 
-        .playerContainer {
+        .centerRight {
             margin-left: 240px;
-            border-left: $borderNormal;
-            border-bottom: $borderNormal;
-            border-right: $borderNormal;
+            margin-right: 120px;
 
-            .controlsContainer {
-                text-align: center;
+            .playerContainer {
+                border-left: $borderNormal;
+                border-bottom: $borderNormal;
+                border-right: $borderNormal;
+
+                .controlsContainer {
+                    text-align: center;
+                }
             }
+
+            .rdioLink {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+
+        .disclaimersContainer {
+            margin: 16px;
+            margin-top: 48px;
+        }
+        .disclaimers {
+            color: $textSubdued;
+            margin-bottom: 16px;
+            font-size: 12px;
+            clear: both;
         }
     }
 }
