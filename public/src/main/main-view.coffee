@@ -54,6 +54,8 @@ define [
       this.$('.suggestionsContainer').html(this.suggestionsView.render().el)
       this.$('.searchContainer').html(this.addSongView.render().el)
       this.$('.playerContainer').html(this.subtitlesPlayerView.render().el)
+      this.$('.rdioLink').html(Handlebars.templates['rdio-link']())
+      this.$('.disclaimersContainer').html(Handlebars.templates['disclaimers']())
 
       return this
 
