@@ -21,6 +21,7 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
         for (var i = 0; i < topViewed.length; i++) {
             rdioKeys.push(topViewed[i].rdioKey);
         }
+        console.log('Get rdio keys: ' + rdioKeys);
         var data = {
             keys: rdioKeys,
             method: 'get'
@@ -29,6 +30,7 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
         var rdioRequest = q.defer();
         rdio.api(null, null, data, rdioRequest.makeNodeResolver());
         return rdioRequest.promise.spread(function (rdioResult) {
+            console.log('Retrieved keys from Rdio');
             var parsedResult = JSON.parse(rdioResult);
             if (parsedResult.result) {
                 var suggestions = [];
