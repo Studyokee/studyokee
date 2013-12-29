@@ -11,7 +11,6 @@ define [
     initialize: () ->
       this.listenTo(this.model, 'change:enableKeyboard', () =>
         enableKeyboard = this.model.get('enableKeyboard')
-        console.log('enable keyboard player: ' + enableKeyboard)
 
         if enableKeyboard
           this.enableKeyboard()
@@ -19,15 +18,23 @@ define [
           this.disableKeyboard()
       )
 
+      this.listenTo(this.model, 'change:isPlaying', () =>
+        if this.model.get('isPlaying')
+          this.$('.play').hide()
+          this.$('.pause').show()
+        else
+          this.$('.pause').hide()
+          this.$('.play').show()
+      )
+
     render: () ->
-      this.$el.html(Handlebars.templates['subtitles-controls']())
+      this.$el.html(Handlebars.templates['subtitles-controls'](this.model.toJSON()))
       this.enableKeyboard()
       this.enableButtons()
 
       return this
 
     enableKeyboard: () ->
-      console.log('enableKeyboard controls')
       this.keydown = (event) =>
         this.onKeyDown(event)
       $(window).on('keydown', this.keydown)
@@ -36,7 +43,6 @@ define [
       )
 
     disableKeyboard: () ->
-      console.log('disableKeyboard controls')
       $(window).unbind('keydown', this.keydown)
 
     enableButtons: () ->
@@ -56,15 +62,13 @@ define [
           this.$('.prev').addClass('active')
           this.model.prev()
         when 40
-          # s83 or space32, down arrow
-          this.$('.play').addClass('active')
-          this.model.play()
-
-          event.preventDefault()
-        when 38
-          # w87 or up arrow
-          this.$('.pause').addClass('active')
-          this.model.pause()
+          # down arrow
+          if this.model.get('isPlaying')
+            this.$('.pause').addClass('active')
+            this.model.pause()
+          else
+            this.$('.play').addClass('active')
+            this.model.play()
 
           event.preventDefault()
         when 39

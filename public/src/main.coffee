@@ -7,8 +7,15 @@ require [
 ], (Settings, MusicPlayer, StudyokeeTranslationDataProvider, MainModel, MainView) ->
 
   settings = new Settings()
-  musicPlayer = new MusicPlayer()
-  dataProvider = new StudyokeeTranslationDataProvider()
+  if settings.get('enableLogging')
+    settings.set(
+      loadStartTime: window.loadStartTime
+    )
+    startTime = new Date().getTime()
+    console.log('File load time: ' + (startTime - window.loadStartTime))
+    console.log('Render page start: ' + startTime)
+  musicPlayer = new MusicPlayer(settings)
+  dataProvider = new StudyokeeTranslationDataProvider(settings)
 
   model = new MainModel(
     settings: settings
@@ -19,3 +26,7 @@ require [
     model: model
   )
   $('.skee').html(view.render().el)
+
+  if settings.get('enableLogging')
+    endTime = new Date().getTime()
+    console.log('Render page end: ' + endTime + ', total time: ' + (endTime - settings.get('loadStartTime')))

@@ -80,14 +80,18 @@ function getTranslationUrls (subtitles, fromLanguage, toLanguage) {
 }
 
 function getArrayFromTuneWikiResult (res) {
-    var subtitlesObject = JSON.parse(res.body);
-    var subtitlesArray = [];
-    var i = 0;
-    while (subtitlesObject[i+1]) {
-        subtitlesArray.push(subtitlesObject[i+1]);
-        i++;
+    if (res.body) {
+        var subtitlesObject = JSON.parse(res.body);
+        var subtitlesArray = [];
+        var i = 0;
+        while (subtitlesObject[i+1]) {
+            subtitlesArray.push(subtitlesObject[i+1]);
+            i++;
+        }
+        return subtitlesArray;
+    } else {
+        return [];
     }
-    return subtitlesArray;
 }
 
 function getLanguageFromGoogleResult (res) {

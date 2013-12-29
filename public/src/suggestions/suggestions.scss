@@ -1,20 +1,19 @@
 .suggestions {
     margin: 8px;
 
-    ul {
-        margin-top: 8px;
+    h3 {
+        color: $textSubdued;
         font-size: 14px;
-        line-height: 16px;
+        font-weight: normal;
+        margin: 4px;
     }
-    li {
-        margin-top: 4px;
-    }
-    a {
-        cursor: pointer;
-    }
-    .artist {
-        font-style: italic;
-        font-size: 12px;
-        color: #999;
+
+    .songListContainer {
+        position: relative;
+        min-height: 64px;
+
+        .spinner {
+            margin-top: 32px;
+        }
     }
 }

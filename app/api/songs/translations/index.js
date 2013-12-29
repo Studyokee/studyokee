@@ -16,18 +16,22 @@ app.get('/:rdioKey/translations/:language', function (req, res) {
     var translation = song.getTranslation(toLanguage);
 
     if (translation && translation.data) {
+        console.log('found existing translation');
         res.json(200, translation.data);
         ViewCounter.logView(req.song.metadata.language, toLanguage, req.params.rdioKey);
-    } else {
+        return;
+    }
+
+    q.resolve().then(function () {
         var getSubtitlesRequest = Song.getSubtitles(song.rdioData.artist, song.rdioData.name);
 
-        getSubtitlesRequest.done(function (subtitles) {
-            console.log('fetched subtitles');
-            
+        return getSubtitlesRequest.then(function (subtitles) {
             if (!subtitles || subtitles.length === 0) {
-                q.reject('no subtitles for this song');
+                res.send(404);
+                return q.defer().reject('no subtitles');
             }
 
+            console.log('fetched subtitles');
             var getLanguageRequest = q.resolve().then(function () {
                 if (song.metadata.language) {
                     return song.metadata.language;
@@ -39,7 +43,8 @@ app.get('/:rdioKey/translations/:language', function (req, res) {
                 console.log('fetched language: ' + language);
 
                 if (!language) {
-                    q.reject('no language identified');
+                    res.send(404);
+                    return q.defer().reject('no language identified');
                 }
 
                 return Song.getDefaultTranslation(subtitles, language, toLanguage).then(function (translation) {
@@ -69,7 +74,15 @@ app.get('/:rdioKey/translations/:language', function (req, res) {
                 });
             });
         });
-    }
+    }).fail(function (err) {
+        console.log('no subtitles2');
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+
+    
 });
 
 module.exports = app;

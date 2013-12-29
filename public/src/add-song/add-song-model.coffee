@@ -7,10 +7,16 @@ define [
 
     search: (query) ->
       musicPlayer = this.get('musicPlayer')
+      this.set(
+        songs: []
+        isLoading: true
+        showAC: true
+      )
 
-      musicPlayer.search(query, (results) =>
+      musicPlayer.search(query, (suggestions) =>
         this.set(
-          suggestions: results
+          songs: suggestions
+          isLoading: false
         )
       )
 

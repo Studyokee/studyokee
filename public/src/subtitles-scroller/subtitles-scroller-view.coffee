@@ -34,7 +34,7 @@ define [
       else
         model =
           data: this.getFormattedData(subtitles.original, subtitles.translation)
-          showTimestamps: true
+          showTimestamps: this.options.showTimestamps
         this.$el.html(Handlebars.templates['subtitles-scroller'](model))
 
         this.onPositionChange()
@@ -67,7 +67,6 @@ define [
       if not i?
         return
 
-      console.log("onPositionChange: i: " + i)
       topMargin = -(i * 65) + 170
       this.$('.subtitles').css('margin-top', topMargin + 'px')
       this.$('.subtitles .subtitle').each((index, el) ->

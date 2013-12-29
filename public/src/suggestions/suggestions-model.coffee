@@ -6,11 +6,11 @@ define [
       enableLogging: false
 
     initialize: () ->
-      this.listenTo(this, 'change:suggestions', () =>
+      this.listenTo(this, 'change:songs', () =>
         if this.get('enableLogging')
           console.log('SUGGESTIONS: change suggestions')
         
-        suggestions = this.get('suggestions')
+        suggestions = this.get('songs')
         if suggestions.length > 0
           this.set(
             selectedSong: suggestions[0]
@@ -37,20 +37,20 @@ define [
       if this.get('enableLogging')
         console.log('SUGGESTIONS: retrieve suggestions fromLanguage: ' + fromLanguage + ', toLanguage: ' + toLanguage)
       
-      fn = (suggestions) =>
+      this.set(
+        songs: []
+        isLoading: true
+      )
+
+      getSuggestionsRequest = (suggestions) =>
         this.set(
-          suggestions: suggestions
+          songs: suggestions
+          isLoading: false
         )
 
       dataProvider = this.get('dataProvider')
-      suggestions = dataProvider.getSuggestions(fromLanguage, toLanguage, fn)
+      dataProvider.getSuggestions(fromLanguage, toLanguage, getSuggestionsRequest)
 
-    getSuggestion: (key) ->
-      suggestions = this.get('suggestions')
-      for suggestion in suggestions
-        if suggestion.key is key
-          return suggestion
-      return null
   )
 
   return SuggestionsModel

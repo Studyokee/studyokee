@@ -5,6 +5,7 @@ define [
     defaults:
       enableEdit: true
       enableLogging: true
+      loadStartTime: 0
       defaultToLanguage: 'en'
       defaultFromLanguage: 'es'
   )

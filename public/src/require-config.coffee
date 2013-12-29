@@ -11,7 +11,7 @@ requirejs.config(
     'settings': '/lib/settings'
     'add.song.view': '/lib/add-song/add-song-view'
     'add.song.model': '/lib/add-song/add-song-model'
-    'autocomplete.view': '/lib/autocomplete/autocomplete-view'
+    'song.list.view': '/lib/song-list/song-list-view'
     'language.settings.view': '/lib/language-settings/language-settings-view'
     'language.settings.model': '/lib/language-settings/language-settings-model'
     'subtitles.scroller.view': '/lib/subtitles-scroller/subtitles-scroller-view'

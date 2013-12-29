@@ -1,20 +1,20 @@
 .player {
-    color: #999;
     position: relative;
 
     .subtitlesContainer {
         height: 480px;
         padding: 0 32px;
-        border-bottom: 1px solid #FFF;
+        border-bottom: $borderNormal;
         position: relative;
         overflow: hidden;
+
+        .spinner {
+            margin-top: 128px;
+        }
     }
     .instructions {
         font-size: 14px;
         padding: 12px;
-        color: #999;
-    }
-    .subtitlesContainer .spinner {
-        margin-top: 128px;
+        color: $textSubdued;
     }
 }

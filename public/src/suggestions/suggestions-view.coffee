@@ -1,30 +1,32 @@
 define [
   'backbone'
   'handlebars',
+  'song.list.view',
   'templates'
-], (Backbone, Handlebars) ->
+], (Backbone, Handlebars, SongListView) ->
 
   SuggestionsView = Backbone.View.extend(
     tagName:  "div"
     className: "suggestions"
 
     initialize: () ->
-      this.listenTo(this.model, 'change:suggestions', () =>
+      this.songListView = new SongListView(
+        model: this.model
+      )
+
+      this.songListView.on('select', (song) =>
+        this.model.set(
+          selectedSong: song
+        )
+      )
+
+      this.listenTo(this.model, 'change:songs', () =>
         this.render()
       )
 
     render: () ->
       this.$el.html(Handlebars.templates['suggestions'](this.model.toJSON()))
-
-      that = this
-      this.$('a').on('click', (event) ->
-        target = $(event.target)
-        key = $(this).attr('data-key')
-        song = that.model.getSuggestion(key)
-        that.model.set(
-          selectedSong: song
-        )
-      )
+      this.$('.songListContainer').html(this.songListView.render().el)
 
       return this
   )

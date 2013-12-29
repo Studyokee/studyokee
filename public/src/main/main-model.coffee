@@ -38,7 +38,7 @@ define [
         musicPlayer: musicPlayer
         toLanguage: toLanguage
         fromLanguage: fromLanguage
-        enableEdit: settings.get('enableEdit')
+        enableLogging: settings.get('enableLogging')
       )
 
       suggestionsModel = new SuggestionsModel(

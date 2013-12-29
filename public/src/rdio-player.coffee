@@ -13,9 +13,7 @@ define [
 
   class RdioPlayer
 
-    constructor: () ->
-      @enableLogging = true
-
+    constructor: (@settings) ->
       @artist = null
       @song = null
 
@@ -30,7 +28,7 @@ define [
 
       $(document).ready(() =>
         $('#api').bind('ready.rdio', () =>
-          if @enableLogging
+          if @settings.get('enableLogging')
             console.log('RDIO READY')
 
           @ready = true
@@ -38,14 +36,14 @@ define [
         this.getPlaybackToken((token) =>
           $('#api').rdio(token)
           $('#api').bind('positionChanged.rdio', (e, position) =>
-            if @enableLogging
+            if @settings.get('enableLogging')
               console.log('RDIO POSITION CHANGE: ' + position)
 
             @position = position
             @lastPositionMeasurement = new Date().getTime()
           )
           $('#api').bind('playStateChanged.rdio', (e, playState) =>
-            if @enableLogging
+            if @settings.get('enableLogging')
               console.log('RDIO PLAYSTATE CHANGE: ' + playState)
 
             if playState is 1
@@ -80,7 +78,7 @@ define [
         currentTime = new Date().getTime()
         diff = (currentTime - @lastPositionMeasurement)/1000
 
-        if @enableLogging
+        if @settings.get('enableLogging')
           console.log('RdioPlayer: getTrackPosition: MEASURED DIFF: ' + diff)
         
         position = @position + diff
@@ -98,7 +96,7 @@ define [
     notifyPositionChanged: () ->
       position = this.getTrackPosition()
 
-      if @enableLogging
+      if @settings.get('enableLogging')
         console.log('RdioPlayer: notifyPositionChanged: position: ' + position)
         
       for callback in @listeners.positionChanged
@@ -107,12 +105,12 @@ define [
     play: (song) ->
       rdio = $('#api').rdio()
       if @ready and rdio
-        if @enableLogging
+        if @settings.get('enableLogging')
           console.log('RdioPlayer: PLAY: key: ' + song.key)
         rdio.play(song.key)
 
     pause: () ->
-      if @enableLogging
+      if @settings.get('enableLogging')
         console.log('RdioPlayer: PAUSE')
 
       rdio = $('#api').rdio()
@@ -122,7 +120,7 @@ define [
     seek: (trackPosition) ->
       rdio = $('#api').rdio()
       if @ready and rdio
-        if @enableLogging
+        if @settings.get('enableLogging')
           console.log('RdioPlayer: SEEK: ' + trackPosition/1000)
         rdio.seek(trackPosition/1000)
         this.stopPlaying()
@@ -131,7 +129,8 @@ define [
       @listeners.positionChanged.push(callback)
 
     changeSong: (artist, song) ->
-      console.log('artist: ' + artist + ' song: ' + song)
+      if @settings.get('enableLogging')
+        console.log('artist: ' + artist + ' song: ' + song)
       @artist = artist
       @song = song
       listener(artist, song) for listener in @listeners.songChange
@@ -140,7 +139,8 @@ define [
       if not query? or query is ''
         return
 
-      console.log('RdioPlayer: search: ' + query)
+      if @settings.get('enableLogging')
+        console.log('RdioPlayer: search: ' + query)
 
       @lastSearch = query
       $.ajax(
@@ -158,7 +158,6 @@ define [
         type: 'GET'
         url: '/api/rdio/getPlaybackToken'
         success: (token) =>
-          console.log(JSON.stringify(token, null, 4))
           callback(token)
       )
 

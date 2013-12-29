@@ -17,13 +17,12 @@ define [
         original: []
         translation: []
       enableKeyboard: true
+      isPlaying: false
     timer: null
 
     initialize: () ->
-      this.enableTooling = true
-
       this.listenTo(this, 'change:currentSong', () =>
-        if this.enableTooling
+        if this.get('enableLogging')
           console.log('SUBITLES PLAYER: change currentSong')
         this.pause()
         this.getSubtitles()
@@ -32,11 +31,11 @@ define [
         )
       )
 
-    getSubtitles: () ->
-      this.set(
-        isLoading: true
+      this.get('musicPlayer').onPositionChange((ts) =>
+        this.startTimer(ts)
       )
 
+    getSubtitles: () ->
       currentSong = this.get('currentSong')
       if not currentSong?
         this.set(
@@ -54,17 +53,26 @@ define [
             isLoading: false
           )
       
+      this.set(
+        isLoading: true
+      )
+
       toLanguage = this.get('toLanguage')
       dataProvider = this.get('dataProvider')
       dataProvider.getSegments(id, toLanguage, callback)
 
     play: () ->
+      this.set(
+        isPlaying: true
+      )
       musicPlayer = this.get('musicPlayer')
       currentSong = this.get('currentSong')
       musicPlayer.play(currentSong)
-      this.startTimer(0)
 
     pause: () ->
+      this.set(
+        isPlaying: false
+      )
       musicPlayer = this.get('musicPlayer')
       musicPlayer.pause()
       this.clearTimer()
@@ -73,31 +81,32 @@ define [
       subtitles = this.get('subtitles').original
       i = this.get('i') + 1
       if subtitles[i]?
+        this.clearTimer()
+        if this.get('enableLogging')
+          console.log('Set index to: ' + i + ' and time to: ' + subtitles[i].ts)
         this.set(
           i: i
         )
-        this.startTimer(subtitles[i].ts)
         this.get('musicPlayer').seek(subtitles[i].ts)
 
     prev: () ->
       subtitles = this.get('subtitles').original
       i = this.get('i')
 
-      currentTime = this.get('musicPlayer').getTrackPosition()
-      currentIndexStart = subtitles[i].ts
-
-      if i isnt 0 and (currentTime - currentIndexStart) < 100
+      if i isnt 0
         i--
 
       if i >= 0
+        this.clearTimer()
+        if this.get('enableLogging')
+          console.log('Set index to: ' + i + ' and time to: ' + subtitles[i].ts)
         this.set(
           i: i
         )
-        this.startTimer(subtitles[i].ts)
         this.get('musicPlayer').seek(subtitles[i].ts)
 
     clearTimer: () ->
-      if this.enableTooling
+      if this.get('enableLogging')
         console.log('SUBITLES PLAYER: clearTimer')
       clearTimeout(this.timer)
 
@@ -108,9 +117,9 @@ define [
 
       if subtitles[i]?
         nextTs = subtitles[i].ts
-        wait = nextTs - (ts)
-        if this.enableTooling
-          console.log('SUBITLES PLAYER: startTimer: ts: ' + ts + ', nextTs: ' + nextTs + ', i: ' + i)
+        wait = nextTs - ts
+        if this.get('enableLogging')
+          console.log('SUBITLES PLAYER: startTimer: ts: ' + ts + ', nextTs: ' + nextTs + ', wait: ' + wait + ', i: ' + (i-1))
 
         next = () =>
           this.set(

@@ -34,10 +34,13 @@ app.get('/search/:query',
                 method: 'search'
             };
 
-            rdio.api(null, null, data, function (err, rdioResults) {
-                var searchResults = JSON.parse(rdioResults).result.results;
-                res.json(200, searchResults);
-            });
+            var rdioRequest = q.defer();
+            rdio.api(null, null, data, rdioRequest.makeNodeResolver());
+
+            return rdioRequest.promise;
+        }).spread(function (rdioResults) {
+            var searchResults = JSON.parse(rdioResults).result.results;
+            res.json(200, searchResults);
         }).fail(function (err) {
             console.log(err);
             res.json(500, {
@@ -51,15 +54,16 @@ app.get('/getPlaybackToken',
     ensureAuthenticated,
     function (req, res) {
         q.resolve().then(function () {
-            User.getByRdioId(req.user.id).then(function (user) {
-                console.log('host: ' + req.host);
-                rdio.getPlaybackToken(user.oauth.token, user.oauth.tokenSecret, req.host, function (err, rdioResults) {
-                    var token = JSON.parse(rdioResults).result;
-                    res.json(200, token);
-                });
-            });
+            return User.getByRdioId(req.user.id);
+        }).then(function (user) {
+            var rdioRequest = q.defer();
+            rdio.getPlaybackToken(user.oauth.token, user.oauth.tokenSecret, req.host, rdioRequest.makeNodeResolver());
+            return rdioRequest.promise;
+        }).spread(function (rdioResults) {
+            var token = JSON.parse(rdioResults).result;
+            res.json(200, token);
         }).fail(function (err) {
-            console.log(err);
+            console.log('Error getting playback token: ' + err);
             res.json(500, {
                 err: err
             });

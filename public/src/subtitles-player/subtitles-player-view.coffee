@@ -37,7 +37,6 @@ define [
 
       this.listenTo(this.model, 'change:enableKeyboard', () =>
         enableKeyboard = this.model.get('enableKeyboard')
-        console.log('enable keyboard player: ' + enableKeyboard)
 
         if enableKeyboard
           this.enableKeyboard()
@@ -61,11 +60,9 @@ define [
       return this
 
     enableKeyboard: () ->
-      console.log('enableKeyboard player')
       $(window).on('keydown', this.onKeyDown)
 
     disableKeyboard: () ->
-      console.log('disableKeyboard player')
       $(window).unbind('keydown', this.onKeyDown)
 
     onKeyDown: (event) =>

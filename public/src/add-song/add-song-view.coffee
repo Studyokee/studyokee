@@ -1,57 +1,63 @@
 define [
   'backbone',
-  'autocomplete.view'
-], (Backbone, AutocompleteView) ->
+  'song.list.view'
+], (Backbone, SongListView) ->
   AddSongView = Backbone.View.extend(
     tagName:  "div"
     className: "addSong"
     
     initialize: () ->
-      this.acView = new AutocompleteView(
+      this.acView = new SongListView(
         model: this.model
       )
 
       this.acView.on('select', (suggestion) =>
-        console.log('select asv')
         this.model.set(
-          suggestions: []
+          songs: []
+          showAC: false
         )
         this.$('.search').val('')
         this.model.trigger('select', suggestion)
       )
-      this.listenTo(this.model, 'change:suggestions', () =>
-        suggestions = this.model.get('suggestions')
-        if suggestions and suggestions.length > 0
-          this.showAC()
+
+      this.listenTo(this.model, 'change:showAC', () =>
+        if this.model.get('showAC')
+          this.$('.acContainer').show()
         else
-          this.hideAC()
+          this.$('.acContainer').hide()
       )
 
     render: () ->
       this.$el.html(Handlebars.templates['add-song']())
-      suggestions = this.model.get('suggestions')
-      if suggestions and suggestions.length > 0
-        this.showAC()
+      this.$('.acContainer').html(this.acView.render().el)
 
-      onKeyUp = () =>
-        query = this.$('.search').val().trim()
-        console.log('Prepare to do search: ' + query)
-        this.lastSearch = query
-        searchFn = () =>
-          if query isnt this.lastSearch
-            return
+      this.$('.search').on('keyup', () =>
+        this.search()
+      )
+      this.$('.search').on('focus', () =>
+        fn = (event) =>
+          target = $(event.target)
+          if target.parents('.addSong').length is 0
+            this.model.set(
+              showAC: false
+            )
+            $(window).unbind('click', fn)
 
-          this.model.search(query)
-        setTimeout(searchFn, 50)
-      this.$('.search').on('keyup', onKeyUp)
+        $(window).on('click', fn)
+      )
 
       return this
 
-    showAC: () ->
-      this.$('.acContainer').html(this.acView.render().el)
+    search: () ->
+      query = this.$('.search').val().trim()
+      console.log('Prepare to do search: ' + query)
+      this.lastSearch = query
+      delayedFn = () =>
+        if query isnt this.lastSearch
+          return
 
-    hideAC: () ->
-      this.$('.acContainer').html('')
+        this.model.search(query)
+      setTimeout(delayedFn, 50)
 
   )
 

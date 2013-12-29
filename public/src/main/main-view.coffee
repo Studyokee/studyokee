@@ -7,7 +7,7 @@ define [
 ], (LanguageSettingsView, SubtitlesPlayerView, SuggestionsView, AddSongView, Backbone) ->
   MainView = Backbone.View.extend(
     tagName:  "div"
-    className: "main"
+    className: "mainPage"
     
     initialize: () ->
       languageSettingsModel = this.model.get('languageSettingsModel')
@@ -50,9 +50,9 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['main'](this.model.toJSON()))
 
-      this.$('.settingsContainer').html(this.languageSettingsView.render().el)
+      #this.$('.settingsContainer').html(this.languageSettingsView.render().el)
       this.$('.suggestionsContainer').html(this.suggestionsView.render().el)
-      this.$('.addSongContainer').html(this.addSongView.render().el)
+      this.$('.searchContainer').html(this.addSongView.render().el)
       this.$('.playerContainer').html(this.subtitlesPlayerView.render().el)
 
       return this

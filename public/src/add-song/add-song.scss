@@ -3,15 +3,23 @@
 
     input {
         margin: 0;
-        width: 100%;
+        width: 200px;
         box-sizing: border-box;
         border: none;
         padding: 4px 8px;
         line-height: 24px;
         font-size: 14px;
+        background-color: $bgHighlight;
+        border: $borderNormal;
     }
 
     .acContainer {
-        height: 0;
+        position: relative;
+        z-index: 3;
+        width: 300px;
+        top: 4px;
+        border: $borderNormal;
+        background-color: $bgOverlay;
+        box-shadow: 2px 2px 5px $bgHighlight;
     }
 }
