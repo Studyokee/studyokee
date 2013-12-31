@@ -1,7 +1,7 @@
 'use strict';
 
 var Song = require('../../../../models/song');
-var ViewCounter = require('../../../../models/viewCounter');
+//var ViewCounter = require('../../../../models/viewCounter');
 
 var express = require('express');
 var q = require('q');
@@ -18,7 +18,7 @@ app.get('/:rdioKey/translations/:language', function (req, res) {
     if (translation && translation.data) {
         console.log('found existing translation');
         res.json(200, translation.data);
-        ViewCounter.logView(req.song.metadata.language, toLanguage, req.params.rdioKey);
+        //ViewCounter.logView(req.song.metadata.language, toLanguage, req.params.rdioKey);
         return;
     }
 
@@ -70,7 +70,7 @@ app.get('/:rdioKey/translations/:language', function (req, res) {
                         console.log('saved translation in \'' + language + '\'');
                     });
                     
-                    ViewCounter.logView(language, toLanguage, req.params.rdioKey);
+                    //ViewCounter.logView(language, toLanguage, req.params.rdioKey);
                 });
             });
         });
