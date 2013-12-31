@@ -79,6 +79,7 @@ define () ->
 
         error: (err) =>
           console.log('DATA PROVIDER: error retrieving suggestions: ' + err)
+          callback([])
       )
 
   return StudyokeeTranslationDataProvider
