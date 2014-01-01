@@ -1,6 +1,6 @@
 html, body {
     margin: 0;
-    background-color: $bgMain;
+    background-color: $bgHighlight;
     color: $textNormal;
     font-family: Lucida Grande,Lucida Sans Unicode,Arial,sans-serif;
 }
@@ -25,6 +25,7 @@ ul {
 
 .mainPage {
     min-width: 640px;
+    background-color: $bgMain;
 
     .header {
         border-bottom: $borderNormal;
@@ -58,6 +59,7 @@ ul {
 
     .main {
         position: relative;
+        border-bottom: $borderNormal;
 
         .menu {
             float: left;
@@ -70,7 +72,6 @@ ul {
 
             .playerContainer {
                 border-left: $borderNormal;
-                border-bottom: $borderNormal;
                 border-right: $borderNormal;
 
                 .controlsContainer {
@@ -86,16 +87,17 @@ ul {
                 right: 0;
             }
         }
+    }
 
-        .disclaimersContainer {
-            margin: 16px;
-            margin-top: 32px;
-        }
-        .disclaimers {
-            color: $textSubdued;
-            margin-bottom: 16px;
-            font-size: 12px;
-            clear: both;
-        }
+    .disclaimersContainer {
+        padding: 16px;
+        padding-top: 32px;
+        background-color: $bgHighlight;
+    }
+    .disclaimers {
+        color: $textSubdued;
+        padding-bottom: 16px;
+        font-size: 12px;
+        clear: both;
     }
 }

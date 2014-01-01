@@ -30,9 +30,9 @@ define [
 
       this.listenTo(this.model, 'change:isLoading', () =>
         if this.model.get('isLoading')
-          this.$('.spinnerContainer').show()
+          this.$('.subtitlesContainer').html(Handlebars.templates['spinner']())
         else
-          this.$('.spinnerContainer').hide()
+          this.$('.subtitlesContainer').html(this.subtitlesView.render().el)
       )
 
       this.listenTo(this.model, 'change:enableKeyboard', () =>
@@ -48,7 +48,6 @@ define [
 
     render: () ->
       this.$el.html(Handlebars.templates['subtitles-player'](this.model.toJSON()))
-      this.$('.subtitlesContainer').append(Handlebars.templates['spinner']())
       this.$('.subtitlesContainer').append(this.subtitlesView.render().el)
       this.$('.controlsContainer').append(this.subtitlesControlsView.render().el)
 
