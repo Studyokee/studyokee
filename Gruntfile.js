@@ -104,7 +104,8 @@ module.exports = function (grunt) {
                     '**/*.js',
                     '!node_modules/**/*.js',
                     '!public/**/*.js',
-                    '!app/api/rdio/rdio.js'
+                    '!app/api/rdio/rdio.js',
+                    '!test/public/**/*.js'
                 ],
                 options: {
                     jshint: {
@@ -139,9 +140,14 @@ module.exports = function (grunt) {
                 }
             }
         },
+        jasmine: {
+            all: 'test/public/index.html'
+        },
         mochaTest: {
             files: [
-                'test/**/*.js'
+                'test/app/**/*.js',
+                'test/models/**/*.js',
+                'test/utils/**/*.js'
             ]
         },
         mochaTestConfig: {
@@ -205,4 +211,5 @@ module.exports = function (grunt) {
     grunt.registerTask('travis', ['lint', 'env:travis', 'mochaTest']);
     grunt.registerTask('test', ['lint', 'env:test', 'mongod', 'mochaTest']);
     grunt.registerTask('default', ['env:development', 'lint', 'preprocessor', 'mongod', 'server', 'watch']);
+    grunt.registerTask('uitest', ['jasmine']);
 };

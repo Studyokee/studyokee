@@ -8,3 +8,5 @@ dist
 .editorconfig
 /public/styles/main.css
 .env
+_SpecRunner.html
+.grunt/

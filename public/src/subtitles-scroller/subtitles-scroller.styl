@@ -3,26 +3,28 @@
     width: 100%;
     display: inline-block;
     text-align: center;
+    overflow: hidden;
+    height: 384px;
+    margin: 40px 0;
 
-    .viewport {
-        height: 480px;
-        overflow: hidden;
-    }
     .noSubtitles {
-        margin-top: 16px;
+        padding: 0 16px;
+    }
+    .subtitles {
+        padding: 0 16px;
     }
     .subtitles li {
-        font-size: 18px;
-        line-height: 24px;
+        font-size: 24px;
+        line-height: 32px;
         overflow: hidden;
         white-space: nowrap;
-        margin-bottom: 16px;
+        padding: 16px;
         color: $textSubdued;
+        border-radius: 15px;
     }
     .subtitles li.selected {
-        font-size: 32px;
-        line-height: 40px;
         color: $textNormal;
+        background-color: $bgHighlight;
     }
 
     .subtitles li.selected .translated-subtitle {
@@ -30,6 +32,7 @@
     }
     .subtitles li .translated-subtitle {
         color: #2879A0;
+        color: #58A1C4;
     }
     .subtitles a:hover {
         text-decoration: underline;
