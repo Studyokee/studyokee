@@ -2,21 +2,7 @@
     .noSongs {
         margin: 8px;
     }
-
-    .trackName {
-        font-size: 14px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    .artist {
-        color: $textSubdued;
-        font-size: 12px;
-        font-style: italic;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
+    
     ul {
         margin: 0;
     }
@@ -27,6 +13,7 @@
     a:hover, a:active {
         background-color: $bgHighlight;
         color: $linkColor;
+        border-radius: 10px;
     }
 
     .song {
@@ -38,6 +25,20 @@
             display: block;
             height: 32px;
             width: 32px;
+        }
+        .trackName {
+            font-size: 14px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .artist {
+            color: $textSubdued;
+            font-size: 12px;
+            font-style: italic;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
     }
 }

@@ -16,4 +16,47 @@
         padding: 12px;
         color: $textSubdued;
     }
+    .currentSongContainer {
+        padding: 8px;
+        overflow: hidden;
+        white-space: nowrap;
+
+        .text {
+            color: $textSubdued;
+            display: inline-block;
+            font-size: 14px;
+            line-height: 40px;
+            vertical-align: top;
+        }
+
+        .song {
+            padding: 4px;
+            display: inline-block;
+            vertical-align: top;
+            width: 300px;
+
+            .icon {
+                float: left;
+                margin-right: 8px;
+                display: block;
+                height: 32px;
+                width: 32px;
+            }
+            .trackName {
+                font-size: 14px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            .artist {
+                color: $textSubdued;
+                font-size: 12px;
+                font-style: italic;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+    }
+    
 }

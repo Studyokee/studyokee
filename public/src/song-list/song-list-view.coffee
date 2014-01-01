@@ -16,7 +16,6 @@ define [
       else
         songs = this.model.get('songs')
         if songs and songs.length > 0
-          # filter down to 5 results
           data =
             songs: songs.slice(0, 10)
           this.$el.html(Handlebars.templates['song-list'](data))
