@@ -28,35 +28,32 @@ define [
         model: this.model
       )
 
-      this.listenTo(this.model, 'change:isLoading', () =>
-        if this.model.get('isLoading')
-          this.$('.subtitlesContainer').html(Handlebars.templates['spinner']())
-        else
-          this.$('.subtitlesContainer').html(this.subtitlesView.render().el)
-      )
-
-      this.listenTo(this.model, 'change:enableKeyboard', () =>
-        enableKeyboard = this.model.get('enableKeyboard')
-
-        if enableKeyboard
-          this.enableKeyboard()
-        else
-          this.disableKeyboard()
+      this.listenTo(this.model, 'change', () =>
+        this.renderUpdate()
       )
 
       this.enableKeyboard()
 
     render: () ->
       this.$el.html(Handlebars.templates['subtitles-player'](this.model.toJSON()))
-      this.$('.subtitlesContainer').append(this.subtitlesView.render().el)
       this.$('.controlsContainer').append(this.subtitlesControlsView.render().el)
 
-      this.$('.edit').on('click', () =>
-        currentSong = this.model.get('currentSong')
-        this.trigger('edit', currentSong)
-      )
+      this.renderUpdate()
 
       return this
+
+    renderUpdate: () ->
+      this.$('.currentSongContainer').html(Handlebars.templates['current-song'](this.model.toJSON()))
+
+      if this.model.get('isLoading')
+        this.$('.subtitlesContainer').html(Handlebars.templates['spinner']())
+      else
+        this.$('.subtitlesContainer').html(this.subtitlesView.render().el)
+
+      if this.model.get('currentSong')?
+        this.$('.song').css("visibility", "visible")
+      else
+        this.$('.song').css("visibility", "hidden")
 
     enableKeyboard: () ->
       $(window).on('keydown', this.onKeyDown)
