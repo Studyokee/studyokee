@@ -26,44 +26,40 @@ passport.deserializeUser(function(obj, done) {
 //   credentials (in this case, a token, tokenSecret, and Rdio profile), and
 //   invoke a callback with a user object.
 passport.use(new RdioStrategy({
-        consumerKey: process.env.RDIO_API_KEY,
-        consumerSecret: process.env.RDIO_SHARED_SECRET,
-        callbackURL: process.env.URL + '/auth/rdio/callback'
-    },
-    function(token, tokenSecret, profile, done) {
-        console.log('profile: ' + JSON.stringify(profile, null, 4));
+    consumerKey: process.env.RDIO_API_KEY,
+    consumerSecret: process.env.RDIO_SHARED_SECRET,
+    callbackURL: process.env.URL + '/auth/rdio/callback'
+}, function(token, tokenSecret, profile, done) {
+    console.log('profile: ' + JSON.stringify(profile, null, 4));
 
-        var getRequest = q.resolve().then(function () {
-            return User.getByRdioId(profile.id).then(function (user) {
-                var updates = {
-                    oauth: {
-                        token: token,
-                        tokenSecret: tokenSecret
-                    }
-                };
-                var updateRequest = q.defer();
-                user.update(updates, updateRequest.makeNodeResolver());
-                return updateRequest.promise;
-            });
-        });
-
-        getRequest.then(function () {
-            done(null, profile);
-        }).fail(function (err) {
-            console.log('Error: ' + err);
-            done(null, profile);
-        });
-        // // asynchronous verification, for effect...
-        // process.nextTick(function () {
-          
-        //   // To keep the example simple, the user's Rdio profile is returned to
-        //   // represent the logged-in user.  In a typical application, you would want
-        //   // to associate the Rdio account with a user record in your database,
-        //   // and return that user instead.
-        //     return done(null, profile);
-        // });
-    }
-));
+    q.resolve().then(function () {
+        return User.getByRdioId(profile.id);
+    }).then(function (user) {
+        var updates = {
+            oauth: {
+                token: token,
+                tokenSecret: tokenSecret
+            }
+        };
+        var updateRequest = q.defer();
+        user.update(updates, updateRequest.makeNodeResolver());
+        return updateRequest.promise;
+    }).then(function () {
+        done(null, profile);
+    }).fail(function (err) {
+        console.log('Error: ' + err);
+        done(null, profile);
+    });
+    // // asynchronous verification, for effect...
+    // process.nextTick(function () {
+      
+    //   // To keep the example simple, the user's Rdio profile is returned to
+    //   // represent the logged-in user.  In a typical application, you would want
+    //   // to associate the Rdio account with a user record in your database,
+    //   // and return that user instead.
+    //     return done(null, profile);
+    // });
+}));
 
 var app = express();
 
@@ -83,9 +79,9 @@ app.get('/auth/rdio',
 );
 
 app.get('/auth/rdio/fail',
-  function(req, res) {
-    res.redirect('authfail');
-}
+    function(req, res) {
+        res.redirect('authfail');
+    }
 );
 
 app.get('/auth/rdio/callback',
