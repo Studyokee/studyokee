@@ -5,12 +5,7 @@ var passport = require('passport');
 var q = require('q');
 var User = require('../../../models/user');
 
-var config = {
-    rdio_api_key: process.env.RDIO_API_KEY,
-    rdio_api_shared: process.env.RDIO_SHARED_SECRET,
-    callback_url: '/'
-};
-var rdio = require('./rdio')(config);
+var rdio = require('../../../lib/rdio');
 
 var app = express();
 

@@ -113,7 +113,7 @@ module.exports = function (grunt) {
                         'browser': false,
                         'esnext': true,
                         'bitwise': true,
-                        'camelcase': false,
+                        'camelcase': true,
                         'curly': true,
                         'eqeqeq': true,
                         'immed': true,
