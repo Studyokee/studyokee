@@ -87,8 +87,7 @@ module.exports = function (grunt) {
                 files: {
                     src: [
                         'public/src/**/*.coffee',
-                        '!components/**/*',
-                        '!node_modules/**/*'
+                        '!public/bower_components/**/*'
                     ]
                 },
                 options: {
@@ -104,7 +103,6 @@ module.exports = function (grunt) {
                     '**/*.js',
                     '!node_modules/**/*.js',
                     '!public/**/*.js',
-                    '!app/api/rdio/rdio.js',
                     '!test/public/**/*.js'
                 ],
                 options: {
