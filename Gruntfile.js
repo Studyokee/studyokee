@@ -87,8 +87,7 @@ module.exports = function (grunt) {
                 files: {
                     src: [
                         'public/src/**/*.coffee',
-                        '!components/**/*',
-                        '!node_modules/**/*'
+                        '!public/bower_components/**/*'
                     ]
                 },
                 options: {
@@ -104,7 +103,6 @@ module.exports = function (grunt) {
                     '**/*.js',
                     '!node_modules/**/*.js',
                     '!public/**/*.js',
-                    '!app/api/rdio/rdio.js',
                     '!test/public/require-config.js'
                 ],
                 options: {
@@ -113,7 +111,7 @@ module.exports = function (grunt) {
                         'browser': false,
                         'esnext': true,
                         'bitwise': true,
-                        'camelcase': false,
+                        'camelcase': true,
                         'curly': true,
                         'eqeqeq': true,
                         'immed': true,
