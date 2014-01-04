@@ -105,7 +105,7 @@ module.exports = function (grunt) {
                     '!node_modules/**/*.js',
                     '!public/**/*.js',
                     '!app/api/rdio/rdio.js',
-                    '!test/public/**/*.js'
+                    '!test/public/require-config.js'
                 ],
                 options: {
                     jshint: {
@@ -135,7 +135,9 @@ module.exports = function (grunt) {
                         'beforeEach': false,
                         'afterEach': false,
                         'before': false,
-                        'console': false
+                        'console': false,
+                        'expect': false,
+                        'define': false
                     }
                 }
             }

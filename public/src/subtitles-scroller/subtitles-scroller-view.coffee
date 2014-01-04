@@ -14,6 +14,8 @@ define [
   SubtitlesScrollerView = Backbone.View.extend(
     tagName:  "div"
     className: "subtitlesScroller"
+    lineHeight: 96
+    pageSize: 4
 
     initialize: () ->
       this.listenTo(this.model, 'change:i', () =>
@@ -26,7 +28,7 @@ define [
     render: () ->
       subtitles = this.model.get('subtitles')
 
-      if not subtitles.original? or subtitles.original.length == 0
+      if this.getLength() is 0
         this.$el.html(this.getNoSubtitlesMessage())
       else
         formattedData = this.getFormattedData(subtitles.original, subtitles.translation)
@@ -41,28 +43,48 @@ define [
     getNoSubtitlesMessage: () ->
       return Handlebars.templates['no-subtitles']()
 
-    getFormattedData: (subtitles, translation) ->
+    getFormattedData: (original, translation) ->
       data = []
+      if not original?
+        return data
 
-      for i in [0..subtitles.length-1]
+      for i in [0..this.getLength()-1]
+        if not original[i]
+          return data
+
+        translationLine = ''
+        if translation? and translation[i]?
+          translationLine = translation[i]
+
         data.push(
-          original: subtitles[i].text
-          translation: translation[i]
-          ts: subtitles[i].ts
+          original: original[i].text
+          translation: translationLine
+          ts: original[i].ts
         )
 
       return data
 
+    getLength: () ->
+      subtitles = this.model.get('subtitles')
+      if subtitles.original
+        return subtitles.original.length
+      else
+        return 0
+
     onPositionChange: () ->
       i = this.model.get('i')
+      length = this.getLength()
+      if i >= length
+        i = length - 1
+      if i < 0
+        i = 0
+
       this.shiftPage(i)
       this.selectLine(i)
 
     shiftPage: (i) ->
-      pageSize = 4
-      lineHeight = 96
-      page = Math.floor(i/pageSize)
-      topMargin = -(page * (pageSize * lineHeight))
+      page = Math.floor(i/this.pageSize)
+      topMargin = -(page * (this.pageSize * this.lineHeight))
       this.$('.subtitles').css('margin-top', topMargin + 'px')
 
     selectLine: (i) ->
