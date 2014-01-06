@@ -54,38 +54,6 @@ define [
         this.$('.song').css("visibility", "visible")
       else
         this.$('.song').css("visibility", "hidden")
-
-    enableKeyboard: () ->
-      $(window).on('keydown', this.onKeyDown)
-
-    disableKeyboard: () ->
-      $(window).unbind('keydown', this.onKeyDown)
-
-    onKeyDown: (event) =>
-      switch event.keyCode
-        when 27
-          # esc
-          this.$('.dictionaryContainer').hide()
-
-    lookup: (word) ->
-      musicPlayer = this.model.get('musicPlayer')
-      musicPlayer.pause()
-
-      spinner = Handlebars.templates['spinner']()
-      this.$('.dictionaryResults').html(spinner)
-      this.$('.dictionaryContainer').show()
-      
-      this.$('.close').on('click', () =>
-        this.$('.dictionaryContainer').hide()
-      )
-
-      dictionary = this.model.get('dictionary')
-      fromLanguage = this.model.get('fromLanguage')
-      toLanguage = this.model.get('toLanguage')
-      dictionary.lookup(word, fromLanguage, toLanguage, (result) ->
-        this.$('.dictionaryResults').html(result)
-      )
-
   )
 
   return SubtitlesPlayerView
