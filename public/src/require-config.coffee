@@ -22,7 +22,8 @@ requirejs.config(
     'subtitles.insert.text.view': '/lib/subtitles-upload/subtitles-insert-text/subtitles-insert-text-view'
     'subtitles.sync.view': '/lib/subtitles-upload/subtitles-sync/subtitles-sync-view'
     'subtitles.controls.view': '/lib/subtitles-controls/subtitles-controls-view'
-    'music.player': '/lib/rdio-player'
+    'music.player': '/lib/music-player/rdio/rdio-player'
+    'music.search': '/lib/music-player/rdio/rdio-search'
     'test.translation.data.provider': '/lib/test-translation-data-provider'
     'tune.wiki.translation.data.provider':
       '/lib/tune-wiki-translation-data-provider'

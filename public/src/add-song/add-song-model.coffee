@@ -1,19 +1,22 @@
 define [
-  'backbone'
-], (Backbone) ->
+  'backbone',
+  'music.search'
+], (Backbone, MusicSearch) ->
   AddSongModel = Backbone.Model.extend(
     defaults:
       showAC: false
 
+    initialize: () ->
+      this.musicSearch = new MusicSearch()
+
     search: (query) ->
-      musicPlayer = this.get('musicPlayer')
       this.set(
         songs: []
         isLoading: true
         showAC: true
       )
 
-      musicPlayer.search(query, (suggestions) =>
+      this.musicSearch.search(query, (suggestions) =>
         this.set(
           songs: suggestions
           isLoading: false

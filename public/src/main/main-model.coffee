@@ -1,15 +1,15 @@
 define [
   'language.settings.model',
+  'music.player',
   'subtitles.player.model',
   'suggestions.model',
   'add.song.model',
   'backbone'
-], (LanguageSettingsModel, SubtitlesPlayerModel, SuggestionsModel, AddSongModel, Backbone) ->
+], (LanguageSettingsModel, MusicPlayer, SubtitlesPlayerModel, SuggestionsModel, AddSongModel, Backbone) ->
   MainModel = Backbone.Model.extend(
 
     initialize: () ->
       settings = this.get('settings')
-      musicPlayer = this.get('musicPlayer')
       dataProvider = this.get('dataProvider')
       toLanguage = settings.get('defaultToLanguage')
       fromLanguage = settings.get('defaultFromLanguage')
@@ -20,25 +20,25 @@ define [
         enableLogging: settings.get('enableLogging')
       )
 
-      addSongModel = new AddSongModel(
-        musicPlayer: musicPlayer
-      )
+      addSongModel = new AddSongModel()
 
       addSongModel.on('select', (song) =>
         if settings.get('enableLogging')
           console.log('STUDYOKEE APP: select new song from add song: ' + song)
         
-        musicPlayer.set(
+        subtitlesPlayerModel.set(
           currentSong: song
         )
       )
 
       subtitlesPlayerModel = new SubtitlesPlayerModel(
         dataProvider: dataProvider
-        musicPlayer: musicPlayer
+        musicPlayer: new MusicPlayer(
+          settings: settings
+        )
         toLanguage: toLanguage
         fromLanguage: fromLanguage
-        enableLogging: settings.get('enableLogging')
+        settings: settings
       )
 
       suggestionsModel = new SuggestionsModel(
@@ -53,7 +53,7 @@ define [
         if settings.get('enableLogging')
           console.log('STUDYOKEE APP: change selectedSong: ' + selectedSong)
         
-        musicPlayer.set(
+        subtitlesPlayerModel.set(
           currentSong: selectedSong
         )
       )
@@ -88,7 +88,6 @@ define [
         addSongModel: addSongModel
         subtitlesPlayerModel: subtitlesPlayerModel
         suggestionsModel: suggestionsModel
-        musicPlayer: musicPlayer
         dataProvider: dataProvider
         enableEdit: settings.get('enableEdit')
       )
