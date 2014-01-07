@@ -32,8 +32,6 @@ define [
         this.renderUpdate()
       )
 
-      this.enableKeyboard()
-
     render: () ->
       this.$el.html(Handlebars.templates['subtitles-player'](this.model.toJSON()))
       this.$('.controlsContainer').append(this.subtitlesControlsView.render().el)

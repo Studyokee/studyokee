@@ -1,15 +1,12 @@
 <a class="prev control">
     <div class="icon"></div>
 </a>
-<a class="play control">
+<a class="play control" {{#if isPlaying}}style="display:none"{{/if}}>
     <div class="icon"></div>
 </a>
 <a class="pause control" {{#unless isPlaying}}style="display:none"{{/unless}}>
     <div class="icon"></div>
 </a>
-<a class="next control" {{#if isPlaying}}style="display:none"{{/if}}>
+<a class="next control">
     <div class="icon"></div>
 </a>
-<div class="instructions">
-    ←: Prev, ↓: Play/Pause, →: Next
-</div>

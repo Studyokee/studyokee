@@ -9,10 +9,9 @@ define [
       settings: {}
       position: 0
       currentSong: null
+      newSong: true
       playing: false
       ready: false
-      lastPositionMeasurement: null
-      positionChangedTick: null
 
     initialize: () ->
       $(document).ready(() =>
@@ -27,76 +26,55 @@ define [
         this.getPlaybackToken((token) =>
           $('#api').rdio(token)
           $('#api').bind('positionChanged.rdio', (e, position) =>
+            position = position * 1000
             if this.get('settings').get('enableLogging')
               console.log('RDIO POSITION CHANGE: ' + position)
 
             this.set(
               position: position
-              lastPositionMeasurement: new Date().getTime()
             )
           )
           $('#api').bind('playStateChanged.rdio', (e, playState) =>
             if this.get('settings').get('enableLogging')
               console.log('RDIO PLAYSTATE CHANGE: ' + playState)
 
-            if playState is 1
-              this.startPlaying()
-            else
-              this.stopPlaying()
+            this.set(
+              playing: playState is 1
+            )
           )
         )
-        
       )
 
-    startPlaying: () ->
-      this.notifyPositionChanged()
-      clearTimeout(this.get('positionChangedTick'))
-      this.set(
-        playing: true
-        positionChangedTick: setTimeout(fn, 500)
-      )
-
-    stopPlaying: () ->
-      clearTimeout(this.get('positionChangedTick'))
-
-      this.set(
-        playing: false
-        position: this.getTrackPosition()
+      this.listenTo(this, 'change:currentSong', () =>
+        this.set(
+          newSong: true
+        )
       )
 
     getTrackPosition: () ->
-      position = null
-      if this.get('playing')
-        currentTime = new Date().getTime()
-        diff = (currentTime - this.get('lastPositionMeasurement'))/1000
-
-        if this.get('settings').get('enableLogging')
-          console.log('RdioPlayer: getTrackPosition: MEASURED DIFF: ' + diff)
-        
-        position = this.get('position') + diff
-      else
-        position = this.get('position')
+      position = this.get('position')
 
       if this.get('settings').get('enableLogging')
         console.log('RdioPlayer: getTrackPosition: ' + position)
 
-      return position * 1000
+      return position
 
-    notifyPositionChanged: () ->
-      position = this.getTrackPosition()
-
-      if this.get('settings').get('enableLogging')
-        console.log('RdioPlayer: notifyPositionChanged: position: ' + position)
-        
-      for callback in this.get('listeners').positionChanged
-        callback(position)
-
-    play: (song) ->
+    play: () ->
       rdio = $('#api').rdio()
+      currentSong = this.get('currentSong')
       if this.get('ready') and rdio
-        if this.get('settings').get('enableLogging')
-          console.log('RdioPlayer: PLAY: key: ' + song.key)
-        rdio.play(song.key)
+        if this.get('newSong')
+          if currentSong?
+            if this.get('settings').get('enableLogging')
+              console.log('RdioPlayer: PLAY NEW SONG: key: ' + currentSong.key)
+            rdio.play(currentSong.key)
+            this.set(
+              newSong: false
+            )
+        else
+          if this.get('settings').get('enableLogging')
+            console.log('RdioPlayer: RESUME SONG: key: ' + currentSong.key)
+          rdio.play()
 
     pause: () ->
       if this.get('settings').get('enableLogging')
@@ -110,16 +88,8 @@ define [
       rdio = $('#api').rdio()
       if this.get('ready') and rdio
         if this.get('settings').get('enableLogging')
-          console.log('RdioPlayer: SEEK: ' + trackPosition/1000)
+          console.log('RdioPlayer: SEEK: ' + trackPosition)
         rdio.seek(trackPosition/1000)
-        this.stopPlaying()
-
-    changeSong: (song) ->
-      if this.get('settings').get('enableLogging')
-        console.log('artist: ' + artist + ' song: ' + song)
-      this.set(
-        currentSong: song
-      )
 
     search: (query, callback) ->
       if not query? or query is ''

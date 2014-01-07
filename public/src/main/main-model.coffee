@@ -28,7 +28,7 @@ define [
         if settings.get('enableLogging')
           console.log('STUDYOKEE APP: select new song from add song: ' + song)
         
-        subtitlesPlayerModel.set(
+        musicPlayer.set(
           currentSong: song
         )
       )
@@ -53,7 +53,7 @@ define [
         if settings.get('enableLogging')
           console.log('STUDYOKEE APP: change selectedSong: ' + selectedSong)
         
-        subtitlesPlayerModel.set(
+        musicPlayer.set(
           currentSong: selectedSong
         )
       )

@@ -21,27 +21,32 @@ define [
     initialize: () ->
       musicPlayer = this.get('musicPlayer')
       this.listenTo(musicPlayer, 'change:currentSong', () =>
-        if this.get('enableLogging')
-          console.log('SUBITLES PLAYER: change currentSong')
         this.pause()
-        this.set(
-          i: 0
-          currentSong: musicPlayer.get('currentSong')
-        )
-        this.getSubtitles()
+        this.getSubtitles(musicPlayer.get('currentSong'))
+      )
+
+      this.listenTo(musicPlayer, 'change:playing', () =>
+        if musicPlayer.get('playing')
+          this.start()
       )
 
       this.listenTo(musicPlayer, 'change:position', () =>
-        this.start()
+        if musicPlayer.get('playing')
+          this.start()
       )
 
-    getSubtitles: () ->
-      currentSong = this.get('currentSong')
+    getSubtitles: (currentSong) ->
       if not currentSong?
         this.set(
           subtitles: {}
         )
         return
+
+      this.set(
+        currentSong: currentSong
+        isLoading: true
+        playing: false
+      )
       
       id = currentSong.key
       @lastCallbackId = id
@@ -51,21 +56,24 @@ define [
           this.set(
             subtitles: subtitles
             isLoading: false
+            i: 0
           )
       
-      this.set(
-        isLoading: true
-      )
-
       toLanguage = this.get('toLanguage')
       dataProvider = this.get('dataProvider')
       dataProvider.getSegments(id, toLanguage, callback)
 
     play: () ->
+      this.set(
+        playing: true
+      )
       musicPlayer = this.get('musicPlayer')
       musicPlayer.play()
 
     pause: () ->
+      this.set(
+        playing: false
+      )
       musicPlayer = this.get('musicPlayer')
       musicPlayer.pause()
       this.clearTimer()
