@@ -1,153 +1,111 @@
 define [
   'jrdio',
-  'underscore'
-], (Jrdio, _) ->
-  ####################################################################
-  # Interface:
-  # function MusicPlayer() {
-  #      this.getTrackName()
-  #      this.getTrackPosition()
-  #      this.isPlaying()
-  # }
-  ####################################################################
+  'underscore',
+  'backbone'
+], (Jrdio, _, Backbone) ->
 
-  class RdioPlayer
+  RdioPlayer = Backbone.Model.extend(
+    defaults:
+      settings: {}
+      position: 0
+      currentSong: null
+      newSong: true
+      playing: false
+      ready: false
 
-    constructor: (@settings) ->
-      @artist = null
-      @song = null
-
-      @ready = false
-      @playing = false
-
-      @position = 0
-      @lastPositionMeasurement = new Date().getTime()
-      @listeners =
-        positionChanged: []
-      @positionChangedTick = null
-
+    initialize: () ->
       $(document).ready(() =>
         $('#api').bind('ready.rdio', () =>
-          if @settings.get('enableLogging')
+          if this.get('settings').get('enableLogging')
             console.log('RDIO READY')
 
-          @ready = true
+          this.set(
+            'ready': true
+          )
         )
         this.getPlaybackToken((token) =>
           $('#api').rdio(token)
           $('#api').bind('positionChanged.rdio', (e, position) =>
-            if @settings.get('enableLogging')
+            position = position * 1000
+            if this.get('settings').get('enableLogging')
               console.log('RDIO POSITION CHANGE: ' + position)
 
-            @position = position
-            @lastPositionMeasurement = new Date().getTime()
+            this.set(
+              position: position
+            )
           )
           $('#api').bind('playStateChanged.rdio', (e, playState) =>
-            if @settings.get('enableLogging')
+            if this.get('settings').get('enableLogging')
               console.log('RDIO PLAYSTATE CHANGE: ' + playState)
 
-            if playState is 1
-              this.startPlaying()
-            else
-              this.stopPlaying()
+            this.set(
+              playing: playState is 1
+            )
           )
         )
-        
       )
 
-    startPlaying: () ->
-      @playing = true
-      @lastPositionMeasurement = new Date().getTime()
-
-      fn = () =>
-        this.notifyPositionChanged()
-        clearTimeout(@positionChangedTick)
-        @positionChangedTick = setTimeout(fn, 500)
-
-      fn()
-
-    stopPlaying: () ->
-      @position = this.getTrackPosition()
-      clearTimeout(@positionChangedTick)
-
-      @playing = false
+      this.listenTo(this, 'change:currentSong', () =>
+        this.set(
+          newSong: true
+        )
+      )
 
     getTrackPosition: () ->
-      position = null
-      if @playing
-        currentTime = new Date().getTime()
-        diff = (currentTime - @lastPositionMeasurement)/1000
+      position = this.get('position')
 
-        if @settings.get('enableLogging')
-          console.log('RdioPlayer: getTrackPosition: MEASURED DIFF: ' + diff)
-        
-        position = @position + diff
-      else
-        position = @position
-
-      if @enableTooling
+      if this.get('settings').get('enableLogging')
         console.log('RdioPlayer: getTrackPosition: ' + position)
 
-      return position * 1000
+      return position
 
-    isPlaying: () ->
-      return @playing
-
-    notifyPositionChanged: () ->
-      position = this.getTrackPosition()
-
-      if @settings.get('enableLogging')
-        console.log('RdioPlayer: notifyPositionChanged: position: ' + position)
-        
-      for callback in @listeners.positionChanged
-        callback(position)
-
-    play: (song) ->
+    play: () ->
       rdio = $('#api').rdio()
-      if @ready and rdio
-        if @settings.get('enableLogging')
-          console.log('RdioPlayer: PLAY: key: ' + song.key)
-        rdio.play(song.key)
+      currentSong = this.get('currentSong')
+      if this.get('ready') and rdio
+        if this.get('newSong')
+          if currentSong?
+            if this.get('settings').get('enableLogging')
+              console.log('RdioPlayer: PLAY NEW SONG: key: ' + currentSong.key)
+            rdio.play(currentSong.key)
+            this.set(
+              newSong: false
+            )
+        else
+          if this.get('settings').get('enableLogging')
+            console.log('RdioPlayer: RESUME SONG: key: ' + currentSong.key)
+          rdio.play()
 
     pause: () ->
-      if @settings.get('enableLogging')
+      if this.get('settings').get('enableLogging')
         console.log('RdioPlayer: PAUSE')
 
       rdio = $('#api').rdio()
-      if @ready and rdio
+      if this.get('ready') and rdio
         rdio.pause()
 
     seek: (trackPosition) ->
       rdio = $('#api').rdio()
-      if @ready and rdio
-        if @settings.get('enableLogging')
-          console.log('RdioPlayer: SEEK: ' + trackPosition/1000)
+      if this.get('ready') and rdio
+        if this.get('settings').get('enableLogging')
+          console.log('RdioPlayer: SEEK: ' + trackPosition)
         rdio.seek(trackPosition/1000)
-        this.stopPlaying()
-
-    onPositionChange: (callback) ->
-      @listeners.positionChanged.push(callback)
-
-    changeSong: (artist, song) ->
-      if @settings.get('enableLogging')
-        console.log('artist: ' + artist + ' song: ' + song)
-      @artist = artist
-      @song = song
-      listener(artist, song) for listener in @listeners.songChange
 
     search: (query, callback) ->
       if not query? or query is ''
         return
 
-      if @settings.get('enableLogging')
+      if this.get('settings').get('enableLogging')
         console.log('RdioPlayer: search: ' + query)
 
-      @lastSearch = query
+      this.set(
+        lastSearch: query
+      )
       $.ajax(
         type: 'GET'
         url: '/api/rdio/search/' + query
         success: (data) =>
-          if query isnt @lastSearch
+          if query isnt this.get('lastSearch')
             return
 
           callback(data)
@@ -160,5 +118,6 @@ define [
         success: (token) =>
           callback(token)
       )
+  )
 
   return RdioPlayer

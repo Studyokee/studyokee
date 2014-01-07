@@ -14,7 +14,9 @@ require [
     startTime = new Date().getTime()
     console.log('File load time: ' + (startTime - window.loadStartTime))
     console.log('Render page start: ' + startTime)
-  musicPlayer = new MusicPlayer(settings)
+  musicPlayer = new MusicPlayer(
+    settings: settings
+  )
   dataProvider = new StudyokeeTranslationDataProvider(settings)
 
   model = new MainModel(

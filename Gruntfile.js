@@ -135,7 +135,10 @@ module.exports = function (grunt) {
                         'before': false,
                         'console': false,
                         'expect': false,
-                        'define': false
+                        'define': false,
+                        'spyOn': false,
+                        'waitsFor': false,
+                        '$': false
                     }
                 }
             }
@@ -211,5 +214,4 @@ module.exports = function (grunt) {
     grunt.registerTask('travis', ['lint', 'env:travis', 'mochaTest']);
     grunt.registerTask('test', ['lint', 'env:test', 'mongod', 'mochaTest']);
     grunt.registerTask('default', ['env:development', 'lint', 'preprocessor', 'mongod', 'server', 'watch']);
-    grunt.registerTask('uitest', ['jasmine']);
 };
