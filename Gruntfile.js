@@ -138,7 +138,8 @@ module.exports = function (grunt) {
                         'define': false,
                         'spyOn': false,
                         'waitsFor': false,
-                        '$': false
+                        '$': false,
+                        'runs': false
                     }
                 }
             }

@@ -1,38 +1,37 @@
 define [
-  'backbone'
-], (Backbone) ->
+  'backbone',
+  'music.player'
+], (Backbone, MusicPlayer) ->
 
-  ####################################################################
-  #
-  # SubtitlesPlayerModel
-  #
-  # The model for the collection of original subtitles, translated
-  # subtitles, controls, and dictionary lookup
-  #
-  ####################################################################
   SubtitlesPlayerModel = Backbone.Model.extend(
     defaults:
       i: 0
       subtitles:
         original: []
         translation: []
-    timer: null
+      currentSong: null
+      playing: false
+      settings: new Backbone.Model()
+      prevPause: 1000
 
     initialize: () ->
-      musicPlayer = this.get('musicPlayer')
-      this.listenTo(musicPlayer, 'change:currentSong', () =>
+      this.timer = null
+      this.musicPlayer = this.get('musicPlayer')
+
+      this.listenTo(this, 'change:currentSong', () =>
         this.pause()
-        this.getSubtitles(musicPlayer.get('currentSong'))
+
+        currentSong = this.get('currentSong')
+        this.musicPlayer.set(
+          currentSong: currentSong
+        )
+        this.getSubtitles(currentSong)
       )
 
-      this.listenTo(musicPlayer, 'change:playing', () =>
-        if musicPlayer.get('playing')
-          this.start()
-      )
-
-      this.listenTo(musicPlayer, 'change:position', () =>
-        if musicPlayer.get('playing')
-          this.start()
+      this.listenTo(this.musicPlayer, 'change:syncTo', () =>
+        if this.get('playing')
+          position = this.musicPlayer.get('syncTo')
+          this.setPosition(position)
       )
 
     getSubtitles: (currentSong) ->
@@ -43,39 +42,32 @@ define [
         return
 
       this.set(
-        currentSong: currentSong
         isLoading: true
-        playing: false
+        lastCallbackId: currentSong.key
       )
-      
-      id = currentSong.key
-      @lastCallbackId = id
 
       callback = (subtitles) =>
-        if @lastCallbackId is id
+        if this.get('lastCallbackId') is currentSong.key
           this.set(
-            subtitles: subtitles
             isLoading: false
+            subtitles: subtitles
             i: 0
+            playing: false
           )
       
-      toLanguage = this.get('toLanguage')
-      dataProvider = this.get('dataProvider')
-      dataProvider.getSegments(id, toLanguage, callback)
+      this.get('dataProvider').getSegments(currentSong.key, this.get('toLanguage'), callback)
 
     play: () ->
       this.set(
         playing: true
       )
-      musicPlayer = this.get('musicPlayer')
-      musicPlayer.play()
+      this.musicPlayer.play()
 
     pause: () ->
       this.set(
         playing: false
       )
-      musicPlayer = this.get('musicPlayer')
-      musicPlayer.pause()
+      this.musicPlayer.pause()
       this.clearTimer()
 
     next: () ->
@@ -86,12 +78,12 @@ define [
       i = this.get('i') + 1
       if original[i]?
         this.clearTimer()
-        if this.get('enableLogging')
+        if this.get('settings').get('enableLogging')
           console.log('Set index to: ' + i + ' and time to: ' + original[i].ts)
         this.set(
           i: i
         )
-        this.get('musicPlayer').seek(original[i].ts)
+        this.musicPlayer.seek(original[i].ts)
 
     prev: () ->
       original = this.get('subtitles').original
@@ -100,51 +92,68 @@ define [
 
       i = this.get('i')
 
-      currentTime = this.get('musicPlayer').getTrackPosition()
-      startOfSegment = original[i].ts
-      diff = currentTime - startOfSegment
-
-      if diff <= 1000 and i isnt 0
+      unset = () =>
+        this.recentPrev = false
+      setTimeout(unset, this.get('prevPause'))
+      if i isnt 0 and (this.recentPrev or not this.get('playing'))
         i--
+      this.recentPrev = true
 
       if i >= 0 and original[i]?
         this.clearTimer()
-        if this.get('enableLogging')
+        if this.get('settings').get('enableLogging')
           console.log('Set index to: ' + i + ' and time to: ' + original[i].ts)
         this.set(
           i: i
         )
-        this.get('musicPlayer').seek(original[i].ts)
+        this.musicPlayer.seek(original[i].ts)
+
+    setPosition: (ts) ->
+      this.clearTimer()
+      original = this.get('subtitles').original
+
+      i = this.getPosition(ts)
+      if i?
+        this.set(
+          i: i
+        )
+
+        this.doOmptimisticTimer(ts)
+
+    getPosition: (ts) ->
+      original = this.get('subtitles').original
+      if not ts? or not original? or original.length is 0
+        return null
+
+      i = 0
+      while (i <= original.length - 1) and original[i].ts < ts
+        i++
+
+      return Math.max(i-1, 0)
 
     clearTimer: () ->
-      if this.get('enableLogging')
+      if this.get('settings').get('enableLogging')
         console.log('SUBITLES PLAYER: clearTimer')
       clearTimeout(this.timer)
 
     setTimer: (fn, wait) ->
-      if this.get('enableLogging')
-        console.log('SUBITLES PLAYER: setTimer for: ' + wait)
+      if this.get('settings').get('enableLogging')
+        console.log('SUBITLES PLAYER: optimistic timer engaged for: ' + wait)
       this.timer = setTimeout(fn, wait)
 
-    start: () ->
-      ts = this.get('musicPlayer').getTrackPosition()
-      this.clearTimer()
+    doOmptimisticTimer: (ts) ->
       original = this.get('subtitles').original
-      i = this.get('i') + 1
+      nextIndex = this.get('i') + 1
 
-      if original[i]?
-        nextTs = original[i].ts
-        wait = nextTs - ts
-        if this.get('enableLogging')
-          console.log('SUBITLES PLAYER: startTimer: ts: ' + ts + ', nextTs: ' + nextTs + ', wait: ' + wait + ', i: ' + (i-1))
-
-        next = () =>
-          this.set(
-            i: i
-          )
-          this.start()
-        
-        this.setTimer(next, wait)
+      if original[nextIndex]?
+        nextTs = original[nextIndex].ts
+        diff = nextTs - ts
+        if diff < 1000
+          next = () =>
+            this.set(
+              i: nextIndex
+            )
+          this.setTimer(next, diff)
 
   )
 

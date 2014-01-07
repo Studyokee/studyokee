@@ -1,10 +1,9 @@
 require [
   'settings',
-  'music.player',
   'studyokee.translation.data.provider',
   'main.model',
   'main.view'
-], (Settings, MusicPlayer, StudyokeeTranslationDataProvider, MainModel, MainView) ->
+], (Settings, StudyokeeTranslationDataProvider, MainModel, MainView) ->
 
   settings = new Settings()
   if settings.get('enableLogging')
@@ -14,14 +13,10 @@ require [
     startTime = new Date().getTime()
     console.log('File load time: ' + (startTime - window.loadStartTime))
     console.log('Render page start: ' + startTime)
-  musicPlayer = new MusicPlayer(
-    settings: settings
-  )
   dataProvider = new StudyokeeTranslationDataProvider(settings)
 
   model = new MainModel(
     settings: settings
-    musicPlayer: musicPlayer
     dataProvider: dataProvider
   )
   view = new MainView(
