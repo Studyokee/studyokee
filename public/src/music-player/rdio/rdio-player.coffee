@@ -14,6 +14,12 @@ define [
     initialize: () ->
       this.seeking = null
 
+      this.listenTo(this, 'change:currentSong', () =>
+        this.set(
+          newSong: true
+        )
+      )
+
       $(document).ready(() =>
         $('#api').bind('positionChanged.rdio', (e, position) =>
           position = position * 1000

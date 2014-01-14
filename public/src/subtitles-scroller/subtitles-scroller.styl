@@ -22,9 +22,15 @@
         color: $textSubdued;
         border-radius: 15px;
     }
+    .subtitles li a {
+        color: $textSubdued;
+    }
     .subtitles li.selected {
         color: $textNormal;
         background-color: $bgHighlight;
+    }
+    .subtitles li.selected a {
+        color: $textNormal;
     }
 
     .subtitles li.selected .translated-subtitle {
@@ -34,9 +40,13 @@
         color: #2879A0;
         color: #58A1C4;
     }
+    .subtitles a {
+        text-decoration: none;
+    }
     .subtitles a:hover {
-        text-decoration: underline;
         cursor: pointer;
+        text-decoration: underline;
+        color: $textNormal;
     }
     .timestamp {
         color: #FF0000;

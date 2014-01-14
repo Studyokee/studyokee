@@ -28,8 +28,9 @@
             'tune.wiki.translation.data.provider': '../../public/lib/tune-wiki-translation-data-provider',
             'studyokee.translation.data.provider': '../../public/lib/studyokee-translation-data-provider',
             'suggestions.model': '../../public/lib/suggestions/suggestions-model',
-            'suggestions.view': '../../publiclib/suggestions/suggestions-view',
-            'yabla.dictionary.data.provider': '../../public/lib/yabla-dictionary-data-provider',
+            'suggestions.view': '../../public/lib/suggestions/suggestions-view',
+            'dictionary.view': '../../public/lib/dictionary/dictionary-view',
+            'dictionary.model': '../../public/lib/dictionary/dictionary-model',
             templates: '../../public/lib/templates'
         },
         shim: {

@@ -36,6 +36,12 @@ define [
           data: formattedData
         this.$el.html(Handlebars.templates['subtitles-scroller'](model))
 
+        view = this
+        this.$('.subtitles a').on('click', (event) ->
+          query = $(this).html()
+          view.trigger('lookup', query)
+        )
+
         this.onPositionChange()
 
       return this
@@ -56,8 +62,10 @@ define [
         if translation? and translation[i]?
           translationLine = translation[i]
 
+        originalText = original[i].text.replace(/(\w+)/g, '<a href="javaScript:void(0);">$1</a>')
+
         data.push(
-          original: original[i].text
+          original: originalText
           translation: translationLine
           ts: original[i].ts
         )
