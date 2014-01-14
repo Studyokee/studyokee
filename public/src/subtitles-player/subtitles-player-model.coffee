@@ -1,7 +1,8 @@
 define [
   'backbone',
-  'music.player'
-], (Backbone, MusicPlayer) ->
+  'music.player',
+  'dictionary.model'
+], (Backbone, MusicPlayer, DictionaryModel) ->
 
   SubtitlesPlayerModel = Backbone.Model.extend(
     defaults:
@@ -17,6 +18,10 @@ define [
     initialize: () ->
       this.timer = null
       this.musicPlayer = this.get('musicPlayer')
+      this.dictionaryModel = new DictionaryModel(
+        fromLanguage: this.get('fromLanguage')
+        toLanguage: this.get('toLanguage')
+      )
 
       this.listenTo(this, 'change:currentSong', () =>
         this.pause()
@@ -154,6 +159,11 @@ define [
               i: nextIndex
             )
           this.setTimer(next, diff)
+
+    lookup: (query) ->
+      this.dictionaryModel.set(
+        query: query
+      )
 
   )
 

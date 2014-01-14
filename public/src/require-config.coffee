@@ -31,7 +31,8 @@ requirejs.config(
       '/lib/studyokee-translation-data-provider'
     'suggestions.model': '/lib/suggestions/suggestions-model'
     'suggestions.view': 'lib/suggestions/suggestions-view'
-    'yabla.dictionary.data.provider': '/lib/yabla-dictionary-data-provider'
+    'dictionary.view': 'lib/dictionary/dictionary-view'
+    'dictionary.model': 'lib/dictionary/dictionary-model'
     templates: '/lib/templates'
   shim:
     backbone:
