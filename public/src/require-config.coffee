@@ -1,5 +1,6 @@
 requirejs.config(
   enforceDefine: true
+  baseUrl: '/'
   paths:
     backbone: '/bower_components/backbone/backbone'
     jquery: '/bower_components/jquery/jquery'
@@ -31,7 +32,8 @@ requirejs.config(
       '/lib/studyokee-translation-data-provider'
     'suggestions.model': '/lib/suggestions/suggestions-model'
     'suggestions.view': 'lib/suggestions/suggestions-view'
-    'yabla.dictionary.data.provider': '/lib/yabla-dictionary-data-provider'
+    'edit.suggestions.model': 'lib/edit-suggestions/edit-suggestions-model'
+    'edit.suggestions.view': 'lib/edit-suggestions/edit-suggestions-view'
     templates: '/lib/templates'
   shim:
     backbone:

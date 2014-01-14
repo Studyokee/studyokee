@@ -36,4 +36,15 @@ app.get('/upload/:rdioKey/:fromLanguage/:toLanguage',
     }
 );
 
+app.get('/editsuggestions/:fromLanguage/:toLanguage',
+    ensureAuthenticated,
+    function(req, res) {
+        var data = {
+            fromLanguage: req.params.fromLanguage,
+            toLanguage: req.params.toLanguage
+        };
+        res.render('edit-suggestions', data);
+    }
+);
+
 module.exports = app;

@@ -20,10 +20,6 @@ define [
         )
       )
 
-      this.listenTo(this.model, 'change:songs', () =>
-        this.render()
-      )
-
     render: () ->
       this.$el.html(Handlebars.templates['suggestions'](this.model.toJSON()))
       this.$('.songListContainer').html(this.songListView.render().el)

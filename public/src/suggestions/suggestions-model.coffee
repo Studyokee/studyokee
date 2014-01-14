@@ -6,21 +6,6 @@ define [
       enableLogging: false
 
     initialize: () ->
-      this.listenTo(this, 'change:songs', () =>
-        if this.get('enableLogging')
-          console.log('SUGGESTIONS: change suggestions')
-        
-        suggestions = this.get('songs')
-        if suggestions.length > 0
-          this.set(
-            selectedSong: suggestions[0]
-          )
-        else
-          this.set(
-            selectedSong: null
-          )
-      )
-
       this.listenTo(this, 'change:toLanguage', () =>
         this.updateSuggestions()
       )
@@ -43,9 +28,14 @@ define [
       )
 
       getSuggestionsRequest = (suggestions) =>
+        selectedSong = null
+        if suggestions?.length > 0
+          selectedSong = suggestions[0]
+
         this.set(
           songs: suggestions
           isLoading: false
+          selectedSong: selectedSong
         )
 
       dataProvider = this.get('dataProvider')

@@ -8,7 +8,7 @@ define [
       if not query? or query is ''
         return
 
-      if this.get('settings').get('enableLogging')
+      if this.get('settings')?.get('enableLogging')
         console.log('RdioPlayer: search: ' + query)
 
       this.set(
