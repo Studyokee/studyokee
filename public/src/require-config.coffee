@@ -1,5 +1,6 @@
 requirejs.config(
   enforceDefine: true
+  baseUrl: '/'
   paths:
     backbone: '/bower_components/backbone/backbone'
     jquery: '/bower_components/jquery/jquery'
@@ -33,6 +34,8 @@ requirejs.config(
     'suggestions.view': 'lib/suggestions/suggestions-view'
     'dictionary.view': 'lib/dictionary/dictionary-view'
     'dictionary.model': 'lib/dictionary/dictionary-model'
+    'edit.suggestions.model': 'lib/edit-suggestions/edit-suggestions-model'
+    'edit.suggestions.view': 'lib/edit-suggestions/edit-suggestions-view'
     templates: '/lib/templates'
   shim:
     backbone:
