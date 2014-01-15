@@ -101,4 +101,21 @@ define () ->
           console.log('err:' + err)
       )
 
+    saveTranslation: (rdioKey, toLanguage, translation, callback) ->
+      if @settings?.get('enableLogging')
+        console.log('DATA PROVIDER: save translation for \'' + rdioKey + '\' in \'' + toLanguage + '\'')
+
+      $.ajax(
+        type: 'PUT'
+        url: @url + '/songs/' + rdioKey + '/translations/' + toLanguage
+        data:
+          translation: translation
+        success: () ->
+          console.log('success save')
+          callback()
+        error: (err) ->
+          console.log('err:' + err)
+          callback()
+      )
+
   return StudyokeeTranslationDataProvider

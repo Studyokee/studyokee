@@ -10,17 +10,13 @@ require [
   musicPlayer = new MusicPlayer()
   dataProvider = new StudyokeeTranslationDataProvider()
 
-  dataElement = $('.data-dom')
+  dataElement = $('#data-dom')
   rdioKey = dataElement.attr('data-rdioKey')
-  fromLanguage = dataElement.attr('data-fromLanguage')
   toLanguage = dataElement.attr('data-toLanguage')
-
-  console.log(rdioKey, fromLanguage, toLanguage)
 
   model = new SubtitlesUploadModel(
     settings: settings
     id: rdioKey
-    fromLanguage: fromLanguage
     toLanguage: toLanguage
     musicPlayer: musicPlayer
     dataProvider: dataProvider

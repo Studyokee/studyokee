@@ -11,9 +11,11 @@ define [
     render: () ->
       subtitles = this.model.get('subtitles')
       model =
-        text: this.createText(subtitles)
-        title: this.options.title
+        original: this.createTextFromSubtitles(subtitles.original)
+        translation: subtitles.translation.join('\n')
       this.$el.html(Handlebars.templates['subtitles-insert-text'](model))
+
+      this.$('.translatedText').attr('rows', subtitles.translation.length)
 
       this.$('.saveText').on('click', () =>
         this.save()
@@ -22,20 +24,20 @@ define [
       return this
 
     save: () ->
-      subtitles = this.createSubtitles(this.$('.editText').val().trim())
-      this.trigger('save', subtitles)
+      translation = this.$('.translatedText').val().trim().split('\n')
+      this.trigger('save', translation)
 
-    createSubtitles: (lyrics) ->
-      lines = lyrics.split('\n')
-      subtitles = []
-      for line in lines
-        subtitle =
-          text: line
-          ts: 0
-        subtitles.push(subtitle)
-      return subtitles
+    # createSubtitlesFromText: (lyrics) ->
+    #   lines = lyrics.split('\n')
+    #   subtitles = []
+    #   for line in lines
+    #     subtitle =
+    #       text: line
+    #       ts: 0
+    #     subtitles.push(subtitle)
+    #   return subtitles
 
-    createText: (subtitles) ->
+    createTextFromSubtitles: (subtitles) ->
       if not subtitles?
         return ''
 
