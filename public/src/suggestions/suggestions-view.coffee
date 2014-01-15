@@ -18,6 +18,7 @@ define [
         this.model.set(
           selectedSong: song
         )
+        this.trigger('select', song)
       )
 
     render: () ->

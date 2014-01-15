@@ -47,6 +47,7 @@ function getData (req, res, next) {
 }
 
 app.get('/:rdioKey/*', ensureAuthenticated, getData);
+app.put('/:rdioKey/*', ensureAuthenticated, getData);
 
 app.use(require('./subtitles'));
 app.use(require('./translations'));

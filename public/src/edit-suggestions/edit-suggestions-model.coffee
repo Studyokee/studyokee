@@ -21,16 +21,6 @@ define [
         this.addSong(song)
       )
 
-      this.listenTo(this.suggestionsModel, 'change:selectedSong', () =>
-        selectedSong = this.suggestionsModel.get('selectedSong')
-        if not selectedSong?
-          return
-
-        remove = confirm('Remove ' + selectedSong.name + '?')
-        if remove
-          this.removeSong(selectedSong)
-      )
-
       this.listenTo(this.suggestionsModel, 'change:songs', () =>
         this.saveSuggestions()
       )

@@ -19,6 +19,16 @@ define [
         model: this.model.suggestionsModel
       )
 
+      this.listenTo(this.suggestionsView, 'select', (song) =>
+        if not song?
+          return
+
+        document.location = '../../upload/' + song.key + '/' + this.model.get('toLanguage')
+        # remove = confirm('Remove ' + song.name + '?')
+        # if remove
+        #   this.model.removeSong(song)
+      )
+
     render: () ->
       this.$el.html(Handlebars.templates['edit-suggestions'](this.model.toJSON()))
 

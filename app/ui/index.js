@@ -24,12 +24,11 @@ app.get('/',
     }
 );
 
-app.get('/upload/:rdioKey/:fromLanguage/:toLanguage',
+app.get('/upload/:rdioKey/:toLanguage',
     function(req, res) {
         var data = {
             user: req.user,
             rdioKey: req.params.rdioKey,
-            fromLanguage: req.params.fromLanguage,
             toLanguage: req.params.toLanguage
         };
         res.render('upload', data);
