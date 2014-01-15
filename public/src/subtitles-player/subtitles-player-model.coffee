@@ -57,8 +57,8 @@ define [
             isLoading: false
             subtitles: subtitles
             i: 0
-            playing: false
           )
+          this.play()
       
       this.get('dataProvider').getSegments(currentSong.key, this.get('toLanguage'), callback)
 
