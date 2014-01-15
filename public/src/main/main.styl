@@ -32,12 +32,8 @@ ul {
         box-shadow: 0 0 5px 0 $bgHighlight;
         height: 50px;
 
-        .searchContainer {
-            display: inline-block;
-        }
         .title {
             text-align: center;
-            margin-left: 240px;
         }
         .titleText {
             font-size: 28px;
@@ -60,10 +56,15 @@ ul {
     .main {
         position: relative;
         border-bottom: $borderNormal;
+        height: 554px;
 
         .menu {
             float: left;
             width: 240px;
+
+            .searchContainer {
+                position: absolute;
+            }
         }
 
         .centerRight {
@@ -76,7 +77,7 @@ ul {
                 .controlsContainer {
                     text-align: center;
                     padding: 16px;
-                    height: 85px;
+                    height: 40px;
                 }
             }
 

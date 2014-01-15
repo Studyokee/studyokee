@@ -62,7 +62,8 @@ define [
         if translation? and translation[i]?
           translationLine = translation[i]
 
-        originalText = original[i].text.replace(/(\w+)/g, '<a href="javaScript:void(0);">$1</a>')
+        regex = /([ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇŒœßØøÅåÆæÞþÐð\w]+)/g
+        originalText = original[i].text.replace(regex, '<a href="javaScript:void(0);">$1</a>')
 
         data.push(
           original: originalText
