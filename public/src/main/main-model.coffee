@@ -29,6 +29,7 @@ define [
         subtitlesPlayerModel.set(
           currentSong: song
         )
+        subtitlesPlayerModel.play()
       )
 
       subtitlesPlayerModel = new SubtitlesPlayerModel(

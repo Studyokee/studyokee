@@ -58,7 +58,6 @@ define [
             subtitles: subtitles
             i: 0
           )
-          this.play()
       
       this.get('dataProvider').getSegments(currentSong.key, this.get('toLanguage'), callback)
 

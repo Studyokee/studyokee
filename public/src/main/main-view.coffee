@@ -17,6 +17,10 @@ define [
       this.suggestionsView = new SuggestionsView(
         model: this.model.get('suggestionsModel')
       )
+      this.suggestionsView.on('select', () =>
+        this.model.get('subtitlesPlayerModel').play()
+      )
+
       this.addSongView = new AddSongView(
         model: this.model.get('addSongModel')
       )
