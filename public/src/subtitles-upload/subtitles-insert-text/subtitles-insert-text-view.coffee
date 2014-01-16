@@ -11,7 +11,6 @@ define [
     render: () ->
       subtitles = this.model.get('subtitles')
       model =
-        original: this.createTextFromSubtitles(subtitles.original)
         translation: subtitles.translation.join('\n')
       this.$el.html(Handlebars.templates['subtitles-insert-text'](model))
 
@@ -27,24 +26,6 @@ define [
       translation = this.$('.translatedText').val().trim().split('\n')
       this.trigger('save', translation)
 
-    # createSubtitlesFromText: (lyrics) ->
-    #   lines = lyrics.split('\n')
-    #   subtitles = []
-    #   for line in lines
-    #     subtitle =
-    #       text: line
-    #       ts: 0
-    #     subtitles.push(subtitle)
-    #   return subtitles
-
-    createTextFromSubtitles: (subtitles) ->
-      if not subtitles?
-        return ''
-
-      text = ''
-      for line in subtitles
-        text += line.text + '\n'
-      return text
   )
 
   return SubtitlesInsertTextView

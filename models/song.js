@@ -16,6 +16,10 @@ var songSchema = mongoose.Schema({
         language: String
     },
     rdioData: Object,
+    subtitles: [{
+        text: String,
+        ts: Number
+    }],
     translations: [{
         language: String,
         data: [String]

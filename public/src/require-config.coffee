@@ -21,6 +21,7 @@ requirejs.config(
     'subtitles.upload.view': '/lib/subtitles-upload/subtitles-upload/subtitles-upload-view'
     'subtitles.upload.model': '/lib/subtitles-upload/subtitles-upload/subtitles-upload-model'
     'subtitles.insert.text.view': '/lib/subtitles-upload/subtitles-insert-text/subtitles-insert-text-view'
+    'edit.subtitles.view': '/lib/subtitles-upload/edit-subtitles/edit-subtitles-view'
     'subtitles.sync.view': '/lib/subtitles-upload/subtitles-sync/subtitles-sync-view'
     'subtitles.controls.view': '/lib/subtitles-controls/subtitles-controls-view'
     'music.player': '/lib/music-player/rdio/rdio-player'

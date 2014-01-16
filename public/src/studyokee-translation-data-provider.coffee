@@ -118,4 +118,21 @@ define () ->
           callback()
       )
 
+    saveSubtitles: (rdioKey, subtitles, callback) ->
+      if @settings?.get('enableLogging')
+        console.log('DATA PROVIDER: save original for \'' + rdioKey + '\'')
+
+      $.ajax(
+        type: 'PUT'
+        url: @url + '/songs/' + rdioKey + '/subtitles/'
+        data:
+          subtitles: subtitles
+        success: () ->
+          console.log('success save')
+          callback()
+        error: (err) ->
+          console.log('err:' + err)
+          callback()
+      )
+
   return StudyokeeTranslationDataProvider

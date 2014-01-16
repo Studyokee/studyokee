@@ -1,16 +1,31 @@
 define [
   'backbone',
   'subtitles.insert.text.view',
+  'edit.subtitles.view',
   'subtitles.sync.view',
   'handlebars',
   'templates'
-], (Backbone, SubtitlesInsertTextView, SubtitlesSyncView, Handlebars) ->
+], (Backbone, SubtitlesInsertTextView, EditSubtitlesView, SubtitlesSyncView, Handlebars) ->
 
   SubtitlesUploadView = Backbone.View.extend(
     tagName:  "div"
     className: "upload"
 
     initialize: () ->
+      this.uploadTranslationView = new SubtitlesInsertTextView(
+        model: this.model
+      )
+      this.uploadTranslationView.on('save', (translation) =>
+        this.saveTranslation(translation)
+      )
+
+      this.editSubtitlesView = new EditSubtitlesView(
+        model: this.model
+      )
+      this.editSubtitlesView.on('save', (original) =>
+        this.saveSubtitles(original)
+      )
+
       this.listenTo(this.model, 'change', () =>
         this.render()
       )
@@ -18,32 +33,25 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['subtitles-upload'](this.model.toJSON()))
 
-      subtitlesUploadTranslationView = new SubtitlesInsertTextView(
-        model: this.model
-      )
-
-      subtitlesUploadTranslationView.on('save', (translation) =>
-        this.saveTranslation(translation)
-      )
-
-      this.$('.uploadStage').html(subtitlesUploadTranslationView.render().el)
+      this.$('.translationContainer').html(this.uploadTranslationView.render().el)
+      this.$('.subtitlesContainer').html(this.editSubtitlesView.render().el)
       
       return this
 
-    # showUploadTranslationStage: () ->
-    #   model = new Backbone.Model(
-    #     subtitles: this.model.get('subtitles').translation
-    #   )
-    #   subtitlesUploadTranslatedView = new SubtitlesInsertTextView(
-    #     model: model
-    #     title: 'Upload Translation'
-    #   )
+    saveTranslation: (translation) ->
+      this.showSpinner()
 
-    #   subtitlesUploadTranslatedView.on('save', (subtitles) =>
-    #     this.saveTranslation(subtitles)
-    #   )
+      this.model.saveTranslation(translation, () =>
+        this.hideSpinner()
+      )
 
-    #   this.$('.uploadStage').html(subtitlesUploadTranslatedView.render().el)
+    saveSubtitles: (original) ->
+      this.showSpinner()
+
+      this.model.saveSubtitles(original, () =>
+        this.hideSpinner()
+      )
+
 
     # showSyncStage: () ->
     #   subtitlesSyncView = new SubtitlesSyncView(
@@ -55,28 +63,7 @@ define [
     #   )
 
     #   this.$('.uploadStage').html(subtitlesSyncView.render().el)
-
-    # saveOriginal: (originalSubtitles) ->
-    #   this.showSpinner()
-
-    #   this.model.saveOriginal(originalSubtitles, () =>
-    #     this.showUploadTranslationStage()
-    #   )
     
-    saveTranslation: (translation) ->
-      this.showSpinner()
-
-      this.model.saveTranslation(translation, () =>
-        this.hideSpinner()
-        subtitles = this.model.get('subtitles')
-        updatedSubtitles =
-          original: subtitles.original
-          translation: translation
-        this.model.set(
-          subtitles: updatedSubtitles
-        )
-      )
-
     # saveSync: (subtitles) ->
     #   this.showSpinner()
 
