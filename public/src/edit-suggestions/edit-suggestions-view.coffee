@@ -23,10 +23,7 @@ define [
         if not song?
           return
 
-        document.location = '../../upload/' + song.key + '/' + this.model.get('toLanguage')
-        # remove = confirm('Remove ' + song.name + '?')
-        # if remove
-        #   this.model.removeSong(song)
+        document.location = '../../songs/' + song.key + '/' + this.model.get('toLanguage')
       )
 
     render: () ->

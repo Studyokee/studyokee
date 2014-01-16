@@ -24,7 +24,7 @@ app.get('/',
     }
 );
 
-app.get('/upload/:rdioKey/:toLanguage',
+app.get('/songs/:rdioKey/:toLanguage',
     function(req, res) {
         var data = {
             user: req.user,
@@ -35,7 +35,7 @@ app.get('/upload/:rdioKey/:toLanguage',
     }
 );
 
-app.get('/editsuggestions/:fromLanguage/:toLanguage',
+app.get('/suggestions/:fromLanguage/:toLanguage',
     ensureAuthenticated,
     function(req, res) {
         var data = {

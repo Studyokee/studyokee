@@ -22,13 +22,6 @@ app.get('/:rdioKey/subtitles', function (req, res) {
         return Song.getSubtitles(song.rdioData.artist, song.rdioData.name);
     }).then(function (subtitles) {
         res.json(200, subtitles);
-
-        var updates = {
-            subtitles: subtitles
-        };
-        song.update(updates, function () {
-            console.log('saved subtitles');
-        });
     }).fail(function (err) {
         console.log(err);
         res.json(500, {
