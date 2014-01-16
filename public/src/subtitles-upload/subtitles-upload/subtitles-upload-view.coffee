@@ -26,6 +26,13 @@ define [
         this.saveSubtitles(original)
       )
 
+      this.syncSubtitlesView = new SubtitlesSyncView(
+        model: this.model
+      )
+      this.syncSubtitlesView.on('save', (original) =>
+        this.saveSubtitles(original)
+      )
+
       this.listenTo(this.model, 'change', () =>
         this.render()
       )
@@ -35,6 +42,16 @@ define [
 
       this.$('.translationContainer').html(this.uploadTranslationView.render().el)
       this.$('.subtitlesContainer').html(this.editSubtitlesView.render().el)
+      this.$('.syncContainer').html(this.syncSubtitlesView.render().el)
+
+      this.$('.openEdit').on('click', () =>
+        this.$('.syncContainer').hide()
+        this.$('.editContainer').show()
+      )
+      this.$('.openSync').on('click', () =>
+        this.$('.editContainer').hide()
+        this.$('.syncContainer').show()
+      )
       
       return this
 

@@ -34,6 +34,7 @@ define [
         formattedData = this.getFormattedData(subtitles.original, subtitles.translation)
         model =
           data: formattedData
+          showTimestamps: this.model.get('showTimestamps')
         this.$el.html(Handlebars.templates['subtitles-scroller'](model))
 
         view = this

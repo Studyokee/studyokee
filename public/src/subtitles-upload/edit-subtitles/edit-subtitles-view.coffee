@@ -32,9 +32,9 @@ define [
       lines = text.split('\n')
       subtitles = []
       for line in lines
-        regexTs = /\[([0-9]+)\]/
+        regexTs = /\[(.*)\]/
         ts = line.match(regexTs)[1]
-        regexText = /\[[0-9]+\](.*)/
+        regexText = /\[.*\](.*)/
         text = line.match(regexText)[1]
         subtitle =
           text: text
