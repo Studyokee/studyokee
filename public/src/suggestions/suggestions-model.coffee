@@ -6,19 +6,11 @@ define [
       enableLogging: false
 
     initialize: () ->
-      this.listenTo(this, 'change:toLanguage', () =>
-        this.updateSuggestions()
-      )
-
-      this.listenTo(this, 'change:fromLanguage', () =>
-        this.updateSuggestions()
-      )
-
       this.updateSuggestions()
 
     updateSuggestions: () ->
-      fromLanguage = this.get('fromLanguage')
-      toLanguage = this.get('toLanguage')
+      fromLanguage = this.get('settings').get('fromLanguage')
+      toLanguage = this.get('settings').get('toLanguage')
       if this.get('enableLogging')
         console.log('SUGGESTIONS: retrieve suggestions fromLanguage: ' + fromLanguage + ', toLanguage: ' + toLanguage)
       

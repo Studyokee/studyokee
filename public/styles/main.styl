@@ -9,8 +9,30 @@ $textTranslation = #A63A37
 $linkColor = #008fd5
 $borderNormal = 1px solid #e1e6e9
 
+html, body {
+    margin: 0;
+    background-color: $bgHighlight;
+    color: $textNormal;
+    font-family: Lucida Grande,Lucida Sans Unicode,Arial,sans-serif;
+}
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+.close {
+    position: absolute;
+    top: 0;
+    right: 6px;
+    color: $textSubdued;
+    font-size: 18px;
+    padding: 12px;
+}
+.close:hover {
+    cursor: pointer;
+}
 
-@import '../src/main/main';
+@import '../src/rdio-main/rdio-main';
+@import '../src/header/header';
 @import '../src/language-settings/language-settings';
 @import '../src/subtitles-scroller/subtitles-scroller';
 @import '../src/subtitles-player/subtitles-player';
