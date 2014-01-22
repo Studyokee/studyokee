@@ -1,0 +1,84 @@
+.languageSettings{margin:8px;}
+.languageSettings .option{display:inline-block}
+.subtitlesScroller{position:relative;display:inline-block;text-align:center;overflow:hidden;margin-top:8px;background-color:#fff;}
+.subtitlesScroller .noSubtitles{padding:0 16px}
+.subtitlesScroller .subtitles li{font-size:18px;line-height:32px;overflow:hidden;white-space:nowrap;padding:4px;margin:4px 0 8px 0;color:#94999c}
+.subtitlesScroller .subtitles li a{color:#94999c}
+.subtitlesScroller .subtitles li.selected{color:#32393d;background-color:#f0f2f4;box-shadow:#94999c 1px 1px 3px;border:1px solid #e1e6e9}
+.subtitlesScroller .subtitles li.selected a{color:#32393d}
+.subtitlesScroller .subtitles li.selected .translated-subtitle{color:#005d8a}
+.subtitlesScroller .subtitles li .translated-subtitle{color:#2879a0;color:#58a1c4}
+.subtitlesScroller .subtitles a{text-decoration:none}
+.subtitlesScroller .subtitles a:hover{cursor:pointer;text-decoration:underline;color:#32393d}
+.subtitlesScroller .timestamp{color:#f00;margin-left:12px}
+.player{height:100%;background-color:#fff;}
+.player .subtitlesContainer{position:relative;overflow:hidden;}
+.player .subtitlesContainer .spinner{margin-top:128px}
+.player .controlsContainer{border-top:1px solid #e1e6e9;text-align:center;padding:16px;height:40px}
+.player .instructions{font-size:14px;padding:12px;color:#94999c}
+.player .currentSongContainer{padding:8px;overflow:hidden;white-space:nowrap;}
+.player .currentSongContainer h3{color:#94999c;display:inline-block;font-size:14px;line-height:40px;vertical-align:top;margin:0;font-weight:normal}
+.player .currentSongContainer .song{padding:4px;display:inline-block;vertical-align:top;}
+.player .currentSongContainer .song .content{margin-left:40px;width:100%}
+.player .currentSongContainer .song .icon{float:left;margin-right:8px;display:block;height:32px;width:32px}
+.player .currentSongContainer .song .trackName{font-size:14px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.player .currentSongContainer .song .artist{color:#94999c;font-size:12px;font-style:italic;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.controls .control{height:32px;width:24%;display:inline-block;border-radius:3px;box-shadow:0 0 1px #000;background-color:#a63a37;border:1px solid #000;margin:0 8px;text-decoration:none;cursor:pointer}
+.controls .control:active,.controls .control.active{background-color:#56211b}
+.controls .control:active .icon,.controls .control.active .icon{margin-top:1px}
+.controls .control .icon{height:32px;width:32px;background-image:url("../img/player_sprite.png");margin:0 auto}
+.controls .prev .icon{background-position:0 0}
+.controls .play .icon{background-position:-64px 0}
+.controls .pause .icon{background-position:-32px 0}
+.controls .next .icon{background-position:-96px 0}
+.suggestions{margin:0 4px;}
+.suggestions h3{color:#94999c;font-size:14px;font-weight:normal;line-height:40px;vertical-align:top;margin:0 8px}
+.suggestions .songListContainer{position:relative;min-height:64px;}
+.suggestions .songListContainer .spinner{margin-top:32px}
+.addSong{margin:8px;position:absolute;}
+.addSong input{margin:0;width:224px;box-sizing:border-box;border:none;padding:4px 8px;line-height:24px;font-size:14px;background-color:#f0f2f4;border:1px solid #e1e6e9}
+.addSong .acContainer{position:relative;z-index:3;width:300px;top:4px;border:1px solid #e1e6e9;background-color:#fff;box-shadow:2px 2px 5px #f0f2f4}
+.upload{margin:8px;}
+.upload .editContainer{margin:8px}
+.upload .subtitlesContainer{width:360px;float:left}
+.upload .translationContainer{width:360px;margin-left:400px}
+.syncScroller{margin:8px 16px;padding:12px;background-color:#ccc}
+.insert-text .translatedText{width:100%;display:block;margin:8px;font-size:14px;line-height:24px;padding:8px;min-height:1000px}
+.edit-subtitles .editText{width:100%;display:block;margin:8px;font-size:14px;line-height:24px;padding:8px;min-height:1000px}
+.spinnerContainer{height:100%;width:100%;background-color:#fff}
+.spinner{height:30px;width:30px;background-image:url("../img/loading.png");-webkit-animation:spin .6s infinite steps(11);margin-left:auto;margin-right:auto;margin-top:16px;margin-bottom:16px}
+@-webkit-keyframes spin{0%{background-position:0 0}
+100%{background-position:-330px 0}
+}.songList{background-color:#fff;}
+.songList .noSongs{margin:8px}
+.songList ul{margin:0}
+.songList a{display:list-item;cursor:pointer}
+.songList a:hover,.songList a:active{background-color:#f0f2f4;color:#008fd5}
+.songList .song{padding:4px 8px;}
+.songList .song .icon{float:left;margin-right:8px;display:block;height:32px;width:32px}
+.songList .song .content{margin-left:40px;width:100%}
+.songList .song .trackName{font-size:14px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.songList .song .artist{color:#94999c;font-size:12px;font-style:italic;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.dictionary{padding:8px;font-size:14px;}
+.dictionary h3{font-weight:normal;color:#94999c;display:inline-block;line-height:40px;vertical-align:top;margin:0}
+.dictionary p{margin-top:0}
+.dictionary .directions{color:#94999c;font-size:12px}
+html,body{margin:0;color:#32393d;font-family:Lucida Grande,Lucida Sans Unicode,Arial,sans-serif;position:absolute;top:0;right:0;left:0;bottom:0}
+ul{list-style:none;padding-left:0}
+.hidden{display:none}
+.close{position:absolute;top:0;right:6px;color:#94999c;font-size:18px;padding:12px}
+.close:hover{cursor:pointer}
+.mobileMainPage{background-color:#fff;}
+.mobileMainPage .header{border-bottom:1px solid #e1e6e9;box-shadow:0 0 5px 0 #f0f2f4;height:50px;background-color:#202020;color:#94999c;}
+.mobileMainPage .header .title{text-align:center;margin-left:40px}
+.mobileMainPage .header .titleText{font-size:24px;line-height:50px;color:#c8cbce}
+.mobileMainPage .header .subtitle{font-size:11px;line-height:50px}
+.mobileMainPage .header .leftHeader{position:absolute;margin-left:16px;}
+.mobileMainPage .header .leftHeader .icon{height:34px;width:34px;margin:8px 0;text-decoration:none;cursor:pointer;background-size:34px 34px;background-image:url("../img/menu.png")}
+.mobileMainPage .header .settingsContainer{display:inline-block;line-height:50px;font-size:14px}
+.mobileMainPage .main .overlay{height:100%;width:100%;z-index:2;position:absolute;background-color:#fff;display:none}
+.mobileMainPage .main .menu{position:absolute;width:240px;height:100%;z-index:3;background-color:#fff;display:none;border:1px solid #e1e6e9;}
+.mobileMainPage .main .menu .searchContainer{height:50px;border-bottom:1px solid #e1e6e9}
+.mobileMainPage .main .centerRight{height:100%;}
+.mobileMainPage .main .centerRight .playerContainer{height:100%;}
+.mobileMainPage .main .centerRight .playerContainer .controlsContainer{background-color:#fff;text-align:center;padding:16px 0;height:40px;width:100%;position:absolute;bottom:0}

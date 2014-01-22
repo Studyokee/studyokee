@@ -4,36 +4,43 @@ define [
   'subtitles.player.model',
   'suggestions.model',
   'add.song.model',
+  'dictionary.model',
   'backbone'
-], (LanguageSettingsModel, MusicPlayer, SubtitlesPlayerModel, SuggestionsModel, AddSongModel, Backbone) ->
+], (LanguageSettingsModel, MusicPlayer, SubtitlesPlayerModel, SuggestionsModel, AddSongModel, DictionaryModel, Backbone) ->
   MainModel = Backbone.Model.extend(
 
     initialize: () ->
       settings = this.get('settings')
-      dataProvider = this.get('dataProvider')
       toLanguage = settings.get('defaultToLanguage')
       fromLanguage = settings.get('defaultFromLanguage')
 
-      languageSettingsModel = new LanguageSettingsModel(
+      this.dataProvider = this.get('dataProvider')
+
+      this.dictionaryModel = new DictionaryModel(
+        fromLanguage: fromLanguage
+        toLanguage: toLanguage
+      )
+
+      this.languageSettingsModel = new LanguageSettingsModel(
         toLanguage: toLanguage
         fromLanguage: fromLanguage
         enableLogging: settings.get('enableLogging')
       )
 
-      addSongModel = new AddSongModel()
+      this.addSongModel = new AddSongModel()
 
-      addSongModel.on('select', (song) =>
+      this.addSongModel.on('select', (song) =>
         if settings.get('enableLogging')
           console.log('STUDYOKEE APP: select new song from add song: ' + song)
         
-        subtitlesPlayerModel.set(
+        this.subtitlesPlayerModel.set(
           currentSong: song
         )
-        subtitlesPlayerModel.play()
+        this.subtitlesPlayerModel.play()
       )
 
-      subtitlesPlayerModel = new SubtitlesPlayerModel(
-        dataProvider: dataProvider
+      this.subtitlesPlayerModel = new SubtitlesPlayerModel(
+        dataProvider: this.dataProvider
         musicPlayer: new MusicPlayer(
           settings: settings
         )
@@ -42,55 +49,46 @@ define [
         settings: settings
       )
 
-      suggestionsModel = new SuggestionsModel(
-        dataProvider: dataProvider
+      this.suggestionsModel = new SuggestionsModel(
+        dataProvider: this.dataProvider
         toLanguage: toLanguage
         fromLanguage: fromLanguage
         enableLogging: settings.get('enableLogging')
       )
 
-      this.listenTo(suggestionsModel, 'change:selectedSong', () =>
-        selectedSong = suggestionsModel.get('selectedSong')
+      this.listenTo(this.suggestionsModel, 'change:selectedSong', () =>
+        selectedSong = this.suggestionsModel.get('selectedSong')
         if settings.get('enableLogging')
           console.log('STUDYOKEE APP: change selectedSong: ' + selectedSong)
         
-        subtitlesPlayerModel.set(
+        this.subtitlesPlayerModel.set(
           currentSong: selectedSong
         )
       )
 
-      this.listenTo(languageSettingsModel, 'change:toLanguage', () =>
-        toLanguage = languageSettingsModel.get('toLanguage')
+      this.listenTo(this.languageSettingsModel, 'change:toLanguage', () =>
+        toLanguage = this.languageSettingsModel.get('toLanguage')
         if settings.get('enableLogging')
           console.log('STUDYOKEE APP: change toLanguage: ' + toLanguage)
         
-        subtitlesPlayerModel.set(
+        this.subtitlesPlayerModel.set(
           toLanguage: toLanguage
         )
-        suggestionsModel.set(
+        this.suggestionsModel.set(
           toLanguage: toLanguage
         )
       )
-      this.listenTo(languageSettingsModel, 'change:fromLanguage', () =>
-        fromLanguage = languageSettingsModel.get('fromLanguage')
+      this.listenTo(this.languageSettingsModel, 'change:fromLanguage', () =>
+        fromLanguage = this.languageSettingsModel.get('fromLanguage')
         if settings.get('enableLogging')
           console.log('STUDYOKEE APP: change fromLanguage: ' + fromLanguage)
         
-        subtitlesPlayerModel.set(
+        this.subtitlesPlayerModel.set(
           fromLanguage: fromLanguage
         )
-        suggestionsModel.set(
+        this.suggestionsModel.set(
           fromLanguage: fromLanguage
         )
-      )
-
-      this.set(
-        languageSettingsModel: languageSettingsModel
-        addSongModel: addSongModel
-        subtitlesPlayerModel: subtitlesPlayerModel
-        suggestionsModel: suggestionsModel
-        dataProvider: dataProvider
-        enableEdit: settings.get('enableEdit')
       )
 
   )

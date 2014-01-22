@@ -9,6 +9,7 @@ requirejs.config(
     handlebars: '/bower_components/handlebars/handlebars'
     'main.model': '/lib/main/main-model'
     'main.view': '/lib/main/main-view'
+    'mobile.main.view': '/lib/main/mobile-main-view'
     'settings': '/lib/settings'
     'add.song.view': '/lib/add-song/add-song-view'
     'add.song.model': '/lib/add-song/add-song-model'
@@ -37,6 +38,7 @@ requirejs.config(
     'dictionary.model': 'lib/dictionary/dictionary-model'
     'edit.suggestions.model': 'lib/edit-suggestions/edit-suggestions-model'
     'edit.suggestions.view': 'lib/edit-suggestions/edit-suggestions-view'
+    templates: '/lib/templates'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]

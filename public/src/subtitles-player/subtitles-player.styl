@@ -1,30 +1,17 @@
 .player {
-    position: relative;
+    height: 100%;
     background-color: $bgMain;
 
-    .dictionaryContainer {
-        float: right;
-        width: 240px;
-        height: 554px;
-        overflow: auto;
-    }
-
-    .playerBodyContainer {
-        margin-right: 240px;
-        border-right: $borderNormal;
-    }
-
     .subtitlesContainer {
-        border-bottom: $borderNormal;
         position: relative;
         overflow: hidden;
-        height: 424px;
 
         .spinner {
             margin-top: 128px;
         }
     }
     .controlsContainer {
+        border-top: $borderNormal;
         text-align: center;
         padding: 16px;
         height: 40px;
@@ -53,8 +40,11 @@
             padding: 4px;
             display: inline-block;
             vertical-align: top;
-            width: 300px;
 
+            .content {
+                margin-left: 40px;
+                width: 100%;
+            }
             .icon {
                 float: left;
                 margin-right: 8px;

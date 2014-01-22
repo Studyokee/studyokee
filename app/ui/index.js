@@ -24,6 +24,13 @@ app.get('/',
     }
 );
 
+app.get('/m',
+    ensureAuthenticated,
+    function(req, res) {
+        res.render('mobile');
+    }
+);
+
 app.get('/songs/:rdioKey/:toLanguage',
     function(req, res) {
         var data = {

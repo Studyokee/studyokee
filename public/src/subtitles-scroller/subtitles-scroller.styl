@@ -1,17 +1,12 @@
 .subtitlesScroller {
     position: relative;
-    width: 100%;
     display: inline-block;
     text-align: center;
     overflow: hidden;
-    height: 390px;
     margin-top: 8px;
     background-color: $bgMain;
 
     .noSubtitles {
-        padding: 0 16px;
-    }
-    .subtitles {
         padding: 0 16px;
     }
     .subtitles li {
@@ -19,8 +14,8 @@
         line-height: 32px;
         overflow: hidden;
         white-space: nowrap;
-        padding: 8px;
-        margin: 8px 0 16px 0;
+        padding: $paddingNormal;
+        margin: $paddingNormal 0 $paddingLarge 0;
         color: $textSubdued;
     }
     .subtitles li a {

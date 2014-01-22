@@ -186,7 +186,8 @@ module.exports = function (grunt) {
                     compress: true
                 },
                 files: {
-                    'public/styles/main.css': 'public/styles/main.styl'
+                    'public/styles/main.css': 'public/styles/main.styl',
+                    'public/styles/mobile-main.css': 'public/styles/mobile-main.styl'
                 }
             },
             dev: {

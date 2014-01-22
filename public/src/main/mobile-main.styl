@@ -1,8 +1,12 @@
 html, body {
     margin: 0;
-    background-color: $bgHighlight;
     color: $textNormal;
     font-family: Lucida Grande,Lucida Sans Unicode,Arial,sans-serif;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
 }
 ul {
     list-style: none;
@@ -22,9 +26,7 @@ ul {
 .close:hover {
     cursor: pointer;
 }
-
-.mainPage {
-    min-width: 960px;
+.mobileMainPage {
     background-color: $bgMain;
 
     .header {
@@ -36,19 +38,30 @@ ul {
 
         .title {
             text-align: center;
+            margin-left: 40px;
         }
         .titleText {
-            font-size: 28px;
+            font-size: 24px;
             line-height: 50px;
             color: #C8CBCE;
         }
         .subtitle {
-            font-size: 12px;
+            font-size: 11px;
             line-height: 50px;
         }
         .leftHeader {
             position: absolute;
             margin-left: 16px;
+
+            .icon {
+                height: 34px;
+                width: 34px;
+                margin: 8px 0;
+                text-decoration: none;
+                cursor: pointer;
+                background-size: 34px 34px;
+                background-image: url($img + '/menu.png');
+            }
         }
         .settingsContainer {
             display: inline-block;
@@ -58,13 +71,23 @@ ul {
     }
 
     .main {
-        position: relative;
-        border-bottom: $borderNormal;
-        height: 554px;
+        .overlay {
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+            position: absolute;
+            background-color: $bgMain;
+            display: none;
+        }
 
         .menu {
-            float: left;
+            position: absolute;
             width: 240px;
+            height: 100%;
+            z-index: 3;
+            background-color: $bgMain;
+            display: none;
+            border: $borderNormal;
 
             .searchContainer {
                 height: 50px;
@@ -73,42 +96,21 @@ ul {
         }
 
         .centerRight {
-            margin-left: 240px;
+            height: 100%;
 
             .playerContainer {
-                border-left: $borderNormal;
-                border-right: $borderNormal;
+                height: 100%;
 
-                .player {
-                    margin-right: 240px;
-                    border-right: $borderNormal;
+                .controlsContainer {
+                    background-color: $bgMain;
+                    text-align: center;
+                    padding: 16px 0;
+                    height: 40px;
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
                 }
             }
-
-            .rdioLink {
-                position: absolute;
-                top: -1px;
-                right: 0;
-            }
-
-            .dictionaryContainer {
-                float: right;
-                width: 240px;
-                height: 554px;
-                overflow: auto;
-            }
         }
-    }
-
-    .disclaimersContainer {
-        padding: 16px;
-        padding-top: 32px;
-        background-color: $bgHighlight;
-    }
-    .disclaimers {
-        color: $textSubdued;
-        padding-bottom: 16px;
-        font-size: 12px;
-        clear: both;
     }
 }
