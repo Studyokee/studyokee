@@ -1,6 +1,8 @@
 define [
-  'backbone'
-], (Backbone) ->
+  'backbone',
+  'handlebars',
+  'templates'
+], (Backbone, Handlebars) ->
   AutocompleteView = Backbone.View.extend(
     tagName:  "div"
     className: "songList"

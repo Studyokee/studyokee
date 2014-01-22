@@ -2,8 +2,8 @@
 
 define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function (SubtitlesPlayerModel, SubtitlesPlayerView, Backbone) {
 
-    describe('SubtitlesPlayer', function() {
-        beforeEach(function() {
+    var helpers = {
+        createTestModel: function () {
             var original = [];
             var translation = [];
             for (var i = 0; i < 10; i++) {
@@ -11,7 +11,7 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                 translation.push('examen');
             }
 
-            this.dataProvider = {
+            var dataProvider = {
                 getSegments: function (id, toLanguage, callback) {
                     callback({
                         original: original,
@@ -26,22 +26,39 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                 seek: function () {},
                 setSong: function () {}
             });
-            this.musicPlayer = new MusicPlayer();
+            var musicPlayer = new MusicPlayer();
 
-            this.model = new SubtitlesPlayerModel({
-                dataProvider: this.dataProvider,
-                musicPlayer: this.musicPlayer,
+            var model = new SubtitlesPlayerModel({
+                dataProvider: dataProvider,
+                musicPlayer: musicPlayer,
                 toLanguage: 'en',
                 fromLanguage: 'fr'
             });
-            this.model.set({
+            model.set({
                 currentSong: {
-                    name: 'original song'
+                    name: 'Test Song Name',
+                    artist: 'Test Artist',
+                    icon: 'http://rdio-a.cdn3.rdio.com/album/1/6/e/000000000002ce61/2/square-200.jpg'
                 }
             });
-        });
+            return model;
+        },
+        createTestView: function () {
+            var view = new SubtitlesPlayerView({
+                model: this.createTestModel()
+            });
+            return view;
+        }
+    };
 
+    describe('SubtitlesPlayer', function() {
         describe('Model', function() {
+            beforeEach(function() {
+                this.model = helpers.createTestModel();
+                this.dataProvider = this.model.get('dataProvider');
+                this.musicPlayer = this.model.get('musicPlayer');
+            });
+
             describe('On change of MusicPlayer syncTo', function() {
                 it('if playing is true, start with correct ts', function() {
                     this.model.set({
@@ -105,23 +122,12 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                     this.model.getSubtitles({});
                     expect(this.model.get('isLoading')).toBe(true);
                 });
-                it('getSubtitles sets playing to false', function() {
-                    this.model.getSubtitles({});
-                    expect(this.model.get('playing')).toBe(false);
-                });
                 it('successful dataProvider get results in isLoading to false', function() {
                     this.model.set({
                         isLoading: true
                     });
                     this.model.getSubtitles({});
                     expect(this.model.get('isLoading')).toBe(false);
-                });
-                it('successful dataProvider get results in playing to false', function() {
-                    this.model.set({
-                        playing: true
-                    });
-                    this.model.getSubtitles({});
-                    expect(this.model.get('playing')).toBe(false);
                 });
                 it('successful dataProvider get results in i as 0', function() {
                     this.model.set({
@@ -387,10 +393,10 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
 
         describe('View', function() {
             beforeEach(function() {
-                this.view = new SubtitlesPlayerView({
-                    model: this.model
-                });
+                this.view = helpers.createTestView();
                 this.el = this.view.render().el;
+                this.model = this.view.model;
+                $('.example').html(this.el);
             });
 
             describe('On isLoading change', function() {
@@ -425,6 +431,12 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                     var songContainer = $(this.el).find('.song');
                     expect(songContainer.css('visibility')).toBe('hidden');
                 });
+            });
+        });
+
+        describe('Visual Check', function() {
+            it('Show example', function() {
+                $('.example').html(helpers.createTestView().render().el);
             });
         });
     });

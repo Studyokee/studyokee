@@ -194,7 +194,7 @@ module.exports = function (grunt) {
                     compress: false
                 },
                 files: {
-                    'public/styles/main.css': 'public/styles/main.styl'
+                    'public/styles/main.css': 'public/styles/main.styl',
                 }
             }
         }
