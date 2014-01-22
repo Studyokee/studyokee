@@ -3,8 +3,7 @@ define [
   'subtitles.scroller.view',
   'subtitles.controls.view',
   'dictionary.view',
-  'handlebars',
-  'templates'
+  'handlebars'
 ], (Backbone, SubtitlesScrollerView, SubtitlesControlsView, DictionaryView, Handlebars) ->
 
   SubtitlesPlayerView = Backbone.View.extend(
@@ -48,6 +47,7 @@ define [
       this.$('.controlsContainer').append(this.subtitlesControlsView.render().el)
       this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
       this.$('.subtitlesContainer').html(this.subtitlesScrollerView.render().el)
+      this.renderCurrentSong()
 
       return this
 

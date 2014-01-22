@@ -11,60 +11,64 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
                     expect($(el).hasClass('selected')).toBe(false);
                 }
             });
+        },
+        createTestView: function () {
+            var original = [];
+            var translation = [];
+            for (var i = 0; i < 10; i++) {
+                original.push({ text: 'test', ts: 0 });
+                translation.push('examen');
+            }
+            var model = new Backbone.Model({
+                i: 0,
+                subtitles: {
+                    original: original,
+                    translation: translation
+                }
+            });
+            var view = new SubtitlesScrollerView({
+                model: model
+            });
+            return view;
         }
     };
 
     describe('SubtitlesScroller', function() {
         describe('View', function() {
             beforeEach(function() {
-                var original = [];
-                var translation = [];
-                for (var i = 0; i < 10; i++) {
-                    original.push({ text: 'test', ts: 0 });
-                    translation.push('examen');
-                }
-                this.model = new Backbone.Model({
-                    i: 0,
-                    subtitles: {
-                        original: original,
-                        translation: translation
-                    }
-                });
-                this.view = new SubtitlesScrollerView({
-                    model: this.model
-                });
+                this.view = helpers.createTestView();
                 this.el = this.view.render().el;
             });
 
             describe('On update of i', function() {
                 it('shifts the top margin correctly', function() {
-                    this.model.set({
+                    this.view.model.set({
                         i: 0
                     });
                     var topMargin = $(this.el).find('.subtitles').css('margin-top');
                     expect(topMargin).toBe('0px');
 
-                    this.model.set({
+                    this.view.model.set({
                         i: 1
                     });
                     topMargin = $(this.el).find('.subtitles').css('margin-top');
                     expect(topMargin).toBe('0px');
 
                     var pageHeight = this.view.lineHeight * this.view.pageSize;
-                    this.model.set({
+                    this.view.model.set({
                         i: 5
                     });
                     topMargin = $(this.el).find('.subtitles').css('margin-top');
                     expect(topMargin).toBe(-pageHeight + 'px');
 
-                    this.model.set({
+                    this.view.model.set({
                         i: 9
                     });
                     topMargin = $(this.el).find('.subtitles').css('margin-top');
                     expect(topMargin).toBe((-pageHeight * 2) + 'px');
                 });
                 it('does not go past the last page', function() {
-                    this.model.set({
+                    this.view.model.set({
                         i: 20
                     });
                     var topMargin = $(this.el).find('.subtitles').css('margin-top');
@@ -72,7 +76,7 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
                     expect(topMargin).toBe((-pageHeight * 2) + 'px');
                 });
                 it('does not go before the first page', function() {
-                    this.model.set({
+                    this.view.model.set({
                         i: -1
                     });
                     var topMargin = $(this.el).find('.subtitles').css('margin-top');
@@ -81,29 +85,29 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
 
                 it('selects the correct line', function () {
 
-                    this.model.set({
+                    this.view.model.set({
                         i: 0
                     });
                     helpers.checkOnlyIndexSelected(this.el, 0);
 
-                    this.model.set({
+                    this.view.model.set({
                         i: 1
                     });
                     helpers.checkOnlyIndexSelected(this.el, 1);
 
-                    this.model.set({
+                    this.view.model.set({
                         i: 9
                     });
                     helpers.checkOnlyIndexSelected(this.el, 9);
                 });
                 it('doesn\'t select before 0', function () {
-                    this.model.set({
+                    this.view.model.set({
                         i: -1
                     });
                     helpers.checkOnlyIndexSelected(this.el, 0);
                 });
                 it('doesn\'t select after last', function () {
-                    this.model.set({
+                    this.view.model.set({
                         i: 10
                     });
                     helpers.checkOnlyIndexSelected(this.el, 9);
@@ -146,7 +150,7 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
                 it('if no subtitles, render no subtitles message', function() {
                     expect($(this.el).find('.noSubtitles').length).toBe(0);
 
-                    this.model.set({
+                    this.view.model.set({
                         subtitles: {
                             original: [],
                             translation: []
@@ -154,6 +158,12 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
                     });
                     expect($(this.el).find('.noSubtitles').length).toBe(1);
                 });
+            });
+        });
+
+        describe('Visual Check', function() {
+            it('Show example', function() {
+                $('.example').html(helpers.createTestView().render().el);
             });
         });
     });

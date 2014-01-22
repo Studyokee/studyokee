@@ -37,7 +37,6 @@ requirejs.config(
     'dictionary.model': 'lib/dictionary/dictionary-model'
     'edit.suggestions.model': 'lib/edit-suggestions/edit-suggestions-model'
     'edit.suggestions.view': 'lib/edit-suggestions/edit-suggestions-view'
-    templates: '/lib/templates'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]

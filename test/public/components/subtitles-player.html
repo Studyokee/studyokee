@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head lang="en">
+  <meta charset="utf-8"/>
+  <title>Test Runner: subtitles-player</title>
+  <link rel="stylesheet" type="text/css" href="../../../node_modules/grunt-contrib-jasmine/vendor/jasmine-1.3.1/jasmine.css">
+  <link rel="stylesheet" type="text/css" href="../../../public/styles/main.css">
+  <link rel="stylesheet" type="text/css" href="../test.css">
+  <script src="../../../node_modules/grunt-contrib-jasmine/vendor/jasmine-1.3.1/jasmine.js"></script>
+  <script src="../../../node_modules/grunt-contrib-jasmine/vendor/jasmine-1.3.1/jasmine-html.js"></script>
+  <script src="../../../public/bower_components/requirejs/require.js"></script>
+  <script src="./../require-config.js"></script>
+</head>
+<body>
+
+<div class="example"></div>
+
+<script>
+  require(
+  [
+    './../specs/subtitles-player'
+  ],
+  function() {
+    jasmine.getEnv().addReporter(new jasmine.HtmlReporter());
+    jasmine.getEnv().execute();
+  });
+</script>
+
+</body>
+</html>
