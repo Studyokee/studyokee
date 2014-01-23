@@ -5,12 +5,14 @@ requirejs.config(
     backbone: '/bower_components/backbone/backbone'
     jquery: '/bower_components/jquery/jquery'
     jrdio: '/bower_components/jquery.rdio/jquery.rdio'
+    swfobject: '/bower_components/swfobject/swfobject/src/swfobject'
     underscore: '/bower_components/underscore/underscore'
     handlebars: '/bower_components/handlebars/handlebars'
+    templates: 'lib/templates'
+    'home.model': 'lib/home/home-model'
     'home.view': 'lib/home/home-view'
     'header.view': 'lib/header/header-view'
-    'rdio.main.model': '/lib/rdio-main/rdio-main-model'
-    'rdio.main.view': '/lib/rdio-main/rdio-main-view'
+    'media.item.view': 'lib/media-item/media-item-view'
     'settings': '/lib/settings'
     'add.song.view': '/lib/add-song/add-song-view'
     'add.song.model': '/lib/add-song/add-song-model'
@@ -26,11 +28,6 @@ requirejs.config(
     'edit.subtitles.view': '/lib/subtitles-upload/edit-subtitles/edit-subtitles-view'
     'subtitles.sync.view': '/lib/subtitles-upload/subtitles-sync/subtitles-sync-view'
     'subtitles.controls.view': '/lib/subtitles-controls/subtitles-controls-view'
-    'rdio.music.player': '/lib/rdio-main/music-player/rdio-player'
-    'rdio.music.search': '/lib/rdio-main/music-player/rdio-search'
-    'test.translation.data.provider': '/lib/test-translation-data-provider'
-    'tune.wiki.translation.data.provider':
-      '/lib/tune-wiki-translation-data-provider'
     'studyokee.translation.data.provider':
       '/lib/studyokee-translation-data-provider'
     'suggestions.model': '/lib/suggestions/suggestions-model'
@@ -39,7 +36,15 @@ requirejs.config(
     'dictionary.model': 'lib/dictionary/dictionary-model'
     'edit.suggestions.model': 'lib/edit-suggestions/edit-suggestions-model'
     'edit.suggestions.view': 'lib/edit-suggestions/edit-suggestions-view'
-    templates: 'lib/templates'
+    'rdio.main.model': '/lib/rdio/rdio-main/rdio-main-model'
+    'rdio.main.view': '/lib/rdio/rdio-main/rdio-main-view'
+    'rdio.player.model': '/lib/rdio/rdio-player/rdio-player-model'
+    'rdio.player.view': '/lib/rdio/rdio-player/rdio-player-view'
+    'rdio.music.search': '/lib/rdio/rdio-player/rdio-search'
+    'youtube.main.model': '/lib/youtube/youtube-main/youtube-main-model'
+    'youtube.main.view': '/lib/youtube/youtube-main/youtube-main-view'
+    'youtube.player.model': '/lib/youtube/youtube-player/youtube-player-model'
+    'youtube.player.view': '/lib/youtube/youtube-player/youtube-player-view'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]
@@ -51,4 +56,6 @@ requirejs.config(
       exports: '$'
     handlebars:
       exports: 'Handlebars'
+    swfobject:
+      exports: 'swfobject'
 )

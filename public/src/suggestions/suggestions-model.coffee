@@ -1,11 +1,15 @@
 define [
+  'studyokee.translation.data.provider',
   'backbone'
-], (Backbone) ->
+], (DataProvider, Backbone) ->
   SuggestionsModel = Backbone.Model.extend(
     defaults:
       enableLogging: false
 
     initialize: () ->
+      this.set(
+        dataProvider: new DataProvider(this.get('settings'))
+      )
       this.updateSuggestions()
 
     updateSuggestions: () ->
