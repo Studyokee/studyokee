@@ -1,24 +1,10 @@
 .player {
-    position: relative;
     background-color: $bgMain;
-
-    .dictionaryContainer {
-        float: right;
-        width: 240px;
-        height: 554px;
-        overflow: auto;
-    }
-
-    .playerBodyContainer {
-        margin-right: 240px;
-        border-right: $borderNormal;
-    }
+    height: 100%;
 
     .subtitlesContainer {
-        border-bottom: $borderNormal;
         position: relative;
         overflow: hidden;
-        height: 424px;
 
         .spinner {
             margin-top: 128px;
@@ -28,55 +14,18 @@
         text-align: center;
         padding: 16px;
         height: 40px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: $bgMain;
+        border-top: $borderNormal;
+        z-index: 5;
     }
     .instructions {
         font-size: 14px;
         padding: 12px;
         color: $textSubdued;
-    }
-    .currentSongContainer {
-        padding: 8px;
-        overflow: hidden;
-        white-space: nowrap;
-
-        h3 {
-            color: $textSubdued;
-            display: inline-block;
-            font-size: 14px;
-            line-height: 40px;
-            vertical-align: top;
-            margin: 0;
-            font-weight: normal;
-        }
-
-        .song {
-            padding: 4px;
-            display: inline-block;
-            vertical-align: top;
-            width: 300px;
-
-            .icon {
-                float: left;
-                margin-right: 8px;
-                display: block;
-                height: 32px;
-                width: 32px;
-            }
-            .trackName {
-                font-size: 14px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-            }
-            .artist {
-                color: $textSubdued;
-                font-size: 12px;
-                font-style: italic;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-            }
-        }
     }
     
 }

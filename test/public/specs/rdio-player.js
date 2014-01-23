@@ -1,6 +1,6 @@
 'use strict';
 
-define(['music.player'], function (MusicPlayer) {
+define(['rdio.music.player'], function (MusicPlayer) {
 
     describe('RdioPlayer', function() {
         beforeEach(function() {

@@ -18,9 +18,21 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.get('/',
+    function(req, res) {
+        res.redirect('/rdio');
+    }
+);
+
+app.get('/rdio',
     ensureAuthenticated,
     function(req, res) {
-        res.render('index');
+        res.render('rdio');
+    }
+);
+
+app.get('/video',
+    function(req, res) {
+        res.render('video');
     }
 );
 

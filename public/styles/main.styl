@@ -9,8 +9,35 @@ $textTranslation = #A63A37
 $linkColor = #008fd5
 $borderNormal = 1px solid #e1e6e9
 
+html, body {
+    margin: 0;
+    background-color: $bgHighlight;
+    color: $textNormal;
+    font-family: Lucida Grande,Lucida Sans Unicode,Arial,sans-serif;
+}
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+.close {
+    position: absolute;
+    top: 0;
+    right: 6px;
+    color: $textSubdued;
+    font-size: 18px;
+    padding: 12px;
+}
+.close:hover {
+    cursor: pointer;
+}
 
-@import '../src/main/main';
+@import '../src/home/home';
+@import '../src/youtube/youtube-main/youtube-main';
+@import '../src/youtube/youtube-player/youtube-player';
+@import '../src/rdio/rdio-main/rdio-main';
+@import '../src/rdio/rdio-player/rdio-player';
+@import '../src/header/header';
+@import '../src/media-item/media-item';
 @import '../src/language-settings/language-settings';
 @import '../src/subtitles-scroller/subtitles-scroller';
 @import '../src/subtitles-player/subtitles-player';

@@ -1,0 +1,71 @@
+.home {
+
+    .main {
+
+        background-color: $bgMain;
+        position: relative;
+        overflow: hidden;
+        border-bottom: $borderNormal;
+
+        .menu {
+            background-color: $bgMain;
+            width: 240px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-right: $borderNormal;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .centerRight {
+            margin-left: 240px;
+            border-right: $borderNormal;
+
+            .center {
+                margin-right: 240px;
+            }
+
+            .dictionaryContainer {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 240px;
+                height: 100%;
+                overflow: auto;
+                z-index: 15;
+                height: 100%;
+                background-color: $bgMain;
+                border-left: $borderNormal;
+            }
+        }
+
+        @media screen and (max-width: 880px) {
+            .menu {
+                display: none;
+            }
+            .menu.active {
+                display: block;
+            }
+            
+            .centerRight {
+                margin-left: 0;
+                .center {
+                    margin-right: 0;
+                }
+
+                .dictionaryContainer { 
+                    display: none;
+
+                    .close {
+                        display: block;
+                    }
+                }
+                .dictionaryContainer.active { 
+                    display: block;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
