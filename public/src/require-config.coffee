@@ -30,6 +30,8 @@ requirejs.config(
     'subtitles.controls.view': '/lib/subtitles-controls/subtitles-controls-view'
     'studyokee.translation.data.provider':
       '/lib/studyokee-translation-data-provider'
+    'youtube.translation.data.provider':
+      '/lib/youtube-translation-data-provider'
     'suggestions.model': '/lib/suggestions/suggestions-model'
     'suggestions.view': 'lib/suggestions/suggestions-view'
     'dictionary.view': 'lib/dictionary/dictionary-view'

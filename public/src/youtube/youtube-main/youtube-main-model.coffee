@@ -1,5 +1,5 @@
 define [
-  'studyokee.translation.data.provider',
+  'youtube.translation.data.provider',
   'youtube.player.model',
   'subtitles.player.model',
   'backbone'

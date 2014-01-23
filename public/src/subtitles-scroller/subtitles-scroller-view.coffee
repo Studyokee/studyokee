@@ -14,7 +14,6 @@ define [
   SubtitlesScrollerView = Backbone.View.extend(
     tagName:  "div"
     className: "subtitlesScroller"
-    lineHeight: 96
     pageSize: 4
 
     initialize: () ->
@@ -93,6 +92,7 @@ define [
       this.selectLine(i)
 
     shiftPage: (i) ->
+      this.lineHeight = this.$('li.subtitle').outerHeight(true)
       page = Math.floor(i/this.pageSize)
       topMargin = -(page * (this.pageSize * this.lineHeight))
       this.$('.subtitles').css('margin-top', topMargin + 'px')

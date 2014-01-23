@@ -18,7 +18,7 @@ require [
 
   menuView = new Backbone.View()
   homeView.menuView = menuView
-  
+
   mainModel = new MainModel(
     settings: settings
   )
@@ -35,3 +35,7 @@ require [
   )
   
   $('.skee').html(homeView.render().el)
+
+  song =
+    id: "ylLzyHk54Z0"
+  mainModel.trigger('changeSong', song)
