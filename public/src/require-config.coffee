@@ -5,7 +5,7 @@ requirejs.config(
     backbone: '/bower_components/backbone/backbone'
     jquery: '/bower_components/jquery/jquery'
     jrdio: '/bower_components/jquery.rdio/jquery.rdio'
-    swfobject: '/bower_components/swfobject/swfobject/src/swfobject'
+    swfobject: '/bower_components/swfobject/swfobject/swfobject'
     underscore: '/bower_components/underscore/underscore'
     handlebars: '/bower_components/handlebars/handlebars'
     templates: 'lib/templates'

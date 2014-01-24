@@ -9,7 +9,8 @@
     "backbone": "~1.0.0",
     "jquery": "~1.10.2",
     "jquery.rdio": "~0.1.1",
-    "handlebars": "~1.1.2"
+    "handlebars": "~1.1.2",
+    "swfobject": "*"
   },
   "devDependencies": {}
 }
