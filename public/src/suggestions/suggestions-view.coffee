@@ -1,29 +1,29 @@
 define [
   'backbone'
   'handlebars',
-  'song.list.view',
+  'media.item.list.view',
   'templates'
-], (Backbone, Handlebars, SongListView) ->
+], (Backbone, Handlebars, MediaItemListView) ->
 
   SuggestionsView = Backbone.View.extend(
     tagName:  "div"
     className: "suggestions"
 
     initialize: () ->
-      this.songListView = new SongListView(
+      this.mediaItemListView = new MediaItemListView(
         model: this.model
       )
 
-      this.songListView.on('select', (song) =>
+      this.mediaItemListView.on('select', (item) =>
         this.model.set(
-          selectedSong: song
+          selectedItem: item
         )
-        this.trigger('select', song)
+        this.trigger('select', item)
       )
 
     render: () ->
       this.$el.html(Handlebars.templates['suggestions'](this.model.toJSON()))
-      this.$('.songListContainer').html(this.songListView.render().el)
+      this.$('.mediaItemListContainer').html(this.mediaItemListView.render().el)
 
       return this
   )

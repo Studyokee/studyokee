@@ -17,6 +17,7 @@ app.use(function (req, res, next) {
 app.use(express.json());
 app.use('/songs', require('./songs'));
 app.use('/rdio', require('./rdio'));
-app.use('/translations', require('./translations'));
+app.use('/dictionary', require('./dictionary'));
+app.use('/suggestions', require('./suggestions'));
 
 module.exports = app;

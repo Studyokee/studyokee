@@ -3,9 +3,12 @@ require [
   'home.view',
   'youtube.main.model',
   'youtube.main.view',
+  'suggestions.model',
+  'suggestions.view',
+  'youtube.translation.data.provider',
   'settings',
   'backbone'
-], (HomeModel, HomeView, MainModel, MainView, Settings, Backbone) ->
+], (HomeModel, HomeView, MainModel, MainView, SuggestionsModel, SuggestionsView, DataProvider, Settings, Backbone) ->
 
   settings = new Settings()
 
@@ -16,8 +19,14 @@ require [
     model: homeModel
   )
 
-  menuView = new Backbone.View()
-  homeView.menuView = menuView
+  suggestionsModel = new SuggestionsModel(
+    settings: settings
+    dataProvider: new DataProvider(settings)
+  )
+  suggestionsView = new SuggestionsView(
+    model: suggestionsModel
+  )
+  homeView.menuView = suggestionsView
 
   mainModel = new MainModel(
     settings: settings
@@ -30,12 +39,11 @@ require [
   mainView.on('lookup', (query) ->
     homeView.trigger('lookup', query)
   )
-  menuView.on('select', (song) =>
+  suggestionsView.on('select', () =>
     homeView.trigger('toggleMenu')
+  )
+  mainModel.listenTo(suggestionsModel, 'change:selectedItem', () ->
+    mainModel.trigger('changeSong', suggestionsModel.get('selectedItem'))
   )
   
   $('.skee').html(homeView.render().el)
-
-  song =
-    id: "ylLzyHk54Z0"
-  mainModel.trigger('changeSong', song)

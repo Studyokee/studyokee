@@ -13,10 +13,10 @@ requirejs.config(
     'home.view': 'lib/home/home-view'
     'header.view': 'lib/header/header-view'
     'media.item.view': 'lib/media-item/media-item-view'
+    'media.item.list.view': '/lib/media-item-list/media-item-list-view'
     'settings': '/lib/settings'
     'add.song.view': '/lib/add-song/add-song-view'
     'add.song.model': '/lib/add-song/add-song-model'
-    'song.list.view': '/lib/song-list/song-list-view'
     'language.settings.view': '/lib/language-settings/language-settings-view'
     'language.settings.model': '/lib/language-settings/language-settings-model'
     'subtitles.scroller.view': '/lib/subtitles-scroller/subtitles-scroller-view'
@@ -28,7 +28,7 @@ requirejs.config(
     'edit.subtitles.view': '/lib/subtitles-upload/edit-subtitles/edit-subtitles-view'
     'subtitles.sync.view': '/lib/subtitles-upload/subtitles-sync/subtitles-sync-view'
     'subtitles.controls.view': '/lib/subtitles-controls/subtitles-controls-view'
-    'studyokee.translation.data.provider':
+    'rdio.translation.data.provider':
       '/lib/studyokee-translation-data-provider'
     'youtube.translation.data.provider':
       '/lib/youtube-translation-data-provider'

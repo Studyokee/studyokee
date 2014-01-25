@@ -6,20 +6,7 @@ var app = express();
 var assert = require('assert');
 var q = require('q');
 
-app.get('/subtitles/:artist/:title', function (req, res) {
-    q.resolve().then(function () {
-        return Song.getSubtitles(req.params.artist, req.params.name);
-    }).then(function (subtitles) {
-        res.json(200, subtitles);
-    }).fail(function (err) {
-        console.log(err);
-        res.json(500, {
-            err: err
-        });
-    });
-});
-
-app.get('rdio/:rdioKey/subtitles', function (req, res) {
+app.get('/rdio/:rdioKey', function (req, res) {
     assert(req.hasOwnProperty('song'));
 
     var song = req.song;
@@ -43,7 +30,7 @@ app.get('rdio/:rdioKey/subtitles', function (req, res) {
     });
 });
 
-app.put('rdio/:rdioKey/subtitles', function (req, res) {
+app.put('/rdio/:rdioKey', function (req, res) {
 
     q.resolve().then(function () {
         assert(req.hasOwnProperty('song'));

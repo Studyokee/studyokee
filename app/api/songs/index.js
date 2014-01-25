@@ -1,18 +1,17 @@
 'use strict';
 
+
 var express = require('express');
 var passport = require('passport');
-
-var Song = require('../../../models/song');
-
-var rdio = require('../../../lib/rdio');
-
 var app = express();
 
 app.configure(function() {
     app.use(passport.initialize());
     app.use(passport.session());
 });
+
+var Song = require('../../../models/song');
+var rdio = require('../../../lib/rdio');
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
@@ -46,11 +45,13 @@ function getData (req, res, next) {
     });
 }
 
-app.get('rdio/:rdioKey/*', ensureAuthenticated, getData);
-app.put('rdio/:rdioKey/*', ensureAuthenticated, getData);
+app.get('/subtitles/rdio/:rdioKey', ensureAuthenticated, getData);
+app.put('/subtitles/rdio/:rdioKey', ensureAuthenticated, getData);
 
-app.use(require('./subtitles'));
-app.use(require('./translations'));
-app.use('/suggestions', require('./suggestions'));
+app.get('/translations/rdio/:rdioKey/*', ensureAuthenticated, getData);
+app.put('/translations/rdio/:rdioKey/*', ensureAuthenticated, getData);
+
+app.use('/subtitles', require('./subtitles'));
+app.use('/translations', require('./translations'));
 
 module.exports = app;

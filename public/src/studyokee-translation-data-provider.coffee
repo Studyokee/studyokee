@@ -33,7 +33,7 @@ define () ->
 
       $.ajax(
         type: 'GET'
-        url: @url + '/songs/' + rdioKey + '/translations/' + language
+        url: @url + '/songs/translations/rdio/' + rdioKey + '/' + language
         success: (res) =>
           if @settings?.get('enableLogging')
             endTime = new Date().getTime()
@@ -49,7 +49,7 @@ define () ->
 
       $.ajax(
         type: 'GET'
-        url: @url + '/songs/' + rdioKey + '/subtitles'
+        url: @url + '/songs/subtitles/rdio/' + rdioKey
         success: (res) =>
           if @settings?.get('enableLogging')
             endTime = new Date().getTime()
@@ -69,13 +69,23 @@ define () ->
         console.log('DATA PROVIDER: get suggestions from \'' + fromLanguage + '\' to \'' + toLanguage + '\'')
       $.ajax(
         type: 'GET'
-        url: @url + '/songs/suggestions/' + fromLanguage + '/' + toLanguage
+        url: @url + '/suggestions/rdio?fromLanguage=' + fromLanguage + '&toLanguage=' + toLanguage
         success: (result) =>
           if @settings?.get('enableLogging')
             endTime = new Date().getTime()
             console.log('DATA PROVIDER: retrieved suggestions from \'' + fromLanguage + '\' to \'' + toLanguage + '\' in: ' + (endTime - startTime) + ' after: ' + (endTime - @settings.get('loadStartTime')) + ' since start, (' + endTime + ')')
 
-          callback(result)
+          suggestions = []
+          for song in result
+            suggestion =
+              key: song.key
+              title: song.name
+              description: song.artist
+              icon: song.icon
+              
+            suggestions.push(suggestion)
+
+          callback(suggestions)
 
         error: (err) =>
           console.log('DATA PROVIDER: error retrieving suggestions: ' + err)
@@ -92,7 +102,7 @@ define () ->
 
       $.ajax(
         type: 'PUT'
-        url: @url + '/songs/suggestions/' + fromLanguage + '/' + toLanguage
+        url: @url + '/suggestions/rdio?fromLanguage=' + fromLanguage + '&toLanguage=' + toLanguage
         data:
           suggestions: suggestions
         success: () ->

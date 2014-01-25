@@ -5,9 +5,10 @@ require [
   'rdio.main.view',
   'suggestions.model',
   'suggestions.view',
+  'rdio.translation.data.provider'
   'settings',
   'backbone'
-], (HomeModel, HomeView, MainModel, MainView, SuggestionsModel, SuggestionsView, Settings, Backbone) ->
+], (HomeModel, HomeView, MainModel, MainView, SuggestionsModel, SuggestionsView, DataProvider, Settings, Backbone) ->
 
   settings = new Settings()
 
@@ -20,6 +21,7 @@ require [
 
   suggestionsModel = new SuggestionsModel(
     settings: settings
+    dataProvider: new DataProvider(settings)
   )
   suggestionsView = new SuggestionsView(
     model: suggestionsModel
@@ -40,8 +42,8 @@ require [
   suggestionsView.on('select', (song) =>
     homeView.trigger('toggleMenu')
   )
-  mainModel.listenTo(suggestionsModel, 'change:selectedSong', () ->
-    mainModel.trigger('changeSong', suggestionsModel.get('selectedSong'))
+  mainModel.listenTo(suggestionsModel, 'change:selectedItem', () ->
+    mainModel.trigger('changeSong', suggestionsModel.get('selectedItem'))
   )
   
   $('.skee').html(homeView.render().el)

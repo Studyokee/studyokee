@@ -1,5 +1,5 @@
 define [
-  'studyokee.translation.data.provider',
+  'rdio.translation.data.provider',
   'rdio.player.model',
   'subtitles.player.model',
   'backbone'

@@ -5,14 +5,13 @@ var app = express();
 var q = require('q');
 var request = require('request');
 
-app.get('/:fromLanguage/:toLanguage/:query', function (req, res) {
-    
+app.get('/', function (req, res) {
     q.resolve().then(function () {
         var getTranslationRequest = q.defer();
 
-        var query = req.params.query;
-        var fromLanguage = req.params.fromLanguage;
-        var toLanguage = req.params.toLanguage;
+        var query = req.search.query;
+        var fromLanguage = req.search.fromLanguage;
+        var toLanguage = req.search.toLanguage;
         var url = 'http://yabla.com/player_service.php?action=lookup';
         url += '&word_lang_id=' + fromLanguage;
         url += '&output_lang_id=' + toLanguage;

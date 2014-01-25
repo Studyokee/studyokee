@@ -1,16 +1,13 @@
 'use strict';
 
-var Suggestions = require('../../../../models/suggestions');
-
 var express = require('express');
 var app = express();
 var q = require('q');
 var rdio = require('../../../../lib/rdio');
 
-app.get('/:fromLanguage/:toLanguage', function (req, res) {
+app.get('/', function (req, res) {
     q.resolve().then(function () {
-        return Suggestions.getSuggestions(req.params.fromLanguage, req.params.toLanguage);
-    }).then(function (suggestions) {
+        var suggestions = req.suggestions;
         var data = {
             keys: suggestions.songs,
             method: 'get'
@@ -40,13 +37,12 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
     });
 });
 
-app.put('/:fromLanguage/:toLanguage', function (req, res) {
-    var songs = req.body.suggestions;
+app.put('/', function (req, res) {
+    var newSongs = req.body.suggestions;
     q.resolve().then(function () {
-        return Suggestions.getSuggestions(req.params.fromLanguage, req.params.toLanguage);
-    }).then(function (suggestions) {
+        var suggestions = req.suggestions;
         var updates = {
-            songs: songs
+            songs: newSongs
         };
 
         var updateRequest = q.defer();
