@@ -9,9 +9,9 @@ app.get('/', function (req, res) {
     q.resolve().then(function () {
         var getTranslationRequest = q.defer();
 
-        var query = req.search.query;
-        var fromLanguage = req.search.fromLanguage;
-        var toLanguage = req.search.toLanguage;
+        var query = req.query.query;
+        var fromLanguage = req.query.fromLanguage;
+        var toLanguage = req.query.toLanguage;
         var url = 'http://yabla.com/player_service.php?action=lookup';
         url += '&word_lang_id=' + fromLanguage;
         url += '&output_lang_id=' + toLanguage;

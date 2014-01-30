@@ -1,25 +1,16 @@
 'use strict';
 
 var express = require('express');
-var Song = require('../../../../models/song');
 var app = express();
 var assert = require('assert');
 var q = require('q');
 
-app.get('/rdio/:rdioKey', function (req, res) {
-    assert(req.hasOwnProperty('song'));
-
-    var song = req.song;
-    var subtitles = song.subtitles;
-
-    if (subtitles && subtitles.length > 0) {
-        console.log('found existing subtitles');
-        res.json(200, subtitles);
-        return;
-    }
-
+app.get('/:id/subtitles', function (req, res) {
     q.resolve().then(function () {
-        return Song.getSubtitles(song.rdioData.artist, song.rdioData.name);
+        assert(req.hasOwnProperty('song'));
+
+        var song = req.song;
+        return song.getSubtitles();
     }).then(function (subtitles) {
         res.json(200, subtitles);
     }).fail(function (err) {
@@ -30,8 +21,7 @@ app.get('/rdio/:rdioKey', function (req, res) {
     });
 });
 
-app.put('/rdio/:rdioKey', function (req, res) {
-
+app.put('/:id/subtitles', function (req, res) {
     q.resolve().then(function () {
         assert(req.hasOwnProperty('song'));
         assert(req.body.hasOwnProperty('subtitles'));

@@ -5,10 +5,10 @@ require [
   'youtube.main.view',
   'suggestions.model',
   'suggestions.view',
-  'youtube.translation.data.provider',
+  'youtube.suggestions.data.provider',
   'settings',
   'backbone'
-], (HomeModel, HomeView, MainModel, MainView, SuggestionsModel, SuggestionsView, DataProvider, Settings, Backbone) ->
+], (HomeModel, HomeView, MainModel, MainView, SuggestionsModel, SuggestionsView, SuggestsionsDataProvider, Settings, Backbone) ->
 
   settings = new Settings()
 
@@ -21,7 +21,7 @@ require [
 
   suggestionsModel = new SuggestionsModel(
     settings: settings
-    dataProvider: new DataProvider(settings)
+    dataProvider: new SuggestsionsDataProvider(settings)
   )
   suggestionsView = new SuggestionsView(
     model: suggestionsModel

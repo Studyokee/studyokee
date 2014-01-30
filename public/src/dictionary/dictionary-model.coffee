@@ -16,7 +16,7 @@ define [
 
       $.ajax(
         type: 'GET'
-        url: '/api/translations/' + fromLanguage + '/' + toLanguage + '/' + query
+        url: '/api/dictionary/?fromLanguage=' + fromLanguage + '&toLanguage=' + toLanguage + '&query=' + query
         success: (markup) =>
           this.set(
             lookup: markup

@@ -4,12 +4,23 @@ var express = require('express');
 var app = express();
 var q = require('q');
 var rdio = require('../../../../lib/rdio');
+var Song = require('../../../../models/song');
 
 app.get('/', function (req, res) {
+    var suggestions = req.suggestions;
     q.resolve().then(function () {
-        var suggestions = req.suggestions;
+        var getRequest = q.defer();
+        Song.find({
+            _id: {$in: suggestions.songs}
+        }, getRequest.makeNodeResolver());
+        return getRequest.promise;
+    }).then(function (songs) {
+        var rdioKeys = [];
+        for (var i = 0; i < songs.length; i++) {
+            rdioKeys.push(songs[i].rdioKey);
+        }
         var data = {
-            keys: suggestions.songs,
+            keys: rdioKeys,
             method: 'get'
         };
 
@@ -20,11 +31,15 @@ app.get('/', function (req, res) {
             var parsedResult = JSON.parse(rdioResult);
             if (parsedResult.result) {
                 var rdioSuggestions = [];
-                for (var i = 0; i < suggestions.songs.length; i++) {
-                    var rdioKey = suggestions.songs[i];
+                for (var i = 0; i < rdioKeys.length; i++) {
+                    var rdioKey = rdioKeys[i];
                     rdioSuggestions.push(parsedResult.result[rdioKey]);
                 }
-                res.json(200, rdioSuggestions);
+                var toReturn = {
+                    songs: songs,
+                    rdioSongs: rdioSuggestions
+                };
+                res.json(200, toReturn);
             } else {
                 res.json(200, []);
             }

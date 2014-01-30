@@ -5,10 +5,10 @@ require [
   'rdio.main.view',
   'suggestions.model',
   'suggestions.view',
-  'rdio.translation.data.provider'
+  'rdio.suggestions.data.provider'
   'settings',
   'backbone'
-], (HomeModel, HomeView, MainModel, MainView, SuggestionsModel, SuggestionsView, DataProvider, Settings, Backbone) ->
+], (HomeModel, HomeView, MainModel, MainView, SuggestionsModel, SuggestionsView, SuggestionsDataProvider, Settings, Backbone) ->
 
   settings = new Settings()
 
@@ -21,7 +21,7 @@ require [
 
   suggestionsModel = new SuggestionsModel(
     settings: settings
-    dataProvider: new DataProvider(settings)
+    dataProvider: new SuggestionsDataProvider(settings)
   )
   suggestionsView = new SuggestionsView(
     model: suggestionsModel

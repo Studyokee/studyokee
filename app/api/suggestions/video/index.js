@@ -4,27 +4,35 @@ var express = require('express');
 var app = express();
 var q = require('q');
 var request = require('request');
+var Song = require('../../../../models/song');
 
 app.get('/', function (req, res) {
     q.resolve().then(function () {
         var suggestions = req.suggestions;
-        var ids = '';
-        for (var i = 0; i < suggestions.videos.length; i++) {
-            var suggestion = suggestions.videos[i];
-            ids += suggestion;
-            if (i !== suggestions.videos.length - 1) {
-                ids += ',';
-            }
+        var getRequest = q.defer();
+        Song.find({
+            _id: {$in: suggestions.videos}
+        }, getRequest.makeNodeResolver());
+        return getRequest.promise;
+    }).then(function (songs) {
+        var videoIds = [];
+        for (var i = 0; i < songs.length; i++) {
+            videoIds.push(songs[i].youtubeKey);
         }
-        
+
         var url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet';
         url += '&key=' + process.env.GOOGLE_API_KEY;
-        url += '&id=' + ids;
+        url += '&id=' + videoIds.join();
+        console.log('url: ' + url);
         request.get({
             url: url,
             json: true
         }, function (err, videosResult) {
-            res.json(200, videosResult.body);
+            var toReturn = {
+                songs: songs,
+                videos: videosResult.body.items
+            };
+            res.json(200, toReturn);
         });
     }).fail(function (err) {
         console.log(err);

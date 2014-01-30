@@ -1,22 +1,8 @@
 define () ->
-  class YoutubeTranslationDataProvider
+  class YoutubeSuggestionsDataProvider
 
     constructor: (@settings) ->
       @url = '/api'
-
-    getSegments: (rdioKey, language, callback) ->
-      subtitles = []
-      original = []
-      for i in [0..10]
-        subtitles.push(
-          text: 'test'
-          ts: 0
-        )
-        original.push('test')
-      song =
-        original: subtitles
-        translation: original
-      callback(song)
 
     getSuggestions: (fromLanguage, toLanguage, callback) ->
       if @settings?.get('enableLogging')
@@ -31,9 +17,10 @@ define () ->
             console.log('DATA PROVIDER: retrieved video suggestions from \'' + fromLanguage + '\' to \'' + toLanguage + '\' in: ' + (endTime - startTime) + ' after: ' + (endTime - @settings.get('loadStartTime')) + ' since start, (' + endTime + ')')
 
           suggestions = []
-          for video in result.items
+          for i in [0..result.songs.length-1]
+            video = result.videos[i]
             suggestion =
-              id: video.id
+              song: result.songs[i]
               title: video.snippet.title
               description: video.snippet.description
               icon: video.snippet.thumbnails.medium.url
@@ -47,4 +34,4 @@ define () ->
           callback([])
       )
 
-  return YoutubeTranslationDataProvider
+  return YoutubeSuggestionsDataProvider

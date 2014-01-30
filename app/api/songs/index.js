@@ -1,57 +1,45 @@
 'use strict';
 
-
 var express = require('express');
-var passport = require('passport');
 var app = express();
-
-app.configure(function() {
-    app.use(passport.initialize());
-    app.use(passport.session());
-});
-
+var q = require('q');
 var Song = require('../../../models/song');
-var rdio = require('../../../lib/rdio');
 
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.redirect('/auth/rdio');
+function getAllSongs () {
+    var findAllRequest = q.defer();
+    Song.find({}, findAllRequest.makeNodeResolver());
+    return findAllRequest.promise;
 }
 
-function getData (req, res, next) {
-    var rdioKey = req.params.rdioKey;
-    Song.getByRdioKey(rdioKey).then(function (song) {
-        if (song.rdioData) {
-            req.song = song;
-            next();
-        }
+// function trimPrefix (req, res, next) {
+//     var match = req.url.match('/[^\/]*(.*)');
 
-        var data = {
-            keys: [rdioKey],
-            method: 'get'
-        };
-        rdio.api(null, null, data, function (err, rdioResult) {
-            var rdioData = JSON.parse(rdioResult).result[rdioKey];
-            
-            var updates = {
-                rdioData: rdioData
-            };
-            song.update(updates);
-            
-            song.rdioData = rdioData;
-            req.song = song;
-            next();
+//     req.url = match[1].length ? match[1] : '/';
+//     next();
+// }
+
+app.get('/', function (req, res) {
+    q.resolve().then(function () {
+        return getAllSongs();
+    }).then(function (songs) {
+        res.json(200, songs);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
         });
     });
-}
+});
 
-app.get('/subtitles/rdio/:rdioKey', ensureAuthenticated, getData);
-app.put('/subtitles/rdio/:rdioKey', ensureAuthenticated, getData);
+app.use(require('./song'));
 
-app.get('/translations/rdio/:rdioKey/*', ensureAuthenticated, getData);
-app.put('/translations/rdio/:rdioKey/*', ensureAuthenticated, getData);
-
-app.use('/subtitles', require('./subtitles'));
-app.use('/translations', require('./translations'));
+app.use(function (req, res) {
+    res.json(404, {});
+});
+/*jshint unused:false*/
+app.use(function (err, req, res, next) {
+    res.json(500, { error: err});
+});
+/*jshint unused:true*/
 
 module.exports = app;

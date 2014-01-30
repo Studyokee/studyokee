@@ -23,7 +23,7 @@ define [
         selectedItem = null
         if suggestions?.length > 0
           selectedItem = suggestions[0]
-
+        
         this.set(
           data: suggestions
           isLoading: false

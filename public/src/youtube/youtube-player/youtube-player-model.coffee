@@ -21,8 +21,8 @@ define [
         this.ytPlayer.seekTo(trackPosition)
 
     onChangeSong: () ->
-      if this.ytPlayer
-        this.ytPlayer.cueVideoById(this.get('currentSong').id)
+      if this.ytPlayer and this.get('currentSong')?
+        this.ytPlayer.cueVideoById(this.get('currentSong').song.youtubeKey)
   )
 
   return YoutubePlayerModel

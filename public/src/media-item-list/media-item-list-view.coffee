@@ -1,5 +1,5 @@
 define [
-  'media.item.view'
+  'media.item.view',
   'backbone',
   'handlebars',
   'templates'

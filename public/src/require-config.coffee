@@ -24,20 +24,24 @@ requirejs.config(
     'subtitles.player.view': '/lib/subtitles-player/subtitles-player-view'
     'subtitles.upload.view': '/lib/subtitles-upload/subtitles-upload/subtitles-upload-view'
     'subtitles.upload.model': '/lib/subtitles-upload/subtitles-upload/subtitles-upload-model'
-    'subtitles.insert.text.view': '/lib/subtitles-upload/subtitles-insert-text/subtitles-insert-text-view'
-    'edit.subtitles.view': '/lib/subtitles-upload/edit-subtitles/edit-subtitles-view'
     'subtitles.sync.view': '/lib/subtitles-upload/subtitles-sync/subtitles-sync-view'
     'subtitles.controls.view': '/lib/subtitles-controls/subtitles-controls-view'
-    'rdio.translation.data.provider':
-      '/lib/studyokee-translation-data-provider'
-    'youtube.translation.data.provider':
-      '/lib/youtube-translation-data-provider'
+    'songs.data.provider':
+      '/lib/songs-data-provider'
+    'youtube.suggestions.data.provider':
+      '/lib/youtube-suggestions-data-provider'
+    'rdio.suggestions.data.provider':
+      '/lib/rdio-suggestions-data-provider'
     'suggestions.model': '/lib/suggestions/suggestions-model'
     'suggestions.view': 'lib/suggestions/suggestions-view'
     'dictionary.view': 'lib/dictionary/dictionary-view'
     'dictionary.model': 'lib/dictionary/dictionary-model'
     'edit.suggestions.model': 'lib/edit-suggestions/edit-suggestions-model'
     'edit.suggestions.view': 'lib/edit-suggestions/edit-suggestions-view'
+    'edit.songs.view': 'lib/edit-songs/edit-songs-view'
+    'edit.songs.model': 'lib/edit-songs/edit-songs-model'
+    'edit.song.view': 'lib/edit-song/edit-song-view'
+    'edit.song.model': 'lib/edit-song/edit-song-model'
     'rdio.main.model': '/lib/rdio/rdio-main/rdio-main-model'
     'rdio.main.view': '/lib/rdio/rdio-main/rdio-main-view'
     'rdio.player.model': '/lib/rdio/rdio-player/rdio-player-model'
