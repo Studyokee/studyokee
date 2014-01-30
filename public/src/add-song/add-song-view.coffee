@@ -1,6 +1,6 @@
 define [
   'backbone',
-  'song.list.view'
+  'media.item.list.view',
 ], (Backbone, SongListView) ->
   AddSongView = Backbone.View.extend(
     tagName:  "div"

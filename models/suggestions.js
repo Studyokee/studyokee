@@ -15,7 +15,8 @@ var suggestionsSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    songs: [String]
+    songs: [String],
+    videos: [String]
 });
 
 suggestionsSchema.static('getSuggestions', function(fromLanguage, toLanguage) {

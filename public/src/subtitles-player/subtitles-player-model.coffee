@@ -1,6 +1,7 @@
 define [
+  'songs.data.provider',
   'backbone'
-], (Backbone) ->
+], (SongsDataProvider, Backbone) ->
 
   SubtitlesPlayerModel = Backbone.Model.extend(
     defaults:
@@ -16,15 +17,13 @@ define [
     initialize: () ->
       this.timer = null
       this.musicPlayer = this.get('musicPlayer')
+      this.dataProvider = this.get('dataProvider')
+      if not this.dataProvider?
+        this.dataProvider = new SongsDataProvider(this.get('settings'))
 
       this.listenTo(this, 'change:currentSong', () =>
         this.pause()
-
-        currentSong = this.get('currentSong')
-        this.musicPlayer.set(
-          currentSong: currentSong
-        )
-        this.getSubtitles(currentSong)
+        this.getSubtitles()
       )
 
       this.listenTo(this.musicPlayer, 'change:syncTo', () =>
@@ -33,7 +32,10 @@ define [
           this.setPosition(position)
       )
 
-    getSubtitles: (currentSong) ->
+      this.getSubtitles()
+
+    getSubtitles: () ->
+      currentSong = this.get('currentSong')
       if not currentSong?
         this.set(
           subtitles: {}
@@ -42,18 +44,18 @@ define [
 
       this.set(
         isLoading: true
-        lastCallbackId: currentSong.key
+        lastCallbackId: currentSong._id
       )
 
       callback = (subtitles) =>
-        if this.get('lastCallbackId') is currentSong.key
+        if this.get('lastCallbackId') is currentSong._id
           this.set(
             isLoading: false
             subtitles: subtitles
             i: 0
           )
       
-      this.get('dataProvider').getSegments(currentSong.key, this.get('settings').get('toLanguage'), callback)
+      this.dataProvider.getSegments(currentSong._id, this.get('settings').get('toLanguage'), callback)
 
     play: () ->
       this.set(

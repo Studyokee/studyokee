@@ -1,15 +1,11 @@
 define [
-  'studyokee.translation.data.provider',
   'backbone'
-], (DataProvider, Backbone) ->
+], (Backbone) ->
   SuggestionsModel = Backbone.Model.extend(
     defaults:
       enableLogging: false
 
     initialize: () ->
-      this.set(
-        dataProvider: new DataProvider(this.get('settings'))
-      )
       this.updateSuggestions()
 
     updateSuggestions: () ->
@@ -19,19 +15,19 @@ define [
         console.log('SUGGESTIONS: retrieve suggestions fromLanguage: ' + fromLanguage + ', toLanguage: ' + toLanguage)
       
       this.set(
-        songs: []
+        data: []
         isLoading: true
       )
 
       getSuggestionsRequest = (suggestions) =>
-        selectedSong = null
+        selectedItem = null
         if suggestions?.length > 0
-          selectedSong = suggestions[0]
-
+          selectedItem = suggestions[0]
+        
         this.set(
-          songs: suggestions
+          data: suggestions
           isLoading: false
-          selectedSong: selectedSong
+          selectedItem: selectedItem
         )
 
       dataProvider = this.get('dataProvider')

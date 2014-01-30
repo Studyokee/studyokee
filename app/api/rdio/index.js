@@ -66,4 +66,26 @@ app.get('/getPlaybackToken',
     }
 );
 
+app.get('/data/:rdioKey',
+    function (req, res) {
+        q.resolve().then(function () {
+            var data = {
+                keys: [req.params.rdioKey],
+                method: 'get'
+            };
+            rdio.api(null, null, data, function (err, rdioResult) {
+                var rdioData = JSON.parse(rdioResult).result[req.params.rdioKey];
+                
+                res.json(200, rdioData);
+            });
+        }).fail(function (err) {
+            console.log('Error getting playback token: ' + err);
+            res.json(500, {
+                err: err
+            });
+        });
+    }
+);
+
+
 module.exports = app;

@@ -5,7 +5,6 @@ define [
 ], (Backbone, Handlebars) ->
 
   MediaItemView = Backbone.View.extend(
-    tagName:  "div"
     className: "mediaItem"
     
     initialize: () ->

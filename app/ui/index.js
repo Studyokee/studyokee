@@ -32,23 +32,26 @@ app.get('/rdio',
 
 app.get('/video',
     function(req, res) {
-        res.render('video');
+        res.render('youtube');
     }
 );
 
-app.get('/songs/:rdioKey/:toLanguage',
+app.get('/songs/edit',
+    function(req, res) {
+        res.render('edit-songs');
+    }
+);
+
+app.get('/songs/edit/:id',
     function(req, res) {
         var data = {
-            user: req.user,
-            rdioKey: req.params.rdioKey,
-            toLanguage: req.params.toLanguage
+            id: req.params.id
         };
-        res.render('upload', data);
+        res.render('edit-song', data);
     }
 );
 
 app.get('/suggestions/:fromLanguage/:toLanguage',
-    ensureAuthenticated,
     function(req, res) {
         var data = {
             fromLanguage: req.params.fromLanguage,

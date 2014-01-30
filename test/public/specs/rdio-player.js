@@ -1,10 +1,10 @@
 'use strict';
 
-define(['rdio.music.player'], function (MusicPlayer) {
+define(['rdio.player.model'], function (RdioPlayer) {
 
-    describe('RdioPlayer', function() {
+    describe('RdioPlayer Model', function() {
         beforeEach(function() {
-            this.musicPlayer = new MusicPlayer();
+            this.musicPlayer = new RdioPlayer();
         });
 
         describe('On change of playing', function() {

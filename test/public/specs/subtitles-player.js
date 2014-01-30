@@ -29,18 +29,16 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
             var musicPlayer = new MusicPlayer();
 
             var model = new SubtitlesPlayerModel({
-                dataProvider: dataProvider,
                 musicPlayer: musicPlayer,
-                toLanguage: 'en',
-                fromLanguage: 'fr'
-            });
-            model.set({
+                dataProvider: dataProvider,
                 currentSong: {
+                    _id: '0',
                     name: 'Test Song Name',
                     artist: 'Test Artist',
                     icon: 'http://rdio-a.cdn3.rdio.com/album/1/6/e/000000000002ce61/2/square-200.jpg'
                 }
             });
+            model.dataProvider = dataProvider;
             return model;
         },
         createTestView: function () {
@@ -91,15 +89,6 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                     });
                     expect(this.model.pause).toHaveBeenCalled();
                 });
-                it('musicPlayer set song is called', function() {
-                    var expectedName = 'new song!';
-                    this.model.set({
-                        currentSong: {
-                            name: expectedName
-                        }
-                    });
-                    expect(this.musicPlayer.get('currentSong').name).toBe(expectedName);
-                });
                 it('new subtitles fetched', function() {
                     spyOn(this.model, 'getSubtitles');
                     this.model.set({
@@ -109,31 +98,33 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                     });
                     expect(this.model.getSubtitles).toHaveBeenCalled();
                 });
-            });
-            describe('On getSubtitles', function() {
                 it('null song data results in empty subtitles object and doesnt call dataProvider', function() {
                     spyOn(this.dataProvider, 'getSegments');
-                    this.model.getSubtitles(null);
+                    this.model.set({
+                        currentSong: null
+                    });
                     expect(this.model.get('subtitles').original).toBe(undefined);
                     expect(this.dataProvider.getSegments).not.toHaveBeenCalled();
                 });
+            });
+            describe('On getSubtitles', function() {
                 it('getSubtitles sets isLoading', function() {
-                    this.dataProvider.getSegments = function (){};
-                    this.model.getSubtitles({});
+                    this.dataProvider.getSegments = function () {};
+                    this.model.getSubtitles();
                     expect(this.model.get('isLoading')).toBe(true);
                 });
                 it('successful dataProvider get results in isLoading to false', function() {
                     this.model.set({
                         isLoading: true
                     });
-                    this.model.getSubtitles({});
+                    this.model.getSubtitles();
                     expect(this.model.get('isLoading')).toBe(false);
                 });
                 it('successful dataProvider get results in i as 0', function() {
                     this.model.set({
                         i: 1
                     });
-                    this.model.getSubtitles({});
+                    this.model.getSubtitles();
                     expect(this.model.get('i')).toBe(0);
                 });
                 it('successful dataProvider get results in subtitles set, i as 0, playing to false, and loading to false', function() {
@@ -152,8 +143,10 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                     this.dataProvider.getSegments = function (id, toLanguage, callback) {
                         firstCallback = callback;
                     };
-                    this.model.getSubtitles({
-                        key: '1'
+                    this.model.set({
+                        currentSong: {
+                            _id: '1'
+                        }
                     });
                     var expectedString = 'success!';
                     this.dataProvider.getSegments = function (id, toLanguage, callback) {
@@ -161,8 +154,10 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                             original: [{ text: expectedString, ts: 0 }]
                         });
                     };
-                    this.model.getSubtitles({
-                        key: '2'
+                    this.model.set({
+                        currentSong: {
+                            _id: '2'
+                        }
                     });
                     firstCallback({
                         original: [{ text: 'false string', ts: 0 }]
@@ -411,25 +406,6 @@ define(['subtitles.player.model', 'subtitles.player.view', 'backbone'], function
                         isLoading: false
                     });
                     expect($(this.el).find('.spinner').length).toBe(0);
-                });
-            });
-
-            describe('On currentSong change', function() {
-                it('current song is visible when not null', function() {
-                    this.model.set({
-                        currentSong: {
-                            name: 'test'
-                        }
-                    });
-                    var songContainer = $(this.el).find('.song');
-                    expect(songContainer.css('visibility')).toBe('visible');
-                });
-                it('current song is hidden when null', function() {
-                    this.model.set({
-                        currentSong: null
-                    });
-                    var songContainer = $(this.el).find('.song');
-                    expect(songContainer.css('visibility')).toBe('hidden');
                 });
             });
         });

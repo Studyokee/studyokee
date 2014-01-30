@@ -1,0 +1,69 @@
+<div class="col-lg-6">
+    <form>
+        <fieldset>
+            <legend>Edit Song</legend>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-lg-8 col-lg-offset-3">
+                        <button class="btn btn-default cancel">Cancel</button> 
+                        <button type="submit" class="btn btn-primary save">Save</button> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="youtubeKey" class="col-lg-3 control-label">Youtube Id</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="youtubeKey" placeholder="Youtube Id" value="{{data.youtubeKey}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rdioKey" class="col-lg-3 control-label">Rdio Key</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="rdioKey" placeholder="Rdio Key" value="{{data.rdioKey}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="trackName" class="col-lg-3 control-label">Track Name</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="trackName" placeholder="Track Name" value="{{data.metadata.trackName}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="artist" class="col-lg-3 control-label">Artist</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="artist" placeholder="Artist" value="{{data.metadata.artist}}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="subtitles" class="control-label">
+                    <button type="button" class="btn btn-primary">Edit Subtitles</button>
+                </label>
+                <div>
+                    <textarea class="form-control subtitles" rows="3" id="subtitles" style="white-space: nowrap;">{{subtitlesText}}</textarea>
+                </div>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="translation" class="control-label">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary">Edit Translation</button>
+
+                        <div class="btn-group translation-dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle translation-toggle" data-toggle="dropdown">
+                                {{currentLanguage}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                {{#each data.translations}}
+                                    <li><a href="#">{{language}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </label>
+                <div>
+                    <textarea class="form-control translation" rows="3" id="translation" style="white-space: nowrap;">{{translationText}}</textarea>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

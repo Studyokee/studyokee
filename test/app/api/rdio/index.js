@@ -6,7 +6,7 @@ var q = require('q');
 
 var app = require('../../../../app/api/rdio');
 
-describe('suggestions tests', function () {
+describe('rdio tests', function () {
 
     it('empty search test', function (done) {
         q.resolve().then(function () {
