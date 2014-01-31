@@ -20,6 +20,7 @@ var songSchema = mongoose.Schema({
         unique: true,
         sparse: true
     },
+    youtubeOffset: Number,
     metadata: {
         artist: String,
         trackName: String,

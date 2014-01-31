@@ -1,6 +1,6 @@
 define [
   'rdio.player.model',
-  'subtitles.player.model',
+  'subtitles.scroller.model',
   'backbone'
 ], (RdioPlayerModel, SubtitlesPlayerModel, Backbone) ->
   RdioMainModel = Backbone.Model.extend(

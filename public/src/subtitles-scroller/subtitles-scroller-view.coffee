@@ -26,11 +26,12 @@ define [
 
     render: () ->
       subtitles = this.model.get('subtitles')
+      translation = this.model.get('translation')
 
       if this.getLength() is 0
         this.$el.html(this.getNoSubtitlesMessage())
       else
-        formattedData = this.getFormattedData(subtitles.original, subtitles.translation)
+        formattedData = this.getFormattedData(subtitles, translation)
         model =
           data: formattedData
           showTimestamps: this.model.get('showTimestamps')
@@ -75,8 +76,8 @@ define [
 
     getLength: () ->
       subtitles = this.model.get('subtitles')
-      if subtitles.original
-        return subtitles.original.length
+      if subtitles
+        return subtitles.length
       else
         return 0
 

@@ -19,7 +19,7 @@ function ensureAuthenticated(req, res, next) {
 
 app.get('/',
     function(req, res) {
-        res.redirect('/rdio');
+        res.redirect('/video');
     }
 );
 
