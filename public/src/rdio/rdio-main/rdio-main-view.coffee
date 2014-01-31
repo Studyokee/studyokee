@@ -1,5 +1,5 @@
 define [
-  'subtitles.player.view',
+  'subtitles.scroller.view',
   'rdio.player.view',
   'backbone',
   'handlebars',

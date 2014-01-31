@@ -79,13 +79,14 @@ define [
       song =
         rdioKey: this.$('#rdioKey').val()
         youtubeKey: this.$('#youtubeKey').val()
+        youtubeOffset: this.$('#youtubeOffset').val()
         metadata:
           trackName: this.$('#trackName').val()
           artist: this.$('#artist').val()
           language: data.metadata.language
         subtitles: this.createSubtitlesFromText(this.$('#subtitles').val())
         translations: this.$('#translation').val().split('\n')
-
+        
       this.model.saveSong(song, () ->
         document.location = '../../../songs/edit/')
   )

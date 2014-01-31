@@ -13,18 +13,16 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
             });
         },
         createTestView: function () {
-            var original = [];
+            var subtitles = [];
             var translation = [];
             for (var i = 0; i < 10; i++) {
-                original.push({ text: 'test', ts: 0 });
+                subtitles.push({ text: 'test', ts: 0 });
                 translation.push('examen');
             }
             var model = new Backbone.Model({
                 i: 0,
-                subtitles: {
-                    original: original,
-                    translation: translation
-                }
+                subtitles: subtitles,
+                translation: translation
             });
             var view = new SubtitlesScrollerView({
                 model: model
@@ -151,10 +149,8 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
                     expect($(this.el).find('.noSubtitles').length).toBe(0);
 
                     this.view.model.set({
-                        subtitles: {
-                            original: [],
-                            translation: []
-                        }
+                        subtitles: [],
+                        translation: []
                     });
                     expect($(this.el).find('.noSubtitles').length).toBe(1);
                 });

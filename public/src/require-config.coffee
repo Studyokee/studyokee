@@ -20,6 +20,7 @@ requirejs.config(
     'language.settings.view': '/lib/language-settings/language-settings-view'
     'language.settings.model': '/lib/language-settings/language-settings-model'
     'subtitles.scroller.view': '/lib/subtitles-scroller/subtitles-scroller-view'
+    'subtitles.scroller.model': '/lib/subtitles-scroller/subtitles-scroller-model'
     'subtitles.player.model': '/lib/subtitles-player/subtitles-player-model'
     'subtitles.player.view': '/lib/subtitles-player/subtitles-player-view'
     'subtitles.upload.view': '/lib/subtitles-upload/subtitles-upload/subtitles-upload-view'

@@ -1,25 +1,25 @@
 define [
-  'subtitles.player.view',
+  'subtitles.scroller.view',
   'youtube.player.view',
   'dictionary.view',
   'backbone',
   'handlebars',
   'templates'
-], (SubtitlesPlayerView, YoutubePlayerView, DictionaryView, Backbone, Handlebars) ->
+], (SubtitlesScrollerView, YoutubePlayerView, DictionaryView, Backbone, Handlebars) ->
   YoutubeMainView = Backbone.View.extend(
     tagName:  "div"
     className: "youtubeMain"
     
     initialize: () ->
-      this.subtitlesPlayerView = new SubtitlesPlayerView(
-        model: this.model.subtitlesPlayerModel
+      this.subtitlesScrollerView = new SubtitlesScrollerView(
+        model: this.model.subtitlesScrollerModel
       )
 
       this.youtubePlayerView  = new YoutubePlayerView(
         model: this.model.youtubePlayerModel
       )
 
-      this.subtitlesPlayerView.on('lookup', (query) =>
+      this.subtitlesScrollerView.on('lookup', (query) =>
         this.trigger('lookup', query)
       )
 
@@ -27,7 +27,7 @@ define [
       this.$el.html(Handlebars.templates['youtube-main'](this.model.toJSON()))
 
       this.$('.videoPlayerContainer').html(this.youtubePlayerView.render().el)
-      this.$('.playerContainer').html(this.subtitlesPlayerView.render().el)
+      this.$('.playerContainer').html(this.subtitlesScrollerView.render().el)
 
       return this
 

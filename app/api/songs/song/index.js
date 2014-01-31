@@ -58,20 +58,21 @@ app.get('/:id', function (req, res) {
 
 app.put('/:id', function (req, res) {
     var song = req.body.song;
-    var updates = {
-        metadata: song.metadata,
-        subtitles: song.subtitles,
-        translations: song.translations,
-        youtubeKey: song.youtubeKey,
-        rdioKey: song.rdioKey
-    };
     q.resolve().then(function () {
+        var updates = {
+            metadata: song.metadata,
+            subtitles: song.subtitles,
+            translations: song.translations,
+            youtubeKey: song.youtubeKey,
+            youtubeOffset: song.youtubeOffset,
+            rdioKey: song.rdioKey
+        };
         var updateRequest = q.defer();
         req.song.update(updates, updateRequest.makeNodeResolver());
 
+        console.log('Update song to: ' + JSON.stringify(updates, null, 4));
         return updateRequest;
     }).then(function () {
-        console.log('Updated Song to: ' + JSON.stringify(updates, null, 4));
         res.send(200);
     }).fail(function (err) {
         console.log(err);
