@@ -3,8 +3,9 @@ define [
   'backbone',
   'handlebars',
   'swfobject',
+  'yt',
   'templates'
-], (SubtitlesControlsView, Backbone, Handlebars, SwfObject) ->
+], (SubtitlesControlsView, Backbone, Handlebars, SwfObject, YT) ->
   YoutubePlayerView = Backbone.View.extend(
     tagName:  'div'
     className: 'videoPlayer'
@@ -16,38 +17,37 @@ define [
         model: this.model
       )
 
-      window.onYouTubePlayerReady = () =>
-        this.model.ytPlayer = $('#' + this.playerId)[0]
+      onReady = () =>
         this.model.onChangeSong()
-        window.onPlayerStateChange = (state) =>
-          fn = () =>
-            this.model.onStateChange(state)
-          setTimeout(fn)
-        this.model.ytPlayer.addEventListener('onStateChange', 'onPlayerStateChange')
+
+      onStateChange = (state) =>
+        fn = () =>
+          this.model.onStateChange(state)
+        setTimeout(fn)
+
+      window.onYouTubeIframeAPIReady = () =>
+        height = this.$el.height()
+        width = height * (4/3)
+        params =
+          height: height
+          width: width
+          playerVars:
+            modestbranding: 1
+            fs: 0
+            showInfo: 0
+            rel: 0
+            # theme: 'light'
+            # color: 'white'
+          events:
+            'onReady': onReady
+            'onStateChange': onStateChange
+        this.model.ytPlayer = new YT.Player(this.playerId, params)
 
     render: () ->
       this.$el.html(Handlebars.templates['youtube-player']())
-
       this.$('.controlsContainer').html(this.subtitlesControlsView.render().el)
 
-      fn = () =>
-        this.loadPlayer()
-      setTimeout(fn)
-
       return this
-
-    loadPlayer: () ->
-      params =
-        allowScriptAccess: 'always'
-      atts =
-        id: this.playerId
-
-      height = this.$el.height()
-      width = height * (4/3)
-
-      SwfObject.embedSWF('https://www.youtube.com/apiplayer?' +
-       'version=3&enablejsapi=1&playerapiid=player1',
-       'videoContainer', width, height, '9', null, null, params, atts)
   )
 
   return YoutubePlayerView
