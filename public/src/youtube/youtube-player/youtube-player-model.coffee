@@ -19,14 +19,15 @@ define [
       )
 
     play: () ->
-      if this.ytPlayer?
+      if this.ytPlayer?.playVideo?
         this.ytPlayer.playVideo()
         this.set(
           playing: true
         )
 
-    onStateChange: (state) ->
-      console.log('test: ' + state)
+    onStateChange: (event) ->
+      state = event.data
+      console.log('PLAYER: onStateChange: ' + state)
       if state is 1
         this.trigger('play', this.getCurrentTime())
       else
@@ -37,7 +38,7 @@ define [
 
 
     pause: () ->
-      if this.ytPlayer?
+      if this.ytPlayer?.pauseVideo?
         this.ytPlayer.pauseVideo()
         this.set(
           playing: false
@@ -57,7 +58,7 @@ define [
         this.seekIndex(i)
 
     seekIndex: (i) ->
-      console.log('seek index: ' + i)
+      console.log('PLAYER: seek index: ' + i)
       subtitles = this.get('subtitles')
       if subtitles[i]
         this.set(
@@ -77,7 +78,7 @@ define [
 
     onChangeSong: () ->
       currentSong = this.get('currentSong')
-      if this.ytPlayer and currentSong?
+      if this.ytPlayer?.cueVideoById? and currentSong?
         this.ytPlayer.cueVideoById(currentSong.song.youtubeKey)
         if currentSong.song.youtubeOffset?
           this.offset = currentSong.song.youtubeOffset
@@ -89,8 +90,8 @@ define [
       return 0
       
     seek: (trackPosition) ->
-      console.log('seek: ' + (trackPosition + this.offset))
-      if this.ytPlayer?
+      console.log('PLAYER: seek: ' + (trackPosition + this.offset))
+      if this.ytPlayer?.seekTo?
         this.ytPlayer.seekTo((trackPosition + this.offset)/1000, true)
 
   )

@@ -10,12 +10,11 @@ define [
 
     initialize: () ->
       this.listenTo(this.model, 'change:playing', () =>
+        playButton = this.$('.play')
         if this.model.get('playing')
-          this.$('.play').hide()
-          this.$('.pause').show()
+          playButton.html('||')
         else
-          this.$('.pause').hide()
-          this.$('.play').show()
+          playButton.html('→')
       )
 
     render: () ->
@@ -26,18 +25,19 @@ define [
       return this
 
     enableButtons: () ->
-      this.$('.prev').on('click', () =>
+      this.$('.prev').on('click', (event) =>
         console.log('SUBTITLES CONTROL PREV')
         this.model.prev())
       this.$('.next').on('click', () =>
         console.log('SUBTITLES CONTROL NEXT')
         this.model.next())
       this.$('.play').on('click', () =>
-        console.log('SUBTITLES CONTROL PLAY')
-        this.model.play())
-      this.$('.pause').on('click', () =>
-        console.log('SUBTITLES CONTROL PAUSE')
-        this.model.pause())
+        if this.model.get('playing')
+          console.log('SUBTITLES CONTROL PAUSE')
+          this.model.pause()
+        else
+          console.log('SUBTITLES CONTROL PLAY')
+          this.model.play())
   )
 
   return SubtitlesControlsView

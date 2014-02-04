@@ -38,9 +38,9 @@ define [
         nextTs = subtitles[nextIndex].ts
         diff = nextTs - ts
 
-        console.log('nextTs: ' + nextTs)
-        console.log('ts: ' + ts)
-        console.log('Set timeout for: ' + diff)
+        console.log('SCROLLER: nextTs: ' + nextTs)
+        console.log('SCROLLER: ts: ' + ts)
+        console.log('SCROLLER: Set timeout for: ' + diff)
 
         next = () =>
           this.setTimer(nextTs)
@@ -59,7 +59,7 @@ define [
         i++
 
       position = Math.max(i-1, 0)
-      console.log('position: ' + position)
+      console.log('SCROLLER: position: ' + position)
       return position
 
   )
