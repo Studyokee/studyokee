@@ -1,10 +1,8 @@
 require [
-  'studyokee.translation.data.provider',
+  'youtube.suggestions.data.provider',
   'edit.suggestions.model',
   'edit.suggestions.view'
-], (StudyokeeTranslationDataProvider, EditSuggestionsModel, EditSuggestionsView) ->
-
-  dataProvider = new StudyokeeTranslationDataProvider()
+], (SuggestionsDataProvider, EditSuggestionsModel, EditSuggestionsView) ->
 
   dataElement = $('#data-dom')
   fromLanguage = dataElement.attr('data-fromLanguage')
@@ -13,7 +11,7 @@ require [
   model = new EditSuggestionsModel(
     fromLanguage: fromLanguage
     toLanguage: toLanguage
-    dataProvider: dataProvider
+    dataProvider: new SuggestionsDataProvider()
   )
   view = new EditSuggestionsView(
     model: model

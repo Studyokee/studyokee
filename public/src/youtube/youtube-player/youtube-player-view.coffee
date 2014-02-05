@@ -25,7 +25,7 @@ define [
           this.model.onStateChange(state)
         setTimeout(fn)
 
-      window.onYouTubeIframeAPIReady = () =>
+      onAPIReady = () =>
         height = this.$el.height()
         width = height * (4/3)
         params =
@@ -42,6 +42,11 @@ define [
             'onReady': onReady
             'onStateChange': onStateChange
         this.model.ytPlayer = new YT.Player(this.playerId, params)
+
+      if YT?.loaded is 1
+        onAPIReady()
+      else
+        window.onYouTubeIframeAPIReady = onAPIReady
 
     render: () ->
       this.$el.html(Handlebars.templates['youtube-player']())
