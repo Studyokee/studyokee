@@ -1,0 +1,24 @@
+"{{query}}"
+<div class="definitions">
+    <h5>Definitions:</h5>
+    <div>
+        {{#each definitions}}
+            <p>
+                <span class="text-info">{{FirstTranslation.term}}</span>&nbsp;
+                <span class="text-muted">{{FirstTranslation.POS}}</span><br>
+                <span class="text-muted">{{OriginalTerm.sense}}</span>
+            </p>
+        {{/each}}
+    </div>
+</div>
+<div class="uses">
+    <h5>Uses:</h5>
+    <div>
+        {{#each uses}}
+            <p>
+                <span class="text-primary">"{{FirstTranslation.term}}"</span><br>
+                <span class="text-muted">{{OriginalTerm.term}}</span>
+            </p>
+        {{/each}}
+    </div>
+</div>

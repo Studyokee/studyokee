@@ -21,8 +21,8 @@ define () ->
             video = result.videos[i]
             suggestion =
               song: result.songs[i]
-              title: video.snippet.title
-              description: video.snippet.description
+              title: result.songs[i].metadata?.trackName
+              description: result.songs[i].metadata?.artist
               icon: video.snippet.thumbnails.medium.url
               
             suggestions.push(suggestion)

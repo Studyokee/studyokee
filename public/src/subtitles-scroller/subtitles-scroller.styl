@@ -1,46 +1,33 @@
 .subtitlesScroller {
-    position: relative;
-    width: 100%;
-    display: inline-block;
-    text-align: center;
     overflow: hidden;
-    margin-top: 8px;
-    background-color: $bgMain;
+
+    .list-group-item.active {
+        z-index: 2;
+        color: #ffffff;
+        background-color: #2c3e50;
+        border-color: #2c3e50;
+
+        a {
+            color: #ffffff;
+        }
+        a:hover, a:active {
+            color: #ffffff;
+        }
+    }
+    .list-group-item {
+        border: none;
+        border-radius: 4px;
+        text-align: center;
+    }
 
     .noSubtitles {
         padding: 0 16px;
-    }
-    .subtitles {
-        padding: 8px 16px;
+        text-align: center;
     }
     .subtitles li {
-        font-size: 18px;
         line-height: 32px;
         overflow: hidden;
         white-space: nowrap;
-        padding: 8px;
-        margin: 0 0 16px 0;
-        color: $textSubdued;
-    }
-    .subtitles li a {
-        color: $textSubdued;
-    }
-    .subtitles li.selected {
-        color: $textNormal;
-        background-color: $bgHighlight;
-        box-shadow: $textSubdued 1px 1px 3px;
-        border: $borderNormal;
-    }
-    .subtitles li.selected a {
-        color: $textNormal;
-    }
-
-    .subtitles li.selected .translated-subtitle {
-        color: #005D8A;
-    }
-    .subtitles li .translated-subtitle {
-        color: #2879A0;
-        color: #58A1C4;
     }
     .subtitles a {
         text-decoration: none;

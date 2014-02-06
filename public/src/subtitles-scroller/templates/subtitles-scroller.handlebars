@@ -1,11 +1,11 @@
-<ul class='subtitles'>
+<ul class='subtitles list-group'>
     {{#each data}}
-        <li class='subtitle'>
+        <li class='subtitle list-group-item'>
             <div class='original-subtitle'>
                 {{{original}}}
                 {{#if ../showTimestamps}}<span class="timestamp">{{ts}}</span>{{/if}}
             </div>
-            <div class='translated-subtitle'>
+            <div class='translated-subtitle text-muted'>
                 {{{translation}}}
             </div>
         </li>

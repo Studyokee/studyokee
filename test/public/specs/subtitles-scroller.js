@@ -6,9 +6,9 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
         checkOnlyIndexSelected: function (parent, i) {
             $(parent).find('.subtitles li').each(function (index, el) {
                 if (index === i) {
-                    expect($(el).hasClass('selected')).toBe(true);
+                    expect($(el).hasClass('active')).toBe(true);
                 } else {
-                    expect($(el).hasClass('selected')).toBe(false);
+                    expect($(el).hasClass('active')).toBe(false);
                 }
             });
         },
