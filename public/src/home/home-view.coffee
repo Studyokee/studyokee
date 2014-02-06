@@ -44,7 +44,6 @@ define [
         this.$('.center').append(this.mainView.render().el)
 
       this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
-      this.$('.footerContainer').html(Handlebars.templates['footer']())
 
       return this
 

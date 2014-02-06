@@ -16,10 +16,28 @@ define [
 
       $.ajax(
         type: 'GET'
+        dataType: 'json'
         url: '/api/dictionary/?fromLanguage=' + fromLanguage + '&toLanguage=' + toLanguage + '&query=' + query
-        success: (markup) =>
+        success: (result) =>
+          definitionsArray = []
+          if result?.term0?.PrincipalTranslations
+            definitions = result.term0.PrincipalTranslations
+            i = 0
+            while definitions[i]
+              definitionsArray.push(definitions[i])
+              i++
+
+          usesArray = []
+          if result?.original?.Compounds
+            compounds = result.original.Compounds
+            i = 0
+            while compounds[i]
+              usesArray.push(compounds[i])
+              i++
+
           this.set(
-            lookup: markup
+            definitions: definitionsArray
+            uses: usesArray
             isLoading: false
           )
         error: (err) =>

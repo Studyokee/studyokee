@@ -12,18 +12,19 @@ app.get('/', function (req, res) {
         var query = req.query.query;
         var fromLanguage = req.query.fromLanguage;
         var toLanguage = req.query.toLanguage;
-        var url = 'http://yabla.com/player_service.php?action=lookup';
-        url += '&word_lang_id=' + fromLanguage;
-        url += '&output_lang_id=' + toLanguage;
-        url += '&word=' + query;
+
+        var url = 'http://api.wordreference.com/' + process.env.WORD_REFERENCE_API_KEY + '/json/';
+        url += fromLanguage;
+        url += toLanguage;
+        url += '/' + query;
         console.log('url: ' + url);
 
         request(url, getTranslationRequest.makeNodeResolver());
 
         return getTranslationRequest.promise;
     }).spread(function (result, body) {
-        var dictionaryMarkup = JSON.parse(body).text;
-        res.json(200, dictionaryMarkup);
+        // var dictionaryMarkup = JSON.parse(body).text;
+        res.json(200, JSON.parse(body));
     }).fail(function (err) {
         console.log(err);
         res.json(500, {

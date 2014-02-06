@@ -101,9 +101,9 @@ define [
     selectLine: (i) ->
       this.$('.subtitles .subtitle').each((index, el) ->
         if index is i
-          $(el).addClass('selected')
+          $(el).addClass('active')
         else
-          $(el).removeClass('selected')
+          $(el).removeClass('active')
       )
 
   )
