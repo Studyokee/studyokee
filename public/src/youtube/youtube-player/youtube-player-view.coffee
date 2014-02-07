@@ -21,6 +21,13 @@ define [
       this.$el.html(Handlebars.templates['youtube-player']())
       this.$('.controlsContainer').html(this.subtitlesControlsView.render().el)
 
+      postRender = () =>
+        this.postRender()
+      setTimeout(postRender)
+
+      return this
+
+    postRender: () ->
       onReady = () =>
         this.model.onChangeSong()
 
@@ -51,8 +58,6 @@ define [
         onAPIReady()
       else
         window.onYouTubeIframeAPIReady = onAPIReady
-
-      return this
   )
 
   return YoutubePlayerView
