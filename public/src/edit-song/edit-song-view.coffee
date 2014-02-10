@@ -76,6 +76,10 @@ define [
 
     saveSong: () ->
       data = this.model.get('data')
+
+      if data.translations?.length > 0
+        data.translations[0].data = this.$('#translation').val().split('\n')
+
       song =
         rdioKey: this.$('#rdioKey').val()
         youtubeKey: this.$('#youtubeKey').val()
@@ -85,7 +89,7 @@ define [
           artist: this.$('#artist').val()
           language: data.metadata.language
         subtitles: this.createSubtitlesFromText(this.$('#subtitles').val())
-        translations: this.$('#translation').val().split('\n')
+        translations: data.translations
         
       this.model.saveSong(song, () ->
         document.location = '../../../songs/edit/')

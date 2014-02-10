@@ -21,9 +21,9 @@ define () ->
             video = result.videos[i]
             suggestion =
               song: result.songs[i]
-              title: result.songs[i].metadata?.trackName
-              description: result.songs[i].metadata?.artist
-              icon: video.snippet.thumbnails.medium.url
+              title: result.songs[i]?.metadata?.trackName
+              description: result.songs[i]?.metadata?.artist
+              icon: video?.snippet?.thumbnails?.medium.url
               
             suggestions.push(suggestion)
 
@@ -32,6 +32,25 @@ define () ->
         error: (err) =>
           console.log('DATA PROVIDER: error retrieving suggestions: ' + err)
           callback([])
+      )
+
+    saveSuggestions: (fromLanguage, toLanguage, ids, callback) ->
+      if @settings?.get('enableLogging')
+        console.log('DATA PROVIDER: save suggestions from \'' + fromLanguage + '\' to \'' + toLanguage + '\'')
+      
+      $.ajax(
+        type: 'PUT'
+        url: @url + '/suggestions/video?fromLanguage=' + fromLanguage + '&toLanguage=' + toLanguage
+        data:
+          suggestions: ids
+        success: () ->
+          console.log('success save')
+          if callback
+            callback()
+        error: (err) ->
+          console.log('err:' + err)
+          if callback
+            callback()
       )
 
   return YoutubeSuggestionsDataProvider
