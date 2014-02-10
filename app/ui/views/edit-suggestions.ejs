@@ -5,9 +5,16 @@
         <script src="/lib/require-config.js"></script>
 
         <link rel="stylesheet" type="text/css" href="/styles/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/styles/main.css">
     </head>
     <body>
-        <div class="skee" id="skee"></div>
+        <div class="navbar navbar-default">
+            <div class="container">
+                <a href="../" class="navbar-brand">Studyokee: <small class="text-muted">learning with pop songs</small></a>
+            </div>
+        </div>
+
+        <div class="skee container" id="skee"></div>
         <div id="data-dom" data-fromLanguage="<%= fromLanguage %>" data-toLanguage="<%= toLanguage %>"></div>
         <script src="/lib/edit-suggestions.js"></script>
     </body>

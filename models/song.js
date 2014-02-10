@@ -8,17 +8,10 @@ var Song;
 
 var songSchema = mongoose.Schema({
     rdioKey: {
-        type: String,
-        required: true,
-        unique: true,
-        sparse: true
+        type: String
     },
-    rdioData: Object,
     youtubeKey: {
-        type: String,
-        required: true,
-        unique: true,
-        sparse: true
+        type: String
     },
     youtubeOffset: Number,
     metadata: {
