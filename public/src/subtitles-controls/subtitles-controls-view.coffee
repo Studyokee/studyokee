@@ -10,11 +10,13 @@ define [
 
     initialize: () ->
       this.listenTo(this.model, 'change:playing', () =>
-        playButton = this.$('.play')
+        togglePlayButtonIcon = this.$('.togglePlay .glyphicon')
         if this.model.get('playing')
-          playButton.html('||')
+          togglePlayButtonIcon.removeClass('glyphicon-play')
+          togglePlayButtonIcon.addClass('glyphicon-pause')
         else
-          playButton.html('→')
+          togglePlayButtonIcon.removeClass('glyphicon-pause')
+          togglePlayButtonIcon.addClass('glyphicon-play')
       )
 
     render: () ->
@@ -31,7 +33,7 @@ define [
       this.$('.next').on('click', () =>
         console.log('SUBTITLES CONTROL NEXT')
         this.model.next())
-      this.$('.play').on('click', () =>
+      this.$('.togglePlay').on('click', () =>
         if this.model.get('playing')
           console.log('SUBTITLES CONTROL PAUSE')
           this.model.pause()

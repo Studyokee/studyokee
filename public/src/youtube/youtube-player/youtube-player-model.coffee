@@ -28,14 +28,23 @@ define [
     onStateChange: (event) ->
       state = event.data
       console.log('PLAYER: onStateChange: ' + state)
+      console.log('playing is: ' + this.get('playing'))
+      console.log('player state is: ' + this.ytPlayer.getPlayerState())
       if state is 1
         this.trigger('play', this.getCurrentTime())
+        this.set(
+          playing: true
+        )
+      if state is 3
+        this.trigger('pause')
+        this.set(
+          playing: true
+        )
       else
         this.trigger('pause')
         this.set(
           playing: false
         )
-
 
     pause: () ->
       if this.ytPlayer?.pauseVideo?

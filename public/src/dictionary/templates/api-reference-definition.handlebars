@@ -1,24 +1,47 @@
-"{{query}}"
+<h4>"{{query}}"</h4>
+<span>
+    <span class="text-primary">{{originalTerm.term}}</span>&nbsp;
+    <span class="text-muted">{{originalTerm.POS}}</span>
+</span>
 <div class="definitions">
-    <h5>Definitions:</h5>
-    <div>
-        {{#each definitions}}
-            <p>
-                <span class="text-info">{{FirstTranslation.term}}</span>&nbsp;
-                <span class="text-muted">{{FirstTranslation.POS}}</span><br>
-                <span class="text-muted">{{OriginalTerm.sense}}</span>
-            </p>
-        {{/each}}
-    </div>
+    <h4>Definitions:</h4>
+    {{#each definitions}}
+        {{#if FirstTranslation}}
+            <span class="text-info">{{FirstTranslation.term}}</span>&nbsp;
+            <span class="text-muted">{{FirstTranslation.POS}}</span><br>
+            {{#if FirstTranslation.sense}}
+                <span class="text-muted">sense: {{FirstTranslation.sense}}</span><br>
+            {{/if}}
+        {{/if}}
+        {{#if SecondTranslation}}
+            <span class="text-info">{{SecondTranslation.term}}</span>&nbsp;
+            <span class="text-muted">{{SecondTranslation.POS}}</span><br>
+            {{#if SecondTranslation.sense}}
+                <span class="text-muted">sense: {{SecondTranslation.sense}}</span><br>
+            {{/if}}
+        {{/if}}
+        {{#if ThirdTranslation}}
+            <span class="text-info">{{ThirdTranslation.term}}</span>&nbsp;
+            <span class="text-muted">{{ThirdTranslation.POS}}</span><br>
+            {{#if ThirdTranslation.sense}}
+                <span class="text-muted">sense: {{ThirdTranslation.sense}}</span><br>
+            {{/if}}
+        {{/if}}
+        {{#if FourthTranslation}}
+            <span class="text-info">{{FourthTranslation.term}}</span>&nbsp;
+            <span class="text-muted">{{FourthTranslation.POS}}</span><br>
+            {{#if FourthTranslation.sense}}
+                <span class="text-muted">sense: {{FourthTranslation.sense}}</span><br>
+            {{/if}}
+        {{/if}}
+    {{/each}}
 </div>
 <div class="uses">
-    <h5>Uses:</h5>
-    <div>
-        {{#each uses}}
-            <p>
-                <span class="text-primary">"{{FirstTranslation.term}}"</span><br>
-                <span class="text-muted">{{OriginalTerm.term}}</span>
-            </p>
-        {{/each}}
-    </div>
+    <h4>Uses:</h4>
+    {{#each uses}}
+        <p>
+            <span class="text-primary">{{OriginalTerm.term}}</span><br>
+            <span class="text-muted">{{FirstTranslation.term}}</span>
+        </p>
+    {{/each}}
 </div>
