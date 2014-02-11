@@ -19,8 +19,14 @@ define [
         dataType: 'json'
         url: '/api/dictionary/?fromLanguage=' + fromLanguage + '&toLanguage=' + toLanguage + '&query=' + query
         success: (result) =>
+
+          bestTranslation = ''
+          originalTerm = ''
+
           definitionsArray = []
           if result?.term0?.PrincipalTranslations
+            bestTranslation = result.term0.PrincipalTranslations[0]?.FirstTranslation?.term
+            originalTerm = result.term0.PrincipalTranslations[0]?.OriginalTerm
             definitions = result.term0.PrincipalTranslations
             i = 0
             while definitions[i]
@@ -36,6 +42,8 @@ define [
               i++
 
           this.set(
+            originalTerm: originalTerm
+            bestTranslation: bestTranslation
             definitions: definitionsArray
             uses: usesArray
             isLoading: false

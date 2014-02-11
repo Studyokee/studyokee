@@ -18,12 +18,17 @@ define () ->
 
           suggestions = []
           for i in [0..result.songs.length-1]
-            video = result.videos[i]
+            song = result.songs[i]
+            icon = ''
+            for video in result.videos
+              if song.youtubeKey is video.id
+                icon = video?.snippet?.thumbnails?.medium.url
+            
             suggestion =
-              song: result.songs[i]
-              title: result.songs[i]?.metadata?.trackName
-              description: result.songs[i]?.metadata?.artist
-              icon: video?.snippet?.thumbnails?.medium.url
+              song: song
+              title: song.metadata?.trackName
+              description: song.metadata?.artist
+              icon: icon
               
             suggestions.push(suggestion)
 
