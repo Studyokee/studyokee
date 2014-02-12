@@ -13,7 +13,7 @@ define [
   ####################################################################
   SubtitlesScrollerView = Backbone.View.extend(
     tagName:  "div"
-    className: "subtitlesScroller"
+    className: "subtitles-scroller"
     pageSize: 4
 
     initialize: () ->
@@ -22,6 +22,9 @@ define [
       )
       this.listenTo(this.model, 'change:subtitles', () =>
         this.render()
+      )
+      this.on('sizeChange', () =>
+        this.onPositionChange()
       )
 
     render: () ->

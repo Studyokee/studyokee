@@ -8,7 +8,7 @@ define [
 ], (SubtitlesControlsView, Backbone, Handlebars, SwfObject, YT) ->
   YoutubePlayerView = Backbone.View.extend(
     tagName:  'div'
-    className: 'videoPlayer'
+    className: 'video-player'
     
     initialize: () ->
       this.playerId = 'ytPlayer'
@@ -17,9 +17,16 @@ define [
         model: this.model
       )
 
+      this.subtitlesControlsView.on('enterPresentationMode', () =>
+        this.trigger('enterPresentationMode')
+      )
+      this.subtitlesControlsView.on('leavePresentationMode', () =>
+        this.trigger('leavePresentationMode')
+      )
+
     render: () ->
       this.$el.html(Handlebars.templates['youtube-player']())
-      this.$('.controlsContainer').html(this.subtitlesControlsView.render().el)
+      this.$('.controls-container').html(this.subtitlesControlsView.render().el)
 
       postRender = () =>
         this.postRender()

@@ -146,13 +146,13 @@ define(['subtitles.scroller.view', 'backbone', 'jquery'], function (SubtitlesScr
 
             describe('On update of subtitles', function() {
                 it('if no subtitles, render no subtitles message', function() {
-                    expect($(this.el).find('.noSubtitles').length).toBe(0);
+                    expect($(this.el).find('.no-subtitles').length).toBe(0);
 
                     this.view.model.set({
                         subtitles: [],
                         translation: []
                     });
-                    expect($(this.el).find('.noSubtitles').length).toBe(1);
+                    expect($(this.el).find('.no-subtitles').length).toBe(1);
                 });
             });
         });
