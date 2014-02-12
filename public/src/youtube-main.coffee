@@ -12,13 +12,6 @@ require [
 
   settings = new Settings()
 
-  homeModel = new HomeModel(
-    settings: settings
-  )
-  homeView = new HomeView(
-    model: homeModel
-  )
-
   suggestionsModel = new SuggestionsModel(
     settings: settings
     dataProvider: new SuggestionsDataProvider(settings)
@@ -26,7 +19,6 @@ require [
   suggestionsView = new SuggestionsView(
     model: suggestionsModel
   )
-  homeView.menuView = suggestionsView
 
   mainModel = new MainModel(
     settings: settings
@@ -34,7 +26,15 @@ require [
   mainView = new MainView(
     model: mainModel
   )
-  homeView.mainView = mainView
+
+  homeModel = new HomeModel(
+    settings: settings
+  )
+  homeView = new HomeView(
+    model: homeModel
+    mainView: mainView
+    menuView: suggestionsView
+  )
 
   mainView.on('lookup', (query) ->
     homeView.trigger('lookup', query)
