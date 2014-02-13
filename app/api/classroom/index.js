@@ -42,8 +42,8 @@ app.get('/:id', function (req, res) {
 app.post('/', function (req, res) {
     q.resolve().then(function () {
         return Classroom.create(req.body.name, req.body.language);
-    }).then(function () {
-        res.json(200);
+    }).then(function (classroom) {
+        res.json(200, classroom);
     }).fail(function (err) {
         console.log(err);
         res.json(500, {
