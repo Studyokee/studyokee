@@ -31,9 +31,9 @@ requirejs.config(
     'songs.data.provider':
       '/lib/songs-data-provider'
     'youtube.suggestions.data.provider':
-      '/lib/youtube-suggestions-data-provider'
+      '/lib/suggestions/providers/youtube-suggestions-data-provider'
     'rdio.suggestions.data.provider':
-      '/lib/rdio-suggestions-data-provider'
+      '/lib/suggestions/providers/rdio-suggestions-data-provider'
     'suggestions.model': '/lib/suggestions/suggestions-model'
     'suggestions.view': 'lib/suggestions/suggestions-view'
     'dictionary.view': 'lib/dictionary/dictionary-view'
@@ -44,6 +44,8 @@ requirejs.config(
     'edit.songs.model': 'lib/edit-songs/edit-songs-model'
     'edit.song.view': 'lib/edit-song/edit-song-view'
     'edit.song.model': 'lib/edit-song/edit-song-model'
+    'create.classroom.view': 'lib/create-classroom/create-classroom-view'
+    'create.classroom.model': 'lib/create-classroom/create-classroom-model'
     'rdio.main.model': '/lib/rdio/rdio-main/rdio-main-model'
     'rdio.main.view': '/lib/rdio/rdio-main/rdio-main-view'
     'rdio.player.model': '/lib/rdio/rdio-player/rdio-player-model'

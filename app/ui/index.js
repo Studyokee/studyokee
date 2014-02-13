@@ -26,19 +26,37 @@ app.get('/',
 app.get('/rdio',
     ensureAuthenticated,
     function(req, res) {
-        res.render('rdio');
+        var data = {
+            page: '/lib/pages/rdio-main.js'
+        };
+        res.render('base', data);
     }
 );
 
 app.get('/video',
     function(req, res) {
-        res.render('youtube');
+        var data = {
+            page: '/lib/pages/youtube-main.js'
+        };
+        res.render('base', data);
     }
 );
 
 app.get('/songs/edit',
     function(req, res) {
-        res.render('edit-songs');
+        var data = {
+            page: '/lib/pages/edit-songs.js'
+        };
+        res.render('base', data);
+    }
+);
+
+app.get('/classroom/create',
+    function(req, res) {
+        var data = {
+            page: '/lib/pages/create-classroom.js'
+        };
+        res.render('base', data);
     }
 );
 
