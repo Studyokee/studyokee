@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var q = require('q');
 var songHelpers = require('./helpers/song');
+var request = require('request');
 
 var Song;
 
@@ -174,6 +175,68 @@ songSchema.static('getByQuery', function (query) {
             // Save failed, try to get again in case concurrent request caused failure
             return findOne(query);
         });
+    });
+});
+
+// Given a list of ids, return the song objects plus video snippets
+songSchema.static('getDisplayInfo', function (ids) {
+    var songs = [];
+    return q.resolve().then(function () {
+        console.log('ids: ' + JSON.stringify(ids, null, 4));
+        if (!ids || ids.length === 0) {
+            return [];
+        }
+
+        var getRequest = q.defer();
+        Song.find({
+            _id: {$in: ids}
+        }, getRequest.makeNodeResolver());
+        return getRequest.promise;
+    }).then(function (result) {
+        console.log('result1: ' + JSON.stringify(result, null, 4));
+        songs = result;
+
+        var videoIds = [];
+        for (var i = 0; i < songs.length; i++) {
+            if (songs[i].youtubeKey) {
+                videoIds.push(songs[i].youtubeKey);
+            }
+        }
+
+        if (videoIds.length === 0) {
+            return songs;
+        }
+
+        var url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet';
+        url += '&key=' + process.env.GOOGLE_API_KEY;
+        url += '&id=' + videoIds.join();
+        console.log('url: ' + JSON.stringify(url, null, 4));
+
+        var getVideoSnippetsRequest = q.defer();
+        request.get({
+            url: url,
+            json: true
+        }, getVideoSnippetsRequest.makeNodeResolver());
+        return getVideoSnippetsRequest.promise;
+    }).spread(function (videosResult) {
+        var videos = videosResult.body.items;
+        var toReturn = [];
+        for (var i = 0; i < songs.length; i++) {
+            var item = {};
+            var song = songs[i];
+            for (var j = 0; j < videos.length; j++) {
+                var videoSnippet = videos[j];
+                if (song.youtubeKey === videoSnippet.id) {
+                    item.videoSnippet = videoSnippet;
+                }
+            }
+            item.song = song;
+            toReturn.push(item);
+        }
+
+        return toReturn;
+    }).fail(function (err) {
+        console.log('Error with getVideoSnippets: ' + err);
     });
 });
 
