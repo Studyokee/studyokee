@@ -13,12 +13,10 @@ define [
       )
 
       this.subtitlesScrollerModel = new SubtitlesScrollerModel()
-
-      this.youtubePlayerModel.on('play', (ts) =>
-        this.subtitlesScrollerModel.play(ts)
-      )
-      this.youtubePlayerModel.on('pause', () =>
-        this.subtitlesScrollerModel.pause()
+      this.listenTo(this.youtubePlayerModel, 'change:i', () =>
+        this.subtitlesScrollerModel.set(
+          i: this.youtubePlayerModel.get('i')
+        )
       )
 
       this.on('changeSong', (song) =>

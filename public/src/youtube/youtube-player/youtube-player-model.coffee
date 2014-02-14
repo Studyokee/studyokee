@@ -10,6 +10,7 @@ define [
     initialize: () ->
       this.offset = 0
       this.quickPrev = false
+      this.timer = null
       this.listenTo(this, 'change:currentSong', () =>
         this.pause()
         this.onChangeSong()
@@ -17,13 +18,12 @@ define [
           i: 0
         )
       )
-
-    play: () ->
-      if this.ytPlayer?.playVideo?
-        this.ytPlayer.playVideo()
-        this.set(
-          playing: true
-        )
+      this.listenTo(this, 'change:playing', () =>
+        if this.get('playing')
+          this.setTimerFromPlayer()
+        else
+          this.clearTimer()
+      )
 
     onStateChange: (event) ->
       state = event.data
@@ -44,6 +44,13 @@ define [
         this.trigger('pause')
         this.set(
           playing: false
+        )
+
+    play: () ->
+      if this.ytPlayer?.playVideo?
+        this.ytPlayer.playVideo()
+        this.set(
+          playing: true
         )
 
     pause: () ->
@@ -70,11 +77,8 @@ define [
       console.log('PLAYER: seek index: ' + i)
       subtitles = this.get('subtitles')
       if subtitles[i]
-        this.set(
-          i: i
-        )
         this.seek(subtitles[i].ts)
-        this.trigger('play', subtitles[i].ts)
+        this.setTimer(subtitles[i].ts, i)
 
     isQuickPrev: () ->
       unset = () =>
@@ -91,6 +95,8 @@ define [
         this.ytPlayer.cueVideoById(currentSong.song.youtubeKey)
         if currentSong.song.youtubeOffset?
           this.offset = currentSong.song.youtubeOffset
+        else
+          this.offset = 0
 
     # INTERACTING WITH PLAYER, USE OFFSET
     getCurrentTime: () ->
@@ -102,6 +108,47 @@ define [
       console.log('PLAYER: seek: ' + (trackPosition + this.offset))
       if this.ytPlayer?.seekTo?
         this.ytPlayer.seekTo((trackPosition + this.offset)/1000, true)
+
+    setTimerFromPlayer: () ->
+      ts = this.getCurrentTime()
+      currentIndex = this.getPosition(ts)
+      this.setTimer(ts, currentIndex)
+
+    setTimer: (ts, currentIndex) ->
+      this.clearTimer()
+      this.set(
+        i: currentIndex
+      )
+
+      nextIndex = this.get('i') + 1
+      subtitles = this.get('subtitles')
+      if subtitles?[nextIndex]?
+        nextTs = subtitles[nextIndex].ts
+        diff = nextTs - ts
+
+        console.log('PLAYER: nextTs: ' + nextTs)
+        console.log('PLAYER: ts: ' + ts)
+        console.log('PLAYER: Set timeout for: ' + diff)
+
+        next = () =>
+          this.setTimer(nextTs, nextIndex)
+        this.timer = setTimeout(next, diff)
+
+    clearTimer: () ->
+      clearTimeout(this.timer)
+
+    getPosition: (ts) ->
+      subtitles = this.get('subtitles')
+      if not ts? or not subtitles? or subtitles.length is 0
+        return null
+
+      i = 0
+      while (i <= subtitles.length - 1) and subtitles[i].ts <= ts
+        i++
+
+      position = Math.max(i-1, 0)
+      console.log('PLAYER: position: ' + position)
+      return position
 
   )
 
