@@ -9,7 +9,7 @@ define [
         language: language
       $.ajax(
         type: 'POST'
-        url: '/api/classroom/'
+        url: '/api/classrooms/'
         dataType: 'json'
         data: classroom
         success: (data, result) =>

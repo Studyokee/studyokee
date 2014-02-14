@@ -51,21 +51,13 @@ app.get('/songs/edit',
     }
 );
 
-app.get('/classroom/create',
-    function(req, res) {
-        var data = {
-            page: '/lib/pages/create-classroom.js'
-        };
-        res.render('base', data);
-    }
-);
-
 app.get('/songs/edit/:id',
     function(req, res) {
         var data = {
-            id: req.params.id
+            id: req.params.id,
+            page: '/lib/pages/edit-song.js'
         };
-        res.render('edit-song', data);
+        res.render('entity', data);
     }
 );
 
@@ -76,6 +68,24 @@ app.get('/suggestions/:fromLanguage/:toLanguage',
             toLanguage: req.params.toLanguage
         };
         res.render('edit-suggestions', data);
+    }
+);
+
+app.get('/classrooms/create',
+    function(req, res) {
+        var data = {
+            page: '/lib/pages/create-classroom.js'
+        };
+        res.render('base', data);
+    }
+);
+app.get('/classrooms/edit/:id',
+    function(req, res) {
+        var data = {
+            id: req.params.id,
+            page: '/lib/pages/edit-classroom.js'
+        };
+        res.render('entity', data);
     }
 );
 
