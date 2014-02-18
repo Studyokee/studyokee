@@ -97,5 +97,13 @@ app.get('/classrooms/:id',
         res.render('entity', data);
     }
 );
+app.get('/classrooms/',
+    function(req, res) {
+        var data = {
+            page: '/lib/pages/classrooms.js'
+        };
+        res.render('base', data);
+    }
+);
 
 module.exports = app;
