@@ -25,10 +25,12 @@ define [
 
       this.youtubePlayerView.on('enterPresentationMode', () =>
         this.trigger('enterPresentationMode')
+        this.enterPresentationMode()
         this.subtitlesScrollerView.trigger('sizeChange')
       )
       this.youtubePlayerView.on('leavePresentationMode', () =>
         this.trigger('leavePresentationMode')
+        this.leavePresentationMode()
         this.subtitlesScrollerView.trigger('sizeChange')
       )
 
@@ -39,6 +41,19 @@ define [
       this.$('.player-container').html(this.subtitlesScrollerView.render().el)
 
       return this
+
+    enterPresentationMode: () ->
+      this.$('.video-player-container').addClass('col-lg-6')
+      this.$('.player-container').addClass('col-lg-6')
+
+    leavePresentationMode: () ->
+      this.$('.video-player-container').removeClass('col-lg-6')
+      this.$('.player-container').removeClass('col-lg-6')
+
+    calculateYTPlayerHeight: () ->
+      ytPlayerWidth = this.$('#ytPlayer').width()
+      ytPlayerHeight = ytPlayerWidth * 0.75
+      this.$('#ytPlayer').height(ytPlayerHeight + 'px')
 
   )
 

@@ -49,6 +49,8 @@ requirejs.config(
     'create.classroom.model': 'lib/create-classroom/create-classroom-model'
     'edit.classroom.view': 'lib/edit-classroom/edit-classroom-view'
     'edit.classroom.model': 'lib/edit-classroom/edit-classroom-model'
+    'classroom.view': 'lib/classroom/classroom-view'
+    'classroom.model': 'lib/classroom/classroom-model'
     'rdio.main.model': '/lib/rdio/rdio-main/rdio-main-model'
     'rdio.main.view': '/lib/rdio/rdio-main/rdio-main-view'
     'rdio.player.model': '/lib/rdio/rdio-player/rdio-player-model'

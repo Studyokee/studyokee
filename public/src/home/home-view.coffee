@@ -30,10 +30,10 @@ define [
       )
       
       this.mainView.on('enterPresentationMode', () =>
-        this.enterPresentationMode()
+        this.$('.center').addClass('presentation-mode')
       )
       this.mainView.on('leavePresentationMode', () =>
-        this.leavePresentationMode()
+        this.$('.center').removeClass('presentation-mode')
       )
 
     render: () ->
@@ -47,23 +47,6 @@ define [
       this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
 
       return this
-
-    enterPresentationMode: () ->
-      this.$('.center').addClass('presentation-mode')
-      this.$('.center .video-player-container').addClass('col-lg-6')
-      this.$('.center .player-container').addClass('col-lg-6')
-      this.calculateYTPlayerHeight()
-
-    leavePresentationMode: () ->
-      this.$('.center').removeClass('presentation-mode')
-      this.$('.center .video-player-container').removeClass('col-lg-6')
-      this.$('.center .player-container').removeClass('col-lg-6')
-      this.calculateYTPlayerHeight()
-
-    calculateYTPlayerHeight: () ->
-      ytPlayerWidth = this.$('#ytPlayer').width()
-      ytPlayerHeight = ytPlayerWidth * 0.75
-      this.$('#ytPlayer').height(ytPlayerHeight + 'px')
 
 
   )
