@@ -19,9 +19,11 @@ define [
 
       this.subtitlesControlsView.on('enterPresentationMode', () =>
         this.trigger('enterPresentationMode')
+        this.calculateYTPlayerHeight()
       )
       this.subtitlesControlsView.on('leavePresentationMode', () =>
         this.trigger('leavePresentationMode')
+        this.calculateYTPlayerHeight()
       )
 
     render: () ->
@@ -33,6 +35,11 @@ define [
       setTimeout(postRender)
 
       return this
+
+    calculateYTPlayerHeight: () ->
+      ytPlayerWidth = this.$('#ytPlayer').width()
+      ytPlayerHeight = ytPlayerWidth * 0.75
+      this.$('#ytPlayer').height(ytPlayerHeight + 'px')
 
     postRender: () ->
       onReady = () =>

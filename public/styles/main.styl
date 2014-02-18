@@ -20,8 +20,36 @@ $borderNormal = 1px solid #e1e6e9
 .close:hover {
     cursor: pointer;
 }
+.presentation-mode {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 60px 20px;
+    z-index: 100;
+    background-color: #FFFFFF;
+    
+    .youtube-main {
+        .video-player-container {
+            .video-player {
+                #ytPlayer {
+                    width: 100%;
+                }
+            }
+        }
 
-@import '../src/home/home';
+        .subtitles-scroller {
+            height: 480px;
+
+            .subtitles li {
+                line-height: 48px;
+                font-size: 32px;
+            }
+        }
+    }
+}
+
 @import '../src/youtube/youtube-main/youtube-main';
 @import '../src/youtube/youtube-player/youtube-player';
 @import '../src/rdio/rdio-main/rdio-main';

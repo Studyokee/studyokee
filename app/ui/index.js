@@ -88,5 +88,14 @@ app.get('/classrooms/edit/:id',
         res.render('entity', data);
     }
 );
+app.get('/classrooms/:id',
+    function(req, res) {
+        var data = {
+            id: req.params.id,
+            page: '/lib/pages/classroom.js'
+        };
+        res.render('entity', data);
+    }
+);
 
 module.exports = app;
