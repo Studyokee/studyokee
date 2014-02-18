@@ -1,0 +1,15 @@
+<h3>Classes:</h3>
+<ul class="nav nav-pills nav-stacked col-lg-3">
+    {{#each data}}
+        <li>
+            <a class="classroomLink" data-index="{{@index}}">
+                <div class="title">
+                    {{name}}
+                </div>
+                <div class="description text-muted">
+                    <em>{{language}}</em>
+                </div>
+            </a>
+        </li>
+    {{/each}}
+</ul>

@@ -11,7 +11,7 @@ var app = express();
 app.get('/', function (req, res) {
     q.resolve().then(function () {
         var findRequest = q.defer();
-        Classroom.findOne({}, findRequest.makeNodeResolver());
+        Classroom.find({}, findRequest.makeNodeResolver());
         return findRequest.promise;
     }).then(function (classrooms) {
         res.json(200, classrooms);
