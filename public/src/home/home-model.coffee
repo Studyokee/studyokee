@@ -1,18 +1,23 @@
 define [
-  'dictionary.model',
   'backbone'
-], (DictionaryModel, Backbone) ->
+], (Backbone) ->
   HomeModel = Backbone.Model.extend(
 
     initialize: () ->
-      this.dictionaryModel = new DictionaryModel(
-        fromLanguage: this.get('settings').get('fromLanguage')
-        toLanguage: this.get('settings').get('toLanguage')
-      )
+      this.getClassrooms()
 
-    lookup: (query) ->
-      this.dictionaryModel.set(
-        query: query
+    getClassrooms: () ->
+      $.ajax(
+        type: 'GET'
+        url: '/api/classrooms/'
+        dataType: 'json'
+        success: (res) =>
+          console.log('rooms: ' + JSON.stringify(res, null, 4))
+          this.set(
+            data: res
+          )
+        error: (err) =>
+          console.log('Error: ' + err)
       )
   )
 
