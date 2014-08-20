@@ -19,7 +19,10 @@ function ensureAuthenticated(req, res, next) {
 
 app.get('/',
     function(req, res) {
-        res.redirect('/video');
+        var data = {
+            page: '/lib/pages/youtube-main.js'
+        };
+        res.render('base', data);
     }
 );
 
@@ -28,15 +31,6 @@ app.get('/rdio',
     function(req, res) {
         var data = {
             page: '/lib/pages/rdio-main.js'
-        };
-        res.render('base', data);
-    }
-);
-
-app.get('/video',
-    function(req, res) {
-        var data = {
-            page: '/lib/pages/youtube-main.js'
         };
         res.render('base', data);
     }
