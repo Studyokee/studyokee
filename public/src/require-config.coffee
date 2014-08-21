@@ -9,6 +9,7 @@ requirejs.config(
     underscore: '/bower_components/underscore/underscore'
     handlebars: '/bower_components/handlebars/handlebars'
     templates: 'lib/templates'
+    purl: 'bower_components/purl/purl'
     yt: 'https://www.youtube.com/iframe_api?noext'
     'home.model': 'lib/home/home-model'
     'home.view': 'lib/home/home-view'
@@ -43,6 +44,8 @@ requirejs.config(
     'edit.suggestions.view': 'lib/edit-suggestions/edit-suggestions-view'
     'edit.songs.view': 'lib/edit-songs/edit-songs-view'
     'edit.songs.model': 'lib/edit-songs/edit-songs-model'
+    'create.song.view': 'lib/create-song/create-song-view'
+    'create.song.model': 'lib/create-song/create-song-model'
     'edit.song.view': 'lib/edit-song/edit-song-view'
     'edit.song.model': 'lib/edit-song/edit-song-model'
     'create.classroom.view': 'lib/create-classroom/create-classroom-view'
@@ -69,6 +72,9 @@ requirejs.config(
     underscore:
       exports: '_'
     jrdio:
+      deps: [ 'jquery' ]
+      exports: '$'
+    purl:
       deps: [ 'jquery' ]
       exports: '$'
     handlebars:

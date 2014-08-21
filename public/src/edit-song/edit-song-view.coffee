@@ -1,8 +1,10 @@
 define [
   'backbone',
   'handlebars',
+  'jquery',
+  'purl',
   'templates'
-], (Backbone, Handlebars) ->
+], (Backbone, Handlebars, $) ->
   EditSongView = Backbone.View.extend(
     className: "editSong"
     
@@ -22,29 +24,87 @@ define [
 
       this.$el.html(Handlebars.templates['edit-song'](model))
 
+      if model.data?
+        subtitles = model.data.subtitles
+        if subtitles.length is 0
+          subtitles = [text: 'There are no subtitles yet.']
+
+        translation = []
+        if model.data?.translations?.length > 0
+          translation = model.data.translations[0].data
+        if translation.length is 0
+          translation = ['There is no translation yet.']
+
+        tableBody = ''
+        length = Math.max(subtitles.length, translation.length)
+        for i in [0..length]
+          subtitleLine = ''
+          if subtitles.length > i
+            subtitleLine = subtitles[i].text
+
+          translationLine = ''
+          if translation.length > i
+            translationLine = translation[i]
+
+          tableBody += '<tr>'
+          tableBody += '<td class="col-lg-6">' + subtitleLine + '</td>'
+          tableBody += '<td class="col-lg-6">' + translationLine + '</td>'
+          tableBody += '</tr>'
+
+        this.$('.songText').html(tableBody)
+
       view = this
       this.$('.cancel').on('click', (event) ->
-        document.location = '../../../songs/edit/'
+        window.history.back()
         event.preventDefault()
       )
       this.$('.save').on('click', (event) =>
-        this.saveSong()
+        song = this.model.get('data')
+        song.metadata.trackName = this.$('#trackName').val()
+        song.metadata.artist = this.$('#artist').val()
+        song.metadata.language = this.$('#language').val()
+        song.youtubeKey = $.url(this.$('#youtubeKey').val()).param('v')
+        this.model.saveSong(song)
         event.preventDefault()
       )
 
-      if model.data?.subtitles?
-        this.$('.subtitles').attr('rows', model.data.subtitles.length + 3)
-      if model.data?.translations?.length > 0 and model.data.translations[0].data?
-        this.$('.translation').attr('rows', model.data.translations[0].data.length + 3)
+      this.$('.editSubtitles').on('click', (event) =>
+        this.$('.editSubtitlesModal').show()
+        event.preventDefault()
+      )
+      this.$('.closeSubtitlesModal').click(() =>
+        this.$('.editSubtitlesModal').hide()
+        event.preventDefault()
+      )
+      this.$('.syncSubtitles').click(() =>
+        success = () =>
+          this.$('.editSubtitlesModal').hide()
 
-      this.$('.translation-toggle').on('click', () =>
-        dropdown = this.$('.translation-dropdown')
-        if dropdown.hasClass('open')
-          dropdown.removeClass('open')
-        else
-          dropdown.addClass('open')
+        this.model.saveSubtitles(this.$('#subtitlesEdit').val(), success)
+        event.preventDefault()
       )
 
+      this.$('.editTranslation').on('click', (event) =>
+        this.$('.editTranslationModal').show()
+        event.preventDefault()
+      )
+      this.$('.closeTranslationModal').click(() =>
+        this.$('.editTranslationModal').hide()
+        event.preventDefault()
+      )
+      this.$('.saveTranslation').click(() =>
+        success = () =>
+          this.$('.editTranslationModal').hide()
+
+        this.model.saveTranslation(this.$('#translationEdit').val(), success)
+        event.preventDefault()
+      )
+
+      if model.data?
+        this.$('#language').val(model.data?.metadata?.language)
+
+      if model.data?.youtubeKey?
+        this.$('#youtubeKey').val('http://www.youtube.com/watch?v=' + model.data.youtubeKey)
 
       return this
 
@@ -54,7 +114,7 @@ define [
 
       text = ''
       for line in subtitles
-        text += '[' + line.ts + ']' + line.text + '\n'
+        text += line.text + '\n'
       return text
 
     createSubtitlesFromText: (text) ->

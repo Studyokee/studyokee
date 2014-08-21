@@ -26,8 +26,13 @@ define [
       this.$('.songSearchListContainer').html(this.songSearchListView.render().el)
 
       classroom = this.model.get('data')
-      if classroom
-        this.$('#language').val(classroom.language)
+      if classroom?
+        language = ''
+        switch classroom.language
+          when 'es' then language = 'Spanish'
+          when 'fr' then language = 'French'
+          when 'de' then language = 'German'
+        this.$('#language').val(language)
 
       this.$('#searchSongs').keyup((event) =>
         query = this.$('#searchSongs').val()
@@ -46,7 +51,7 @@ define [
       )
 
       this.songListView.on('select', (item) =>
-        document.location = '/songs/edit/' + item.song._id
+        document.location = '/songs/' + item.song._id + '/edit'
       )
 
       this.songListView.on('remove', (item) =>

@@ -8,9 +8,6 @@ var request = require('request');
 var Song;
 
 var songSchema = mongoose.Schema({
-    rdioKey: {
-        type: String
-    },
     youtubeKey: {
         type: String
     },
@@ -28,6 +25,22 @@ var songSchema = mongoose.Schema({
         language: String,
         data: [String]
     }]
+});
+
+songSchema.static('create', function (trackName, artist, language) {
+    return q.resolve().then(function () {
+        var toSave = {
+            metadata: {
+                trackName: trackName,
+                artist: artist,
+                language: language
+            }
+        };
+        var song = new Song(toSave);
+        var saveRequest = q.defer();
+        song.save(saveRequest.makeNodeResolver());
+        return saveRequest.promise;
+    });
 });
 
 function findOne (query) {
