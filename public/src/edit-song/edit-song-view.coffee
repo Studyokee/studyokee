@@ -1,8 +1,10 @@
 define [
   'backbone',
   'handlebars',
+  'jquery',
+  'purl',
   'templates'
-], (Backbone, Handlebars) ->
+], (Backbone, Handlebars, $) ->
   EditSongView = Backbone.View.extend(
     className: "editSong"
     
@@ -61,6 +63,7 @@ define [
         song.metadata.trackName = this.$('#trackName').val()
         song.metadata.artist = this.$('#artist').val()
         song.metadata.language = this.$('#language').val()
+        song.youtubeKey = $.url(this.$('#youtubeKey').val()).param('v')
         this.model.saveSong(song)
         event.preventDefault()
       )

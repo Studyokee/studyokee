@@ -1,9 +1,10 @@
 define [
   'backbone',
   'handlebars',
+  'jquery',
   'purl',
   'templates'
-], (Backbone, Handlebars) ->
+], (Backbone, Handlebars, $) ->
   CreateSongView = Backbone.View.extend(
     className: "create-Song"
     
