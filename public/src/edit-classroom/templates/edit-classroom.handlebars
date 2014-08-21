@@ -1,28 +1,18 @@
 <div class="col-lg-6">
     <form>
         <fieldset>
-            <legend>Create Classroom</legend>
+            <legend>Edit Classroom <a href="/classrooms/{{data.classroomId}}" class="btn btn-primary btn-xs">view</a></legend>
             <div class="form-horizontal">
-                <div class="form-group">
-                    <div class="col-lg-6 col-lg-offset-6">
-                        <button class="btn btn-default cancel">Cancel</button> 
-                        <button type="submit" class="btn btn-primary save">Save</button> 
-                    </div>
-                </div>
                 <div class="form-group">
                     <label for="name" class="col-lg-6 control-label">Name</label>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="name" placeholder="Name" value="{{data.name}}">
+                        <input type="text" class="form-control" id="name" placeholder="Name" value="{{data.name}}" readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="language" class="col-lg-6 control-label">Language Being Taught</label>
                     <div class="col-lg-6">
-                        <select class="form-control" id="language">
-                            <option value="en">English</option>
-                            <option value="fr">French</option>
-                            <option value="es">Spanish</option>
-                        </select>
+                        <input type="text" class="form-control" id="language" value="{{data.language}}" readonly>
                     </div>
                 </div>
             </div>
@@ -33,10 +23,8 @@
             <div class="form-group">
                 <label class="control-label">Add Song</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="songToAdd" placeholder="Song Id">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default add" type="button">Add</button>
-                    </span>
+                    <input type="text" class="form-control" id="searchSongs" placeholder="Search by title" autocomplete="off">
+                    <div class="songSearchListContainer" style="display:none;"></div>
                 </div>
             </div>
         </fieldset>

@@ -1,7 +1,8 @@
 <ul class="nav nav-pills nav-stacked">
     {{#each this}}
-        <li>
-            <a class="mediaItemLink" data-index="{{@index}}"></a>
+        <li data-index="{{@index}}">
+            <a class="mediaItemLink"></a>
+            <button type="button" class="remove close" title="Remove Song">×</button>
         </li>
     {{/each}}
 </ul>

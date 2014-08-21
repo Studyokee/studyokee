@@ -22,7 +22,20 @@ app.get('/', function (req, res) {
     q.resolve().then(function () {
         return getAllSongs();
     }).then(function (songs) {
-        res.json(200, songs);
+        if (req.query.hasOwnProperty('searchQuery')) {
+            var pattern = new RegExp(req.query.searchQuery, 'i');
+            var matches = [];
+            for (var i = 0; i < songs.length; i++) {
+                var song = songs[i];
+                
+                if (pattern.test(song.metadata.trackName)) {
+                    matches.push(song);
+                }
+            }
+            res.json(200, matches);
+        } else {
+            res.json(200, songs);
+        }
     }).fail(function (err) {
         console.log(err);
         res.json(500, {

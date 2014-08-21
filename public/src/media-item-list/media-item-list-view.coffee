@@ -27,11 +27,23 @@ define [
           view = this
           this.$('.mediaItemLink').on('click', (event) ->
             data = view.model.get('data')
-            index = $(this).attr('data-index')
+            index = $(this).parent('li').attr('data-index')
             view.trigger('select', data[index])
           )
+
+          this.$('.remove').on('click', (event) ->
+            data = view.model.get('data')
+            index = $(this).parent('li').attr('data-index')
+            view.trigger('remove', data[index])
+          )
+
+          if this.model.get('allowRemove')
+            this.$('.remove').show()
+          else
+            this.$('.remove').hide()
         else
           this.$el.html(Handlebars.templates['no-items']())
+
 
       return this
 

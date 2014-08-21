@@ -15,7 +15,7 @@ requirejs.config(
     'header.view': 'lib/header/header-view'
     'media.item.view': 'lib/media-item/media-item-view'
     'media.item.list.view': '/lib/media-item-list/media-item-list-view'
-    'video.item.list.model': '/lib/media-item-list/video-item-list-model'
+    'media.item.list.model': '/lib/media-item-list/media-item-list-model'
     'settings': '/lib/settings'
     'add.song.view': '/lib/add-song/add-song-view'
     'add.song.model': '/lib/add-song/add-song-model'

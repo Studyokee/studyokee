@@ -73,7 +73,7 @@ app.get('/classrooms/create',
         res.render('base', data);
     }
 );
-app.get('/classrooms/edit/:id',
+app.get('/classrooms/:id/edit',
     function(req, res) {
         var data = {
             id: req.params.id,
