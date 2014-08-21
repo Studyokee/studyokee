@@ -36,6 +36,15 @@ app.get('/rdio',
     }
 );
 
+app.get('/songs/create',
+    function(req, res) {
+        var data = {
+            page: '/lib/pages/create-song.js'
+        };
+        res.render('base', data);
+    }
+);
+
 app.get('/songs/edit',
     function(req, res) {
         var data = {
@@ -45,7 +54,7 @@ app.get('/songs/edit',
     }
 );
 
-app.get('/songs/edit/:id',
+app.get('/songs/:id/edit',
     function(req, res) {
         var data = {
             id: req.params.id,

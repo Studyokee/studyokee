@@ -44,6 +44,19 @@ app.get('/', function (req, res) {
     });
 });
 
+app.post('/', function (req, res) {
+    q.resolve().then(function () {
+        return Song.create(req.body.trackName, req.body.artist, req.body.language);
+    }).then(function (classroom) {
+        res.json(200, classroom);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
 app.use(require('./song'));
 
 app.use(function (req, res) {

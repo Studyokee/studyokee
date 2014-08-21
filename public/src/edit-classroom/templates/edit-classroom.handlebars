@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <label for="name" class="col-lg-6 control-label">Name</label>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="name" placeholder="Name" value="{{data.name}}" readonly>
+                        <input type="text" id="name" class="form-control" placeholder="Name" value="{{data.name}}" readonly>
                     </div>
                 </div>
                 <div class="form-group">
@@ -18,17 +18,15 @@
             </div>
         </fieldset>
     </form>
-    <form>
-        <fieldset>
-            <div class="form-group">
-                <label class="control-label">Add Song</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="searchSongs" placeholder="Search by title" autocomplete="off">
-                    <div class="songSearchListContainer" style="display:none;"></div>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+    <div>
+        <label class="control-label">Add Song</label>
+        <div class="input-group addSongSection">
+            <input type="text" class="form-control" id="searchSongs" placeholder="Search by title" autocomplete="off">
+            <span class='separatingText'> or </span>
+            <a href="/songs/create?language={{data.language}}" class="btn btn-primary">Add New Song</a>
+            <div class="songSearchListContainer" style="display:none;"></div>
+        </div>
+    </div>
     <h3>Songs</h3>
     <div class="songListContainer"></div>
 </div>

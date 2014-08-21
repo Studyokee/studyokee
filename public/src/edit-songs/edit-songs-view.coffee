@@ -30,7 +30,7 @@ define [
       return this
 
     openSong: (song) ->
-      document.location = '../../songs/edit/' + song._id
+      document.location = '../../songs/' + song._id + '/edit'
 
   )
 

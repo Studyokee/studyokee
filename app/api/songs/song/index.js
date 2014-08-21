@@ -65,6 +65,7 @@ app.put('/:id', function (req, res) {
         youtubeKey: song.youtubeKey,
         youtubeOffset: song.youtubeOffset
     };
+    console.log(JSON.stringify(updates));
     q.resolve().then(function () {
         var updateRequest = q.defer();
         req.song.update(updates, updateRequest.makeNodeResolver());
