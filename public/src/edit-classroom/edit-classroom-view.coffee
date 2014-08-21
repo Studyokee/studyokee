@@ -8,8 +8,11 @@ define [
     className: "edit-classroom"
     
     initialize: () ->
-      this.videoItemListView = new MediaItemList(
-        model: this.model.videoItemListModel
+      this.songListView = new MediaItemList(
+        model: this.model.songListModel
+      )
+      this.songSearchListView = new MediaItemList(
+        model: this.model.songSearchListModel
       )
 
       this.listenTo(this.model, 'change', () =>
@@ -19,26 +22,35 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['edit-classroom'](this.model.toJSON()))
 
-      this.$('.songListContainer').html(this.videoItemListView.render().el)
+      this.$('.songListContainer').html(this.songListView.render().el)
+      this.$('.songSearchListContainer').html(this.songSearchListView.render().el)
 
       classroom = this.model.get('data')
       if classroom
         this.$('#language').val(classroom.language)
 
-      this.$('.cancel').on('click', (event) ->
-        document.location = '/'
-        event.preventDefault()
+      this.$('#searchSongs').keyup((event) =>
+        query = this.$('#searchSongs').val()
+
+        success = () =>
+          if this.$('.songSearchListContainer li').length is 0
+            this.$('.songSearchListContainer').hide()
+          else
+            this.$('.songSearchListContainer').show()
+        this.model.searchSongs(query, success)
+
       )
-      this.$('.save').on('click', (event) =>
-        name = this.$('#name').val()
-        language = this.$('#language').val()
-        this.model.saveClassroom(name, language)
-        event.preventDefault()
+
+      this.songSearchListView.on('select', (item) =>
+        this.model.addSong(item.song._id)
       )
-      this.$('.add').on('click', (event) =>
-        id = this.$('#songToAdd').val()
-        this.model.addSong(id)
-        event.preventDefault()
+
+      this.songListView.on('select', (item) =>
+        document.location = '/songs/edit/' + item.song._id
+      )
+
+      this.songListView.on('remove', (item) =>
+        this.model.removeSong(item.song._id)
       )
 
       return this

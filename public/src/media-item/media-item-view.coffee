@@ -15,6 +15,9 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['media-item'](this.model.toJSON()))
 
+      if not this.model.get('data').icon
+        this.$('.icon').hide()
+
       centerImage = () =>
         this.centerImage()
       setTimeout(centerImage)

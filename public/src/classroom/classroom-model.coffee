@@ -1,7 +1,7 @@
 define [
   'dictionary.model',
   'youtube.main.model',
-  'video.item.list.model',
+  'media.item.list.model',
   'backbone'
 ], (DictionaryModel, MainModel, MenuModel, Backbone) ->
   ClassroomModel = Backbone.Model.extend(

@@ -75,8 +75,12 @@ app.put('/:id', function (req, res) {
         if (req.body.language) {
             updates.language = req.body.language;
         }
-        if (req.body.songs) {
-            updates.songs = req.body.songs;
+        if (!req.body.name || !req.body.language) {
+            if (!req.body.songs) {
+                updates.songs = [];
+            } else {
+                updates.songs = req.body.songs;
+            }
         }
         console.log('Updating classroom with: ' + JSON.stringify(updates, null, 4));
         var updateRequest = q.defer();

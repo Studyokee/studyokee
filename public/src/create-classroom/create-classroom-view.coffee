@@ -23,7 +23,7 @@ define [
         name = this.$('#name').val()
         language = this.$('#language').val()
         success = (classroom) ->
-          document.location = '/classroom/' + classroom.classroomId
+          document.location = '/classrooms/' + classroom.classroomId + '/edit'
         this.model.saveClassroom(name, language, success)
         event.preventDefault()
       )

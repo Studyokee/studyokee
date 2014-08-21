@@ -193,7 +193,6 @@ songSchema.static('getDisplayInfo', function (ids) {
         }, getRequest.makeNodeResolver());
         return getRequest.promise;
     }).then(function (result) {
-        console.log('result1: ' + JSON.stringify(result, null, 4));
         songs = result;
 
         var videoIds = [];
