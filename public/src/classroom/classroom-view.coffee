@@ -38,7 +38,7 @@ define [
       )
 
       this.menuView.on('select', (item) =>
-        this.model.mainModel.trigger('changeSong', item)
+        this.model.mainModel.trigger('changeSong', item.song)
       )
 
     render: () ->

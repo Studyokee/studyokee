@@ -3,16 +3,12 @@ define [
 ], (Backbone) ->
   CreateSongModel = Backbone.Model.extend(
 
-    saveSong: (trackName, artist, language, success) ->
-      classroom =
-        trackName: trackName
-        artist: artist
-        language: language
+    saveSong: (song, success) ->
       $.ajax(
         type: 'POST'
         url: '/api/songs/'
         dataType: 'json'
-        data: classroom
+        data: song
         success: (data, result) =>
           if result is 'success'
             console.log('Success!')

@@ -1,9 +1,10 @@
 define [
   'media.item.list.view',
+  'create.song.view',
   'backbone',
   'handlebars',
   'templates'
-], (MediaItemList, Backbone, Handlebars) ->
+], (MediaItemList, CreateSongView, Backbone, Handlebars) ->
   EditClassroomView = Backbone.View.extend(
     className: "edit-classroom"
     
@@ -11,6 +12,11 @@ define [
       this.songListView = new MediaItemList(
         model: this.model.songListModel
       )
+
+      this.createSongView = new CreateSongView(
+        model: this.model.createSongModel
+      )
+
       this.songSearchListView = new MediaItemList(
         model: this.model.songSearchListModel
       )
@@ -24,6 +30,9 @@ define [
 
       this.$('.songListContainer').html(this.songListView.render().el)
       this.$('.songSearchListContainer').html(this.songSearchListView.render().el)
+      this.$('.addNewSongContainer').html(this.createSongView.render().el)
+      if this.model.get('data')?.songs?.length
+        this.$('.songCount').html('(' + this.model.get('data').songs.length + ')')
 
       classroom = this.model.get('data')
       if classroom?
@@ -36,18 +45,24 @@ define [
 
       this.$('#searchSongs').keyup((event) =>
         query = this.$('#searchSongs').val()
+        this.model.searchSongs(query)
 
-        success = () =>
-          if this.$('.songSearchListContainer li').length is 0
-            this.$('.songSearchListContainer').hide()
-          else
-            this.$('.songSearchListContainer').show()
-        this.model.searchSongs(query, success)
-
+      )
+      this.$('#searchSongs').focus((event) =>
+        this.$('.songSearchListContainer').show()
+      )
+      this.$('#searchSongs').blur((event) =>
+        if not this.$('#searchSongs').val()
+          this.$('.songSearchListContainer').hide()
       )
 
       this.songSearchListView.on('select', (item) =>
         this.model.addSong(item.song._id)
+        this.model.songSearchListModel.set(
+          rawData: []
+        )
+        this.$('#searchSongs').val('')
+        this.$('.songSearchListContainer').hide()
       )
 
       this.songListView.on('select', (item) =>
@@ -56,6 +71,22 @@ define [
 
       this.songListView.on('remove', (item) =>
         this.model.removeSong(item.song._id)
+      )
+
+      this.$('.addNewSong').on('click', () =>
+        this.$('.addNewSongModal').show()
+      )
+
+      this.$('.closeAddSongModal').on('click', () =>
+        this.$('.addNewSongModal').hide()
+      )
+
+      this.createSongView.on('saveSuccess', (song) =>
+        this.$('.addNewSongModal').hide()
+        this.model.addSong(song._id)
+      )
+      this.createSongView.on('cancel', (song) =>
+        this.$('.addNewSongModal').hide()
       )
 
       return this

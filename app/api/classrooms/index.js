@@ -96,4 +96,6 @@ app.put('/:id', function (req, res) {
     });
 });
 
+app.use(require('./classroom'));
+
 module.exports = app;

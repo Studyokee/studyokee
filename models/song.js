@@ -27,15 +27,8 @@ var songSchema = mongoose.Schema({
     }]
 });
 
-songSchema.static('create', function (trackName, artist, language) {
+songSchema.static('create', function (toSave) {
     return q.resolve().then(function () {
-        var toSave = {
-            metadata: {
-                trackName: trackName,
-                artist: artist,
-                language: language
-            }
-        };
         var song = new Song(toSave);
         var saveRequest = q.defer();
         song.save(saveRequest.makeNodeResolver());
@@ -216,7 +209,7 @@ songSchema.static('getDisplayInfo', function (ids) {
         }
 
         if (videoIds.length === 0) {
-            return songs;
+            return [];
         }
 
         var url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet';
@@ -231,7 +224,10 @@ songSchema.static('getDisplayInfo', function (ids) {
         }, getVideoSnippetsRequest.makeNodeResolver());
         return getVideoSnippetsRequest.promise;
     }).spread(function (videosResult) {
-        var videos = videosResult.body.items;
+        var videos = [];
+        if (videosResult && videosResult.body) {
+            videos = videosResult.body.items;
+        }
         var toReturn = [];
         for (var i = 0; i < songs.length; i++) {
             var item = {};

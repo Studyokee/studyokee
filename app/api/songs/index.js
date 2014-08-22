@@ -28,7 +28,7 @@ app.get('/', function (req, res) {
             for (var i = 0; i < songs.length; i++) {
                 var song = songs[i];
                 
-                if (pattern.test(song.metadata.trackName)) {
+                if (pattern.test(song.metadata.trackName) || pattern.test(song.metadata.artist)) {
                     matches.push(song);
                 }
             }
@@ -46,7 +46,7 @@ app.get('/', function (req, res) {
 
 app.post('/', function (req, res) {
     q.resolve().then(function () {
-        return Song.create(req.body.trackName, req.body.artist, req.body.language);
+        return Song.create(req.body);
     }).then(function (classroom) {
         res.json(200, classroom);
     }).fail(function (err) {
