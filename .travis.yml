@@ -13,4 +13,5 @@ deploy:
     master: studyokee
   api_key:
     master:
-      secure: jvep5A1AQBeV+8PmqdaToVvC63O3pa7hQ3t+ce6TMe+nlOKAxrzeDMjyjOIyfMQvASxX4vNjR7CIXYXAluoiPlhOlE8p+5f3d87u6hIj3Rx9GwR3r2vbTqZc2POl2QJhCPkduT71ekyR2OZsbraXOtejl3Q0dYWyJcKP5BFo4rU=
+      secure: jvep5A1AQBeV+8PmqdaToVvC63O3pa7hQ3t+ce6TMe+nlOKAxrzeDMjyjOIyfMQvASxX4vNjR7CIXYXAluoiPlhOlE8p+5f3d87u6hIj3Rx9GwR3r2vbTqZc2POl2QJhCPkduT71ekyR2OZsbraXOtejl3Q0dYWyJcKP5BFo4rU
+  strategy: git
