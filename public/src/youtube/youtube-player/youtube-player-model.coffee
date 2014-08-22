@@ -92,9 +92,9 @@ define [
     onChangeSong: () ->
       currentSong = this.get('currentSong')
       if this.ytPlayer?.cueVideoById? and currentSong?
-        this.ytPlayer.cueVideoById(currentSong.song.youtubeKey)
-        if currentSong.song.youtubeOffset?
-          this.offset = currentSong.song.youtubeOffset
+        this.ytPlayer.cueVideoById(currentSong.youtubeKey)
+        if currentSong.youtubeOffset?
+          this.offset = currentSong.youtubeOffset
         else
           this.offset = 0
 

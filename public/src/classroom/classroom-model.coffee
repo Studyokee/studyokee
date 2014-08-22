@@ -9,6 +9,7 @@ define [
     initialize: () ->
       this.mainModel = new MainModel(
         settings: this.get('settings')
+        language: 'en'
       )
 
       this.menuModel = new MenuModel(
@@ -42,7 +43,7 @@ define [
           )
           if this.menuModel.get('data')?.length > 0
             firstItem = this.menuModel.get('data')[0]
-            this.mainModel.trigger('changeSong', firstItem)
+            this.mainModel.trigger('changeSong', firstItem.song)
         error: (err) =>
           console.log('Error: ' + err)
       )
