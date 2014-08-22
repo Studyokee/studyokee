@@ -64,6 +64,7 @@ requirejs.config(
     'youtube.main.model': '/lib/youtube/youtube-main/youtube-main-model'
     'youtube.main.view': '/lib/youtube/youtube-main/youtube-main-view'
     'youtube.player.model': '/lib/youtube/youtube-player/youtube-player-model'
+    'youtube.player.sync.model': '/lib/youtube/youtube-player/youtube-player-sync-model'
     'youtube.player.view': '/lib/youtube/youtube-player/youtube-player-view'
   shim:
     backbone:

@@ -1,16 +1,22 @@
 define [
   'songs.data.provider',
   'youtube.player.model',
+  'youtube.player.sync.model',
   'subtitles.scroller.model',
   'backbone'
-], (SongsDataProvider, YoutubePlayerModel, SubtitlesScrollerModel, Backbone) ->
+], (SongsDataProvider, YoutubePlayerModel, YoutubePlayerSyncModel, SubtitlesScrollerModel, Backbone) ->
   YoutubeMainModel = Backbone.Model.extend(
 
     initialize: () ->
       this.dataProvider = new SongsDataProvider(this.get('settings'))
-      this.youtubePlayerModel = new YoutubePlayerModel(
-        settings: this.get('settings')
-      )
+      if this.get('editMode')
+        this.youtubePlayerModel = new YoutubePlayerSyncModel(
+          settings: this.get('settings')
+        )
+      else
+        this.youtubePlayerModel = new YoutubePlayerModel(
+          settings: this.get('settings')
+        )
 
       this.subtitlesScrollerModel = new SubtitlesScrollerModel()
       this.listenTo(this.youtubePlayerModel, 'change:i', () =>
@@ -23,7 +29,7 @@ define [
         this.youtubePlayerModel.set(
           currentSong: song
         )
-        this.getSubtitles(song.song)
+        this.getSubtitles(song)
       )
 
     getSubtitles: (song) ->
@@ -57,7 +63,7 @@ define [
             subtitles: data.original
           )
       
-      this.dataProvider.getSegments(song._id, this.get('settings').get('toLanguage'), callback)
+      this.dataProvider.getSegments(song._id, this.get('language'), callback)
   )
 
   return YoutubeMainModel

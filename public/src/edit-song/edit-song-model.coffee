@@ -1,11 +1,17 @@
 define [
   'backbone',
+  'youtube.main.model',
   'underscore',
   'jquery'
-], (Backbone, _, $) ->
+], (Backbone, SyncModel, _, $) ->
   EditSongModel = Backbone.Model.extend(
 
     initialize: () ->
+      this.syncModel = new SyncModel(
+        language: 'en'
+        editMode: true
+      )
+
       this.getSong()
 
     getSong: () ->
@@ -13,11 +19,12 @@ define [
         type: 'GET'
         url: '/api/songs/' + this.get('id')
         dataType: 'json'
-        success: (res) =>
+        success: (song) =>
           this.set(
-            data: res
+            data: song
           )
           this.trigger('change')
+          this.syncModel.trigger('changeSong', song)
         error: (err) =>
           console.log('Error: ' + err)
       )
@@ -25,15 +32,20 @@ define [
     saveSubtitles: (subtitlesText, success) ->
       lines = subtitlesText.split('\n')
       subtitles = []
+      ts = 0
       for line in lines
         subtitle =
           text: line
-          ts: 0
+          ts: ts
         subtitles.push(subtitle)
+        ts += 9999
 
       song = this.get('data')
       song.subtitles = subtitles
       this.saveSong(song, success)
+
+    saveSync: (success) ->
+      this.saveSong(this.get('data'), success)
 
     saveTranslation: (translationText, success) ->
       translation = translationText.split('\n')
