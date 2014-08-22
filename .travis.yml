@@ -10,6 +10,5 @@ env:
 deploy:
   provider: heroku
   app: studyokee
-  api_key: 
-    secure: "gDWlNjlqmH2wMAG3VI5v4jZQYAxh9XC/dECAOlfIMc8FIaNdaXlbpTrmpNc0jtiexxZT6SefudExRF/5rr+bI0acGMhSXSbeK3VkboNGayEFF6rJHQrpvbF4jKgRcnfz0MXfkQGNY3b8XVMmhL2DWp+QysDjw44fMl/MNamoWJ8="
+  api_key: 3b7d1520-ee70-4f03-8243-e0181fde579a
   strategy: git
