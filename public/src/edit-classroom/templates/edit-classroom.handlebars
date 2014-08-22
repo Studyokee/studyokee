@@ -21,12 +21,24 @@
     <div>
         <label class="control-label">Add Song</label>
         <div class="input-group addSongSection">
-            <input type="text" class="form-control" id="searchSongs" placeholder="Search by title" autocomplete="off">
+            <input type="text" class="form-control" id="searchSongs" placeholder="Search by artist or title" autocomplete="off">
             <span class='separatingText'> or </span>
-            <a href="/songs/create?language={{data.language}}" class="btn btn-primary">Add New Song</a>
+            <button class="btn btn-primary addNewSong">Add New Song</button>
             <div class="songSearchListContainer" style="display:none;"></div>
+            <div class="modal addNewSongModal fade in" style="display:none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close closeAddSongModal" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Create Song</h4>
+                        </div>
+                        <div class="modal-body addNewSongContainer"></div>
+                    </div>
+                </div>
+                <div class="modal-backdrop fade in"></div>
+            </div>
         </div>
     </div>
-    <h3>Songs</h3>
-    <div class="songListContainer"></div>
+    <h3>Songs <span class="songCount"></span></h3>
+    <div class="songListContainer col-lg-8"></div>
 </div>

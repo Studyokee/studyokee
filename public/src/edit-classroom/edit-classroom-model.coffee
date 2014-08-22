@@ -1,13 +1,16 @@
 define [
   'media.item.list.model',
+  'create.song.model',
   'backbone'
-], (MediaItemListModel, Backbone) ->
+], (MediaItemListModel, CreateSongModel, Backbone) ->
   EditClassroomModel = Backbone.Model.extend(
 
     initialize: () ->
       this.songListModel = new MediaItemListModel(
         allowRemove: true
       )
+
+      this.createSongModel = new CreateSongModel()
 
       this.songSearchListModel = new MediaItemListModel()
 
@@ -25,6 +28,10 @@ define [
           this.songListModel.set(
             rawData: res.displayInfos
           )
+          this.createSongModel.set(
+            defaultLanguage: res.classroom.language
+          )
+      
         error: (err) =>
           console.log('Error: ' + err)
       )
@@ -90,11 +97,11 @@ define [
       )
 
     searchSongs: (query, callback) ->
-      if query.trim().length < 2
+      if query.trim().length < 1
         this.songSearchListModel.set(
           rawData: []
         )
-        callback()
+        callback?()
         return
 
       data =
@@ -113,10 +120,10 @@ define [
           this.songSearchListModel.set(
             rawData: data
           )
-          callback()
+          callback?()
         error: (err) =>
           console.log('Error: ' + err)
-          callback()
+          callback?()
       )
   )
 

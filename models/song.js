@@ -27,15 +27,8 @@ var songSchema = mongoose.Schema({
     }]
 });
 
-songSchema.static('create', function (trackName, artist, language) {
+songSchema.static('create', function (toSave) {
     return q.resolve().then(function () {
-        var toSave = {
-            metadata: {
-                trackName: trackName,
-                artist: artist,
-                language: language
-            }
-        };
         var song = new Song(toSave);
         var saveRequest = q.defer();
         song.save(saveRequest.makeNodeResolver());
