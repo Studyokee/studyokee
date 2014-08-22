@@ -52,14 +52,17 @@ define [
         for i in [0..length]
           subtitleLine = ''
           if subtitles.length > i
-            subtitleLine = subtitles[i].text
+            if subtitles[i]?.ts?
+              subtitleLine = '(' + subtitles[i]?.ts + ') ' + subtitles[i].text
+            else
+              subtitleLine = subtitles[i].text
 
           translationLine = ''
           if translation.length > i
             translationLine = translation[i]
 
           tableBody += '<tr>'
-          tableBody += '<td class="col-lg-6">(' + subtitles[i]?.ts + ') ' + subtitleLine + '</td>'
+          tableBody += '<td class="col-lg-6">' + subtitleLine + '</td>'
           tableBody += '<td class="col-lg-6">' + translationLine + '</td>'
           tableBody += '</tr>'
 

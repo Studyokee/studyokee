@@ -52,13 +52,17 @@ define [
         this.$('.songSearchListContainer').show()
       )
       this.$('#searchSongs').blur((event) =>
-        this.$('.songSearchListContainer').hide()
+        if not this.$('#searchSongs').val()
+          this.$('.songSearchListContainer').hide()
       )
 
       this.songSearchListView.on('select', (item) =>
-        this.$('.songSearchListContainer').hide()
-        this.$('#searchSongs').val('')
         this.model.addSong(item.song._id)
+        this.model.songSearchListModel.set(
+          rawData: []
+        )
+        this.$('#searchSongs').val('')
+        this.$('.songSearchListContainer').hide()
       )
 
       this.songListView.on('select', (item) =>

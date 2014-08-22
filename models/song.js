@@ -209,7 +209,7 @@ songSchema.static('getDisplayInfo', function (ids) {
         }
 
         if (videoIds.length === 0) {
-            return songs;
+            return [];
         }
 
         var url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet';
@@ -224,7 +224,10 @@ songSchema.static('getDisplayInfo', function (ids) {
         }, getVideoSnippetsRequest.makeNodeResolver());
         return getVideoSnippetsRequest.promise;
     }).spread(function (videosResult) {
-        var videos = videosResult.body.items;
+        var videos = [];
+        if (videosResult && videosResult.body) {
+            videos = videosResult.body.items;
+        }
         var toReturn = [];
         for (var i = 0; i < songs.length; i++) {
             var item = {};

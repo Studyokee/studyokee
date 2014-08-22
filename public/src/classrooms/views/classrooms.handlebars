@@ -1,7 +1,7 @@
-<h3>Classes:</h3>
+<h3>Classrooms ({{data.length}})</h3>
 <ul class="nav nav-pills nav-stacked col-lg-3">
     {{#each data}}
-        <li>
+        <li data-index="{{@index}}">
             <a class="classroomLink" data-index="{{@index}}">
                 <div class="title">
                     {{name}}
@@ -10,6 +10,7 @@
                     <em>{{language}}</em>
                 </div>
             </a>
+            <button type="button" class="remove styClose close" title="Delete Classroom">×</button>
         </li>
     {{/each}}
 </ul>

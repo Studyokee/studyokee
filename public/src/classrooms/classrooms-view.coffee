@@ -20,6 +20,13 @@ define [
         index = $(this).attr('data-index')
         view.openClassroom(classrooms[index])
       )
+      this.$('.remove').on('click', (event) ->
+        data = view.model.get('data')
+        index = $(this).parent('li').attr('data-index')
+        classroom = data[index]
+        if confirm('Delete ' + classroom.name + '?')
+          view.model.deleteClassroom(data[index])
+      )
 
       return this
 

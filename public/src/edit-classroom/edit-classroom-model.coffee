@@ -98,9 +98,11 @@ define [
 
     searchSongs: (query, callback) ->
       if query.trim().length < 1
+        console.log('clear list')
         this.songSearchListModel.set(
           rawData: []
         )
+        this.trigger('change')
         callback?()
         return
 
