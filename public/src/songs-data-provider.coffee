@@ -8,8 +8,7 @@ define () ->
     getSegments: (_id, language, callback) ->
       if @settings?.get('enableLogging')
         startTime = new Date().getTime()
-        console.log('DATA PROVIDER: retrieving lyrics and translation for rdioKey: ' + _id + ' with translation in: ' + language)
-
+        
       @lastSong = currentSong = _id
 
       subtitlesRetrieved = false
