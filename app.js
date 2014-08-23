@@ -17,7 +17,6 @@ app.configure(function() {
 
 app.use('/api', require('./app/api'));
 app.use(require('./app/ui'));
-app.use(require('./app/login'));
 
 app.use(function (req, res) {
     res.send(404);

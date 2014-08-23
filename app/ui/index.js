@@ -2,35 +2,16 @@
 
 var express = require('express');
 var app = express();
-var passport = require('passport');
 
 app.configure(function() {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
-    app.use(passport.initialize());
-    app.use(passport.session());
 });
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-
-    res.redirect('/auth/rdio');
-}
 
 app.get('/',
     function(req, res) {
         var data = {
             page: '/lib/pages/youtube-main.js'
-        };
-        res.render('base', data);
-    }
-);
-
-app.get('/rdio',
-    ensureAuthenticated,
-    function(req, res) {
-        var data = {
-            page: '/lib/pages/rdio-main.js'
         };
         res.render('base', data);
     }
@@ -61,16 +42,6 @@ app.get('/songs/:id/edit',
             page: '/lib/pages/edit-song.js'
         };
         res.render('entity', data);
-    }
-);
-
-app.get('/suggestions/:fromLanguage/:toLanguage',
-    function(req, res) {
-        var data = {
-            fromLanguage: req.params.fromLanguage,
-            toLanguage: req.params.toLanguage
-        };
-        res.render('edit-suggestions', data);
     }
 );
 
