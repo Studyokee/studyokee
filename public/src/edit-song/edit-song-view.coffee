@@ -93,6 +93,7 @@ define [
     renderModals: () ->
       this.$('.editSubtitles').on('click', (event) =>
         this.$('.editSubtitlesModal').show()
+        this.$('.editSubtitlesModal .modal').show()
         event.preventDefault()
       )
       this.$('.closeEditSubtitlesModal').click(() =>
@@ -109,6 +110,7 @@ define [
 
       this.$('.syncSubtitles').click(() =>
         this.$('.syncSubtitlesModal').show()
+        this.$('.syncSubtitlesModal .modal').show()
         this.$('.syncSubtitlesContainer').html(this.syncView.render().el)
         
         event.preventDefault()
@@ -127,6 +129,7 @@ define [
 
       this.$('.editTranslation').on('click', (event) =>
         this.$('.editTranslationModal').show()
+        this.$('.editTranslationModal .modal').show()
         event.preventDefault()
       )
       this.$('.closeTranslationModal').click(() =>

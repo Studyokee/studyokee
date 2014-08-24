@@ -75,6 +75,7 @@ define [
 
       this.$('.addNewSong').on('click', () =>
         this.$('.addNewSongModal').show()
+        this.$('.addNewSongModal .modal').show()
       )
 
       this.$('.closeAddSongModal').on('click', () =>
