@@ -43,6 +43,8 @@ requirejs.config(
     'classroom.model': 'lib/classroom/classroom-model'
     'classrooms.view': 'lib/classrooms/classrooms-view'
     'classrooms.model': 'lib/classrooms/classrooms-model'
+    'classroom.preview.view': 'lib/classroom-preview/classroom-preview-view'
+    'classroom.preview.model': 'lib/classroom-preview/classroom-preview-model'
     'youtube.main.model': '/lib/youtube/youtube-main/youtube-main-model'
     'youtube.main.view': '/lib/youtube/youtube-main/youtube-main-view'
     'youtube.player.model': '/lib/youtube/youtube-player/youtube-player-model'

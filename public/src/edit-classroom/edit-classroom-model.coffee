@@ -107,10 +107,10 @@ define [
         return
 
       data =
-        searchQuery: query
+        queryString: query
       $.ajax(
         type: 'GET'
-        url: '/api/songs'
+        url: '/api/songs/search'
         data: data
         dataType: 'json'
         success: (res) =>
