@@ -2,10 +2,9 @@ define [
   'subtitles.controls.view'
   'backbone',
   'handlebars',
-  'swfobject',
   'yt',
   'templates'
-], (SubtitlesControlsView, Backbone, Handlebars, SwfObject, YT) ->
+], (SubtitlesControlsView, Backbone, Handlebars, YT) ->
   YoutubePlayerView = Backbone.View.extend(
     tagName:  'div'
     className: 'video-player'
