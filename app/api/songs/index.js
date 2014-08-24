@@ -4,12 +4,7 @@ var express = require('express');
 var app = express();
 var q = require('q');
 var Song = require('../../../models/song');
-
-function getAllSongs () {
-    var findAllRequest = q.defer();
-    Song.find({}, findAllRequest.makeNodeResolver());
-    return findAllRequest.promise;
-}
+var assert = require('assert');
 
 // function trimPrefix (req, res, next) {
 //     var match = req.url.match('/[^\/]*(.*)');
@@ -20,22 +15,37 @@ function getAllSongs () {
 
 app.get('/', function (req, res) {
     q.resolve().then(function () {
-        return getAllSongs();
+        return Song.getAllSongs();
     }).then(function (songs) {
-        if (req.query.hasOwnProperty('searchQuery')) {
-            var pattern = new RegExp(req.query.searchQuery, 'i');
-            var matches = [];
-            for (var i = 0; i < songs.length; i++) {
-                var song = songs[i];
-                
-                if (pattern.test(song.metadata.trackName) || pattern.test(song.metadata.artist)) {
-                    matches.push(song);
-                }
-            }
-            res.json(200, matches);
-        } else {
-            res.json(200, songs);
-        }
+        res.json(200, songs);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
+app.get('/display', function (req, res) {
+    q.resolve().then(function () {
+        assert(req.query.hasOwnProperty('ids'));
+        return Song.getDisplayInfo(req.query.ids);
+    }).then(function (displayInfos) {
+        res.json(200, displayInfos);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
+app.get('/search', function (req, res) {
+    q.resolve().then(function () {
+        assert(req.query.hasOwnProperty('queryString'));
+        return Song.searchSongs(req.query.queryString);
+    }).then(function (matches) {
+        res.json(200, matches);
     }).fail(function (err) {
         console.log(err);
         res.json(500, {

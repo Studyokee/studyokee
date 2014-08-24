@@ -19,7 +19,11 @@ define [
         this.$el.html(Handlebars.templates['spinner']())
       else
         if this.mediaItemViews.length > 0
-          this.$el.html(Handlebars.templates['media-item-list'](this.mediaItemViews))
+          if this.options.readonly
+            this.$el.html(Handlebars.templates['media-item-list-readonly'](this.mediaItemViews))
+          else
+            this.$el.html(Handlebars.templates['media-item-list'](this.mediaItemViews))
+
           links = this.$('.mediaItemLink')
           for i in [0..links.length - 1]
             $(links[i]).html(this.mediaItemViews[i].render().el)

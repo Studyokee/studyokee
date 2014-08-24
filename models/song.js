@@ -27,15 +27,6 @@ var songSchema = mongoose.Schema({
     }]
 });
 
-songSchema.static('create', function (toSave) {
-    return q.resolve().then(function () {
-        var song = new Song(toSave);
-        var saveRequest = q.defer();
-        song.save(saveRequest.makeNodeResolver());
-        return saveRequest.promise;
-    });
-});
-
 function findOne (query) {
     var findOneRequest = q.defer();
     Song.findOne(query, findOneRequest.makeNodeResolver());
@@ -144,6 +135,29 @@ songSchema.methods.getLanguage = function () {
         return language;
     });
 };
+
+songSchema.static('create', function (toSave) {
+    return q.resolve().then(function () {
+        var song = new Song(toSave);
+        var saveRequest = q.defer();
+        song.save(saveRequest.makeNodeResolver());
+        return saveRequest.promise;
+    });
+});
+
+songSchema.static('getAllSongs', function () {
+    var findAllRequest = q.defer();
+    Song.find({}, findAllRequest.makeNodeResolver());
+    return findAllRequest.promise;
+});
+
+songSchema.static('searchSongs', function (query) {
+    var re = new RegExp(query, 'i');
+    var searchRequest = q.defer();
+    Song.find({ $or:[ { 'metadata.trackName': { $regex: re }}, { 'metadata.artist': { $regex: re }} ]},
+        searchRequest.makeNodeResolver());
+    return searchRequest.promise;
+});
 
 songSchema.static('getDefaultTranslation', function (song, toLanguage) {
     return q.resolve().then(function () {

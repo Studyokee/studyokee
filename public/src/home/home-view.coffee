@@ -1,8 +1,10 @@
 define [
   'backbone',
+  'classroom.preview.model',
+  'classroom.preview.view',
   'handlebars',
   'templates'
-], (Backbone, Handlebars) ->
+], (Backbone, ClassroomPreviewModel, ClassroomPreviewView, Handlebars) ->
   HomeView = Backbone.View.extend(
     className: "home"
     
@@ -12,14 +14,27 @@ define [
       )
 
     render: () ->
-      this.$el.html(Handlebars.templates['home'](this.model.toJSON()))
+      model = this.model.toJSON()
+
+      this.$el.html(Handlebars.templates['home'](model))
+
+      if this.model.get('data')?
+        classrooms = this.model.get('data')
+        for classroom in classrooms
+          songs = null
+          classroomPreviewView = new ClassroomPreviewView(
+            model: new ClassroomPreviewModel(
+              classroom: classroom
+            )
+          )
+          this.$('.classroomPreviewViews').append(classroomPreviewView.render().el)
 
       view = this
-      this.$('.classroomLink').on('click', () ->
-        classrooms = view.model.get('data')
-        index = $(this).attr('data-index')
-        view.openClassroom(classrooms[index])
-      )
+      #this.$('.classroomLink').on('click', () ->
+      #  classrooms = view.model.get('data')
+      #  index = $(this).attr('data-index')
+      #  view.openClassroom(classrooms[index])
+      #)
 
       this.$('.createClassroom').on('click', (event) =>
         document.location = '/classrooms/create'
