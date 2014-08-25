@@ -114,13 +114,8 @@ define [
         data: data
         dataType: 'json'
         success: (res) =>
-          data = []
-          for song in res
-            item =
-              song: song
-            data.push(item)
           this.songSearchListModel.set(
-            rawData: data
+            rawData: res
           )
           callback?()
         error: (err) =>

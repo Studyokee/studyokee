@@ -25,6 +25,41 @@ define [
         this.render()
       )
 
+      this.songSearchListView.on('select', (item) =>
+        this.model.addSong(item.song._id)
+        this.model.songSearchListModel.set(
+          rawData: []
+        )
+        this.$('#searchSongs').val('')
+        this.$('.songSearchListContainer').hide()
+      )
+
+      this.songListView.on('select', (item) =>
+        document.location = '/songs/' + item.song._id + '/edit'
+      )
+
+      this.songListView.on('remove', (item) =>
+        if confirm('Remove song from classroom?')
+          this.model.removeSong(item.song._id)
+      )
+
+      this.$('.addNewSong').on('click', () =>
+        this.$('.addNewSongModal').show()
+        this.$('.addNewSongModal .modal').show()
+      )
+
+      this.$('.closeAddSongModal').on('click', () =>
+        this.$('.addNewSongModal').hide()
+      )
+
+      this.createSongView.on('saveSuccess', (song) =>
+        this.$('.addNewSongModal').hide()
+        this.model.addSong(song._id)
+      )
+      this.createSongView.on('cancel', (song) =>
+        this.$('.addNewSongModal').hide()
+      )
+
     render: () ->
       this.$el.html(Handlebars.templates['edit-classroom'](this.model.toJSON()))
 
@@ -54,40 +89,6 @@ define [
       this.$('#searchSongs').blur((event) =>
         if not this.$('#searchSongs').val()
           this.$('.songSearchListContainer').hide()
-      )
-
-      this.songSearchListView.on('select', (item) =>
-        this.model.addSong(item.song._id)
-        this.model.songSearchListModel.set(
-          rawData: []
-        )
-        this.$('#searchSongs').val('')
-        this.$('.songSearchListContainer').hide()
-      )
-
-      this.songListView.on('select', (item) =>
-        document.location = '/songs/' + item.song._id + '/edit'
-      )
-
-      this.songListView.on('remove', (item) =>
-        this.model.removeSong(item.song._id)
-      )
-
-      this.$('.addNewSong').on('click', () =>
-        this.$('.addNewSongModal').show()
-        this.$('.addNewSongModal .modal').show()
-      )
-
-      this.$('.closeAddSongModal').on('click', () =>
-        this.$('.addNewSongModal').hide()
-      )
-
-      this.createSongView.on('saveSuccess', (song) =>
-        this.$('.addNewSongModal').hide()
-        this.model.addSong(song._id)
-      )
-      this.createSongView.on('cancel', (song) =>
-        this.$('.addNewSongModal').hide()
       )
 
       return this

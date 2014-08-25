@@ -45,7 +45,13 @@ app.get('/search', function (req, res) {
         assert(req.query.hasOwnProperty('queryString'));
         return Song.searchSongs(req.query.queryString);
     }).then(function (matches) {
-        res.json(200, matches);
+        var ids = [];
+        for (var i = 0; i < matches.length; i++) {
+            ids.push(matches[i]);
+        }
+        return Song.getDisplayInfo(ids);
+    }).then(function (displayInfos) {
+        res.json(200, displayInfos);
     }).fail(function (err) {
         console.log(err);
         res.json(500, {
