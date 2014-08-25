@@ -39,6 +39,9 @@ define [
       return this
 
     enableButtons: () ->
+      this.$('.toStart').on('click', (event) =>
+        console.log('SUBTITLES CONTROL TO START')
+        this.model.toStart())
       this.$('.prev').on('click', (event) =>
         console.log('SUBTITLES CONTROL PREV')
         this.model.prev())

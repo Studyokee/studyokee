@@ -60,6 +60,7 @@ define [
             fs: 0
             showInfo: 0
             rel: 0
+            controls: 0
             # theme: 'light'
             # color: 'white'
           events:

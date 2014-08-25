@@ -20,20 +20,37 @@ define [
       )
       this.listenTo(this, 'change:playing', () =>
         if this.get('playing')
-          this.setTimerFromPlayer()
+          # After song ends, i is 0, but player position is still end of song
+          if this.get('i') is 0
+            this.setTimer(0, 0)
+          else
+            this.setTimerFromPlayer()
         else
           this.clearTimer()
       )
 
     onStateChange: (event) ->
       state = event.data
-      console.log('PLAYER: onStateChange: ' + state)
-      console.log('PLAYER: playing is: ' + this.get('playing'))
-      console.log('PLAYER: player state is: ' + this.ytPlayer.getPlayerState())
+      console.log('YOUTUBEEVENT!!!!: ' + state)
+      console.log('\twith playing is: ' + this.get('playing'))
+      console.log('\twith player state is: ' + this.ytPlayer.getPlayerState())
+
+      #-1 (unstarted)
+      #0 (ended)
+      #1 (playing)
+      #2 (paused)
+      #3 (buffering)
+      #5 (video cued)
+
       if state is 1
         this.trigger('play', this.getCurrentTime())
         this.set(
           playing: true
+        )
+      else if state is 0
+        this.set(
+          playing: false
+          i: 0
         )
       else if state is 3
         this.trigger('pause')
@@ -73,6 +90,10 @@ define [
 
         this.seekIndex(i)
 
+    toStart: () ->
+      if this.ytPlayer?
+        this.seekIndex(0)
+
     seekIndex: (i) ->
       console.log('PLAYER: seek index: ' + i)
       subtitles = this.get('subtitles')
@@ -111,6 +132,7 @@ define [
 
     setTimerFromPlayer: () ->
       ts = this.getCurrentTime()
+      console.log('PLAYER: getTime: ' + ts)
       currentIndex = this.getPosition(ts)
       this.setTimer(ts, currentIndex)
 
