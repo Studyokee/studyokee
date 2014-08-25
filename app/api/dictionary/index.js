@@ -16,7 +16,7 @@ app.get('/', function (req, res) {
         var url = 'http://api.wordreference.com/' + process.env.WORD_REFERENCE_API_KEY + '/json/';
         url += fromLanguage;
         url += toLanguage;
-        url += '/' + query;
+        url += '/' + encodeURIComponent(query);
         console.log('url: ' + url);
 
         request(url, getTranslationRequest.makeNodeResolver());
