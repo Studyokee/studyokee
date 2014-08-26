@@ -16,6 +16,7 @@ define [
       )
       this.menuView = new MenuView(
         model: this.model.menuModel
+        allowSelect: true
       )
 
       this.dictionaryView = new DictionaryView(
@@ -27,10 +28,10 @@ define [
       )
       
       this.mainView.on('enterPresentationMode', () =>
-        this.$('.center').addClass('presentation-mode')
+        $('body').addClass('presentation-mode')
       )
       this.mainView.on('leavePresentationMode', () =>
-        this.$('.center').removeClass('presentation-mode')
+        $('body').removeClass('presentation-mode')
       )
 
       this.listenTo(this.model, 'change', () =>

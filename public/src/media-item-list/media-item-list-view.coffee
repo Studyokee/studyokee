@@ -48,25 +48,32 @@ define [
           for i in [0..links.length - 1]
             $(links[i]).html(this.mediaItemViews[i].render().el)
           
+          if this.options.allowSelect
+            this.$('li:first').addClass('active')
+
           view = this
           this.$('.mediaItemLink').on('click', (event) ->
             data = view.model.get('data')
-            index = $(this).parent('li').attr('data-index')
+            li = $(this).parent('li')
+            index = li.attr('data-index')
             view.trigger('select', data[index])
+
+            if view.options.allowSelect
+              view.$('li.active').removeClass('active')
+              li.addClass('active')
           )
 
-          this.$('.remove').on('click', (event) ->
-            data = view.model.get('data')
-            index = $(this).parent('li').attr('data-index')
-            view.trigger('remove', data[index])
-          )
-          this.$('.view').on('click', (event) ->
-            data = view.model.get('data')
-            index = $(this).parent('li').attr('data-index')
-            view.trigger('view', data[index])
-          )
-
-          if this.model.get('allowActions')
+          if this.options.allowActions
+            this.$('.remove').on('click', (event) ->
+              data = view.model.get('data')
+              index = $(this).parent('li').attr('data-index')
+              view.trigger('remove', data[index])
+            )
+            this.$('.view').on('click', (event) ->
+              data = view.model.get('data')
+              index = $(this).parent('li').attr('data-index')
+              view.trigger('view', data[index])
+            )
             this.$('.remove').show()
             this.$('.view').show()
           else
@@ -75,7 +82,7 @@ define [
         else
           this.$el.html(Handlebars.templates['no-items']())
 
-      if not this.options.readonly
+      if this.options.allowReorder
         sortableList = this.$('ul')
         ids = []
         this.$('li').each(() ->

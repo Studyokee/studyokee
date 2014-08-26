@@ -48,6 +48,7 @@ define [
           playing: true
         )
       else if state is 0
+        this.trigger('songFinished')
         this.set(
           playing: false
           i: 0
@@ -124,6 +125,13 @@ define [
       if this.ytPlayer?
         return (this.ytPlayer.getCurrentTime() * 1000) - this.offset
       return 0
+
+    getCurrentPercentageComplete: () ->
+      if this.ytPlayer?
+        duration = this.ytPlayer.getDuration()
+        if duration? > 0
+          return this.ytPlayer.getCurrentTime() * 100/duration
+      return 0
       
     seek: (trackPosition) ->
       console.log('PLAYER: seek: ' + (trackPosition + this.offset))
@@ -141,6 +149,9 @@ define [
       this.set(
         i: currentIndex
       )
+
+      if not this.get('playing')
+        return
 
       nextIndex = this.get('i') + 1
       subtitles = this.get('subtitles')

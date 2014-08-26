@@ -6,9 +6,7 @@ define [
   EditClassroomModel = Backbone.Model.extend(
 
     initialize: () ->
-      this.songListModel = new MediaItemListModel(
-        allowActions: true
-      )
+      this.songListModel = new MediaItemListModel()
 
       this.createSongModel = new CreateSongModel()
 

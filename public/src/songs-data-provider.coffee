@@ -6,6 +6,8 @@ define () ->
       @url = '/api'
 
     getSegments: (_id, language, callback) ->
+      console.log('DATA PROVIDER: getSegments')
+          
       if @settings?.get('enableLogging')
         startTime = new Date().getTime()
         
@@ -30,6 +32,8 @@ define () ->
             console.log('DATA PROVIDER: time to load lyrics and translation in ' + (endTime - startTime) + ' after: ' + (endTime - @settings.get('loadStartTime')) + ' since start, (' + endTime + ')')
           callback(song)
 
+      console.log('DATA PROVIDER: get ' + @url + '/songs/' + _id + '/translations/' + language)
+          
       $.ajax(
         type: 'GET'
         url: @url + '/songs/' + _id + '/translations/' + language
