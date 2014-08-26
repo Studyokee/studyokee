@@ -26,10 +26,10 @@ define [
       )
 
       this.on('changeSong', (song) =>
+        this.getSubtitles(song)
         this.youtubePlayerModel.set(
           currentSong: song
         )
-        this.getSubtitles(song)
       )
 
     getSubtitles: (song) ->
@@ -37,7 +37,6 @@ define [
         isLoading: true
       )
 
-      console.log('MAIN MODEL: getSubtitles: ' + JSON.stringify(song))
       if not song?
         this.subtitlesScrollerModel.set(
           isLoading: false

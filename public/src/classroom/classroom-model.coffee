@@ -44,8 +44,8 @@ define [
           this.menuModel.set(
             rawData: res.displayInfos
           )
-          if this.menuModel.get('data')?.length > 0
-            firstItem = this.menuModel.get('data')[0]
+          if res.displayInfos?.length > 0
+            firstItem = res.displayInfos[0]
             this.mainModel.trigger('changeSong', firstItem.song)
         error: (err) =>
           console.log('Error: ' + err)
