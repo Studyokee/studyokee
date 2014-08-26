@@ -23,6 +23,9 @@ define [
       this.listenTo(this.model, 'change:currentSong', () =>
         this.$('.progress-bar').width('0%')
       )
+      this.listenTo(this.model, 'songFinished', () =>
+        this.$('.progress-bar').width('0%')
+      )
       this.listenTo(this.model, 'change:presentationMode', () =>
         togglePresentationModeButton = this.$('.toggle-presentation-mode')
         togglePresentationModeIcon = this.$('.toggle-presentation-mode .glyphicon')

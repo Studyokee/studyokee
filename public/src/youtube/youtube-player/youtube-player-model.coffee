@@ -48,6 +48,7 @@ define [
           playing: true
         )
       else if state is 0
+        this.trigger('songFinished')
         this.set(
           playing: false
           i: 0
@@ -148,6 +149,9 @@ define [
       this.set(
         i: currentIndex
       )
+
+      if not this.get('playing')
+        return
 
       nextIndex = this.get('i') + 1
       subtitles = this.get('subtitles')

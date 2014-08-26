@@ -37,6 +37,7 @@ define [
         isLoading: true
       )
 
+      console.log('MAIN MODEL: getSubtitles: ' + JSON.stringify(song))
       if not song?
         this.subtitlesScrollerModel.set(
           isLoading: false
