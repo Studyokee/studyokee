@@ -11,22 +11,25 @@ define [
       this.offset = 0
       this.quickPrev = false
       this.timer = null
+      this.savedPos = 0
       this.listenTo(this, 'change:currentSong', () =>
-        this.pause()
-        this.onChangeSong()
-        this.set(
-          i: 0
-        )
+        if this.get('ytPlayerReady')
+          this.pause()
+          this.onChangeSong()
+          this.set(
+            i: 0
+          )
       )
       this.listenTo(this, 'change:playing', () =>
         if this.get('playing')
-          # After song ends, i is 0, but player position is still end of song
-          if this.get('i') is 0
-            this.setTimer(0, 0)
-          else
-            this.setTimerFromPlayer()
+          i = this.get('i')
+          console.log('start playing:savedPos ' + this.savedPos)
+          console.log('start playing:i ' + i)
+          this.setTimer(this.savedPos, i)
         else
           this.clearTimer()
+          this.savePos = this.getCurrentTime()
+          console.log('paused: savedPos: ' + this.savedPos)
       )
 
     onStateChange: (event) ->
@@ -79,33 +82,49 @@ define [
         )
 
     next: () ->
-      if this.ytPlayer?
-        i = this.get('i') + 1
-        this.seekIndex(i)
+      i = this.get('i') + 1
+      if this.get('playing')
+        this.jumpToWhilePlaying(i)
+      else
+        this.jumpToWhilePaused(i)
 
     prev: () ->
-      if this.ytPlayer?
-        i = this.get('i')
-        if this.isQuickPrev() or not this.get('playing')
-          i--
-
-        this.seekIndex(i)
+      i = this.get('i')
+      if this.isQuickPrev() or not this.get('playing')
+        i--
+      if this.get('playing')
+        this.jumpToWhilePlaying(i)
+      else
+        this.jumpToWhilePaused(i)
 
     toStart: () ->
-      if this.ytPlayer?
-        this.seekIndex(0)
+      if this.get('playing')
+        this.jumpToWhilePlaying(0)
+      else
+        this.jumpToWhilePaused(0)
 
-    seekIndex: (i) ->
-      console.log('PLAYER: seek index: ' + i)
+    jumpToWhilePaused: (i) ->
+      console.log('PLAYER: jump to while paused: ' + i)
       subtitles = this.get('subtitles')
-      if subtitles[i]
+      if subtitles?[i]
+        this.savedPos = subtitles[i].ts
+        this.set(
+          i: i
+        )
+        this.seek(subtitles[i].ts)
+
+    jumpToWhilePlaying: (i) ->
+      console.log('PLAYER: jump to while playing: ' + i)
+      subtitles = this.get('subtitles')
+      if subtitles?[i]
         this.seek(subtitles[i].ts)
         this.setTimer(subtitles[i].ts, i)
 
     isQuickPrev: () ->
+      clearTimeout(this.quickPrevTimeout)
       unset = () =>
         this.quickPrev = false
-      setTimeout(unset, 2000)
+      this.quickPrevTimeout = setTimeout(unset, 500)
 
       result = this.quickPrev
       this.quickPrev = true
@@ -127,10 +146,16 @@ define [
       return 0
 
     getCurrentPercentageComplete: () ->
-      if this.ytPlayer?
+      if this.ytPlayer? and this.ytPlayer.getDuration?
         duration = this.ytPlayer.getDuration()
         if duration? > 0
-          return this.ytPlayer.getCurrentTime() * 100/duration
+          if this.get('playing')
+            return this.ytPlayer.getCurrentTime() * 100/duration
+          else
+            subtitles = this.get('subtitles')
+            if subtitles?.length > 0
+              time = this.get('subtitles')[this.get('i')].ts / 1000
+              return time*100/duration
       return 0
       
     seek: (trackPosition) ->
@@ -138,13 +163,8 @@ define [
       if this.ytPlayer?.seekTo?
         this.ytPlayer.seekTo((trackPosition + this.offset)/1000, true)
 
-    setTimerFromPlayer: () ->
-      ts = this.getCurrentTime()
-      console.log('PLAYER: getTime: ' + ts)
-      currentIndex = this.getPosition(ts)
-      this.setTimer(ts, currentIndex)
-
     setTimer: (ts, currentIndex) ->
+      console.log('setTimer:currentIndex: ' + currentIndex)
       this.clearTimer()
       this.set(
         i: currentIndex

@@ -48,7 +48,10 @@ define [
 
     postRender: () ->
       onReady = () =>
-        this.model.onChangeSong()
+        this.model.set(
+          ytPlayerReady: true
+        )
+        this.model.trigger('change:currentSong')
 
       onStateChange = (state) =>
         fn = () =>

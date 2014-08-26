@@ -23,8 +23,8 @@ define [
       this.listenTo(this.model, 'change:currentSong', () =>
         this.$('.progress-bar').width('0%')
       )
-      this.listenTo(this.model, 'songFinished', () =>
-        this.$('.progress-bar').width('0%')
+      this.listenTo(this.model, 'change:i', () =>
+        this.setProgressBar()
       )
       this.listenTo(this.model, 'change:presentationMode', () =>
         togglePresentationModeButton = this.$('.toggle-presentation-mode')
@@ -38,6 +38,7 @@ define [
           togglePresentationModeIcon.addClass('glyphicon-resize-full')
           togglePresentationModeButton.prop('title', 'Enter Presentation Mode')
       )
+      this.enableKeyboard()
 
     render: () ->
       this.$el.html(Handlebars.templates['subtitles-controls'](this.model.toJSON()))
@@ -51,52 +52,82 @@ define [
       this.$('.progress-bar').width(percentage + '%')
 
     updateProgressBar: () ->
+      clearTimeout(this.progressTick)
       this.setProgressBar()
       next = () =>
         this.updateProgressBar()
       this.progressTick = setTimeout(next, 100)
 
-    enableButtons: () ->
-      this.$('.toStart').on('click', (event) =>
-        console.log('SUBTITLES CONTROL TO START')
-        this.model.toStart())
-      this.$('.prev').on('click', (event) =>
-        console.log('SUBTITLES CONTROL PREV')
-        this.model.prev())
-      this.$('.next').on('click', () =>
-        console.log('SUBTITLES CONTROL NEXT')
-        this.model.next())
-      this.$('.toggle-play').on('click', () =>
-        if this.model.get('playing')
-          console.log('SUBTITLES CONTROL PAUSE')
-          this.model.pause()
-        else
-          console.log('SUBTITLES CONTROL PLAY')
-          this.model.play())
-      this.$('.toggle-presentation-mode').on('click', () =>
-        console.log('SUBTITLES CONTROL TOGGLE PREZ')
-        if this.model.get('presentationMode')
-          this.trigger('leavePresentationMode')
-        else
-          this.trigger('enterPresentationMode')
-        this.model.set(
-          presentationMode: not this.model.get('presentationMode')
-        )
+    toStart: () ->
+      console.log('SUBTITLES CONTROL TO START')
+      this.model.toStart()
+
+    prev: () ->
+      console.log('SUBTITLES CONTROL PREV')
+      this.model.prev()
+
+    next: () ->
+      console.log('SUBTITLES CONTROL NEXT')
+      this.model.next()
+
+    togglePlay: () ->
+      if this.model.get('playing')
+        console.log('SUBTITLES CONTROL PAUSE')
+        this.model.pause()
+      else
+        console.log('SUBTITLES CONTROL PLAY')
+        this.model.play()
+
+    togglePresentationMode: () ->
+      console.log('SUBTITLES CONTROL TOGGLE PREZ')
+      if this.model.get('presentationMode')
+        this.trigger('leavePresentationMode')
+      else
+        this.trigger('enterPresentationMode')
+      this.model.set(
+        presentationMode: not this.model.get('presentationMode')
       )
+
+    toggleVideo: () ->
+      console.log('SUBTITLES CONTROL TOGGLE VIDEO')
+      toggleVideoButton = this.$('.toggle-video')
+      toggleVideoIcon = this.$('.toggle-video .glyphicon')
+      if toggleVideoIcon.hasClass('glyphicon-collapse-up')
+        this.trigger('hideVideo')
+        toggleVideoIcon.removeClass('glyphicon-collapse-up')
+        toggleVideoIcon.addClass('glyphicon-collapse-down')
+        toggleVideoButton.prop('title', 'Show Video')
+      else
+        this.trigger('showVideo')
+        toggleVideoIcon.addClass('glyphicon-collapse-up')
+        toggleVideoIcon.removeClass('glyphicon-collapse-down')
+        toggleVideoButton.prop('title', 'Hide Video')
+
+    enableButtons: () ->
+      this.$('.toStart').on('click', () =>
+        this.toStart())
+      this.$('.prev').on('click', () =>
+        this.prev())
+      this.$('.next').on('click', () =>
+        this.next())
+      this.$('.toggle-play').on('click', () =>
+        this.togglePlay())
+      this.$('.toggle-presentation-mode').on('click', () =>
+        this.togglePresentationMode())
       this.$('.toggle-video').on('click', () =>
-        console.log('SUBTITLES CONTROL TOGGLE VIDEO')
-        toggleVideoButton = this.$('.toggle-video')
-        toggleVideoIcon = this.$('.toggle-video .glyphicon')
-        if toggleVideoIcon.hasClass('glyphicon-collapse-up')
-          this.trigger('hideVideo')
-          toggleVideoIcon.removeClass('glyphicon-collapse-up')
-          toggleVideoIcon.addClass('glyphicon-collapse-down')
-          toggleVideoButton.prop('title', 'Show Video')
-        else
-          this.trigger('showVideo')
-          toggleVideoIcon.addClass('glyphicon-collapse-up')
-          toggleVideoIcon.removeClass('glyphicon-collapse-down')
-          toggleVideoButton.prop('title', 'Hide Video')
+        this.toggleVideo())
+
+    enableKeyboard: () ->
+      $(window).keydown((event) =>
+        if event.which is 37
+          this.prev()
+          event.preventDefault()
+        if event.which is 39
+          this.next()
+          event.preventDefault()
+        if event.which is 40
+          this.togglePlay()
+          event.preventDefault()
       )
   )
 
