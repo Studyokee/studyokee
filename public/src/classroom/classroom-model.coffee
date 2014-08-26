@@ -18,7 +18,7 @@ define [
 
       this.dictionaryModel = new DictionaryModel(
         fromLanguage: this.get('settings').get('fromLanguage')
-        toLanguage: this.get('settings').get('toLanguage')
+        toLanguage: 'en'
         settings: this.get('settings')
       )
 
@@ -37,6 +37,9 @@ define [
         success: (res) =>
           this.set(
             data: res.classroom
+          )
+          this.dictionaryModel.set(
+            fromLanguage: res.classroom.language
           )
           this.menuModel.set(
             rawData: res.displayInfos

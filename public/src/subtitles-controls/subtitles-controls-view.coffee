@@ -14,20 +14,25 @@ define [
         if this.model.get('playing')
           togglePlayButtonIcon.removeClass('glyphicon-play')
           togglePlayButtonIcon.addClass('glyphicon-pause')
+          this.updateProgressBar()
         else
           togglePlayButtonIcon.removeClass('glyphicon-pause')
           togglePlayButtonIcon.addClass('glyphicon-play')
+          clearTimeout(this.progressTick)
+      )
+      this.listenTo(this.model, 'change:currentSong', () =>
+        this.$('.progress-bar').width('0%')
       )
       this.listenTo(this.model, 'change:presentationMode', () =>
         togglePresentationModeButton = this.$('.toggle-presentation-mode')
         togglePresentationModeIcon = this.$('.toggle-presentation-mode .glyphicon')
         if this.model.get('presentationMode')
-          togglePresentationModeIcon.removeClass('glyphicon-fullscreen')
-          togglePresentationModeIcon.addClass('glyphicon-collapse-down')
+          togglePresentationModeIcon.removeClass('glyphicon-resize-full')
+          togglePresentationModeIcon.addClass('glyphicon-resize-small')
           togglePresentationModeButton.prop('title', 'Leave Presentation Mode')
         else
-          togglePresentationModeIcon.removeClass('glyphicon-collapse-down')
-          togglePresentationModeIcon.addClass('glyphicon-fullscreen')
+          togglePresentationModeIcon.removeClass('glyphicon-resize-small')
+          togglePresentationModeIcon.addClass('glyphicon-resize-full')
           togglePresentationModeButton.prop('title', 'Enter Presentation Mode')
       )
 
@@ -37,6 +42,16 @@ define [
       this.enableButtons()
 
       return this
+
+    setProgressBar: () ->
+      percentage = this.model.getCurrentPercentageComplete()
+      this.$('.progress-bar').width(percentage + '%')
+
+    updateProgressBar: () ->
+      this.setProgressBar()
+      next = () =>
+        this.updateProgressBar()
+      this.progressTick = setTimeout(next, 100)
 
     enableButtons: () ->
       this.$('.toStart').on('click', (event) =>
@@ -64,6 +79,21 @@ define [
         this.model.set(
           presentationMode: not this.model.get('presentationMode')
         )
+      )
+      this.$('.toggle-video').on('click', () =>
+        console.log('SUBTITLES CONTROL TOGGLE VIDEO')
+        toggleVideoButton = this.$('.toggle-video')
+        toggleVideoIcon = this.$('.toggle-video .glyphicon')
+        if toggleVideoIcon.hasClass('glyphicon-collapse-up')
+          this.trigger('hideVideo')
+          toggleVideoIcon.removeClass('glyphicon-collapse-up')
+          toggleVideoIcon.addClass('glyphicon-collapse-down')
+          toggleVideoButton.prop('title', 'Show Video')
+        else
+          this.trigger('showVideo')
+          toggleVideoIcon.addClass('glyphicon-collapse-up')
+          toggleVideoIcon.removeClass('glyphicon-collapse-down')
+          toggleVideoButton.prop('title', 'Hide Video')
       )
   )
 

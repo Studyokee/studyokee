@@ -29,37 +29,42 @@ a {
     cursor: pointer;
 }
 .presentation-mode {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 60px 20px;
-    z-index: 100;
-    background-color: #FFFFFF;
-    
-    .youtube-main {
-        .video-player-container {
-            .video-player {
-                #ytPlayer {
-                    width: 100%;
+    .center {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 60px 20px;
+        z-index: 100;
+        background-color: #FFFFFF;
+        
+        .youtube-main {
+            .video-player-container {
+                .video-player {
+                    #ytPlayer {
+                        width: 100%;
+                    }
+                }
+            }
+
+            .subtitles-scroller {
+                height: 600px;
+
+                .gradient {
+                    z-index: 102;
+                    height: 120px;
+                }
+
+                .subtitles li {
+                    line-height: 48px;
+                    font-size: 24px;
                 }
             }
         }
-
-        .subtitles-scroller {
-            height: 600px;
-
-            .gradient {
-                z-index: 102;
-                height: 120px;
-            }
-
-            .subtitles li {
-                line-height: 48px;
-                font-size: 24px;
-            }
-        }
+    }
+    footer {
+        display: none;
     }
 }
 footer {
@@ -77,3 +82,4 @@ footer {
 @import '../src/edit-classroom/edit-classroom';
 @import '../src/home/home';
 @import '../src/classroom-preview/classroom-preview';
+@import '../src/subtitles-controls/subtitles-controls';

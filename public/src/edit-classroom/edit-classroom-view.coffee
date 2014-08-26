@@ -11,6 +11,8 @@ define [
     initialize: () ->
       this.songListView = new MediaItemList(
         model: this.model.songListModel
+        allowReorder: true
+        allowActions: true
       )
 
       this.createSongView = new CreateSongView(

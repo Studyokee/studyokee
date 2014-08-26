@@ -124,6 +124,13 @@ define [
       if this.ytPlayer?
         return (this.ytPlayer.getCurrentTime() * 1000) - this.offset
       return 0
+
+    getCurrentPercentageComplete: () ->
+      if this.ytPlayer?
+        duration = this.ytPlayer.getDuration()
+        if duration? > 0
+          return this.ytPlayer.getCurrentTime() * 100/duration
+      return 0
       
     seek: (trackPosition) ->
       console.log('PLAYER: seek: ' + (trackPosition + this.offset))

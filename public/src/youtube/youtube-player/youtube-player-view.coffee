@@ -24,9 +24,15 @@ define [
         this.trigger('leavePresentationMode')
         this.calculateYTPlayerHeight()
       )
+      this.subtitlesControlsView.on('hideVideo', () =>
+        this.$('.video-container').hide()
+      )
+      this.subtitlesControlsView.on('showVideo', () =>
+        this.$('.video-container').show()
+      )
 
     render: () ->
-      this.$el.html(Handlebars.templates['youtube-player']())
+      this.$el.html(Handlebars.templates['youtube-player'](this.model.toJSON()))
       this.$('.controls-container').html(this.subtitlesControlsView.render().el)
 
       postRender = () =>
