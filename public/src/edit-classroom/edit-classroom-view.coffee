@@ -34,13 +34,17 @@ define [
         this.$('.songSearchListContainer').hide()
       )
 
-      this.songListView.on('select', (item) =>
-        document.location = '/songs/' + item.song._id + '/edit'
-      )
-
       this.songListView.on('remove', (item) =>
         if confirm('Remove song from classroom?')
           this.model.removeSong(item.song._id)
+      )
+
+      this.songListView.on('view', (item) =>
+        document.location = '/songs/' + item.song._id + '/edit'
+      )
+
+      this.songListView.on('reorder', (ids) =>
+        this.model.saveSongs(ids)
       )
 
       this.$('.addNewSong').on('click', () =>

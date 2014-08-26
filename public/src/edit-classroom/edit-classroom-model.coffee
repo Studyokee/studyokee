@@ -7,16 +7,16 @@ define [
 
     initialize: () ->
       this.songListModel = new MediaItemListModel(
-        allowRemove: true
+        allowActions: true
       )
 
       this.createSongModel = new CreateSongModel()
 
       this.songSearchListModel = new MediaItemListModel()
 
-      this.updateClassroom()
+      this.refreshClassroom()
 
-    updateClassroom: () ->
+    refreshClassroom: () ->
       $.ajax(
         type: 'GET'
         url: '/api/classrooms/' + this.get('id')
@@ -76,9 +76,9 @@ define [
         data: updates
         success: () =>
           console.log('success save')
-          this.updateClassroom()
+          this.refreshClassroom()
         error: (err) =>
-          console.log('err:' + err)
+          console.log('err:' + err.responseText)
       )
 
     saveClassroom: (name, language) ->
@@ -91,18 +91,16 @@ define [
         data: updates
         success: () =>
           console.log('Success!')
-          this.updateClassroom()
+          this.refreshClassroom()
         error: (err) =>
-          console.log('Error: ' + err)
+          console.log('Error: ' + err.responseText)
       )
 
     searchSongs: (query, callback) ->
       if query.trim().length < 1
-        console.log('clear list')
         this.songSearchListModel.set(
           rawData: []
         )
-        this.trigger('change')
         callback?()
         return
 
@@ -119,7 +117,7 @@ define [
           )
           callback?()
         error: (err) =>
-          console.log('Error: ' + err)
+          console.log('Error: ' + err.responseText)
           callback?()
       )
   )

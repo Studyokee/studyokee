@@ -200,9 +200,10 @@ songSchema.static('getByQuery', function (query) {
 
 // Given a list of ids, return the song objects plus video snippets
 songSchema.static('getDisplayInfo', function (ids) {
-    var songs = [];
+    var songMap = {};
     return q.resolve().then(function () {
         console.log('ids: ' + JSON.stringify(ids, null, 4));
+
         if (!ids || ids.length === 0) {
             return [];
         }
@@ -212,13 +213,14 @@ songSchema.static('getDisplayInfo', function (ids) {
             _id: {$in: ids}
         }, getRequest.makeNodeResolver());
         return getRequest.promise;
-    }).then(function (result) {
-        songs = result;
-
+    }).then(function (songs) {
         var videoIds = [];
         for (var i = 0; i < songs.length; i++) {
-            if (songs[i].youtubeKey) {
-                videoIds.push(songs[i].youtubeKey);
+            var song = songs[i];
+            songMap[song._id] = song;
+
+            if (song.youtubeKey) {
+                videoIds.push(song.youtubeKey);
             }
         }
 
@@ -242,18 +244,27 @@ songSchema.static('getDisplayInfo', function (ids) {
         if (videosResult && videosResult.body) {
             videos = videosResult.body.items;
         }
+        var videoMap = {};
+        var videoSnippet;
+        for (var j = 0; j < videos.length; j++) {
+            videoSnippet = videos[j];
+            videoMap[videoSnippet.id] = videoSnippet;
+        }
+
         var toReturn = [];
-        for (var i = 0; i < songs.length; i++) {
-            var item = {};
-            var song = songs[i];
-            for (var j = 0; j < videos.length; j++) {
-                var videoSnippet = videos[j];
-                if (song.youtubeKey === videoSnippet.id) {
-                    item.videoSnippet = videoSnippet;
-                }
+        for (var i = 0; i < ids.length; i++) {
+            var id = ids[i];
+            var song = songMap[id];
+            videoSnippet = null;
+            if (song && song.youtubeKey) {
+                videoSnippet = videoMap[song.youtubeKey];
             }
-            item.song = song;
-            toReturn.push(item);
+
+            toReturn.push({
+                id: id,
+                song: song,
+                videoSnippet: videoSnippet
+            });
         }
 
         return toReturn;

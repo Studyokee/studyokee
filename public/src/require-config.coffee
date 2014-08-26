@@ -4,6 +4,10 @@ requirejs.config(
   paths:
     backbone: '/bower_components/backbone/backbone'
     jquery: '/bower_components/jquery/jquery'
+    'jquery.ui.core': '/bower_components/jquery-ui/ui/jquery.ui.core'
+    'jquery.ui.mouse': '/bower_components/jquery-ui/ui/jquery.ui.mouse'
+    'jquery.ui.widget': '/bower_components/jquery-ui/ui/jquery.ui.widget'
+    'jquery.ui.sortable': '/bower_components/jquery-ui/ui/jquery.ui.sortable'
     swfobject: '/bower_components/swfobject/swfobject/swfobject'
     underscore: '/bower_components/underscore/underscore'
     handlebars: '/bower_components/handlebars/handlebars'
@@ -58,6 +62,18 @@ requirejs.config(
       exports: '_'
     purl:
       deps: [ 'jquery' ]
+      exports: '$'
+    'jquery.ui.core':
+      deps: [ 'jquery' ]
+      exports: '$'
+    'jquery.ui.mouse':
+      deps: [ 'jquery', 'jquery.ui.widget' ]
+      exports: '$'
+    'jquery.ui.widget':
+      deps: [ 'jquery' ]
+      exports: '$'
+    'jquery.ui.sortable':
+      deps: [ 'jquery', 'jquery.ui.core', 'jquery.ui.mouse', 'jquery.ui.widget' ]
       exports: '$'
     handlebars:
       exports: 'Handlebars'
