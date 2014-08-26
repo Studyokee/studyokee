@@ -47,7 +47,7 @@ app.get('/search', function (req, res) {
     }).then(function (matches) {
         var ids = [];
         for (var i = 0; i < matches.length; i++) {
-            ids.push(matches[i]);
+            ids.push(matches[i]._id);
         }
         return Song.getDisplayInfo(ids);
     }).then(function (displayInfos) {
