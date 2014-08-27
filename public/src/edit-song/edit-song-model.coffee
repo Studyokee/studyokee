@@ -38,14 +38,21 @@ define [
           text: line
           ts: ts
         subtitles.push(subtitle)
-        ts += 9999
+        ts += 1500
 
       song = this.get('data')
       song.subtitles = subtitles
       this.saveSong(song, success)
 
     saveSync: (success) ->
-      this.saveSong(this.get('data'), success)
+      song = this.get('data')
+      subtitles = song.subtitles
+      for i in [0..subtitles.length]
+        currentLine = subtitles[i]
+        nextLine = subtitles[i+1]
+        if nextLine? and currentLine.ts > nextLine.ts
+          subtitles[i+1].ts = currentLine.ts + 1500
+      this.saveSong(song, success)
 
     saveTranslation: (translationText, success) ->
       translation = translationText.split('\n')
