@@ -88,7 +88,7 @@ define [
     next: () ->
       i = this.get('i') + 1
       subtitles = this.get('subtitles')
-      ts = this.getCurrentTime()
+      ts = this.getCurrentTime() - 200
       console.log('PLAYER: i set to : ' + ts)
       this.get('currentSong').subtitles[i].ts = ts
       subtitles[i].ts = ts
