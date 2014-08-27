@@ -28,7 +28,7 @@ define [
           this.setTimer(this.savedPos, i)
         else
           this.clearTimer()
-          this.savePos = this.getCurrentTime()
+          this.savedPos = this.getCurrentTime()
           console.log('paused: savedPos: ' + this.savedPos)
       )
 
