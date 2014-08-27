@@ -19,6 +19,7 @@ define [
           this.set(
             i: 0
           )
+          this.savedPos = 0
       )
       this.listenTo(this, 'change:playing', () =>
         if this.get('playing')
