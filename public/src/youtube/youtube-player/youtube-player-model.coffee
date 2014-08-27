@@ -92,7 +92,7 @@ define [
     prev: () ->
       i = this.get('i')
       if this.isQuickPrev() or not this.get('playing')
-        i--
+        i = Math.max(i-1, 0)
       if this.get('playing')
         this.jumpToWhilePlaying(i)
       else
@@ -144,6 +144,11 @@ define [
     getCurrentTime: () ->
       if this.ytPlayer?
         return (this.ytPlayer.getCurrentTime() * 1000) - this.offset
+      return 0
+
+    getDuration: () ->
+      if this.ytPlayer? and this.ytPlayer.getDuration?
+        return this.ytPlayer.getDuration()
       return 0
 
     getCurrentPercentageComplete: () ->

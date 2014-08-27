@@ -52,8 +52,10 @@ requirejs.config(
     'youtube.main.model': '/lib/youtube/youtube-main/youtube-main-model'
     'youtube.main.view': '/lib/youtube/youtube-main/youtube-main-view'
     'youtube.player.model': '/lib/youtube/youtube-player/youtube-player-model'
-    'youtube.player.sync.model': '/lib/youtube/youtube-player/youtube-player-sync-model'
     'youtube.player.view': '/lib/youtube/youtube-player/youtube-player-view'
+    'youtube.sync.model': '/lib/youtube/youtube-sync/youtube-sync-model'
+    'youtube.sync.view': '/lib/youtube/youtube-sync/youtube-sync-view'
+    'youtube.sync.subtitles.view': '/lib/youtube/youtube-sync/youtube-sync-subtitles-view'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]
