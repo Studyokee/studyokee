@@ -1,7 +1,7 @@
 define [
   'backbone'
 ], (Backbone) ->
-  YoutubePlayerSyncModel = Backbone.Model.extend(
+  YoutubeSyncModel = Backbone.Model.extend(
     default:
       subtitles: []
       i: 0
@@ -12,28 +12,41 @@ define [
       this.quickPrev = false
       this.timer = null
       this.savedPos = 0
-      this.listenTo(this, 'change:currentSong', () =>
-        if this.get('ytPlayerReady')
-          this.pause()
-          this.onChangeSong()
-          this.set(
-            i: 0
-          )
-          this.savedPos = 0
+      this.set(
+        i: 0
+        syncing: true
       )
       this.listenTo(this, 'change:playing', () =>
         if this.get('playing')
           i = this.get('i')
-          console.log('start playing:savedPos ' + this.savedPos)
-          console.log('start playing:i ' + i)
           this.setTimer(this.savedPos, i)
         else
           this.clearTimer()
           this.savedPos = this.getCurrentTime()
-          console.log('paused: savedPos: ' + this.savedPos)
       )
       this.listenTo(this, 'change:i', () =>
         console.log('i changed to: ' + this.get('i'))
+      )
+      this.listenTo(this, 'change:currentSong', () =>
+        if this.get('ytPlayerReady')
+          this.onChangeSong()
+      )
+      this.listenTo(this, 'change:syncing', () =>
+        if not this.get('syncing')
+          this.setTimer(this.getCurrentTime(), this.get('i'))
+        else
+          this.clearTimer()
+      )
+
+    reset: () ->
+      this.pause()
+      this.seek(0)
+      this.quickPrev = false
+      this.timer = null
+      this.savedPos = 0
+      this.set(
+        i: 0
+        syncing: true
       )
 
     onStateChange: (event) ->
@@ -85,14 +98,14 @@ define [
           playing: false
         )
 
-    next: () ->
+    syncNext: () ->
+      console.log('sync next')
       i = this.get('i') + 1
-      subtitles = this.get('subtitles')
-      ts = this.getCurrentTime() - 200
-      console.log('PLAYER: i set to : ' + ts)
-      this.get('currentSong').subtitles[i].ts = ts
-      subtitles[i].ts = ts
 
+      ts = Math.max(Math.round(this.getCurrentTime() - 200), 0)
+      this.addNewTime(i, ts)
+
+      subtitles = this.get('currentSong')?.subtitles
       if subtitles?[i]
         if not this.get('playing')
           this.savedPos = subtitles[i].ts
@@ -100,15 +113,52 @@ define [
           i: i
         )
 
-    prev: () ->
-      i = this.get('i') - 1
-      if i < 0
+    addNewTime: (i, ts) ->
+      console.log('PLAYER: i set to : ' + ts)
+      subtitles = this.get('currentSong')?.subtitles
+      if subtitles
+        #this.get('song').subtitles[i].ts = ts
+        subtitles[i].ts = ts
+
+        # Cleanse all future
+        start = i+1
+        end = subtitles.length-1
+        for j in [start..end]
+          if subtitles[j].ts < subtitles[j-1].ts
+            subtitles[j].ts = subtitles[j-1].ts
+
+        this.trigger('updateSubtitles')
+
+    next: () ->
+      if this.get('syncing')
+        this.syncNext()
         return
 
+      console.log('normal next')
+      i = this.get('i') + 1
       if this.get('playing')
         this.jumpToWhilePlaying(i)
       else
         this.jumpToWhilePaused(i)
+
+    prev: () ->
+      i = this.get('i')
+      if this.isQuickPrev() or not this.get('playing')
+        i = Math.max(i-1, 0)
+      if this.get('playing')
+        this.jumpToWhilePlaying(i)
+      else
+        this.jumpToWhilePaused(i)
+
+    isQuickPrev: () ->
+      clearTimeout(this.quickPrevTimeout)
+      unset = () =>
+        this.quickPrev = false
+      this.quickPrevTimeout = setTimeout(unset, 1000)
+
+      result = this.quickPrev
+      this.quickPrev = true
+      return result
 
     toStart: () ->
       if this.get('playing')
@@ -118,7 +168,7 @@ define [
 
     jumpToWhilePaused: (i) ->
       console.log('PLAYER: jump to while paused: ' + i)
-      subtitles = this.get('subtitles')
+      subtitles = this.get('currentSong')?.subtitles
       if subtitles?[i]
         this.savedPos = subtitles[i].ts
         this.set(
@@ -127,14 +177,10 @@ define [
         this.seek(subtitles[i].ts)
 
     jumpToWhilePlaying: (i) ->
-      subtitles = this.get('subtitles')
       console.log('PLAYER: jump to while playing: ' + i)
-      console.log('PLAYER: jump to while playing:ts: ' + subtitles[i].ts)
+      subtitles = this.get('currentSong')?.subtitles
       if subtitles?[i]
         this.seek(subtitles[i].ts)
-        this.set(
-          i: i
-        )
         this.setTimer(subtitles[i].ts, i)
 
     onChangeSong: () ->
@@ -152,6 +198,11 @@ define [
         return (this.ytPlayer.getCurrentTime() * 1000) - this.offset
       return 0
 
+    getDuration: () ->
+      if this.ytPlayer? and this.ytPlayer.getDuration?
+        return this.ytPlayer.getDuration()
+      return 0
+
     getCurrentPercentageComplete: () ->
       if this.ytPlayer? and this.ytPlayer.getDuration?
         duration = this.ytPlayer.getDuration()
@@ -159,9 +210,9 @@ define [
           if this.get('playing')
             return this.ytPlayer.getCurrentTime() * 100/duration
           else
-            subtitles = this.get('subtitles')
+            subtitles = this.get('currentSong')?.subtitles
             if subtitles?.length > 0
-              time = this.get('subtitles')[this.get('i')].ts / 1000
+              time = this.get('currentSong')?.subtitles[this.get('i')].ts / 1000
               return time*100/duration
       return 0
       
@@ -170,14 +221,40 @@ define [
       if this.ytPlayer?.seekTo?
         this.ytPlayer.seekTo((trackPosition + this.offset)/1000, true)
 
+    
     setTimer: (ts, currentIndex) ->
-      console.log('do nothing')
+      this.clearTimer()
+      this.set(
+        i: currentIndex
+      )
+
+      if not this.get('playing')
+        console.log('Don\'t set time, currently not playing?')
+        return
+      if this.get('syncing')
+        console.log('Don\'t set time, currently syncing')
+        return
+      console.log('setTimer:currentIndex: ' + currentIndex)
+
+      nextIndex = this.get('i') + 1
+      subtitles = this.get('currentSong')?.subtitles
+      if subtitles?[nextIndex]?
+        nextTs = subtitles[nextIndex].ts
+        diff = nextTs - ts
+
+        console.log('PLAYER: nextTs: ' + nextTs)
+        console.log('PLAYER: ts: ' + ts)
+        console.log('PLAYER: Set timeout for: ' + diff)
+
+        next = () =>
+          this.setTimer(nextTs, nextIndex)
+        this.timer = setTimeout(next, diff)
 
     clearTimer: () ->
-      console.log('do nothing')
+      clearTimeout(this.timer)
 
     getPosition: (ts) ->
-      subtitles = this.get('subtitles')
+      subtitles = this.get('currentSong')?.subtitles
       if not ts? or not subtitles? or subtitles.length is 0
         return null
 
@@ -188,6 +265,24 @@ define [
       position = Math.max(i-1, 0)
       console.log('PLAYER: position: ' + position)
       return position
+
+    insertLine: (i, text) ->
+      subtitles = this.get('currentSong')?.subtitles
+      if subtitles
+        ts = 0
+        if i > 0
+          ts = subtitles[i-1].ts
+        item =
+          text: text
+          ts: ts
+        subtitles.splice(i, 0, item)
+        this.trigger('updateSubtitles')
+
+    removeLine: (i) ->
+      subtitles = this.get('currentSong')?.subtitles
+      if subtitles?[i]?
+        subtitles.splice(i, 1)
+        this.trigger('updateSubtitles')
   )
 
-  return YoutubePlayerSyncModel
+  return YoutubeSyncModel

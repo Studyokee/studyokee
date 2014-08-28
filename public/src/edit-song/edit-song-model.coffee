@@ -1,6 +1,6 @@
 define [
   'backbone',
-  'youtube.main.model',
+  'youtube.sync.model',
   'underscore',
   'jquery'
 ], (Backbone, SyncModel, _, $) ->
@@ -9,7 +9,6 @@ define [
     initialize: () ->
       this.syncModel = new SyncModel(
         language: 'en'
-        editMode: true
       )
 
       this.getSong()
@@ -24,7 +23,9 @@ define [
             data: song
           )
           this.trigger('change')
-          this.syncModel.trigger('changeSong', song)
+          this.syncModel.set(
+            currentSong: song
+          )
         error: (err) =>
           console.log('Error: ' + err)
       )
@@ -45,13 +46,8 @@ define [
       this.saveSong(song, success)
 
     saveSync: (success) ->
-      song = this.get('data')
+      song = this.syncModel.get('currentSong')
       subtitles = song.subtitles
-      for i in [0..subtitles.length]
-        currentLine = subtitles[i]
-        nextLine = subtitles[i+1]
-        if nextLine? and currentLine.ts > nextLine.ts
-          subtitles[i+1].ts = currentLine.ts + 1500
       this.saveSong(song, success)
 
     saveTranslation: (translationText, success) ->

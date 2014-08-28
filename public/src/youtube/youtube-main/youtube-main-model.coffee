@@ -1,22 +1,16 @@
 define [
   'songs.data.provider',
   'youtube.player.model',
-  'youtube.player.sync.model',
   'subtitles.scroller.model',
   'backbone'
-], (SongsDataProvider, YoutubePlayerModel, YoutubePlayerSyncModel, SubtitlesScrollerModel, Backbone) ->
+], (SongsDataProvider, YoutubePlayerModel, SubtitlesScrollerModel, Backbone) ->
   YoutubeMainModel = Backbone.Model.extend(
 
     initialize: () ->
       this.dataProvider = new SongsDataProvider(this.get('settings'))
-      if this.get('editMode')
-        this.youtubePlayerModel = new YoutubePlayerSyncModel(
-          settings: this.get('settings')
-        )
-      else
-        this.youtubePlayerModel = new YoutubePlayerModel(
-          settings: this.get('settings')
-        )
+      this.youtubePlayerModel = new YoutubePlayerModel(
+        settings: this.get('settings')
+      )
 
       this.subtitlesScrollerModel = new SubtitlesScrollerModel()
       this.listenTo(this.youtubePlayerModel, 'change:i', () =>

@@ -1,7 +1,7 @@
 define [
   'backbone',
   'handlebars',
-  'youtube.main.view',
+  'youtube.sync.view',
   'jquery',
   'purl',
   'templates'
@@ -111,17 +111,20 @@ define [
       this.$('.syncSubtitles').click(() =>
         this.$('.syncSubtitlesModal').show()
         this.$('.syncSubtitlesModal .modal').show()
-        this.$('.syncSubtitlesContainer').html(this.syncView.render().el)
+        if this.$('.syncSubtitlesContainer').html().length is 0
+          this.$('.syncSubtitlesContainer').html(this.syncView.render().el)
         
         event.preventDefault()
       )
       this.$('.closeSyncSubtitlesModal').click(() =>
         this.$('.syncSubtitlesModal').hide()
+        this.model.syncModel.reset()
         event.preventDefault()
       )
       this.$('.saveSyncSubtitles').click(() =>
         success = () =>
           this.$('.syncSubtitlesModal').hide()
+        this.model.syncModel.reset()
 
         this.model.saveSync(success)
         event.preventDefault()

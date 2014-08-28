@@ -49,15 +49,6 @@ define [
         this.model.saveSongs(ids)
       )
 
-      this.$('.addNewSong').on('click', () =>
-        this.$('.addNewSongModal').show()
-        this.$('.addNewSongModal .modal').show()
-      )
-
-      this.$('.closeAddSongModal').on('click', () =>
-        this.$('.addNewSongModal').hide()
-      )
-
       this.createSongView.on('saveSuccess', (song) =>
         this.$('.addNewSongModal').hide()
         this.model.addSong(song._id)
@@ -95,6 +86,15 @@ define [
       this.$('#searchSongs').blur((event) =>
         if not this.$('#searchSongs').val()
           this.$('.songSearchListContainer').hide()
+      )
+
+      this.$('.addNewSong').on('click', () =>
+        this.$('.addNewSongModal').show()
+        this.$('.addNewSongModal .modal').show()
+      )
+
+      this.$('.closeAddSongModal').on('click', () =>
+        this.$('.addNewSongModal').hide()
       )
 
       return this

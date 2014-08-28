@@ -43,13 +43,31 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['subtitles-controls'](this.model.toJSON()))
       this.$('.pause').hide()
+
+      if not this.options.allowToggleVideo
+        this.$('.toggle-video').remove()
+
       this.enableButtons()
 
       return this
 
     setProgressBar: () ->
       percentage = this.model.getCurrentPercentageComplete()
+      time = this.convertSecondsToMinutes(this.model.getCurrentTime()/1000)
+      duration = this.convertSecondsToMinutes(this.model.getDuration())
       this.$('.progress-bar').width(percentage + '%')
+      this.$('.progress-timer').html(time + '/' + duration)
+
+    convertSecondsToMinutes: (seconds) ->
+      minutes = Math.round(seconds / 60)
+      seconds = Math.round((seconds % 60))
+      if seconds < 10
+        seconds = '0' + seconds
+
+      if isNaN(seconds) or isNaN(minutes)
+        return '0:00'
+
+      return minutes + ':' + seconds
 
     updateProgressBar: () ->
       clearTimeout(this.progressTick)

@@ -1,0 +1,42 @@
+<ul class='subtitles list-group'>
+    {{#each subtitles}}
+        {{#if @first}}
+        <div class="insertBefore">
+            <button type="button" class="openInsert btn btn-primary" title="Insert line before">
+                Insert line&nbsp;<span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+            <div class="input-group insertLine" style="display:none;">
+                <input type="text" class="form-control toAdd" placeholder="Line to insert..." autocomplete="off">
+                <span class="input-group-btn">
+                    <button class="btn btn-default addLine" type="button">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+        {{/if}}
+        <li class='subtitle list-group-item' data-index='{{@index}}''>
+            <span class="subtitle-timestamp label label-default">{{ts}}</span>
+            <div class='original-subtitle'>
+                <span class="subtitle-text">{{{text}}}</span>
+            </div>
+            <button type="button" class="edit action btn btn-primary btn-xs title="Edit Line">edit</button>
+            <button type="button" class="remove action close" title="Remove Line">×</button>
+        </li>
+        {{#if @first}}
+        <div class="insertAfter">
+            <button type="button" class="openInsert btn btn-primary" title="Insert line after">
+                Insert line&nbsp;<span class="glyphicon glyphicon-chevron-up"></span>
+            </button>
+            <div class="input-group insertLine" style="display:none;">
+                <input type="text" class="form-control toAdd" placeholder="Line to insert..." autocomplete="off">
+                <span class="input-group-btn">
+                    <button class="btn btn-default addLine" type="button">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+        {{/if}}
+    {{/each}}
+</ul>
