@@ -266,7 +266,7 @@ define [
       console.log('PLAYER: position: ' + position)
       return position
 
-    insertLine: (i, text) ->
+    splice: (i, toRemove, text) ->
       subtitles = this.get('currentSong')?.subtitles
       if subtitles
         ts = 0
@@ -275,7 +275,7 @@ define [
         item =
           text: text
           ts: ts
-        subtitles.splice(i, 0, item)
+        subtitles.splice(i, toRemove, item)
         this.trigger('updateSubtitles')
 
     removeLine: (i) ->
