@@ -101,12 +101,10 @@ define [
     syncNext: () ->
       console.log('sync next')
       i = this.get('i') + 1
-
-      ts = Math.max(Math.round(this.getCurrentTime() - 200), 0)
-      this.addNewTime(i, ts)
-
       subtitles = this.get('currentSong')?.subtitles
       if subtitles?[i]
+        ts = Math.max(Math.round(this.getCurrentTime() - 100), 0)
+        this.addNewTime(i, ts)
         if not this.get('playing')
           this.savedPos = subtitles[i].ts
         this.set(
@@ -116,16 +114,17 @@ define [
     addNewTime: (i, ts) ->
       console.log('PLAYER: i set to : ' + ts)
       subtitles = this.get('currentSong')?.subtitles
-      if subtitles
+      if subtitles?[i]
         #this.get('song').subtitles[i].ts = ts
         subtitles[i].ts = ts
 
         # Cleanse all future
-        start = i+1
-        end = subtitles.length-1
-        for j in [start..end]
-          if subtitles[j].ts < subtitles[j-1].ts
-            subtitles[j].ts = subtitles[j-1].ts
+        if subtitles.length > (i+1)
+          start = i+1
+          end = subtitles.length-1
+          for j in [start..end]
+            if subtitles[j].ts < subtitles[j-1].ts
+              subtitles[j].ts = subtitles[j-1].ts
 
         this.trigger('updateSubtitles')
 
