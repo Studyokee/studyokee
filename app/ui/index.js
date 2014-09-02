@@ -17,15 +17,6 @@ app.get('/',
     }
 );
 
-// app.get('/songs/create',
-//     function(req, res) {
-//         var data = {
-//             page: '/lib/pages/create-song.js'
-//         };
-//         res.render('base', data);
-//     }
-// );
-
 app.get('/songs/edit',
     function(req, res) {
         var data = {
