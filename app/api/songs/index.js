@@ -13,6 +13,13 @@ var assert = require('assert');
 //     next();
 // }
 
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) { return next(); }
+    res.json(500, {
+        err: 'User is not logged in or does not have permission to do this action'
+    });
+}
+
 app.get('/', function (req, res) {
     q.resolve().then(function () {
         return Song.getAllSongs();
@@ -60,7 +67,7 @@ app.get('/search', function (req, res) {
     });
 });
 
-app.post('/', function (req, res) {
+app.post('/', ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
         return Song.create(req.body);
     }).then(function (classroom) {

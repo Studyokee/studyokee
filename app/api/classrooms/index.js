@@ -6,6 +6,13 @@ var q = require('q');
 var express = require('express');
 var app = express();
 
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) { return next(); }
+    res.json(500, {
+        err: 'User is not logged in or does not have permission to do this action'
+    });
+}
+
 // Return all classrooms
 app.get('/', function (req, res) {
     q.resolve().then(function () {
@@ -23,9 +30,9 @@ app.get('/', function (req, res) {
 });
 
 // Create a new classroom
-app.post('/', function (req, res) {
+app.post('/', ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
-        return Classroom.create(req.body.name, req.body.language);
+        return Classroom.create(req.body.name, req.body.language, req.user._id);
     }).then(function (classroom) {
         res.json(200, classroom);
     }).fail(function (err) {

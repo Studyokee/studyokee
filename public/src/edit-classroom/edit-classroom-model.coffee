@@ -118,6 +118,16 @@ define [
           console.log('Error: ' + err.responseText)
           callback?()
       )
+      
+    deleteClassroom: (classroom) ->
+      $.ajax(
+        type: 'DELETE'
+        url: '/api/classrooms/' + classroom._id
+        success: (res) =>
+          this.getClassrooms()
+        error: (err) =>
+          console.log('Error: ' + err)
+      )
   )
 
   return EditClassroomModel

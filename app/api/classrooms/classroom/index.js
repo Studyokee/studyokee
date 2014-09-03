@@ -7,7 +7,14 @@ var Classroom = require('../../../../models/classroom');
 var mongoose = require('mongoose');
 var Song = require('../../../../models/song');
 
-app.delete('/:id', function (req, res) {
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) { return next(); }
+    res.json(500, {
+        err: 'User is not logged in or does not have permission to do this action'
+    });
+}
+
+app.delete('/:id', ensureAuthenticated, function (req, res) {
     console.log('Delete: ' + req.params.id);
     q.resolve().then(function () {
         var deleteRequest = q.defer();

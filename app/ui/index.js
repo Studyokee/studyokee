@@ -8,64 +8,12 @@ app.configure(function() {
     app.set('view engine', 'ejs');
 });
 
-app.get('/',
+app.get('*',
     function(req, res) {
+        var userId = req.user ? req.user._id : '';
         var data = {
-            page: '/lib/pages/youtube-main.js'
-        };
-        res.render('base', data);
-    }
-);
-
-app.get('/songs/edit',
-    function(req, res) {
-        var data = {
-            page: '/lib/pages/edit-songs.js'
-        };
-        res.render('base', data);
-    }
-);
-
-app.get('/songs/:id/edit',
-    function(req, res) {
-        var data = {
-            id: req.params.id,
-            page: '/lib/pages/edit-song.js'
-        };
-        res.render('entity', data);
-    }
-);
-
-app.get('/classrooms/create',
-    function(req, res) {
-        var data = {
-            page: '/lib/pages/create-classroom.js'
-        };
-        res.render('base', data);
-    }
-);
-app.get('/classrooms/:id/edit',
-    function(req, res) {
-        var data = {
-            id: req.params.id,
-            page: '/lib/pages/edit-classroom.js'
-        };
-        res.render('entity', data);
-    }
-);
-app.get('/classrooms/:id',
-    function(req, res) {
-        var data = {
-            id: req.params.id,
-            page: '/lib/pages/classroom.js'
-        };
-        res.render('entity', data);
-    }
-);
-app.get('/classrooms/',
-    function(req, res) {
-        var data = {
-            page: '/lib/pages/classrooms.js'
+            page: '/lib/app.js',
+            userId: userId
         };
         res.render('base', data);
     }

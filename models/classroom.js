@@ -20,17 +20,22 @@ var classroomSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    songs: [String]
+    songs: [String],
+    createdById: {
+        type: String,
+        required: true
+    }
 });
 
-classroomSchema.static('create', function (name, language) {
+classroomSchema.static('create', function (name, language, createdById) {
     return q.resolve().then(function () {
         return Counter.getNext('classroomId');
     }).then(function (classroomId) {
         var toSave = {
             name: name,
             language: language,
-            classroomId: classroomId
+            classroomId: classroomId,
+            createdById: createdById
         };
         var classroom = new Classroom(toSave);
         var saveRequest = q.defer();

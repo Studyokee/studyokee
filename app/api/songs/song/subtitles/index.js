@@ -5,6 +5,13 @@ var app = express();
 var assert = require('assert');
 var q = require('q');
 
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) { return next(); }
+    res.json(500, {
+        err: 'User is not logged in or does not have permission to do this action'
+    });
+}
+
 app.get('/:id/subtitles', function (req, res) {
     q.resolve().then(function () {
         assert(req.hasOwnProperty('song'));
@@ -21,7 +28,7 @@ app.get('/:id/subtitles', function (req, res) {
     });
 });
 
-app.put('/:id/subtitles', function (req, res) {
+app.put('/:id/subtitles', ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
         assert(req.hasOwnProperty('song'));
         assert(req.body.hasOwnProperty('subtitles'));
