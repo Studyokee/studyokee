@@ -18,9 +18,9 @@ define [
             if success?
               success(data[0])
           else
-            console.log('Error: ' + err)
-        error: (err) =>
-          console.log('Error: ' + err)
+            console.log('Error: ' + result.responseText)
+        error: (result) =>
+          console.log('Error: ' + result.responseText)
       )
 
   )

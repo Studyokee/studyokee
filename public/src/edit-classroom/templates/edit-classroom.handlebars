@@ -1,7 +1,10 @@
 <div class="col-lg-6">
     <form>
         <fieldset>
-            <legend>Edit Classroom <a href="/classrooms/{{data.classroomId}}" class="btn btn-primary btn-xs">view</a></legend>
+            <legend>Edit Classroom 
+                <a href="/classrooms/{{data.classroomId}}" class="btn btn-primary btn-xs viewClassroom">view</a>
+                <a href="/" class="btn btn-primary btn-xs deleteClassroom">delete</a>
+            </legend>
             <div class="form-horizontal">
                 <div class="form-group">
                     <label for="name" class="col-lg-6 control-label">Name</label>

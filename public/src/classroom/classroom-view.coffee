@@ -49,6 +49,14 @@ define [
       this.$('.center').html(this.mainView.render().el)
       this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
 
+      this.$('.editClassroom').on('click', (e) =>
+        Backbone.history.navigate('classrooms/' + this.model.get('data')?.classroomId + '/edit', {trigger: true})
+        e.preventDefault()
+      )
+
+      if this.model.get('settings')?.get('userId') is this.model.get('data')?.createdById
+        this.$('.editClassroom').show()
+
       return this
   )
 

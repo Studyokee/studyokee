@@ -29,23 +29,11 @@ define [
           )
           this.$('.classroomPreviewViews').append(classroomPreviewView.render().el)
 
-      view = this
-      #this.$('.classroomLink').on('click', () ->
-      #  classrooms = view.model.get('data')
-      #  index = $(this).attr('data-index')
-      #  view.openClassroom(classrooms[index])
-      #)
-
       this.$('.createClassroom').on('click', (event) =>
-        document.location = '/classrooms/create'
+        Backbone.history.navigate('classrooms/create', {trigger: true})
       )
 
       return this
-
-    openClassroom: (classroom) ->
-      document.location = '/classrooms/' + classroom.classroomId
-
-
   )
 
   return HomeView

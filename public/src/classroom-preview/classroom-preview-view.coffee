@@ -31,6 +31,11 @@ define [
 
       this.$('.songListContainer').html(this.songListView.render().el)
 
+      this.$('.classroomLink').on('click', (event) =>
+        Backbone.history.navigate('classrooms/' + model.classroom.classroomId, {trigger: true})
+        event.preventDefault()
+      )
+
       return this
 
   )

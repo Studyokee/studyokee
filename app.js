@@ -5,6 +5,7 @@ mongoose.connect(process.env.MONGOHQ_URL);
 
 var express = require('express');
 var app = express();
+var User = require('./models/user');
 
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
@@ -31,27 +32,13 @@ passport.use(new FacebookStrategy({
         callbackURL: process.env.URL + '/auth/facebook/callback'
     },
     function(accessToken, refreshToken, profile, done) {
-        // asynchronous verification, for effect...
-        process.nextTick(function () {
-      
-            // To keep the example simple, the user's Facebook profile is returned to
-            // represent the logged-in user.  In a typical application, you would want
-            // to associate the Facebook account with a user record in your database,
-            // and return that user instead.
-            return done(null, profile);
+        console.log('find or create user: ' + profile.id);
+        User.findOrCreate({ facebookId: profile.id }).then(function (user) {
+            console.log('returned from find or create user: ' + JSON.stringify(user));
+            return done(null, user);
         });
     })
 );
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login');
-}
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -61,19 +48,21 @@ function ensureAuthenticated(req, res, next) {
 //   have a database of user records, the complete Facebook profile is serialized
 //   and deserialized.
 passport.serializeUser(function(user, done) {
+    console.log('serialiaze user: ' + JSON.stringify(user));
     done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
-});
-
-app.get('/account', ensureAuthenticated, function(req, res){
-    res.render('account', { user: req.user });
-});
-
-app.get('/login', function(req, res){
-    res.render('login', { user: req.user });
+passport.deserializeUser(function(user, done) {
+    console.log('deserialiaze user: ' + JSON.stringify(user));
+    //returns a q promise
+    done(null, user);
+    /*User.findOne({_id: userId}).then(function (user) {
+        if (!user) {
+            return done(null, null);
+        }
+        console.log('deserialiaze return user: ' + JSON.stringify(user));
+        done(null, user);
+    });*/
 });
 
 // GET /auth/facebook

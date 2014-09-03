@@ -8,6 +8,7 @@ define [
       defaultFromLanguage: 'es'
       toLanguage: 'en'
       fromLanguage: 'es'
+      userId: null
   )
 
   return SettingsModel
