@@ -5,13 +5,7 @@ var Classroom = require('../../../models/classroom');
 var q = require('q');
 var express = require('express');
 var app = express();
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.json(500, {
-        err: 'User is not logged in or does not have permission to do this action'
-    });
-}
+var utilities = require('../utilities');
 
 // Return all classrooms
 app.get('/', function (req, res) {
@@ -30,7 +24,7 @@ app.get('/', function (req, res) {
 });
 
 // Create a new classroom
-app.post('/', ensureAuthenticated, function (req, res) {
+app.post('/', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
         return Classroom.create(req.body.name, req.body.language, req.user._id);
     }).then(function (classroom) {

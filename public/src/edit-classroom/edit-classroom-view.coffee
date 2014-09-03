@@ -106,6 +106,7 @@ define [
         if confirm('Are you sure you want to delete this classroom?')
           this.model.deleteClassroom(this.model.get('data'))
           Backbone.history.navigate('/', {trigger: true})
+          event.preventDefault()
       )
 
       return this

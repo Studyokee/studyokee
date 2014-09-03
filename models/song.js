@@ -24,7 +24,10 @@ var songSchema = mongoose.Schema({
     translations: [{
         language: String,
         data: [String]
-    }]
+    }],
+    createdById: {
+        type: String
+    }
 });
 
 function findOne (query) {
@@ -136,8 +139,9 @@ songSchema.methods.getLanguage = function () {
     });
 };
 
-songSchema.static('create', function (toSave) {
+songSchema.static('create', function (toSave, createdById) {
     return q.resolve().then(function () {
+        toSave.createdById = createdById;
         var song = new Song(toSave);
         var saveRequest = q.defer();
         song.save(saveRequest.makeNodeResolver());
