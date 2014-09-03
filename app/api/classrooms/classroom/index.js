@@ -4,47 +4,39 @@ var express = require('express');
 var app = express();
 var q = require('q');
 var Classroom = require('../../../../models/classroom');
-var mongoose = require('mongoose');
 var Song = require('../../../../models/song');
+var utilities = require('../../utilities');
 
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.json(500, {
-        err: 'User is not logged in or does not have permission to do this action'
-    });
-}
-
-app.delete('/:id', ensureAuthenticated, function (req, res) {
-    console.log('Delete: ' + req.params.id);
+function getClassroom (req, res, next) {
     q.resolve().then(function () {
-        var deleteRequest = q.defer();
-        Classroom.remove({
-            '_id': new mongoose.Types.ObjectId(req.params.id)
-        }, deleteRequest.makeNodeResolver());
-        return deleteRequest.promise;
-    }).then(function () {
-        res.json(200, {});
+        var findRequest = q.defer();
+        Classroom.findOne({'classroomId': req.params.id}, findRequest.makeNodeResolver());
+        return findRequest.promise;
+    }).then(function (classroom) {
+        req.classroom = classroom;
+        next();
     }).fail(function (err) {
         console.log(err);
         res.json(500, {
             err: err
         });
     });
-});
+}
+
+function checkPermission (req, res, next) {
+    if (req.classroom.createdById === req.user._id) { next(); }
+    res.json(500, {
+        err: 'This user does not have permission to edit this classroom'
+    });
+}
 
 // Return classroom by id
-app.get('/:id', function (req, res) {
-    var classroom = null;
+app.get('/:id', getClassroom, function (req, res) {
     q.resolve().then(function () {
-        var findRequest = q.defer();
-        Classroom.findOne({'classroomId': req.params.id}, findRequest.makeNodeResolver());
-        return findRequest.promise;
-    }).then(function (classroomResult) {
-        classroom = classroomResult;
-        return Song.getDisplayInfo(classroom.songs);
+        return Song.getDisplayInfo(req.classroom.songs);
     }).then(function (displayInfos) {
         var toReturn = {
-            classroom: classroom,
+            classroom: req.classroom,
             displayInfos: displayInfos
         };
         res.json(200, toReturn);
@@ -56,9 +48,25 @@ app.get('/:id', function (req, res) {
     });
 });
 
+app.delete('/:id', utilities.ensureAuthenticated, getClassroom, checkPermission, function (req, res) {
+    console.log('Delete: ' + req.params.id);
+    q.resolve().then(function () {
+        var deleteRequest = q.defer();
+        Classroom.remove(req.classroom, deleteRequest.makeNodeResolver());
+        return deleteRequest.promise;
+    }).then(function () {
+        res.json(200, {});
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
 // curl -H 'Content-Type: application/json' -X PUT -d '{"name":"123","songs":["52c2e9829759093a19000002", "52d5f0e23025f1bf12000002"]}' http://localhost:3000/api/classrooms/10
 // Edit a classroom
-app.put('/:id', function (req, res) {
+app.put('/:id', utilities.ensureAuthenticated, getClassroom, checkPermission, function (req, res) {
     q.resolve().then(function () {
         var findRequest = q.defer();
         Classroom.findOne({'classroomId': req.params.id}, findRequest.makeNodeResolver());

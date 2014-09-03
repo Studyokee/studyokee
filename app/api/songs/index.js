@@ -5,6 +5,7 @@ var app = express();
 var q = require('q');
 var Song = require('../../../models/song');
 var assert = require('assert');
+var Utilities = require('../utilities');
 
 // function trimPrefix (req, res, next) {
 //     var match = req.url.match('/[^\/]*(.*)');
@@ -12,13 +13,6 @@ var assert = require('assert');
 //     req.url = match[1].length ? match[1] : '/';
 //     next();
 // }
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.json(500, {
-        err: 'User is not logged in or does not have permission to do this action'
-    });
-}
 
 app.get('/', function (req, res) {
     q.resolve().then(function () {
@@ -67,9 +61,13 @@ app.get('/search', function (req, res) {
     });
 });
 
-app.post('/', ensureAuthenticated, function (req, res) {
+app.post('/', Utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
-        return Song.create(req.body);
+        var createdById = null;
+        if (req.user) {
+            createdById = req.user._id;
+        }
+        return Song.create(req.body, createdById);
     }).then(function (classroom) {
         res.json(200, classroom);
     }).fail(function (err) {
