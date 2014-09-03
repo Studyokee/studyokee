@@ -7,9 +7,7 @@ define [
   EditSongModel = Backbone.Model.extend(
 
     initialize: () ->
-      this.syncModel = new SyncModel(
-        language: 'en'
-      )
+      this.syncModel = new SyncModel()
 
       this.getSong()
 
@@ -57,7 +55,7 @@ define [
         song.translations[0].data = translation
       else
         firstTranslation =
-          language: 'en'
+          language: this.get('settings').get('toLanguage').language
           data: translation
         song.translations = [firstTranslation]
       this.saveSong(song, success)

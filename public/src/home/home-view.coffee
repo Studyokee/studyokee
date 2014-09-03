@@ -29,10 +29,6 @@ define [
           )
           this.$('.classroomPreviewViews').append(classroomPreviewView.render().el)
 
-      this.$('.createClassroom').on('click', (event) =>
-        Backbone.history.navigate('classrooms/create', {trigger: true})
-      )
-
       return this
   )
 

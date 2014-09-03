@@ -9,11 +9,11 @@ define [
     getClassrooms: () ->
       $.ajax(
         type: 'GET'
-        url: '/api/classrooms/'
+        url: '/api/classrooms/page/' + this.get('settings').get('fromLanguage').language
         dataType: 'json'
         success: (res) =>
           this.set(
-            data: res
+            data: res.page
           )
 
         error: (err) =>
