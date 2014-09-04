@@ -18,6 +18,7 @@ requirejs.config(
     'home.model': 'lib/home/home-model'
     'home.view': 'lib/home/home-view'
     'header.view': 'lib/header/header-view'
+    'footer.view': 'lib/footer/footer-view'
     'media.item.view': 'lib/media-item/media-item-view'
     'media.item.list.view': '/lib/media-item-list/media-item-list-view'
     'media.item.list.model': '/lib/media-item-list/media-item-list-model'

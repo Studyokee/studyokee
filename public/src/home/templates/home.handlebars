@@ -1,6 +1,18 @@
-<h4>Select a language</h4>
-<ul class="nav nav-pills">
-    {{#each supportedLanguages}}
-        <li><a href="/language/{{language}}/en" data-index="{{@index}}" class="languageLink">{{display}}</a></li>
-    {{/each}}
-</ul>
+<div class="splash">
+    <div class="title">
+        <div class="container">
+            <div class="row col-lg-12">
+                <h1>Select a Language</h1>
+                <ul class="nav nav-pills">
+                    {{#each supportedLanguages}}
+                        <li class="col-lg-4">
+                            <div class="linkBg {{language}}">
+                                <a href="/language/{{language}}/en" data-index="{{@index}}" class="languageLink">{{display}}</a>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

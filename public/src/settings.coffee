@@ -8,7 +8,10 @@ define [
       defaultFromLanguage: {'language': 'es', 'display': 'Spanish'}
       toLanguage: {'language': 'en', 'display': 'English'}
       fromLanguage: {'language': 'es', 'display': 'Spanish'}
-      userId: null
+      user:
+        id: ''
+        photo: ''
+        displayName: ''
       supportedLanguages: [
         {'language': 'es', 'display': 'Spanish'},
         {'language': 'fr', 'display': 'French'},

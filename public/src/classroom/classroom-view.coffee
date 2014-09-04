@@ -8,7 +8,7 @@ define [
 ], (DictionaryView, MainView, MenuView, Backbone, Handlebars) ->
   ClassroomView = Backbone.View.extend(
     tagName:  "div"
-    className: "classroom"
+    className: "classroom container"
     
     initialize: () ->
       this.mainView = new MainView(
@@ -54,7 +54,7 @@ define [
         e.preventDefault()
       )
 
-      if this.model.get('settings')?.get('userId') is this.model.get('data')?.createdById
+      if this.model.get('settings')?.get('user')?.id is this.model.get('data')?.createdById
         this.$('.editClassroom').show()
 
       return this

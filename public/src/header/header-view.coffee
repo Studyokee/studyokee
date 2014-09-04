@@ -5,9 +5,10 @@ define [
   'templates'
 ], (Backbone, Handlebars) ->
   HeaderView = Backbone.View.extend(
-    className: "header"
+    tagName: "header"
     
-    initialize: () ->
+    initialize: (options) ->
+      this.options = options
       this.listenTo(this.model, 'change', () =>
         this.render()
       )
@@ -37,7 +38,10 @@ define [
         Backbone.history.navigate('classrooms/language/' + currentLanguage.language + '/en', {trigger: true})
         event.preventDefault()
       )
-      this.$('.selectLanguage .currentLanguage').html(this.model.get('fromLanguage').display)
+      this.$('.selectLanguage .dropdown-toggle .languageIcon').addClass(this.model.get('fromLanguage').language)
+
+      if this.options.sparse
+        this.$('.navbar-left').hide()
 
       return this
   )

@@ -4,7 +4,7 @@ define [
   'templates'
 ], (Backbone, Handlebars) ->
   CreateClassroomView = Backbone.View.extend(
-    className: "create-classroom"
+    className: "create-classroom container"
     
     initialize: () ->
       this.listenTo(this.model, 'change', () =>

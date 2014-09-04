@@ -29,12 +29,35 @@ app.use(passport.session());
 passport.use(new FacebookStrategy({
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
-        callbackURL: process.env.URL + '/auth/facebook/callback'
+        callbackURL: process.env.URL + '/auth/facebook/callback',
+        profileFields: ['id', 'displayName', 'photos', 'name']
     },
     function(accessToken, refreshToken, profile, done) {
+        console.log('profile: ' + JSON.stringify(profile, null, 4));
         console.log('find or create user: ' + profile.id);
         User.findOrCreate({ facebookId: profile.id }).then(function (user) {
             console.log('returned from find or create user: ' + JSON.stringify(user));
+            var photo = '';
+            if (profile.photos && profile.photos.length > 0) {
+                photo = profile.photos[0].value;
+            }
+            var displayName = profile.displayName;
+            var firstName = profile.name.givenName;
+
+            console.log('update user with photo: ' + photo);
+            console.log('update user with displayName: ' + displayName);
+            console.log('update user with firstName: ' + firstName);
+
+            var updates = {};
+            updates.photo = photo;
+            updates.displayName = displayName;
+            updates.firstName = firstName;
+            user.update(updates);
+
+            user.photo = photo;
+            user.displayName = displayName;
+            user.firstName = firstName;
+
             return done(null, user);
         });
     })
