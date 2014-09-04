@@ -4,6 +4,7 @@ requirejs.config(
   paths:
     backbone: '/bower_components/backbone/backbone'
     jquery: '/bower_components/jquery/jquery'
+    bootstrap: '/bower_components/bootstrap/dist/js/bootstrap'
     'jquery.ui.core': '/bower_components/jquery-ui/ui/jquery.ui.core'
     'jquery.ui.mouse': '/bower_components/jquery-ui/ui/jquery.ui.mouse'
     'jquery.ui.widget': '/bower_components/jquery-ui/ui/jquery.ui.widget'
@@ -16,6 +17,7 @@ requirejs.config(
     yt: 'https://www.youtube.com/iframe_api?noext'
     'home.model': 'lib/home/home-model'
     'home.view': 'lib/home/home-view'
+    'header.view': 'lib/header/header-view'
     'media.item.view': 'lib/media-item/media-item-view'
     'media.item.list.view': '/lib/media-item-list/media-item-list-view'
     'media.item.list.model': '/lib/media-item-list/media-item-list-model'
@@ -56,12 +58,16 @@ requirejs.config(
     'youtube.sync.model': '/lib/youtube/youtube-sync/youtube-sync-model'
     'youtube.sync.view': '/lib/youtube/youtube-sync/youtube-sync-view'
     'youtube.sync.subtitles.view': '/lib/youtube/youtube-sync/youtube-sync-subtitles-view'
+    'pagination.view': '/lib/pagination/pagination-view'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]
       exports: 'Backbone'
     underscore:
       exports: '_'
+    bootstrap:
+      deps: [ 'jquery' ]
+      exports: '$'
     purl:
       deps: [ 'jquery' ]
       exports: '$'

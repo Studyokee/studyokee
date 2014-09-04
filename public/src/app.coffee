@@ -4,19 +4,23 @@ require [
   'settings',
   'home.model',
   'home.view',
+  'header.view',
   'edit.song.model',
   'edit.song.view',
   'create.classroom.model',
   'create.classroom.view',
+  'classrooms.model',
+  'classrooms.view',
   'edit.classroom.model',
   'edit.classroom.view',
   'classroom.model',
   'classroom.view'
-], (Backbone, $, Settings, HomeModel, HomeView, EditSongModel, EditSongView, CreateClassroomModel, CreateClassroomView, EditClassroomModel, EditClassroomView, ClassroomModel, ClassroomView) ->
+], (Backbone, $, Settings, HomeModel, HomeView, HeaderView, EditSongModel, EditSongView, CreateClassroomModel, CreateClassroomView, ClassroomsModel, ClassroomsView, EditClassroomModel, EditClassroomView, ClassroomModel, ClassroomView) ->
 
   AppRouter = Backbone.Router.extend(
     routes:
-      '/': 'home'
+      '': 'home'
+      'classrooms/language/:from/:to': 'getClassrooms'
       'songs/:id/edit': 'editSong'
       'classrooms/create': 'createClassroom'
       'classrooms/:id/edit': 'editClassroom'
@@ -32,8 +36,14 @@ require [
   settings = new Settings(
     userId: userId
   )
+
+  headerView = new HeaderView(
+    model: settings
+  )
+  $('.headerContainer').html(headerView.render().el)
+
   toLogin = () ->
-    $('.skee').html('<a href="/auth/facebook">Login with Facebook</a>')
+    $('.skee').html('<h4>You must login to complete this action.</h4><a href="/auth/facebook">Login with Facebook</a>')
     Backbone.history.navigate('login')
 
 
@@ -67,6 +77,7 @@ require [
     $('.skee').html(view.render().el)
   )
   appRouter.on('route:editClassroom', (id) ->
+    console.log('open edit classroom')
     if not userId
       toLogin()
       return
@@ -91,13 +102,25 @@ require [
   appRouter.on('route:login', () ->
     toLogin()
   )
+  appRouter.on('route:getClassrooms', (from, to) ->
+    settings.setFromLangauge(from)
+    console.log('toLanguage: ' + to)
+    view = new ClassroomsView(
+      model: new ClassroomsModel(
+        settings: settings
+      )
+    )
+    $('.skee').html(view.render().el)
+  )
   appRouter.on('route:defaultRoute', () ->
+    console.log('go to default route')
     view = new HomeView(
       model: new HomeModel(
         settings: settings
       )
     )
     $('.skee').html(view.render().el)
+    Backbone.history.navigate('classrooms/' + settings.get('fromLanguage').language + '/' + settings.get('toLanguage').language)
   )
   params =
     pushState: true

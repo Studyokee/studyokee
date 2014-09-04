@@ -9,7 +9,7 @@ define [
     initialize: () ->
       this.mainModel = new MainModel(
         settings: this.get('settings')
-        language: 'en'
+        language: this.get('settings').get('toLanguage').language
       )
 
       this.menuModel = new MenuModel(
@@ -17,8 +17,8 @@ define [
       )
 
       this.dictionaryModel = new DictionaryModel(
-        fromLanguage: this.get('settings').get('fromLanguage')
-        toLanguage: 'en'
+        fromLanguage: this.get('settings').get('fromLanguage').language
+        toLanguage: this.get('settings').get('toLanguage').language
         settings: this.get('settings')
       )
 

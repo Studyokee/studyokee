@@ -1,2 +1,6 @@
-<h4>Select a classroom or <button class="btn btn-default createClassroom">New Classroom</button></h4>
-<ul class="nav nav-pills classroomPreviewViews"></ul>
+<h4>Select a language</h4>
+<ul class="nav nav-pills">
+    {{#each supportedLanguages}}
+        <li><a href="/language/{{language}}/en" data-index="{{@index}}" class="languageLink">{{display}}</a></li>
+    {{/each}}
+</ul>
