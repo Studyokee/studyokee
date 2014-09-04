@@ -10,7 +10,10 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true,
         required: true
-    }
+    },
+    photo: String,
+    displayName: String,
+    firstName: String
 });
 
 function findOne (query) {

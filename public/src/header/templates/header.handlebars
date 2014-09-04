@@ -8,24 +8,35 @@
         <a href="/" class="navbar-brand"><span style="color:#000;">Studyokee:</span> <small class="text-muted">learning with pop songs</small></a>
     </div>
     <div class="navbar-collapse collapse navbar-responsive-collapse">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-left">
             <li class="dropdown selectLanguage">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language: <span class="currentLanguage">Language</span> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language: <span class="languageIcon"></span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     {{#each supportedLanguages}}
-                        <li><a href="/classrooms/language/{{language}}/en" data-index="{{@index}}">{{display}}</a></li>
+                        <li><a href="/classrooms/language/{{language}}/en" data-index="{{@index}}"><span class="languageIcon {{language}}"></span>&nbsp;&nbsp;&nbsp;{{display}}</a></li>
                     {{/each}}
                 </ul>
             </li>
-            <li><a href="/classrooms/language/{{fromLanguage.language}}/en" class="openClassrooms">{{fromLanguage.display}} Classrooms</a></li>
+            <li><a href="/classrooms/language/{{fromLanguage.language}}/en" class="openClassrooms">Classrooms</a></li>
             <li><a href="/classrooms/create" class="createClassroom">New Classroom</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            {{#if user.id}}
             <li>
-            {{#if userId}}
+                <a href="#">
+                    Hello, {{user.firstName}}
+                    <span class="center-cropped icon">
+                        <img src="{{user.photo}}"/>
+                    </span>
+                </a>
+            </li>
+            <li>
                 <a href="/logout">Log Out</a>
+            </li>
             {{else}}
+            <li>
                 <a href="/auth/facebook">Login with Facebook</a>
+            </li>
             {{/if}}
         </ul>
     </div>

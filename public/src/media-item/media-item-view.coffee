@@ -15,7 +15,7 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['media-item'](this.model.toJSON()))
 
-      if not this.model.get('data').icon
+      if not this.model.get('data')?.icon
         this.$('.icon').toggle()
 
       centerImage = () =>

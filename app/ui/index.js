@@ -10,10 +10,15 @@ app.configure(function() {
 
 app.get('*',
     function(req, res) {
-        var userId = req.user ? req.user._id : '';
+        console.log('user: ' + JSON.stringify(req.user, null, 4));
         var data = {
-            page: '/lib/app.js',
-            userId: userId
+            page: '/lib/app.js'
+        };
+        data.user = {
+            id: req.user ? req.user._id : '',
+            displayName: req.user ? req.user.displayName : '',
+            photo: req.user ? req.user.photo : '',
+            firstName: req.user ? req.user.firstName : ''
         };
         res.render('base', data);
     }

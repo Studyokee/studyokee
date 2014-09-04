@@ -7,7 +7,7 @@ define [
   'templates'
 ], (Backbone, Handlebars, SyncView, $) ->
   EditSongView = Backbone.View.extend(
-    className: "editSong"
+    className: "editSong container"
     
     initialize: () ->
       this.syncView = new SyncView(

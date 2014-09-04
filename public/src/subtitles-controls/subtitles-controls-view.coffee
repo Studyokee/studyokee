@@ -8,7 +8,8 @@ define [
     tagName:  "div"
     className: "controls"
 
-    initialize: () ->
+    initialize: (options) ->
+      this.options = options
       this.listenTo(this.model, 'change:playing', () =>
         togglePlayButtonIcon = this.$('.toggle-play .glyphicon')
         if this.model.get('playing')

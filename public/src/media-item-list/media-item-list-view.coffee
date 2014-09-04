@@ -8,7 +8,8 @@ define [
   MediaItemListView = Backbone.View.extend(
     className: "mediaItemList"
     
-    initialize: () ->
+    initialize: (options) ->
+      this.options = options
       this.listenTo(this.model, 'change', () =>
         newItems = this.model.get('data')
         oldIds = []
@@ -104,7 +105,7 @@ define [
       this.mediaItemViews = []
       this.mediaItems = []
       if data and data.length > 0
-        limit = this.options.limit || data.length
+        limit = if this.options.limit then Math.min(this.options.limit, data.length) else data.length
         for index in [0..limit-1]
           item = data[index]
           mediaItemView = new MediaItemView(
