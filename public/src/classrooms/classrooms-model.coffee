@@ -2,29 +2,36 @@ define [
   'backbone'
 ], (Backbone) ->
   ClassroomsModel = Backbone.Model.extend(
+    defaults:
+      currentPage: 0
+      pageSize: 12
 
     initialize: () ->
-      this.getClassrooms()
+      this.paginationModel = new Backbone.Model(
+        currentPage: this.get('currentPage')
+        count: 0
+        pageSize: this.get('pageSize')
+      )
+      this.getClassrooms(this.get('currentPage'))
 
-    getClassrooms: () ->
+    getClassrooms: (pageToGet) ->
+      url = '/api/classrooms/page/' + this.get('settings').get('fromLanguage').language
+      url += '?pageSize=' + this.get('pageSize')
+      url += '&pageStart=' + (pageToGet * this.get('pageSize'))
       $.ajax(
         type: 'GET'
-        url: '/api/classrooms/'
+        url: url
         dataType: 'json'
         success: (res) =>
           this.set(
-            data: res
+            data: res.page
           )
-        error: (err) =>
-          console.log('Error: ' + err)
-      )
+          this.paginationModel.set(
+            count: res.count
+            currentPage: pageToGet
+          )
 
-    deleteClassroom: (classroom) ->
-      $.ajax(
-        type: 'DELETE'
-        url: '/api/classrooms/' + classroom._id
-        success: (res) =>
-          this.getClassrooms()
+
         error: (err) =>
           console.log('Error: ' + err)
       )

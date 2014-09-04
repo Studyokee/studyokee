@@ -2,7 +2,7 @@ define [
   'backbone'
 ], (Backbone) ->
   YoutubeSyncModel = Backbone.Model.extend(
-    default:
+    defaults:
       subtitles: []
       i: 0
       playing: false

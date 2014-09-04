@@ -58,6 +58,7 @@ requirejs.config(
     'youtube.sync.model': '/lib/youtube/youtube-sync/youtube-sync-model'
     'youtube.sync.view': '/lib/youtube/youtube-sync/youtube-sync-view'
     'youtube.sync.subtitles.view': '/lib/youtube/youtube-sync/youtube-sync-subtitles-view'
+    'pagination.view': '/lib/pagination/pagination-view'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]

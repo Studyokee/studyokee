@@ -9,15 +9,17 @@ require [
   'edit.song.view',
   'create.classroom.model',
   'create.classroom.view',
+  'classrooms.model',
+  'classrooms.view',
   'edit.classroom.model',
   'edit.classroom.view',
   'classroom.model',
   'classroom.view'
-], (Backbone, $, Settings, HomeModel, HomeView, HeaderView, EditSongModel, EditSongView, CreateClassroomModel, CreateClassroomView, EditClassroomModel, EditClassroomView, ClassroomModel, ClassroomView) ->
+], (Backbone, $, Settings, HomeModel, HomeView, HeaderView, EditSongModel, EditSongView, CreateClassroomModel, CreateClassroomView, ClassroomsModel, ClassroomsView, EditClassroomModel, EditClassroomView, ClassroomModel, ClassroomView) ->
 
   AppRouter = Backbone.Router.extend(
     routes:
-      '/': 'home'
+      '': 'home'
       'classrooms/:from/:to': 'getClassrooms'
       'songs/:id/edit': 'editSong'
       'classrooms/create': 'createClassroom'
@@ -102,8 +104,8 @@ require [
   appRouter.on('route:getClassrooms', (from, to) ->
     settings.setFromLangauge(from)
     console.log('toLanguage: ' + to)
-    view = new HomeView(
-      model: new HomeModel(
+    view = new ClassroomsView(
+      model: new ClassroomsModel(
         settings: settings
       )
     )
