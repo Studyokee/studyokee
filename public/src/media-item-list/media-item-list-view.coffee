@@ -104,7 +104,9 @@ define [
       this.mediaItemViews = []
       this.mediaItems = []
       if data and data.length > 0
-        for item in data
+        limit = this.options.limit || data.length
+        for index in [0..limit-1]
+          item = data[index]
           mediaItemView = new MediaItemView(
             model: new Backbone.Model(
               data: item

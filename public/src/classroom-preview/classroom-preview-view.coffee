@@ -15,17 +15,11 @@ define [
       this.songListView = new MediaItemList(
         model: this.model.songListModel
         readonly: true
+        limit: 5
       )
 
     render: () ->
       model = this.model.toJSON()
-      switch model.classroom.language
-        when 'es'
-          model.language = 'Spanish'
-        when 'fr'
-          model.language = 'French'
-        when 'de'
-          model.language = 'German'
 
       this.$el.html(Handlebars.templates['classroom-preview'](model))
 

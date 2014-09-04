@@ -24,7 +24,7 @@ function getClassroom (req, res, next) {
 }
 
 function checkPermission (req, res, next) {
-    if (req.classroom.createdById === req.user._id) { next(); }
+    if (req.classroom.createdById === req.user._id) { return next(); }
     res.json(500, {
         err: 'This user does not have permission to edit this classroom'
     });

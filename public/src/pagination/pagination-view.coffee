@@ -45,19 +45,19 @@ define [
 
       if currentPage is 0
         this.$('.prevPage').addClass('disabled')
+      else
+        this.$('.prevPage').on('click', (event) =>
+          this.trigger('openPage', this.model.get('currentPage') - 1)
+          event.preventDefault()
+        )
 
       if currentPage is (pageCount-1)
         this.$('.nextPage').addClass('disabled')
-
-      this.$('.prevPage').on('click', (event) =>
-        this.trigger('openPage', this.model.get('currentPage') - 1)
-        event.preventDefault()
-      )
-
-      this.$('.nextPage').on('click', (event) =>
-        this.trigger('openPage', this.model.get('currentPage') + 1)
-        event.preventDefault()
-      )
+      else
+        this.$('.nextPage').on('click', (event) =>
+          this.trigger('openPage', this.model.get('currentPage') + 1)
+          event.preventDefault()
+        )
 
       return this
 

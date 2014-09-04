@@ -19,6 +19,14 @@ define [
         Backbone.history.navigate('classrooms/create', {trigger: true})
         event.preventDefault()
       )
+      this.$('.openClassrooms').on('click', (event) =>
+        Backbone.history.navigate('classrooms/language/' + this.model.get('fromLanguage').language + '/en', {trigger: true})
+        event.preventDefault()
+      )
+      this.$('.navbar-brand').on('click', (event) =>
+        Backbone.history.navigate('', {trigger: true})
+        event.preventDefault()
+      )
 
       view = this
       this.$('.selectLanguage .dropdown-menu a').on('click', (event) ->
@@ -26,7 +34,7 @@ define [
         currentLanguage = view.model.get('supportedLanguages')[index]
         view.$('.selectLanguage .currentLanguage').html(currentLanguage.display)
         view.model.setFromLangauge(currentLanguage.language)
-        Backbone.history.navigate('classrooms/' + currentLanguage.language + '/en', {trigger: true})
+        Backbone.history.navigate('classrooms/language/' + currentLanguage.language + '/en', {trigger: true})
         event.preventDefault()
       )
       this.$('.selectLanguage .currentLanguage').html(this.model.get('fromLanguage').display)

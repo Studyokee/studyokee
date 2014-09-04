@@ -20,7 +20,7 @@ require [
   AppRouter = Backbone.Router.extend(
     routes:
       '': 'home'
-      'classrooms/:from/:to': 'getClassrooms'
+      'classrooms/language/:from/:to': 'getClassrooms'
       'songs/:id/edit': 'editSong'
       'classrooms/create': 'createClassroom'
       'classrooms/:id/edit': 'editClassroom'
@@ -77,6 +77,7 @@ require [
     $('.skee').html(view.render().el)
   )
   appRouter.on('route:editClassroom', (id) ->
+    console.log('open edit classroom')
     if not userId
       toLogin()
       return
@@ -112,6 +113,7 @@ require [
     $('.skee').html(view.render().el)
   )
   appRouter.on('route:defaultRoute', () ->
+    console.log('go to default route')
     view = new HomeView(
       model: new HomeModel(
         settings: settings

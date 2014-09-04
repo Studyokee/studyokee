@@ -23,6 +23,12 @@ define [
             fromLanguage: item
           )
           return
+
+    getDisplayLangauge: (language) ->
+      languages = this.get('supportedLanguages')
+      for item in languages
+        if item.language is language
+          return item.display
   )
 
   return SettingsModel
