@@ -4,6 +4,7 @@ require [
   'settings',
   'home.model',
   'home.view',
+  'login.view',
   'header.view',
   'footer.view',
   'edit.song.model',
@@ -16,7 +17,7 @@ require [
   'edit.classroom.view',
   'classroom.model',
   'classroom.view'
-], (Backbone, $, Settings, HomeModel, HomeView, HeaderView, FooterView, EditSongModel, EditSongView, CreateClassroomModel, CreateClassroomView, ClassroomsModel, ClassroomsView, EditClassroomModel, EditClassroomView, ClassroomModel, ClassroomView) ->
+], (Backbone, $, Settings, HomeModel, HomeView, LoginView, HeaderView, FooterView, EditSongModel, EditSongView, CreateClassroomModel, CreateClassroomView, ClassroomsModel, ClassroomsView, EditClassroomModel, EditClassroomView, ClassroomModel, ClassroomView) ->
 
   AppRouter = Backbone.Router.extend(
     routes:
@@ -29,7 +30,7 @@ require [
       'login': 'login'
       '*actions': 'defaultRoute'
     execute: (callback, args) ->
-      if this.view then this.view.remove()
+      #if this.view then this.view.remove()
       if callback then callback.apply(this, args)
   )
 
@@ -57,19 +58,15 @@ require [
     model: settings
   )
 
-  toLogin = () ->
-    $('.skee').html('<h4>You must login to complete this action.</h4><a href="/auth/facebook">Login with Facebook</a>')
-    Backbone.history.navigate('login')
-
-
   appRouter.on('route:home', () ->
     this.view = new HomeView(
       model: new HomeModel(
         settings: settings
       )
     )
-    $('.skee').html(homeHeaderView.render().el)
-    $('.skee').append(this.view.render().el)
+    homeHeaderView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
   )
   appRouter.on('route:editSong', (id) ->
     this.view = new EditSongView(
@@ -78,13 +75,13 @@ require [
         id: id
       )
     )
-    $('.skee').html(headerView.render().el)
-    $('.skee').append(this.view.render().el)
-    $('.skee').append(footerView.render().el)
+    headerView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
   )
   appRouter.on('route:createClassroom', () ->
     if not user.id
-      toLogin()
+      Backbone.history.navigate('login', {trigger: true})
       return
 
     this.view = new CreateClassroomView(
@@ -92,14 +89,14 @@ require [
         settings: settings
       )
     )
-    $('.skee').html(headerView.render().el)
-    $('.skee').append(this.view.render().el)
-    $('.skee').append(footerView.render().el)
+    headerView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
   )
   appRouter.on('route:editClassroom', (id) ->
     console.log('open edit classroom')
     if not user.id
-      toLogin()
+      Backbone.history.navigate('login', {trigger: true})
       return
 
     this.view = new EditClassroomView(
@@ -108,9 +105,9 @@ require [
         id: id
       )
     )
-    $('.skee').html(headerView.render().el)
-    $('.skee').append(this.view.render().el)
-    $('.skee').append(footerView.render().el)
+    headerView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
   )
   appRouter.on('route:viewClassroom', (id) ->
     this.view = new ClassroomView(
@@ -119,12 +116,17 @@ require [
         id: id
       )
     )
-    $('.skee').html(headerView.render().el)
-    $('.skee').append(this.view.render().el)
-    $('.skee').append(footerView.render().el)
+    headerView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
   )
   appRouter.on('route:login', () ->
-    toLogin()
+    this.view = new LoginView(
+      model: settings
+    )
+    homeHeaderView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
   )
   appRouter.on('route:getClassrooms', (from, to) ->
     settings.setFromLangauge(from)
@@ -133,9 +135,9 @@ require [
         settings: settings
       )
     )
-    $('.skee').html(headerView.render().el)
-    $('.skee').append(this.view.render().el)
-    $('.skee').append(footerView.render().el)
+    headerView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
   )
   appRouter.on('route:defaultRoute', () ->
     console.log('go to default route')
@@ -144,9 +146,9 @@ require [
         settings: settings
       )
     )
-    $('.skee').html(headerView.render().el)
-    $('.skee').append(this.view.render().el)
-    $('.skee').append(footerView.render().el)
+    headerView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
     Backbone.history.navigate('classrooms/' + settings.get('fromLanguage').language + '/' + settings.get('toLanguage').language)
   )
   params =

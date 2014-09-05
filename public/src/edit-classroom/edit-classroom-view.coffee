@@ -6,7 +6,6 @@ define [
   'templates'
 ], (MediaItemList, CreateSongView, Backbone, Handlebars) ->
   EditClassroomView = Backbone.View.extend(
-    className: "edit-classroom container"
     
     initialize: () ->
       this.songListView = new MediaItemList(

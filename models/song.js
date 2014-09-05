@@ -155,10 +155,10 @@ songSchema.static('getAllSongs', function () {
     return findAllRequest.promise;
 });
 
-songSchema.static('searchSongs', function (query) {
+songSchema.static('searchSongs', function (query, language) {
     var re = new RegExp(query, 'i');
     var searchRequest = q.defer();
-    Song.find({ $or:[ { 'metadata.trackName': { $regex: re }}, { 'metadata.artist': { $regex: re }} ]},
+    Song.find({ $or:[ { 'metadata.trackName': { $regex: re }}, { 'metadata.artist': { $regex: re }} ], 'metadata.language': language },
         searchRequest.makeNodeResolver());
     return searchRequest.promise;
 });

@@ -7,7 +7,6 @@ define [
   'templates'
 ], (Backbone, ClassroomPreviewModel, ClassroomPreviewView, PaginationView, Handlebars) ->
   ClassroomsView = Backbone.View.extend(
-    className: "classrooms container"
     
     initialize: () ->
       this.listenTo(this.model, 'change', () =>
