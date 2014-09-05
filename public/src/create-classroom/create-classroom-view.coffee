@@ -4,7 +4,6 @@ define [
   'templates'
 ], (Backbone, Handlebars) ->
   CreateClassroomView = Backbone.View.extend(
-    className: "create-classroom container"
     
     initialize: () ->
       this.listenTo(this.model, 'change', () =>
@@ -27,7 +26,6 @@ define [
         this.model.saveClassroom(name, language, success)
         event.preventDefault()
       )
-      this.$('#language').val(this.model.get('settings').get('fromLanguage').language)
 
       return this
 

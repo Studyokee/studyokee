@@ -7,8 +7,6 @@ define [
   'templates'
 ], (DictionaryView, MainView, MenuView, Backbone, Handlebars) ->
   ClassroomView = Backbone.View.extend(
-    tagName:  "div"
-    className: "classroom container"
     
     initialize: () ->
       this.mainView = new MainView(

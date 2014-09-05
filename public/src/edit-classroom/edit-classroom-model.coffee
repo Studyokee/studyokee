@@ -104,6 +104,7 @@ define [
 
       data =
         queryString: query
+        language: this.get('data').language
       $.ajax(
         type: 'GET'
         url: '/api/songs/search'

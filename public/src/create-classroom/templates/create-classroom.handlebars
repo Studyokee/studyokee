@@ -1,4 +1,4 @@
-<div class="col-lg-6">
+<div class="col-lg-6 createClassroom">
     <form>
         <fieldset>
             <legend>Create Classroom</legend>
@@ -18,11 +18,7 @@
                 <div class="form-group">
                     <label for="language" class="col-lg-6 control-label">Language Being Taught</label>
                     <div class="col-lg-6">
-                        <select class="form-control" id="language">
-                            {{#each supportedLanguages}}
-                                <option value="{{language}}" data-index="{{@index}}">{{display}}</option>
-                            {{/each}}
-                        </select>
+                        <input type="text" class="form-control" id="language" value="{{fromLanguage.display}}" readonly>
                     </div>
                 </div>
             </div>

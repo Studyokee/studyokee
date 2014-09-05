@@ -10,10 +10,12 @@ define [
     initialize: (options) ->
       this.options = options
       this.listenTo(this.model, 'change', () =>
+        console.log('on change header')
         this.render()
       )
 
     render: () ->
+      console.log('render header')
       this.$el.html(Handlebars.templates['header'](this.model.toJSON()))
 
       this.$('.createClassroom').on('click', (event) =>

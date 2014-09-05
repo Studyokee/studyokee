@@ -4,7 +4,6 @@ define [
   'templates'
 ], (Backbone, Handlebars) ->
   HomeView = Backbone.View.extend(
-    className: "home"
     
     initialize: () ->
 

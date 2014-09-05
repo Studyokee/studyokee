@@ -44,7 +44,7 @@ app.get('/display', function (req, res) {
 app.get('/search', function (req, res) {
     q.resolve().then(function () {
         assert(req.query.hasOwnProperty('queryString'));
-        return Song.searchSongs(req.query.queryString);
+        return Song.searchSongs(req.query.queryString, req.query.language);
     }).then(function (matches) {
         var ids = [];
         for (var i = 0; i < matches.length; i++) {
