@@ -22,7 +22,7 @@ var classroomSchema = mongoose.Schema({
     },
     songs: [String],
     createdById: {
-        type: 'String'
+        type: 'String',
         required: true
     }
 });
