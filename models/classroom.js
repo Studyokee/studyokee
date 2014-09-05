@@ -22,14 +22,9 @@ var classroomSchema = mongoose.Schema({
     },
     songs: [String],
     createdById: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
+        type: 'String'
         required: true
-    },
-    favorites: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'User'
-    }]
+    }
 });
 
 classroomSchema.static('create', function (name, language, createdById) {
