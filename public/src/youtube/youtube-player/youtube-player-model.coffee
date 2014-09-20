@@ -142,7 +142,7 @@ define [
 
     # INTERACTING WITH PLAYER, USE OFFSET
     getCurrentTime: () ->
-      if this.ytPlayer?
+      if this.ytPlayer? and this.ytPlayer.getCurrentTime?
         return (this.ytPlayer.getCurrentTime() * 1000) - this.offset
       return 0
 

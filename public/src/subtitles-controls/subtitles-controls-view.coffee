@@ -39,7 +39,13 @@ define [
           togglePresentationModeIcon.addClass('glyphicon-resize-full')
           togglePresentationModeButton.prop('title', 'Enter Presentation Mode')
       )
-      this.enableKeyboard()
+
+      this.onKeyDownEvent = (event) =>
+        this.onKeyDown(event)
+      $(window).on('keydown', this.onKeyDownEvent)
+
+    teardown: ->
+      $(window).off('keydown', this.onKeyDownEvent)
 
     render: () ->
       this.$el.html(Handlebars.templates['subtitles-controls'](this.model.toJSON()))
@@ -54,21 +60,21 @@ define [
 
     setProgressBar: () ->
       percentage = this.model.getCurrentPercentageComplete()
-      time = this.convertSecondsToMinutes(this.model.getCurrentTime()/1000)
-      duration = this.convertSecondsToMinutes(this.model.getDuration())
+      time = this.convertSecondsToTime(this.model.getCurrentTime()/1000)
+      duration = this.convertSecondsToTime(this.model.getDuration())
       this.$('.progress-bar').width(percentage + '%')
       this.$('.progress-timer').html(time + '/' + duration)
 
-    convertSecondsToMinutes: (seconds) ->
-      minutes = Math.round(seconds / 60)
-      seconds = Math.round((seconds % 60))
-      if seconds < 10
-        seconds = '0' + seconds
+    convertSecondsToTime: (seconds) ->
+      partOne = Math.floor(seconds / 60)
+      partTwo = Math.floor(seconds) % 60
+      if partTwo < 10
+        partTwo = '0' + partTwo
 
-      if isNaN(seconds) or isNaN(minutes)
+      if isNaN(partOne) or isNaN(partTwo)
         return '0:00'
 
-      return minutes + ':' + seconds
+      return partOne + ':' + partTwo
 
     updateProgressBar: () ->
       clearTimeout(this.progressTick)
@@ -136,18 +142,16 @@ define [
       this.$('.toggle-video').on('click', () =>
         this.toggleVideo())
 
-    enableKeyboard: () ->
-      $(window).keydown((event) =>
-        if event.which is 37
-          this.prev()
-          event.preventDefault()
-        if event.which is 39
-          this.next()
-          event.preventDefault()
-        if event.which is 40
-          this.togglePlay()
-          event.preventDefault()
-      )
+    onKeyDown: (event) ->
+      if event.which is 37
+        this.prev()
+        event.preventDefault()
+      if event.which is 39
+        this.next()
+        event.preventDefault()
+      if event.which is 40
+        this.togglePlay()
+        event.preventDefault()
   )
 
   return SubtitlesControlsView

@@ -22,24 +22,29 @@ define [
 
           bestTranslation = ''
           originalTerm = ''
-
           definitionsArray = []
-          if result?.term0?.PrincipalTranslations
-            bestTranslation = result.term0.PrincipalTranslations[0]?.FirstTranslation?.term
-            originalTerm = result.term0.PrincipalTranslations[0]?.OriginalTerm
-            definitions = result.term0.PrincipalTranslations
-            i = 0
-            while definitions[i]
-              definitionsArray.push(definitions[i])
-              i++
-
           usesArray = []
-          if result?.original?.Compounds
-            compounds = result.original.Compounds
-            i = 0
-            while compounds[i]
-              usesArray.push(compounds[i])
-              i++
+
+          if result?.term0?
+            if result.term0.PrincipalTranslations
+              bestTranslation = result.term0.PrincipalTranslations[0]?.FirstTranslation?.term
+              originalTerm = result.term0.PrincipalTranslations[0]?.OriginalTerm
+              definitions = result.term0.PrincipalTranslations
+              i = 0
+              while definitions[i]
+                definitionsArray.push(definitions[i])
+                i++
+
+            if result?.original?.Compounds
+              compounds = result.original.Compounds
+              i = 0
+              while compounds[i]
+                usesArray.push(compounds[i])
+                i++
+          else if result?.data?.translations? and result.data.translations.length > 0
+            definition =
+              FirstTranslation: {term: result.data.translations[0].translatedText}
+            definitionsArray.push(definition)
 
           this.set(
             originalTerm: originalTerm

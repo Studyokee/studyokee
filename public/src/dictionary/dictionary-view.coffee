@@ -18,6 +18,12 @@ define [
         this.trigger('close')
       )
 
+      this.$('.search button').on('click', () =>
+        this.model.set(
+          query: this.$('.search input').val()
+        )
+      )
+
       return this
 
     renderLookup: () ->
