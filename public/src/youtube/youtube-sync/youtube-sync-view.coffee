@@ -10,7 +10,7 @@ define [
     className: 'youtube-sync'
     
     initialize: () ->
-      this.playerId = 'ytPlayer'
+      this.playerId = 'ytPlayerSync'
 
       this.subtitlesControlsView = new SubtitlesControlsView(
         model: this.model
@@ -69,9 +69,9 @@ define [
         toggleSync.html('Turn Sync On')
 
     calculateYTPlayerHeight: () ->
-      ytPlayerWidth = this.$('#ytPlayer').width()
+      ytPlayerWidth = this.$('#' + this.playerId).width()
       ytPlayerHeight = ytPlayerWidth * 0.75
-      this.$('#ytPlayer').height(ytPlayerHeight + 'px')
+      this.$('#' + this.playerId).height(ytPlayerHeight + 'px')
 
     postRender: () ->
       onReady = () =>

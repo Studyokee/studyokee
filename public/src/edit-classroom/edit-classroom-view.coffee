@@ -41,7 +41,7 @@ define [
       )
 
       this.songListView.on('view', (item) =>
-        Backbone.history.navigate('songs/' + item.song._id + '/edit', {trigger: true})
+        document.location = '/songs/' + item.song._id + '/edit'
       )
 
       this.songListView.on('reorder', (ids) =>

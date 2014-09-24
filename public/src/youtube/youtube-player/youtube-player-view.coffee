@@ -42,9 +42,9 @@ define [
       return this
 
     calculateYTPlayerHeight: () ->
-      ytPlayerWidth = this.$('#ytPlayer').width()
+      ytPlayerWidth = this.$('#' + this.playerId).width()
       ytPlayerHeight = ytPlayerWidth * 0.75
-      this.$('#ytPlayer').height(ytPlayerHeight + 'px')
+      this.$('#' + this.playerId).height(ytPlayerHeight + 'px')
 
     postRender: () ->
       onReady = () =>
