@@ -11,18 +11,13 @@ define [
       this.offset = 0
       this.quickPrev = false
       this.timer = null
-      this.savedPos = 0
       this.set(
         i: 0
         syncing: true
       )
       this.listenTo(this, 'change:playing', () =>
-        if this.get('playing')
-          i = this.get('i')
-          this.setTimer(this.savedPos, i)
-        else
+        if not this.get('playing')
           this.clearTimer()
-          this.savedPos = this.getCurrentTime()
       )
       this.listenTo(this, 'change:i', () =>
         console.log('i changed to: ' + this.get('i'))
@@ -43,7 +38,6 @@ define [
       this.seek(0)
       this.quickPrev = false
       this.timer = null
-      this.savedPos = 0
       this.set(
         i: 0
         syncing: true
@@ -67,6 +61,8 @@ define [
         this.set(
           playing: true
         )
+        i = this.get('i')
+        this.setTimer(this.getCurrentTime(), i)
       else if state is 0
         this.trigger('songFinished')
         this.set(
@@ -105,8 +101,6 @@ define [
       if subtitles?[i]
         ts = Math.max(Math.round(this.getCurrentTime() - 100), 0)
         this.addNewTime(i, ts)
-        if not this.get('playing')
-          this.savedPos = subtitles[i].ts
         this.set(
           i: i
         )
@@ -135,19 +129,13 @@ define [
 
       console.log('normal next')
       i = this.get('i') + 1
-      if this.get('playing')
-        this.jumpToWhilePlaying(i)
-      else
-        this.jumpToWhilePaused(i)
+      this.jumpTo(i)
 
     prev: () ->
       i = this.get('i')
       if this.isQuickPrev() or not this.get('playing')
         i = Math.max(i-1, 0)
-      if this.get('playing')
-        this.jumpToWhilePlaying(i)
-      else
-        this.jumpToWhilePaused(i)
+      this.jumpTo(i)
 
     isQuickPrev: () ->
       clearTimeout(this.quickPrevTimeout)
@@ -160,27 +148,16 @@ define [
       return result
 
     toStart: () ->
-      if this.get('playing')
-        this.jumpToWhilePlaying(0)
-      else
-        this.jumpToWhilePaused(0)
+      this.jumpTo(0)
 
-    jumpToWhilePaused: (i) ->
-      console.log('PLAYER: jump to while paused: ' + i)
+    jumpTo: (i) ->
+      console.log('PLAYER: jump to: ' + i)
       subtitles = this.get('currentSong')?.subtitles
       if subtitles?[i]
-        this.savedPos = subtitles[i].ts
+        this.seek(subtitles[i].ts)
         this.set(
           i: i
         )
-        this.seek(subtitles[i].ts)
-
-    jumpToWhilePlaying: (i) ->
-      console.log('PLAYER: jump to while playing: ' + i)
-      subtitles = this.get('currentSong')?.subtitles
-      if subtitles?[i]
-        this.seek(subtitles[i].ts)
-        this.setTimer(subtitles[i].ts, i)
 
     onChangeSong: () ->
       currentSong = this.get('currentSong')

@@ -11,7 +11,6 @@ define [
       this.offset = 0
       this.quickPrev = false
       this.timer = null
-      this.savedPos = 0
       this.listenTo(this, 'change:currentSong', () =>
         if this.get('ytPlayerReady')
           this.pause()
@@ -19,18 +18,10 @@ define [
           this.set(
             i: 0
           )
-          this.savedPos = 0
       )
       this.listenTo(this, 'change:playing', () =>
-        if this.get('playing')
-          i = this.get('i')
-          console.log('start playing:savedPos ' + this.savedPos)
-          console.log('start playing:i ' + i)
-          this.setTimer(this.savedPos, i)
-        else
+        if not this.get('playing')
           this.clearTimer()
-          this.savedPos = this.getCurrentTime()
-          console.log('paused: savedPos: ' + this.savedPos)
       )
 
     onStateChange: (event) ->
@@ -51,6 +42,9 @@ define [
         this.set(
           playing: true
         )
+        i = this.get('i')
+        console.log('start playing:i ' + i)
+        this.setTimer(this.getCurrentTime(), i)
       else if state is 0
         this.trigger('songFinished')
         this.set(
@@ -84,42 +78,25 @@ define [
 
     next: () ->
       i = this.get('i') + 1
-      if this.get('playing')
-        this.jumpToWhilePlaying(i)
-      else
-        this.jumpToWhilePaused(i)
+      this.jumpTo(i)
 
     prev: () ->
       i = this.get('i')
       if this.isQuickPrev() or not this.get('playing')
         i = Math.max(i-1, 0)
-      if this.get('playing')
-        this.jumpToWhilePlaying(i)
-      else
-        this.jumpToWhilePaused(i)
+      this.jumpTo(i)
 
     toStart: () ->
-      if this.get('playing')
-        this.jumpToWhilePlaying(0)
-      else
-        this.jumpToWhilePaused(0)
+      this.jumpTo(0)
 
-    jumpToWhilePaused: (i) ->
-      console.log('PLAYER: jump to while paused: ' + i)
+    jumpTo: (i) ->
+      console.log('PLAYER: jump to: ' + i)
       subtitles = this.get('subtitles')
       if subtitles?[i]
-        this.savedPos = subtitles[i].ts
+        this.seek(subtitles[i].ts)
         this.set(
           i: i
         )
-        this.seek(subtitles[i].ts)
-
-    jumpToWhilePlaying: (i) ->
-      console.log('PLAYER: jump to while playing: ' + i)
-      subtitles = this.get('subtitles')
-      if subtitles?[i]
-        this.seek(subtitles[i].ts)
-        this.setTimer(subtitles[i].ts, i)
 
     isQuickPrev: () ->
       clearTimeout(this.quickPrevTimeout)
