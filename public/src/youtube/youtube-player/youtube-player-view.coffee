@@ -14,6 +14,7 @@ define [
 
       this.subtitlesControlsView = new SubtitlesControlsView(
         model: this.model
+        allowHideTranslation: true
       )
 
       this.subtitlesControlsView.on('enterPresentationMode', () =>
@@ -29,6 +30,12 @@ define [
       )
       this.subtitlesControlsView.on('showVideo', () =>
         this.$('.video-container').show()
+      )
+      this.subtitlesControlsView.on('hideTranslation', () =>
+        $('.translated-subtitle').css('visibility', 'hidden')
+      )
+      this.subtitlesControlsView.on('showTranslation', () =>
+        $('.translated-subtitle').css('visibility', 'visible')
       )
 
     render: () ->

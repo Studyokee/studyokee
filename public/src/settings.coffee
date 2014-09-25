@@ -1,22 +1,26 @@
 define [
   'backbone'
 ], (Backbone) ->
+  toLanguages = [
+    {'language': 'en', 'display': 'English'}
+  ]
+  fromLanguages = [
+    {'language': 'es', 'display': 'Spanish'},
+    {'language': 'fr', 'display': 'French'},
+    {'language': 'it', 'display': 'Italian'}
+  ]
   SettingsModel = Backbone.Model.extend(
     defaults:
       enableLogging: true
-      defaultToLanguage: {'language': 'en', 'display': 'English'}
-      defaultFromLanguage: {'language': 'es', 'display': 'Spanish'}
-      toLanguage: {'language': 'en', 'display': 'English'}
-      fromLanguage: {'language': 'es', 'display': 'Spanish'}
+      defaultToLanguage: toLanguages[0]
+      defaultFromLanguage: fromLanguages[0]
+      toLanguage: toLanguages[0]
+      fromLanguage: fromLanguages[0]
       user:
         id: ''
         photo: ''
         displayName: ''
-      supportedLanguages: [
-        {'language': 'es', 'display': 'Spanish'},
-        {'language': 'fr', 'display': 'French'},
-        {'language': 'de', 'display': 'German'},
-      ]
+      supportedLanguages: fromLanguages
 
     setFromLangauge: (language) ->
       languages = this.get('supportedLanguages')

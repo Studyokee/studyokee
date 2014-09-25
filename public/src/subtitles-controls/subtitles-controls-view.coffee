@@ -53,6 +53,8 @@ define [
 
       if not this.options.allowToggleVideo
         this.$('.toggle-video').remove()
+      if not this.options.allowHideTranslation
+        this.$('.toggle-translation').remove()
 
       this.enableButtons()
 
@@ -128,6 +130,21 @@ define [
         toggleVideoIcon.removeClass('glyphicon-collapse-down')
         toggleVideoButton.prop('title', 'Hide Video')
 
+    toggleTranslation: () ->
+      console.log('SUBTITLES CONTROL TOGGLE TRANSLATION')
+      toggleButton = this.$('.toggle-translation')
+      toggleIcon = this.$('.toggle-translation .glyphicon')
+      if toggleIcon.hasClass('glyphicon-eye-close')
+        this.trigger('hideTranslation')
+        toggleIcon.removeClass('glyphicon-eye-close')
+        toggleIcon.addClass('glyphicon-eye-open')
+        toggleButton.prop('title', 'Show Translation')
+      else
+        this.trigger('showTranslation')
+        toggleIcon.addClass('glyphicon-eye-close')
+        toggleIcon.removeClass('glyphicon-eye-open')
+        toggleButton.prop('title', 'Hide Translation')
+
     enableButtons: () ->
       this.$('.toStart').on('click', () =>
         this.toStart())
@@ -141,6 +158,8 @@ define [
         this.togglePresentationMode())
       this.$('.toggle-video').on('click', () =>
         this.toggleVideo())
+      this.$('.toggle-translation').on('click', () =>
+        this.toggleTranslation())
 
     onKeyDown: (event) ->
       if event.which is 37
