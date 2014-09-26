@@ -37,6 +37,8 @@ requirejs.config(
     'suggestions.view': 'lib/suggestions/suggestions-view'
     'dictionary.view': 'lib/dictionary/dictionary-view'
     'dictionary.model': 'lib/dictionary/dictionary-model'
+    'vocabulary.view': 'lib/vocabulary/vocabulary-view'
+    'vocabulary.model': 'lib/vocabulary/vocabulary-model'
     'edit.songs.view': 'lib/edit-songs/edit-songs-view'
     'edit.songs.model': 'lib/edit-songs/edit-songs-model'
     'create.song.view': 'lib/create-song/create-song-view'

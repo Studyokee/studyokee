@@ -4,6 +4,8 @@ require [
   'settings',
   'home.model',
   'home.view',
+  'vocabulary.model',
+  'vocabulary.view',
   'login.view',
   'header.view',
   'footer.view',
@@ -17,7 +19,7 @@ require [
   'edit.classroom.view',
   'classroom.model',
   'classroom.view'
-], (Backbone, $, Settings, HomeModel, HomeView, LoginView, HeaderView, FooterView, EditSongModel, EditSongView, CreateClassroomModel, CreateClassroomView, ClassroomsModel, ClassroomsView, EditClassroomModel, EditClassroomView, ClassroomModel, ClassroomView) ->
+], (Backbone, $, Settings, HomeModel, HomeView, VocabularyModel, VocabularyView, LoginView, HeaderView, FooterView, EditSongModel, EditSongView, CreateClassroomModel, CreateClassroomView, ClassroomsModel, ClassroomsView, EditClassroomModel, EditClassroomView, ClassroomModel, ClassroomView) ->
 
   AppRouter = Backbone.Router.extend(
     routes:
@@ -27,6 +29,7 @@ require [
       'classrooms/create': 'createClassroom'
       'classrooms/:id/edit': 'editClassroom'
       'classrooms/:id': 'viewClassroom'
+      'vocabulary': 'vocabulary'
       'login': 'login'
       '*actions': 'defaultRoute'
     execute: (callback, args) ->
@@ -114,6 +117,21 @@ require [
       model: new ClassroomModel(
         settings: settings
         id: id
+      )
+    )
+    headerView.setElement($('#skee header')).render()
+    this.view.setElement($('#skee .main')).render()
+    footerView.setElement($('#skee footer')).render()
+  )
+  appRouter.on('route:vocabulary', () ->
+    console.log('open vocabulary')
+    if not user.id
+      Backbone.history.navigate('login', {trigger: true})
+      return
+
+    this.view = new VocabularyView(
+      model: new VocabularyModel(
+        settings: settings
       )
     )
     headerView.setElement($('#skee header')).render()

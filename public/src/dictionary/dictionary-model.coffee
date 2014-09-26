@@ -53,10 +53,28 @@ define [
             uses: usesArray
             isLoading: false
           )
+
+          this.addToVocabulary(originalTerm.term, bestTranslation)
         error: (err) =>
           this.set(
             isLoading: false
           )
+      )
+
+    addToVocabulary: (wordOrPhrase, definition) ->
+      userId = this.get('settings').get('user').id
+      fromLanguage = this.get('settings').get('fromLanguage').language
+      toLanguage = this.get('settings').get('toLanguage').language
+      $.ajax(
+        type: 'PUT'
+        url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage + '/add'
+        data:
+          wordOrPhrase: wordOrPhrase
+          definition: definition
+        success: (res) =>
+          console.log('Saved word')
+        error: (err) =>
+          console.log('Error: ' + err)
       )
 
   )

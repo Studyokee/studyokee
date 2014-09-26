@@ -18,5 +18,6 @@ app.use(express.json());
 app.use('/songs', require('./songs'));
 app.use('/dictionary', require('./dictionary'));
 app.use('/classrooms', require('./classrooms'));
+app.use('/vocabulary', require('./vocabulary'));
 
 module.exports = app;

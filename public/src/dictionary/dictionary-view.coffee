@@ -46,6 +46,14 @@ define [
           if not hasUses
             this.$('.uses').hide()
 
+        view = this
+        this.$('.originalPhrase').on('click', (event) ->
+          phrase = $(this).html()
+          definition = $(this).closest('p').find('.phraseTranslation').html()
+          view.model.addToVocabulary(phrase, definition)
+          event.preventDefault()
+        )
+
 
   )
 
