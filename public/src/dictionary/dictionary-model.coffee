@@ -54,7 +54,10 @@ define [
             isLoading: false
           )
 
-          this.addToVocabulary(originalTerm.term, bestTranslation)
+          definitionToSave =
+            definitions: definitionsArray
+            uses: usesArray
+          this.addToVocabulary(originalTerm.term, definitionToSave)
         error: (err) =>
           this.set(
             isLoading: false
@@ -63,6 +66,10 @@ define [
 
     addToVocabulary: (wordOrPhrase, definition) ->
       userId = this.get('settings').get('user').id
+
+      if not userId
+        return
+        
       fromLanguage = this.get('settings').get('fromLanguage').language
       toLanguage = this.get('settings').get('toLanguage').language
       $.ajax(

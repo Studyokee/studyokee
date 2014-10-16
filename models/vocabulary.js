@@ -20,7 +20,7 @@ var vocabularySchema = mongoose.Schema({
     },
     words: [{
         wordOrPhrase: String,
-        definition: String
+        definition: Object
     }]
 });
 
