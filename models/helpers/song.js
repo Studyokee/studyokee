@@ -6,13 +6,6 @@ var request = require('request');
 var splitToken = '\n';
 var googleURLChunkSize = 500;
 
-// function ensureOkResponse (res, body) {
-//     if (res.statusCode !== 200) {
-//         return q.reject(body);
-//     }
-//     return q.resolve(body);
-// }
-
 function getTextChunks (subtitles, chunkSize) {
     var chunks = [];
     var chunk = '';
