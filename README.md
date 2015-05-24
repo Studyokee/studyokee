@@ -1,4 +1,4 @@
 studyokee-api
 =============
 
-[![Build Status](https://travis-ci.org/Studyokee/studyokee-rdio.png?branch=master)](https://travis-ci.org/Studyokee/studyokee-rdio)
+[![Build Status](https://travis-ci.org/Studyokee/studyokee-youtube.png?branch=master)](https://travis-ci.org/Studyokee/studyokee-youtube)
