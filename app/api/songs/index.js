@@ -51,11 +51,8 @@ app.get('/display', function (req, res) {
 });
 
 app.get('/search', function (req, res) {
-    console.log('/search checkpoint1');
     q.resolve().then(function () {
-        console.log('/search checkpoint2');
         assert(req.query.hasOwnProperty('queryString'));
-        console.log('/search checkpoint3');
         return Song.searchSongs(req.query.queryString, req.query.language);
     }).then(function (matches) {
         var ids = [];
