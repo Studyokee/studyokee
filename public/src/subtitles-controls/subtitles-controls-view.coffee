@@ -170,7 +170,7 @@ define [
       if event.which is 39
         this.next()
         event.preventDefault()
-      if event.which is 40
+      if event.which is 32
         this.togglePlay()
         event.preventDefault()
   )
