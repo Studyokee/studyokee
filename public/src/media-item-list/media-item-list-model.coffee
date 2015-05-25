@@ -5,11 +5,17 @@ define [
 
     initialize: () ->
       songListModel = new Backbone.Model()
+      this.set(
+        isLoading: true
+      )
 
       this.listenTo(this, 'change:rawData', () =>
         rawData = this.get('rawData')
         data = []
         if rawData
+          this.set(
+            isLoading: false
+          )
           for item in rawData
             icon = ''
             if item.videoSnippet?
