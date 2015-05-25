@@ -136,8 +136,16 @@ songSchema.methods.getLanguage = function () {
     });
 };
 
-songSchema.static('create', function (toSave) {
+songSchema.static('create', function (artist, trackName, language, youtubeKey) {
     return q.resolve().then(function () {
+        var toSave = {
+            metadata: {
+                artist: artist,
+                trackName: trackName,
+                language: language
+            },
+            youtubeKey: youtubeKey
+        };
         var song = new Song(toSave);
         var saveRequest = q.defer();
         song.save(saveRequest.makeNodeResolver());

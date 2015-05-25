@@ -22,21 +22,15 @@ define [
         event.preventDefault()
       )
       this.$('.save').on('click', (event) =>
-        newSong =
-          metadata:
-            trackName: this.$('#trackName').val()
-            artist: this.$('#artist').val()
-            language: this.$('#language').val()
+        fields =
+          trackName: this.$('#trackName').val()
+          artist: this.$('#artist').val()
           youtubeKey: $.url(this.$('#youtubeKey').val()).param('v')
         success = (savedSong) ->
           view.trigger('saveSuccess', savedSong)
-        this.model.saveSong(newSong, success)
+        this.model.saveSong(fields, success)
         event.preventDefault()
       )
-
-      defaultLanguage = this.model.get('defaultLanguage')
-      if defaultLanguage?
-        this.$('#language').val(defaultLanguage)
         
       return this
 

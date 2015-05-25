@@ -68,9 +68,9 @@ app.get('/search', function (req, res) {
 
 app.post('/', Utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
-        return Song.create(req.body);
-    }).then(function (classroom) {
-        res.json(200, classroom);
+        return Song.create(req.body.artist, req.body.trackName, req.body.language, req.body.youtubeKey);
+    }).then(function (song) {
+        res.json(200, song);
     }).fail(function (err) {
         console.log(err);
         res.json(500, {

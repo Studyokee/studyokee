@@ -27,7 +27,7 @@ define [
             rawData: res.displayInfos
           )
           this.createSongModel.set(
-            defaultLanguage: res.classroom.language
+            defaultLanguage: this.get('settings').get('fromLanguage').language
           )
       
         error: (err) =>
