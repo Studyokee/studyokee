@@ -2,9 +2,8 @@ define [
   'subtitles.controls.view'
   'backbone',
   'handlebars',
-  'yt',
   'templates'
-], (SubtitlesControlsView, Backbone, Handlebars, YT) ->
+], (SubtitlesControlsView, Backbone, Handlebars) ->
   YoutubePlayerView = Backbone.View.extend(
     tagName:  'div'
     className: 'video-player'
@@ -41,7 +40,7 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['youtube-player'](this.model.toJSON()))
       this.$('.controls-container').html(this.subtitlesControlsView.render().el)
-
+      
       postRender = () =>
         this.postRender()
       setTimeout(postRender)
@@ -84,10 +83,11 @@ define [
             'onStateChange': onStateChange
         this.model.ytPlayer = new YT.Player(this.playerId, params)
 
-      if YT?.loaded is 1
-        onAPIReady()
-      else
+      if typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined'
         window.onYouTubeIframeAPIReady = onAPIReady
+        $.getScript('//www.youtube.com/iframe_api?noext')
+      else
+        onAPIReady()
   )
 
   return YoutubePlayerView

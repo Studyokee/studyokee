@@ -62,6 +62,10 @@ passport.deserializeUser(function(user, done) {
 });
 
 app.get('/auth/facebook',
+    function(req, res, next) {
+        req.session.redirectUrl = req.query.callbackURL;
+        next();
+    },
     passport.authenticate('facebook'),
     function(){}
     // The request will be redirected to Facebook for authentication, so this
@@ -71,7 +75,11 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
-        res.redirect('/');
+        var callbackURL = req.session.redirectUrl;
+        if (!callbackURL) {
+            callbackURL = '/';
+        }
+        res.redirect(callbackURL);
     }
 );
 

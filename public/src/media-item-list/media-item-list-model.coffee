@@ -10,7 +10,6 @@ define [
       )
 
       this.listenTo(this, 'change', () =>
-        console.log('test')
         rawData = this.get('rawData')
         data = []
 

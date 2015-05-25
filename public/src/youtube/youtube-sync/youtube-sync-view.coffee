@@ -3,9 +3,8 @@ define [
   'youtube.sync.subtitles.view',
   'backbone',
   'handlebars',
-  'yt',
   'templates'
-], (SubtitlesControlsView, YoutubeSubtitlesSyncView, Backbone, Handlebars, YT) ->
+], (SubtitlesControlsView, YoutubeSubtitlesSyncView, Backbone, Handlebars) ->
   YoutubeSyncView = Backbone.View.extend(
     className: 'youtube-sync'
     
@@ -104,10 +103,11 @@ define [
             'onStateChange': onStateChange
         this.model.ytPlayer = new YT.Player(this.playerId, params)
 
-      if YT?.loaded is 1
-        onAPIReady()
-      else
+      if typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined'
         window.onYouTubeIframeAPIReady = onAPIReady
+        $.getScript('//www.youtube.com/iframe_api?noext')
+      else
+        onAPIReady()
   )
 
   return YoutubeSyncView

@@ -14,7 +14,6 @@ requirejs.config(
     handlebars: '/bower_components/handlebars/handlebars'
     templates: 'lib/templates'
     purl: 'bower_components/purl/purl'
-    yt: 'https://www.youtube.com/iframe_api?noext'
     'home.model': 'lib/home/home-model'
     'home.view': 'lib/home/home-view'
     'header.view': 'lib/header/header-view'
@@ -91,6 +90,4 @@ requirejs.config(
       exports: 'Handlebars'
     swfobject:
       exports: 'swfobject'
-    yt:
-      exports: 'YT'
 )

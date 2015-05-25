@@ -34,6 +34,10 @@ define [
         Backbone.history.navigate('vocabulary/' + this.model.get('fromLanguage').language + '/en', {trigger: true})
         event.preventDefault()
       )
+      this.$('.login').on('click', (event) =>
+        document.location = '/auth/facebook?callbackURL=' + Backbone.history.location.pathname
+        event.preventDefault()
+      )
 
       view = this
       this.$('.selectLanguage .dropdown-menu a').on('click', (event) ->
