@@ -4,7 +4,6 @@ var express = require('express');
 var app = express();
 var q = require('q');
 var Song = require('../../../models/song');
-var assert = require('assert');
 var Utilities = require('../utilities');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
@@ -31,8 +30,6 @@ app.get('/', function (req, res) {
 
 app.get('/display', function (req, res) {
     q.resolve().then(function () {
-        assert(req.query.hasOwnProperty('ids'));
-
         var ids = req.query.ids;
         var _ids = [];
         for (var i = 0; i < ids.length; i++) {

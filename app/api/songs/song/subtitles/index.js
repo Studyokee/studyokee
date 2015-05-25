@@ -2,7 +2,6 @@
 
 var express = require('express');
 var app = express();
-var assert = require('assert');
 var q = require('q');
 
 function ensureAuthenticated(req, res, next) {
@@ -14,8 +13,6 @@ function ensureAuthenticated(req, res, next) {
 
 app.get('/:id/subtitles', function (req, res) {
     q.resolve().then(function () {
-        assert(req.hasOwnProperty('song'));
-
         var song = req.song;
         return song.getSubtitles();
     }).then(function (subtitles) {
@@ -30,9 +27,6 @@ app.get('/:id/subtitles', function (req, res) {
 
 app.put('/:id/subtitles', ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
-        assert(req.hasOwnProperty('song'));
-        assert(req.body.hasOwnProperty('subtitles'));
-        
         var song = req.song;
         var newSubtitles = req.body.subtitles;
 
