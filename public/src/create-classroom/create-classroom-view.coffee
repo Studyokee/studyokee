@@ -20,7 +20,7 @@ define [
       )
       this.$('.save').on('click', (event) =>
         name = this.$('#name').val()
-        language = this.$('#language').val()
+        language = this.model.get('settings').get('fromLanguage').language
         success = (classroom) ->
           Backbone.history.navigate('/classrooms/' + classroom.classroomId + '/edit', {trigger: true})
         this.model.saveClassroom(name, language, success)

@@ -203,21 +203,27 @@ songSchema.static('getByQuery', function (query) {
 });
 
 // Given a list of ids, return the song objects plus video snippets
-songSchema.static('getDisplayInfo', function (ids) {
+songSchema.static('getDisplayInfo', function (_ids) {
+    console.log('getDisplayInfo checkpoint1');
     var songMap = {};
     return q.resolve().then(function () {
-        console.log('ids: ' + JSON.stringify(ids, null, 4));
+        console.log('getDisplayInfo checkpoint2');
+        console.log('ids: ' + JSON.stringify(_ids, null, 4));
 
-        if (!ids || ids.length === 0) {
+        if (!_ids || _ids.length === 0) {
             return [];
         }
 
+        console.log('getDisplayInfo checkpoint3');
         var getRequest = q.defer();
         Song.find({
-            _id: {$in: ids}
+            _id: {$in: _ids}
         }, getRequest.makeNodeResolver());
+        console.log('getDisplayInfo checkpoint4');
         return getRequest.promise;
     }).then(function (songs) {
+
+        console.log('getDisplayInfo checkpoint6');
         var videoIds = [];
         for (var i = 0; i < songs.length; i++) {
             var song = songs[i];
@@ -227,6 +233,7 @@ songSchema.static('getDisplayInfo', function (ids) {
                 videoIds.push(song.youtubeKey);
             }
         }
+        console.log('getDisplayInfo checkpoint7');
 
         if (videoIds.length === 0) {
             return [];
@@ -237,27 +244,32 @@ songSchema.static('getDisplayInfo', function (ids) {
         url += '&id=' + videoIds.join();
         console.log('url: ' + JSON.stringify(url, null, 4));
 
+        console.log('getDisplayInfo checkpoint8');
         var getVideoSnippetsRequest = q.defer();
         request.get({
             url: url,
             json: true
         }, getVideoSnippetsRequest.makeNodeResolver());
+        console.log('getDisplayInfo checkpoint9');
         return getVideoSnippetsRequest.promise;
     }).spread(function (videosResult) {
+        console.log('getDisplayInfo checkpoint10');
         var videos = [];
         if (videosResult && videosResult.body) {
             videos = videosResult.body.items;
         }
+        console.log('getDisplayInfo checkpoint11');
         var videoMap = {};
         var videoSnippet;
         for (var j = 0; j < videos.length; j++) {
             videoSnippet = videos[j];
             videoMap[videoSnippet.id] = videoSnippet;
         }
+        console.log('getDisplayInfo checkpoint12');
 
         var toReturn = [];
-        for (var i = 0; i < ids.length; i++) {
-            var id = ids[i];
+        for (var i = 0; i < _ids.length; i++) {
+            var id = _ids[i].valueOf();
             var song = songMap[id];
             videoSnippet = null;
             if (song && song.youtubeKey) {
@@ -270,6 +282,7 @@ songSchema.static('getDisplayInfo', function (ids) {
                 videoSnippet: videoSnippet
             });
         }
+        console.log('getDisplayInfo checkpoint13');
 
         return toReturn;
     }).fail(function (err) {
