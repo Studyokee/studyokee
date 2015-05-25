@@ -46,7 +46,7 @@ define [
       window.subtitlesControlsTeardown = this.teardown
 
     teardown: ->
-      console.log('test s-controls teardown')
+      console.log('teardown keyboard')
       $(window).off('keydown', this.onKeyDownEvent)
 
     render: () ->

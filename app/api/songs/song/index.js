@@ -60,7 +60,11 @@ app.put('/:id', function (req, res) {
     var song = req.body.song;
     var set = {};
     if (song.metadata) {
-        set.metadata = song.metadata;
+        set.metadata = {
+            artist: song.metadata.artist,
+            trackName: song.metadata.trackName,
+            language: song.metadata.language
+        };
     }
     if (song.subtitles) {
         set.subtitles = song.subtitles;
