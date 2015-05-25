@@ -29,13 +29,13 @@ require [
       'classrooms/create': 'createClassroom'
       'classrooms/:id/edit': 'editClassroom'
       'classrooms/:id': 'viewClassroom'
-      'vocabulary': 'vocabulary'
+      'vocabulary/:from/:to': 'vocabulary'
       'login': 'login'
       '*actions': 'defaultRoute'
     execute: (callback, args) ->
       # cleanup keyboard events
       window.subtitlesControlsTeardown?()
-      
+
       if callback then callback.apply(this, args)
   )
 
@@ -125,12 +125,13 @@ require [
     this.view.setElement($('#skee .main')).render()
     footerView.setElement($('#skee footer')).render()
   )
-  appRouter.on('route:vocabulary', () ->
+  appRouter.on('route:vocabulary', (from, to) ->
     console.log('open vocabulary')
     if not user.id
       Backbone.history.navigate('login', {trigger: true})
       return
 
+    settings.setFromLangauge(from)
     this.view = new VocabularyView(
       model: new VocabularyModel(
         settings: settings

@@ -30,6 +30,10 @@ define [
         Backbone.history.navigate('', {trigger: true})
         event.preventDefault()
       )
+      this.$('.vocabulary').on('click', (event) =>
+        Backbone.history.navigate('vocabulary/' + this.model.get('fromLanguage').language + '/en', {trigger: true})
+        event.preventDefault()
+      )
 
       view = this
       this.$('.selectLanguage .dropdown-menu a').on('click', (event) ->
