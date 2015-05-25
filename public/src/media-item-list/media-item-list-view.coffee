@@ -33,6 +33,9 @@ define [
         this.initItemViews(newItems)
         this.render()
       )
+      this.listenTo(this.model, 'change:isLoading', () =>
+        this.render()
+      )
       this.initItemViews(this.model.get('data'))
 
     render: () ->

@@ -10,6 +10,9 @@ define [
       )
       if this.get('classroom')?.songs?.length > 0
         this.getDisplayInfo(this.get('classroom').songs)
+      else
+        this.songListModel.trigger('change')
+
 
     getDisplayInfo: (ids) ->
       data =

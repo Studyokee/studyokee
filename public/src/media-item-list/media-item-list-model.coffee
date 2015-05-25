@@ -9,13 +9,12 @@ define [
         isLoading: true
       )
 
-      this.listenTo(this, 'change:rawData', () =>
+      this.listenTo(this, 'change', () =>
+        console.log('test')
         rawData = this.get('rawData')
         data = []
+
         if rawData
-          this.set(
-            isLoading: false
-          )
           for item in rawData
             icon = ''
             if item.videoSnippet?
@@ -30,6 +29,7 @@ define [
             data.push(item)
         
         this.set(
+          isLoading: false
           data: data
         )
       )
