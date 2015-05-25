@@ -70,7 +70,7 @@ app.post('/', Utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
         var createdById = null;
         if (req.user) {
-            createdById = req.user._id;
+            createdById = req.user._id.toString();
         }
         return Song.create(req.body, createdById);
     }).then(function (classroom) {
