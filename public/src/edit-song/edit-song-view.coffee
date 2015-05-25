@@ -118,6 +118,10 @@ define [
       this.$('.closeSyncSubtitlesModal').click(() =>
         this.$('.syncSubtitlesModal').hide()
         this.model.syncModel.reset()
+        
+        # cleanup keyboard events
+        window.subtitlesControlsTeardown?()
+
         event.preventDefault()
       )
       this.$('.saveSyncSubtitles').click(() =>

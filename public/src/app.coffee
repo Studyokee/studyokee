@@ -33,7 +33,9 @@ require [
       'login': 'login'
       '*actions': 'defaultRoute'
     execute: (callback, args) ->
-      #if this.view then this.view.remove()
+      # cleanup keyboard events
+      window.subtitlesControlsTeardown?()
+      
       if callback then callback.apply(this, args)
   )
 

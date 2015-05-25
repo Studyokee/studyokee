@@ -43,8 +43,10 @@ define [
       this.onKeyDownEvent = (event) =>
         this.onKeyDown(event)
       $(window).on('keydown', this.onKeyDownEvent)
+      window.subtitlesControlsTeardown = this.teardown
 
     teardown: ->
+      console.log('test s-controls teardown')
       $(window).off('keydown', this.onKeyDownEvent)
 
     render: () ->

@@ -48,7 +48,7 @@ define [
       this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
 
       this.$('.editClassroom').on('click', (e) =>
-        document.location = 'classrooms/' + this.model.get('data')?.classroomId + '/edit'
+        Backbone.history.navigate('classrooms/' + this.model.get('data')?.classroomId + '/edit', {trigger: true})
         e.preventDefault()
       )
 
