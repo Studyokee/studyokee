@@ -19,15 +19,15 @@ define [
       this.$el.html(Handlebars.templates['header'](this.model.toJSON()))
 
       this.$('.createClassroom').on('click', (event) =>
-        Backbone.history.navigate('classrooms/create', {trigger: true})
+        document.location = '/classrooms/create'
         event.preventDefault()
       )
       this.$('.openClassrooms').on('click', (event) =>
-        Backbone.history.navigate('classrooms/language/' + this.model.get('fromLanguage').language + '/en', {trigger: true})
+        document.location = 'classrooms/language/' + this.model.get('fromLanguage').language + '/en'
         event.preventDefault()
       )
       this.$('.navbar-brand').on('click', (event) =>
-        Backbone.history.navigate('', {trigger: true})
+        document.location = ''
         event.preventDefault()
       )
 
@@ -37,7 +37,7 @@ define [
         currentLanguage = view.model.get('supportedLanguages')[index]
         view.$('.selectLanguage .currentLanguage').html(currentLanguage.display)
         view.model.setFromLangauge(currentLanguage.language)
-        Backbone.history.navigate('classrooms/language/' + currentLanguage.language + '/en', {trigger: true})
+        document.location = 'classrooms/language/' + currentLanguage.language + '/en'
         event.preventDefault()
       )
       this.$('.selectLanguage .dropdown-toggle .languageIcon').addClass(this.model.get('fromLanguage').language)

@@ -97,14 +97,14 @@ define [
       )
 
       this.$('.viewClassroom').on('click', (e) =>
-        Backbone.history.navigate('classrooms/' + this.model.get('data')?.classroomId, {trigger: true})
+        document.location = 'classrooms/' + this.model.get('data')?.classroomId
         e.preventDefault()
       )
 
       this.$('.deleteClassroom').on('click', (event) =>
         if confirm('Are you sure you want to delete this classroom?')
           this.model.deleteClassroom(this.model.get('data'))
-          Backbone.history.navigate('/', {trigger: true})
+          document.location = '/'
           event.preventDefault()
       )
 
