@@ -118,7 +118,7 @@ define [
       this.$('.closeSyncSubtitlesModal').click(() =>
         this.$('.syncSubtitlesModal').hide()
         this.model.syncModel.reset()
-        
+
         # cleanup keyboard events
         window.subtitlesControlsTeardown?()
 
@@ -194,7 +194,7 @@ define [
         translations: data.translations
         
       this.model.saveSong(song, () ->
-        document.location = '../../../songs/edit/')
+        window.history.back())
   )
 
   return EditSongView

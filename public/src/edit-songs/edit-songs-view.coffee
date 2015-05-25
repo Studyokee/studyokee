@@ -30,7 +30,7 @@ define [
       return this
 
     openSong: (song) ->
-      document.location = '../../songs/' + song._id + '/edit'
+      Backbone.history.navigate('../../songs/' + song._id + '/edit', {trigger: true})
 
   )
 
