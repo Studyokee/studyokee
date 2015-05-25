@@ -24,10 +24,7 @@ var songSchema = mongoose.Schema({
     translations: [{
         language: String,
         data: [String]
-    }],
-    createdById: {
-        type: String
-    }
+    }]
 });
 
 function findOne (query) {
@@ -139,17 +136,11 @@ songSchema.methods.getLanguage = function () {
     });
 };
 
-songSchema.static('create', function (toSave, createdById) {
+songSchema.static('create', function (toSave) {
     return q.resolve().then(function () {
-        console.log('create checkpoint1');
-        toSave.createdById = createdById;
-        console.log('create checkpoint2');
         var song = new Song(toSave);
-        console.log('create checkpoint3');
         var saveRequest = q.defer();
-        console.log('create checkpoint4');
         song.save(saveRequest.makeNodeResolver());
-        console.log('create checkpoint5');
         return saveRequest.promise;
     });
 });

@@ -67,17 +67,9 @@ app.get('/search', function (req, res) {
 });
 
 app.post('/', Utilities.ensureAuthenticated, function (req, res) {
-    console.log('post song checkpoint1');
     q.resolve().then(function () {
-        console.log('post song checkpoint2');
-        var createdById = null;
-        if (req.user) {
-            createdById = req.user._id.toString();
-        }
-        console.log('post song checkpoint2');
-        return Song.create(req.body, createdById);
+        return Song.create(req.body);
     }).then(function (classroom) {
-        console.log('post song checkpoint2');
         res.json(200, classroom);
     }).fail(function (err) {
         console.log(err);
