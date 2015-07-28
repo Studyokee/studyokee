@@ -29,12 +29,7 @@ app.get('/', function (req, res) {
         }
 
         console.log('url: ' + url);
-        var options = {
-            url: url,
-            method: 'POST',
-            headers: {'content-type' : 'jsonp'}
-        };
-        request(options, getTranslationRequest.makeNodeResolver());
+        request(url, getTranslationRequest.makeNodeResolver());
 
         return getTranslationRequest.promise;
     }).spread(function (result, body) {

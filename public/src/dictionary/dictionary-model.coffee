@@ -59,21 +59,21 @@ define [
           isLoading: false
         )
 
-      $.ajax(
-        url: '//api.wordreference.com/3b126/json/' + fromLanguage + toLanguage + '/' + query
+      ###$.ajax(
+        url: '//api.wordreference.com/3b126/json/' + fromLanguage + toLanguage + '/' + unescape(encodeURIComponent(query))
         type: 'POST'
         dataType: 'jsonp'
         success: success
         error: error
-      )
+      )###
 
-      ###$.ajax(
+      $.ajax(
         type: 'GET'
         dataType: 'json'
         url: '/api/dictionary/?fromLanguage=' + fromLanguage + '&toLanguage=' + toLanguage + '&query=' + query
         success: success
         error: error
-      )###
+      )
 
     addToVocabulary: (wordOrPhrase, definition) ->
       userId = this.get('settings').get('user').id
