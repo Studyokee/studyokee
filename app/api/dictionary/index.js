@@ -29,18 +29,35 @@ app.get('/', function (req, res) {
         }
 
         console.log('url: ' + url);
-        request(url, getTranslationRequest.makeNodeResolver());
+        var options = {
+            url: url,
+            method: 'POST',
+            headers: {'content-type' : 'jsonp'}
+        };
+        request(options, getTranslationRequest.makeNodeResolver());
 
         return getTranslationRequest.promise;
     }).spread(function (result, body) {
         // var dictionaryMarkup = JSON.parse(body).text;
+        console.log('Dictionary Return: ' + body);
         res.json(200, JSON.parse(body));
     }).fail(function (err) {
-        console.log(err);
+        console.log('Dictionary Error: ' + err);
         res.json(500, {
             err: err
         });
     });
 });
+
+/*
+$.ajax( { 
+  url: '//api.wordreference.com/3b126/json/pten/Assim', 
+  type: 'POST', 
+  dataType: 'jsonp',
+  success: function(result) {
+    console.log(result);
+  }
+});
+*/
 
 module.exports = app;
