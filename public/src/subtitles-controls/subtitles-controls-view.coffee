@@ -164,13 +164,13 @@ define [
         this.toggleTranslation())
 
     onKeyDown: (event) ->
-      if event.which is 37
+      if event.which is 49
         this.prev()
         event.preventDefault()
-      if event.which is 39
+      if event.which is 50
         this.next()
         event.preventDefault()
-      if event.which is 32
+      if event.which is 51
         this.togglePlay()
         event.preventDefault()
   )
