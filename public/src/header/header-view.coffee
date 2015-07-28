@@ -1,6 +1,7 @@
 define [
   'backbone',
   'handlebars',
+  'jquery.ui.effect',
   'bootstrap',
   'templates'
 ], (Backbone, Handlebars) ->

@@ -9,6 +9,7 @@ requirejs.config(
     'jquery.ui.mouse': '/bower_components/jquery-ui/ui/jquery.ui.mouse'
     'jquery.ui.widget': '/bower_components/jquery-ui/ui/jquery.ui.widget'
     'jquery.ui.sortable': '/bower_components/jquery-ui/ui/jquery.ui.sortable'
+    'jquery.ui.effect': '/bower_components/jquery-ui/ui/jquery.ui.effect'
     swfobject: '/bower_components/swfobject/swfobject/swfobject'
     underscore: '/bower_components/underscore/underscore'
     handlebars: '/bower_components/handlebars/handlebars'
@@ -85,6 +86,9 @@ requirejs.config(
       exports: '$'
     'jquery.ui.sortable':
       deps: [ 'jquery', 'jquery.ui.core', 'jquery.ui.mouse', 'jquery.ui.widget' ]
+      exports: '$'
+    'jquery.ui.effect':
+      deps: [ 'jquery' ]
       exports: '$'
     handlebars:
       exports: 'Handlebars'
