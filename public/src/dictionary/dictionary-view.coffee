@@ -30,30 +30,13 @@ define [
       if this.model.get('isLoading')
         this.$('.lookup').html(Handlebars.templates['spinner']())
       else
-        definitions = this.model.get('definitions')
-        hasDefinitions = definitions and definitions.length > 0
-        
-        uses = this.model.get('uses')
-        hasUses = uses and uses.length > 0
+        translation = this.model.get('translation')
 
-        if not hasDefinitions and not hasUses
+        if not translation
           this.$('.lookup').html(Handlebars.templates['no-dictionary-results']())
         else
           if this.model.get('lookup')?
             this.$('.lookup').html(Handlebars.templates['api-reference-definition'](this.model.toJSON()))
-          if not hasDefinitions
-            this.$('.definitions').hide()
-          if not hasUses
-            this.$('.uses').hide()
-
-        view = this
-        this.$('.originalPhrase').on('click', (event) ->
-          phrase = $(this).html()
-          definition = $(this).closest('p').find('.phraseTranslation').html()
-          view.model.addToVocabulary(phrase, definition)
-          event.preventDefault()
-        )
-
 
   )
 

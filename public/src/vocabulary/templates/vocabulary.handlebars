@@ -5,45 +5,7 @@
             <a href="#" class="btn btn-default btn-lg definition" style="display:none;">
                 <div class="definitions">
                     <h4>Definitions:</h4>
-                    {{#each this.definition.definitions}}
-                        {{#if FirstTranslation}}
-                            <span class="text-info">{{FirstTranslation.term}}</span>&nbsp;
-                            <span class="text-muted">{{FirstTranslation.POS}}</span><br>
-                            {{#if FirstTranslation.sense}}
-                                <span class="text-muted">sense: {{FirstTranslation.sense}}</span><br>
-                            {{/if}}
-                        {{/if}}
-                        {{#if SecondTranslation}}
-                            <span class="text-info">{{SecondTranslation.term}}</span>&nbsp;
-                            <span class="text-muted">{{SecondTranslation.POS}}</span><br>
-                            {{#if SecondTranslation.sense}}
-                                <span class="text-muted">sense: {{SecondTranslation.sense}}</span><br>
-                            {{/if}}
-                        {{/if}}
-                        {{#if ThirdTranslation}}
-                            <span class="text-info">{{ThirdTranslation.term}}</span>&nbsp;
-                            <span class="text-muted">{{ThirdTranslation.POS}}</span><br>
-                            {{#if ThirdTranslation.sense}}
-                                <span class="text-muted">sense: {{ThirdTranslation.sense}}</span><br>
-                            {{/if}}
-                        {{/if}}
-                        {{#if FourthTranslation}}
-                            <span class="text-info">{{FourthTranslation.term}}</span>&nbsp;
-                            <span class="text-muted">{{FourthTranslation.POS}}</span><br>
-                            {{#if FourthTranslation.sense}}
-                                <span class="text-muted">sense: {{FourthTranslation.sense}}</span><br>
-                            {{/if}}
-                        {{/if}}
-                    {{/each}}
-                </div>
-                <div class="uses">
-                    <h4>Uses:</h4>
-                    {{#each this.definition.uses}}
-                        <p>
-                            {{OriginalTerm.term}}<br>
-                            <span class="text-muted phraseTranslation">{{FirstTranslation.term}}</span>
-                        </p>
-                    {{/each}}
+                    <span class="text-info">{{this.definition.translatedText}}</span>
                 </div>
             </a>
             <button type="button" class="remove action close" title="Remove Card">×</button>
