@@ -36,7 +36,10 @@ define [
           this.$('.lookup').html(Handlebars.templates['no-dictionary-results']())
         else
           if this.model.get('lookup')?
-            this.$('.lookup').html(Handlebars.templates['api-reference-definition'](this.model.toJSON()))
+            if this.model.get('translationType') is 'mw'
+              this.$('.lookup').html(Handlebars.templates['mw-definition'](this.model.toJSON()))
+            else
+              this.$('.lookup').html(Handlebars.templates['api-reference-definition'](this.model.toJSON()))
 
   )
 

@@ -15,18 +15,15 @@ define [
       )
 
       success = (result) =>
-        translations = JSON.parse(result)?.data?.translations
-        if translations?.length > 0
-          translation = translations[0]
-          originalTerm = query
-
-          this.set(
-            originalTerm: originalTerm
-            translation: translation.translatedText
-            isLoading: false
-          )
-
-          this.addToVocabulary(originalTerm, translation)
+        this.set(
+          translationType: result.type
+          isLoading: false
+        )
+        if result.type is 'mw'
+          this.updateMW(result.result)
+        else
+          this.updateGoogle(result.result)
+          
 
       error = (err) =>
         this.set(
@@ -49,6 +46,51 @@ define [
         error: error
       )
 
+    updateMW: (result) ->
+      if result.length > 0
+        if result[0].hw[0]['_']
+          word = result[0].hw[0]['_']
+        else
+          word = result[0].hw[0]
+        this.set(
+          translation: result
+          originalTerm: word
+        )
+
+        this.addToVocabulary(word, this.parseMWForVocab(result))
+
+    parseMWForVocab: (result) ->
+      definitions = []
+      for type in result
+        for variant in type.def[0].dt
+          definition =
+            partOfSpeech: type.fl[0]
+
+          variantOptions = []
+          if variant['ref-link']
+            for variantOption in variant['ref-link']
+              variantOptions.push(variantOption)
+          else
+            variantOptions.push(variant)
+          definition.definition = variantOptions
+
+          if variant.vi
+            definition.context = variant.vi[0]
+          definitions.push(definition)
+
+      return definitions
+
+
+    updateGoogle: (result) ->
+      translations = JSON.parse(result)?.data?.translations
+      if translations?.length > 0
+        translation = translations[0]
+
+        this.set(
+          translation: translation.translatedText
+          originalTerm: translation.t
+        )
+
     addToVocabulary: (wordOrPhrase, definition) ->
       userId = this.get('settings').get('user').id
 
@@ -57,6 +99,7 @@ define [
         
       fromLanguage = this.get('settings').get('fromLanguage').language
       toLanguage = this.get('settings').get('toLanguage').language
+      console.log('Save word: ' + wordOrPhrase)
       $.ajax(
         type: 'PUT'
         url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage + '/add'

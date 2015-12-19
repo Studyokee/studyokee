@@ -13,7 +13,6 @@ define [
 
     render: () ->
       this.$el.html(Handlebars.templates['vocabulary'](this.model.toJSON()))
-
       view = this
       this.$('.card').each(() ->
         if view.model.get('index') is parseInt($(this).attr('data-index'))

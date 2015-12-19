@@ -4,8 +4,19 @@
             <a href="#" class="btn btn-primary btn-lg wordOrPhrase">{{this.wordOrPhrase}}</a>
             <a href="#" class="btn btn-default btn-lg definition" style="display:none;">
                 <div class="definitions">
-                    <h4>Definitions:</h4>
-                    <span class="text-info">{{this.definition.translatedText}}</span>
+                    <div class="wordOrPhrase">{{this.wordOrPhrase}}</div>
+                    <ul class="definitions">
+                        {{#each definition}}
+                            <li>
+                                <span>{{#each definition}}{{#if @index}},&nbsp;{{/if}}<b>{{this}}</b>{{/each}}</span>,&nbsp;<i class="wordType">{{partOfSpeech}}</i>
+                                {{#if context}}
+                                    <div>
+                                        <i>{{context}}</i>
+                                    </div>
+                                {{/if}}
+                            </li>
+                        {{/each}}
+                    </ul>
                 </div>
             </a>
             <button type="button" class="remove action close" title="Remove Card">×</button>

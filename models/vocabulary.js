@@ -53,6 +53,7 @@ vocabularySchema.static('addWordOrPhrase', function(query, wordOrPhrase, definit
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         if (getIndex(vocabulary.words, wordOrPhrase) === -1) {
+            console.log('inserted new vocab: ' + wordOrPhrase);
             vocabulary.words.push({wordOrPhrase: wordOrPhrase, definition: definition});
 
             var updates = {
@@ -99,7 +100,6 @@ vocabularySchema.static('findOrCreate', function (fields) {
 
     return findOne({ userId: fields.userId, fromLanguage: fields.fromLanguage, toLanguage: fields.toLanguage }).then(function (vocabulary) {
         if (vocabulary) {
-            console.log('found vocabulary: ' + JSON.stringify(vocabulary));
             return vocabulary;
         }
         
