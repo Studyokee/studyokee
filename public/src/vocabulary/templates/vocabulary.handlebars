@@ -1,7 +1,10 @@
 <ul class="vocabulary">
     {{#each words}}
         <li data-index="{{@index}}" class="card">
-            <a href="#" class="btn btn-primary btn-lg wordOrPhrase">{{this.wordOrPhrase}}</a>
+            <a href="#" class="btn btn-primary btn-lg wordOrPhrase">
+                {{this.wordOrPhrase}}
+                <button type="button" class="remove action close" title="Remove Card">I know this!</button>
+            </a>
             <a href="#" class="btn btn-default btn-lg definition" style="display:none;">
                 <div class="definitions">
                     <div class="wordOrPhrase">{{this.wordOrPhrase}}</div>
@@ -18,8 +21,8 @@
                         {{/each}}
                     </ul>
                 </div>
+                <button type="button" class="remove action close" title="Remove Card">I know this!</button>
             </a>
-            <button type="button" class="remove action close" title="Remove Card">×</button>
         </li>
     {{/each}}
 </ul>

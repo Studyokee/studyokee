@@ -24,6 +24,10 @@ define [
         )
       )
 
+      this.$('.toggleSearch').on('click', () =>
+        this.$('.search').fadeToggle(200)
+      )
+
       return this
 
     renderLookup: () ->

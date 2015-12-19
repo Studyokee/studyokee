@@ -4,7 +4,13 @@
         margin-right: auto;
         display: block;
         position: relative;
-        width: 800px
+        width: 600px
+
+        a {
+            min-height: 300px;
+            overflow: hidden;
+            white-space: normal;
+        }
     }
     .definitions {
         li {
@@ -17,6 +23,7 @@
     }
     .wordOrPhrase {
         font-size: 32px;
+        margin-bottom: 12px;
     }
     .definitions {
         font-size: 18px;
@@ -34,16 +41,16 @@
         position: absolute;
         right: 16px;
         opacity: 1;
-        color: #fff;
-        font-weight: 400;
-        font-size: 40px;
+        font-size: 16px;
         background: transparent;
         border: none;
         display: inline-block;
         padding: 8px;
     }
+    .wordOrPhrase .remove {
+        color: #fff;
+    }
     .remove:hover {
-        color: #cc0000;
-        text-shadow: none;
+        text-decoration: underline;
     }
 }

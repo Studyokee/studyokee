@@ -1,7 +1,10 @@
 <ul class="readonlyMediaItemList">
-    {{#each this}}
+    {{#each mediaItems}}
         <li data-index="{{@index}}">
             <span class="mediaItemLink"></span>
         </li>
     {{/each}}
+    {{#if hasMoreItems}}
+        <li class="hasMoreItems">...</li>
+    {{/if}}
 </ul>

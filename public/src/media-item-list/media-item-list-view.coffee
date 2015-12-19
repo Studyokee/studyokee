@@ -43,10 +43,13 @@ define [
         this.$el.html(Handlebars.templates['spinner']())
       else
         if this.mediaItemViews.length > 0
+          renderData =
+            mediaItems: this.mediaItems
+            hasMoreItems: this.hasMoreItems
           if this.options.readonly
-            this.$el.html(Handlebars.templates['media-item-list-readonly'](this.mediaItems))
+            this.$el.html(Handlebars.templates['media-item-list-readonly'](renderData))
           else
-            this.$el.html(Handlebars.templates['media-item-list'](this.mediaItems))
+            this.$el.html(Handlebars.templates['media-item-list'](renderData))
 
           links = this.$('.mediaItemLink')
           for i in [0..links.length - 1]
@@ -105,11 +108,17 @@ define [
       return this
 
     initItemViews: (data) ->
+      this.hasMoreItems = false
       this.mediaItemViews = []
       this.mediaItems = []
       if data and data.length > 0
-        limit = if this.options.limit then Math.min(this.options.limit, data.length) else data.length
-        for index in [0..limit-1]
+        numItems = data.length
+        if this.options.limit
+          numItems = Math.min(this.options.limit, data.length)
+          if data.length > this.options.limit
+            this.hasMoreItems = true
+          
+        for index in [0..numItems-1]
           item = data[index]
           mediaItemView = new MediaItemView(
             model: new Backbone.Model(

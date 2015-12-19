@@ -8,7 +8,7 @@ require [
 
   AppRouter = Backbone.Router.extend(
     routes:
-      '': 'home'
+      '': 'getClassrooms'
       'classrooms/language/:from/:to': 'getClassrooms'
       'songs/:id/edit': 'editSong'
       'classrooms/create': 'createClassroom'

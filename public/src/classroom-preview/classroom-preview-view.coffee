@@ -5,8 +5,8 @@ define [
   'templates'
 ], (Backbone, MediaItemList, Handlebars) ->
   ClassroomPreviewView = Backbone.View.extend(
-    className: 'classroom-preview'
-    tagName: 'li'
+    className: 'classroom-preview col-lg-3'
+    tagName: 'div'
     
     initialize: () ->
       this.listenTo(this.model.songListModel, 'change', () =>
@@ -15,7 +15,7 @@ define [
       this.songListView = new MediaItemList(
         model: this.model.songListModel
         readonly: true
-        limit: 5
+        limit: 3
       )
 
     render: () ->
