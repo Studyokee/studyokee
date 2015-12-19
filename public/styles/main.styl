@@ -72,10 +72,16 @@ footer {
 }
 body {
     background: url("../img/dimension.png");
+
+    .main {
+        min-height: 580px;
+
+        .panel-default>.panel-heading {
+            background-color: #fff;
+        }
+    }
 }
-.main {
-    min-height: 580px;
-}
+
 
 @import '../src/youtube/youtube-main/youtube-main';
 @import '../src/youtube/youtube-player/youtube-player';

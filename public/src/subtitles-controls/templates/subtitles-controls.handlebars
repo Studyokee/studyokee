@@ -1,27 +1,31 @@
-<div class="progress">
-    <div class="progress-timer">0:00/0:00</div>
-    <div class="progress-bar" style="width: 0;"></div>
-</div>
-<div class="btn-group">
-    <button type="button" class="toStart btn btn-primary" title="To Start">
-        <span class="glyphicon glyphicon-step-backward"></span>
-    </button>
-    <button type="button" class="prev btn btn-primary" title="Previous">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </button>
+<div class="progress-container">
     <button type="button" class="toggle-play btn btn-primary" title="Toggle Play"">
-        <span class="glyphicon {{#if playing}}glyphicon-pause{{else}}glyphicon-play{{/if}}"></span>
+            <span class="glyphicon {{#if playing}}glyphicon-pause{{else}}glyphicon-play{{/if}}"></span>
+        </button>
+    <span class="progress">
+        <div class="progress-timer">0:00/0:00</div>
+        <div class="progress-bar" style="width: 0;"></div>
+    </span>
+</div>
+<div class="step-buttons">
+    <!--<button type="button" class="toStart btn btn-primary" title="To Start">
+        <span class="glyphicon glyphicon-step-backward"></span>
+    </button>-->
+    <button type="button" class="prev btn btn-primary" title="Previous">
+        <span class="glyphicon glyphicon-step-backward"></span>
+        <span class="buttonText">PREV LINE</span>
     </button>
     <button type="button" class="next btn btn-primary" title="Next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="buttonText">NEXT LINE</span>
+        <span class="glyphicon glyphicon-step-forward"></span>
     </button>
     <!--<button type="button" class="toggle-presentation-mode btn btn-primary" title="Enter Presentation Mode">
         <span class="glyphicon glyphicon-resize-full"></span>
-    </button>-->
+    </button>
     <button type="button" class="toggle-video btn btn-primary" title="Toggle Video">
         <span class="glyphicon glyphicon-collapse-up"></span>
     </button>
     <button type="button" class="toggle-translation btn btn-primary" title="Hide Translation">
         <span class="glyphicon glyphicon-eye-close"></span>
-    </button>
+    </button>-->
 </div>

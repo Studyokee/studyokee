@@ -6,7 +6,6 @@ var q = require('q');
 var Song = require('../../../models/song');
 var Utilities = require('../utilities');
 var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 
 // function trimPrefix (req, res, next) {
 //     var match = req.url.match('/[^\/]*(.*)');
@@ -33,7 +32,7 @@ app.get('/display', function (req, res) {
         var ids = req.query.ids;
         var _ids = [];
         for (var i = 0; i < ids.length; i++) {
-            _ids.push(ObjectId.fromString(ids[i]));
+            _ids.push(mongoose.Types.ObjectId(ids[i]));
         }
 
         return Song.getDisplayInfo(_ids);
