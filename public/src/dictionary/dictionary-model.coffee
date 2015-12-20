@@ -47,38 +47,64 @@ define [
       )
 
     updateMW: (result) ->
-      if result.length > 0
+      if result?.length > 0
         if result[0].hw[0]['_']
           word = result[0].hw[0]['_']
         else
           word = result[0].hw[0]
-        this.set(
-          translation: result
-          originalTerm: word
-        )
 
-        this.addToVocabulary(word, this.parseMWForVocab(result))
+        parsedResult = this.parseMWForVocab(result)
+        if word? and parsedResult.definitions.length > 0
+          this.set(
+            definitions: parsedResult.definitions
+            examples: parsedResult.examples
+            originalTerm: word
+          )
+
+          this.addToVocabulary(word, parsedResult.definitions)
+        return
+
+      this.set(
+        definitions: []
+        examples: []
+        originalTerm: ''
+      )
 
     parseMWForVocab: (result) ->
       definitions = []
+      examplesMap = {}
       for type in result
-        for variant in type.def[0].dt
-          definition =
-            partOfSpeech: type.fl[0]
+        if type.example
+          for example in type.example
+            examplesMap[example] = ''
 
-          variantOptions = []
-          if variant['ref-link']
-            for variantOption in variant['ref-link']
-              variantOptions.push(variantOption)
-          else
-            variantOptions.push(variant)
-          definition.definition = variantOptions
+        if type?.def?.length > 0 and type.def[0].dt?.length > 0
+          for variant in type.def[0].dt
+            variantOptions = []
+            if variant['ref-link']
+              for variantOption in variant['ref-link']
+                if typeof variantOption is 'string'
+                  variantOptions.push(variantOption)
+            else
+              if typeof variant is 'string'
+                variantOptions.push(variant)
+              #else if typeof variant['_'] is 'string'
+              #  variantOptions.push(variant['_'])
 
-          if variant.vi
-            definition.context = variant.vi[0]
-          definitions.push(definition)
+            if variantOptions.length > 0
+              definition =
+                definition: variantOptions
+                partOfSpeech: type.fl[0]
+              if variant.vi
+                definition.context = variant.vi[0]
 
-      return definitions
+              definitions.push(definition)
+
+      parsedResult =
+        definitions: definitions
+        examples: Object.keys(examplesMap)
+
+      return parsedResult
 
 
     updateGoogle: (result) ->

@@ -16,7 +16,9 @@ Dictionary.prototype = {
 
     //returns a word's definition
     define: function(word, callback){
-        this.raw(word, function(error, result){
+        var depth = 0;
+        var that = this;
+        var rawCallback = function(error, result){
             if (error === null) {
                 if (result['entry_list'].entry !== undefined) {
                     var entries = result['entry_list'].entry;
@@ -27,20 +29,31 @@ Dictionary.prototype = {
                             //console.log('found word: ' + word.toLowerCase());
                             //if (entries[i].hw && entries[i].hw.length > 0 && (entries[i].hw[0]['_'] === word.toLowerCase() || entries[i].hw[0] === word.toLowerCase())) {
                                 
-                            console.log('added word: ' + word.toLowerCase());
+                            console.log('for word: ' + word.toLowerCase());
+                            console.log('with result: ' + JSON.stringify(entries[i], null, 4));
+
+                            // if conjugated verb form, return the result for the first cross reference verb
+                            if (entries.length === 1 && entries[i].xr && entries[i].xr.length > 0 && entries[i].xr[0].x && entries[i].xr[0].x.length > 0) {
+                                return that.raw(entries[i].xr[0].x[0], rawCallback);
+                            }
+
                             filteredEntries.push(entries[i]);
                             //}
                         }
                         callback(null, filteredEntries);
                     }
-                } else if (result['entry_list'].suggestion !== undefined) {
-                    callback('suggestions', result['entry_list'].suggestion);
+                } else if (result['entry_list'].suggestion !== undefined && result['entry_list'].suggestion.length > 0) {
+                    if (depth === 0) {
+                        depth++;
+                        return that.raw(result['entry_list'].suggestion[0], rawCallback);
+                    }
                 }
             } else {
                 callback(error);
             }
             callback();
-        });
+        };
+        this.raw(word, rawCallback);
     },
 
     //return a javascript object equivalent to the XML response from M-W

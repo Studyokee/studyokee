@@ -34,9 +34,9 @@ define [
       if this.model.get('isLoading')
         this.$('.lookup').html(Handlebars.templates['spinner']())
       else
-        translation = this.model.get('translation')
+        originalTerm = this.model.get('originalTerm')
 
-        if not translation
+        if not originalTerm
           this.$('.lookup').html(Handlebars.templates['no-dictionary-results']())
         else
           if this.model.get('lookup')?

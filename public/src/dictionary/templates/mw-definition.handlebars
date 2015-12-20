@@ -1,36 +1,26 @@
 <b>"{{originalTerm}}"</b>
 <div>
     <h4>Definitions:</h4>
-    {{#each translation}}
-        <ul class="definitions">
-            {{#each def}}
-            {{#unless @index}}
-            {{#each dt}}
-                <li>
-                    <span>{{#if ref-link}}{{#each ref-link}}{{#if @index}},&nbsp;{{/if}}<b>{{this}}</b>{{/each}}{{else}}{{this}}{{/if}}</span>,&nbsp;{{#each ../../../fl}}<i class="wordType">{{this}}</i>{{/each}}
-                    {{#if vi}}
-                        <div>
-                            <i>{{vi}}</i>
-                        </div>
-                    {{/if}}
-                </li>
-            {{/each}}
-            {{/unless}}
-            {{/each}}
+    <ul class="definitions">
+        {{#each definitions}}
+            <li>
+                <span>{{#each definition}}{{#if @index}},&nbsp;{{/if}}<b>{{this}}</b>{{/each}}</span>,&nbsp;<i class="wordType">{{partOfSpeech}}</i>
+                {{#if context}}
+                    <div>
+                        <i>{{context}}</i>
+                    </div>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ul>
+    {{#if examples.length}}
+        <h4>Examples:</h4>
+        <ul class="examples">
+          {{#each examples}}
+            <li>
+                {{this}}
+            </li>
+          {{/each}}
         </ul>
-    {{/each}}
-    {{#each translation}}
-        {{#unless @index}}
-            {{#if example}}
-                <h4>Examples:</h4>
-                <ul class="examples">
-                  {{#each example}}
-                    <li>
-                        {{this}}
-                    </li>
-                  {{/each}}
-                </ul>
-            {{/if}}
-        {{/unless}}
-    {{/each}}
+    {{/if}}
 </div>
