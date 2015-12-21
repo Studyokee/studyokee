@@ -10,9 +10,29 @@ define [
     
     initialize: (options) ->
       this.options = options
-      this.listenTo(this.model, 'change', () =>
+      ###this.listenTo(this.model, 'change', () =>
         console.log('on change header')
         this.render()
+      )###
+
+      this.listenTo(this.model, 'change:vocabularyCount', () ->
+        console.log('animate change')
+        vocabularyCount = this.model.get('vocabularyCount')
+        badge = $('.vocabulary-link .badge')
+
+        if vocabularyCount > 0
+          badge.show()
+
+        badge.html(vocabularyCount)
+        badge.addClass('throb')
+        remove = () ->
+          badge.removeClass('throb')
+        setTimeout(remove, 1000)
+
+        if vocabularyCount is 0
+          hide = () ->
+            badge.hide()
+          setTimeout(hide, 1000)
       )
 
     render: () ->
@@ -24,7 +44,7 @@ define [
         event.preventDefault()
       )
       this.$('.openClassrooms').on('click', (event) =>
-        Backbone.history.navigate('classrooms/language/' + this.model.get('fromLanguage').language + '/en', {trigger: true})
+        Backbone.history.navigate('classrooms/language/' + this.model.get('fromLanguage') + '/en', {trigger: true})
         event.preventDefault()
       )
       this.$('.navbar-brand').on('click', (event) =>
@@ -32,7 +52,7 @@ define [
         event.preventDefault()
       )
       this.$('.vocabulary').on('click', (event) =>
-        Backbone.history.navigate('vocabulary/' + this.model.get('fromLanguage').language + '/en', {trigger: true})
+        Backbone.history.navigate('vocabulary/' + this.model.get('fromLanguage') + '/en', {trigger: true})
         event.preventDefault()
       )
       this.$('.login').on('click', (event) =>
@@ -40,7 +60,7 @@ define [
         event.preventDefault()
       )
 
-      view = this
+      ###view = this
       this.$('.selectLanguage .dropdown-menu a').on('click', (event) ->
         index = $(this).attr('data-index')
         currentLanguage = view.model.get('supportedLanguages')[index]
@@ -50,7 +70,7 @@ define [
         event.preventDefault()
       )
       this.$('.selectLanguage .dropdown-toggle .languageIcon').addClass(this.model.get('fromLanguage').language)
-
+      ###
       if this.options.sparse
         this.$('.navbar-left').hide()
 

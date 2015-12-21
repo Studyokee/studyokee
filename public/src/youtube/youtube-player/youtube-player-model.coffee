@@ -76,6 +76,13 @@ define [
           playing: false
         )
 
+    toggle: () ->
+      console.log(this.get('playing'))
+      if this.get('playing')
+        this.pause()
+      else
+        this.play()
+
     next: () ->
       i = this.get('i') + 1
       this.jumpTo(i)

@@ -22,6 +22,10 @@ define [
         settings: this.get('settings')
       )
 
+      this.dictionaryModel.on('vocabularyUpdate', (words) =>
+        this.trigger('vocabularyUpdate', words)
+      )
+
       this.getClassroom()
 
     lookup: (query) ->

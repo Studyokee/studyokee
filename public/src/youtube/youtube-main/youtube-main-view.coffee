@@ -23,6 +23,9 @@ define [
         this.trigger('lookup', query)
         this.model.youtubePlayerModel.pause()
       )
+      this.subtitlesScrollerView.on('toggle', (query) =>
+        this.model.youtubePlayerModel.toggle()
+      )
 
       this.youtubePlayerView.on('enterPresentationMode', () =>
         this.trigger('enterPresentationMode')

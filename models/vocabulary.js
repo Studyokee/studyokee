@@ -49,9 +49,11 @@ function getIndex (words, wordOrPhrase) {
 }
 
 vocabularySchema.static('addWordOrPhrase', function(query, wordOrPhrase, definition) {
+    var toReturn = null;
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
+        toReturn = vocabulary;
         if (getIndex(vocabulary.words, wordOrPhrase) === -1) {
             console.log('inserted new vocab: ' + wordOrPhrase);
             vocabulary.words.push({wordOrPhrase: wordOrPhrase, definition: definition});
@@ -63,16 +65,20 @@ vocabularySchema.static('addWordOrPhrase', function(query, wordOrPhrase, definit
             var updateRequest = q.defer();
             vocabulary.update(updates, updateRequest.makeNodeResolver());
 
-            return updateRequest;
+            return updateRequest.promise;
         }
-        return;
+        return q.resolve();
+    }).then(function () {
+        return toReturn;
     });
 });
 
 vocabularySchema.static('removeWordOrPhrase', function(query, wordOrPhrase) {
+    var toReturn = null;
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
+        toReturn = vocabulary;
         var i = getIndex(vocabulary.words, wordOrPhrase);
         vocabulary.words.splice(i, 1);
 
@@ -83,7 +89,9 @@ vocabularySchema.static('removeWordOrPhrase', function(query, wordOrPhrase) {
         var updateRequest = q.defer();
         vocabulary.update(updates, updateRequest.makeNodeResolver());
 
-        return updateRequest;
+        return updateRequest.promise;
+    }).then(function () {
+        return toReturn;
     });
 });
 
@@ -110,6 +118,6 @@ vocabularySchema.static('findOrCreate', function (fields) {
         });
     });
 });
-    
+
 Vocabulary = mongoose.model('Vocabulary', vocabularySchema);
 module.exports = Vocabulary;

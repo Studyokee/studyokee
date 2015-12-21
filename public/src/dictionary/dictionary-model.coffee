@@ -133,7 +133,7 @@ define [
           wordOrPhrase: wordOrPhrase
           definition: definition
         success: (res) =>
-          console.log('Saved word')
+          this.trigger('vocabularyUpdate', res.words)
         error: (err) =>
           console.log('Error: ' + err)
       )

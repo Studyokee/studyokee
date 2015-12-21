@@ -3,8 +3,9 @@ require [
   'jquery',
   'settings',
   'header.view',
+  'header.model',
   'footer.view',
-], (Backbone, $, Settings, HeaderView, FooterView) ->
+], (Backbone, $, Settings, HeaderView, HeaderModel, FooterView) ->
 
   AppRouter = Backbone.Router.extend(
     routes:
@@ -41,14 +42,18 @@ require [
     model: settings
     sparse: true
   )
+
+  headerModel = new HeaderModel(
+    settings: settings
+  )
   headerView = new HeaderView(
-    model: settings
+    model: headerModel
   )
   footerView = new FooterView(
     model: settings
   )
 
-  appRouter.on('route:home', () ->
+  ###appRouter.on('route:home', () ->
     require(['home.model', 'home.view'], (HomeModel, HomeView) ->
       this.view = new HomeView(
         model: new HomeModel(
@@ -59,7 +64,64 @@ require [
       this.view.setElement($('#skee .main')).render()
       footerView.setElement($('#skee footer')).render()
     )
+  )###
+  appRouter.on('route:viewClassroom', (id) ->
+    require(['classroom.model','classroom.view'], (ClassroomModel, ClassroomView) ->
+
+      classroomModel = new ClassroomModel(
+        settings: settings
+        id: id
+      )
+      this.view = new ClassroomView(
+        model: classroomModel
+      )
+
+      classroomModel.on('vocabularyUpdate', (words) ->
+        headerModel.trigger('vocabularyUpdate', words)
+      )
+
+      headerView.setElement($('#skee header')).render()
+      this.view.setElement($('#skee .main')).render()
+      footerView.setElement($('#skee footer')).render()
+    )
   )
+  appRouter.on('route:vocabulary', (from, to) ->
+    require(['vocabulary.model','vocabulary.view'], (VocabularyModel, VocabularyView) ->
+      if not user.id
+        Backbone.history.navigate('login', {trigger: true})
+        return
+
+      settings.setFromLangauge(from)
+      vocabularyModel = new VocabularyModel(
+        settings: settings
+      )
+
+      vocabularyModel.on('vocabularyUpdate', (words) ->
+        headerModel.trigger('vocabularyUpdate', words)
+      )
+      
+      this.view = new VocabularyView(
+        model: vocabularyModel
+      )
+      headerView.setElement($('#skee header')).render()
+      this.view.setElement($('#skee .main')).render()
+      footerView.setElement($('#skee footer')).render()
+    )
+  )
+  appRouter.on('route:getClassrooms', (from, to) ->
+    require(['classrooms.model','classrooms.view'], (ClassroomsModel, ClassroomsView) ->
+      settings.setFromLangauge(from)
+      this.view = new ClassroomsView(
+        model: new ClassroomsModel(
+          settings: settings
+        )
+      )
+      headerView.setElement($('#skee header')).render()
+      this.view.setElement($('#skee .main')).render()
+      footerView.setElement($('#skee footer')).render()
+    )
+  )
+
   appRouter.on('route:editSong', (id) ->
     require(['edit.song.model', 'edit.song.view'], (EditSongModel, EditSongView) ->
       this.view = new EditSongView(
@@ -107,56 +169,12 @@ require [
       footerView.setElement($('#skee footer')).render()
     )
   )
-  appRouter.on('route:viewClassroom', (id) ->
-    require(['classroom.model','classroom.view'], (ClassroomModel, ClassroomView) ->
-      this.view = new ClassroomView(
-        model: new ClassroomModel(
-          settings: settings
-          id: id
-        )
-      )
-      headerView.setElement($('#skee header')).render()
-      this.view.setElement($('#skee .main')).render()
-      footerView.setElement($('#skee footer')).render()
-    )
-  )
-  appRouter.on('route:vocabulary', (from, to) ->
-    require(['vocabulary.model','vocabulary.view'], (VocabularyModel, VocabularyView) ->
-      console.log('open vocabulary')
-      if not user.id
-        Backbone.history.navigate('login', {trigger: true})
-        return
-
-      settings.setFromLangauge(from)
-      this.view = new VocabularyView(
-        model: new VocabularyModel(
-          settings: settings
-        )
-      )
-      headerView.setElement($('#skee header')).render()
-      this.view.setElement($('#skee .main')).render()
-      footerView.setElement($('#skee footer')).render()
-    )
-  )
   appRouter.on('route:login', () ->
     require(['login.view'], (LoginView) ->
       this.view = new LoginView(
         model: settings
       )
       homeHeaderView.setElement($('#skee header')).render()
-      this.view.setElement($('#skee .main')).render()
-      footerView.setElement($('#skee footer')).render()
-    )
-  )
-  appRouter.on('route:getClassrooms', (from, to) ->
-    require(['classrooms.model','classrooms.view'], (ClassroomsModel, ClassroomsView) ->
-      settings.setFromLangauge(from)
-      this.view = new ClassroomsView(
-        model: new ClassroomsModel(
-          settings: settings
-        )
-      )
-      headerView.setElement($('#skee header')).render()
       this.view.setElement($('#skee .main')).render()
       footerView.setElement($('#skee footer')).render()
     )

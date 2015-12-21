@@ -25,8 +25,8 @@ app.get('/:userId/:fromLanguage/:toLanguage', function (req, res) {
 app.put('/:userId/:fromLanguage/:toLanguage/remove', function (req, res) {
     q.resolve().then(function () {
         return Vocabulary.removeWordOrPhrase(req.params, req.body.wordOrPhrase);
-    }).then(function () {
-        res.json(200);
+    }).then(function (vocabulary) {
+        res.json(200, vocabulary);
     }).fail(function (err) {
         console.log(err);
         res.json(500, {
@@ -38,8 +38,8 @@ app.put('/:userId/:fromLanguage/:toLanguage/remove', function (req, res) {
 app.put('/:userId/:fromLanguage/:toLanguage/add', function (req, res) {
     q.resolve().then(function () {
         return Vocabulary.addWordOrPhrase(req.params, req.body.wordOrPhrase, req.body.definition);
-    }).then(function () {
-        res.json(200);
+    }).then(function (vocabulary) {
+        res.json(200, vocabulary);
     }).fail(function (err) {
         console.log(err);
         res.json(500, {

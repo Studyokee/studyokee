@@ -43,6 +43,8 @@ define [
           console.log('Removed Word')
           this.get('words').splice(index, 1)
           this.trigger('change')
+          
+          this.trigger('vocabularyUpdate', res.words)
         error: (err) =>
           console.log('Error: ' + err)
       )
