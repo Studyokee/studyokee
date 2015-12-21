@@ -1,12 +1,19 @@
 define [
+  'vocabulary.slider.model',
   'backbone'
-], (Backbone) ->
+], (VocabularySliderModel, Backbone) ->
   VocabularyModel = Backbone.Model.extend(
     defaults:
-      words: []
-      index: 0
+      knownCount: 0
+      unknownCount: 0
 
     initialize: () ->
+      this.vocabularySliderModel = new VocabularySliderModel()
+
+      this.vocabularySliderModel.on('removeWord', (word) =>
+        this.remove(word)
+      )
+
       this.getVocabulary()
 
     getVocabulary: () ->
@@ -19,18 +26,20 @@ define [
         dataType: 'json'
         success: (res) =>
           if res?.words?
-            index = Math.random() * res.words.length
+            sortedWords = this.sortWords(res.words)
+
             this.set(
-              words: this.getRandomOrder(res.words)
-              index: 0
+              knownCount: sortedWords.known.length
+              unknownCount: sortedWords.unknown.length
+            )
+            this.vocabularySliderModel.set(
+              rawWords: sortedWords.unknown
             )
         error: (err) =>
           console.log('Error: ' + err)
       )
 
-    remove: (index) ->
-      wordOrPhrase = this.get('words')[index].wordOrPhrase
-
+    remove: (word) ->
       userId = this.get('settings').get('user').id
       fromLanguage = this.get('settings').get('fromLanguage').language
       toLanguage = this.get('settings').get('toLanguage').language
@@ -38,35 +47,35 @@ define [
         type: 'PUT'
         url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage + '/remove'
         data:
-          wordOrPhrase: wordOrPhrase
+          wordOrPhrase: word
         success: (res) =>
           console.log('Removed Word')
-          this.get('words').splice(index, 1)
-          this.trigger('change')
-          
-          this.trigger('vocabularyUpdate', res.words)
+          if res?.words?
+            sortedWords = this.sortWords(res.words)
+
+            this.set(
+              knownCount: sortedWords.known.length
+              unknownCount: sortedWords.unknown.length
+            )
+            this.trigger('vocabularyUpdate', res.words)
         error: (err) =>
           console.log('Error: ' + err)
       )
 
-    getRandomOrder: (array) ->
-      order = []
+    sortWords: (words) ->
+      known = []
+      unknown = []
+      for word in words
+        if word.known
+          known.push(word)
+        else
+          unknown.push(word)
 
-      if array.length is 0
-        return []
+      sortedWords =
+        known: known
+        unknown: unknown
 
-      for i in [0..array.length-1]
-        order.push(i)
-
-      order.sort(() ->
-        return Math.random() - 0.5
-      )
-
-      newArray = []
-      for i in order
-        newArray.push(array[i])
-
-      return newArray
+      return sortedWords
 
   )
 

@@ -88,7 +88,7 @@ require [
   appRouter.on('route:vocabulary', (from, to) ->
     require(['vocabulary.model','vocabulary.view'], (VocabularyModel, VocabularyView) ->
       if not user.id
-        Backbone.history.navigate('login', {trigger: true})
+        Backbone.history.navigate('login?callbackURL=' + Backbone.history.getFragment(), {trigger: true})
         return
 
       settings.setFromLangauge(from)

@@ -7,8 +7,8 @@ define [
   'templates'
 ], (SubtitlesScrollerView, YoutubePlayerView, DictionaryView, Backbone, Handlebars) ->
   YoutubeMainView = Backbone.View.extend(
-    tagName:  "div"
-    className: "youtube-main"
+    tagName:  'div'
+    className: 'youtube-main'
     
     initialize: () ->
       this.subtitlesScrollerView = new SubtitlesScrollerView(

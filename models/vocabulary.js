@@ -20,7 +20,8 @@ var vocabularySchema = mongoose.Schema({
     },
     words: [{
         wordOrPhrase: String,
-        definition: Object
+        definition: Object,
+        known: Boolean
     }]
 });
 
@@ -80,7 +81,7 @@ vocabularySchema.static('removeWordOrPhrase', function(query, wordOrPhrase) {
     }).then(function (vocabulary) {
         toReturn = vocabulary;
         var i = getIndex(vocabulary.words, wordOrPhrase);
-        vocabulary.words.splice(i, 1);
+        vocabulary.words[i].known = true;
 
         var updates = {
             words: vocabulary.words

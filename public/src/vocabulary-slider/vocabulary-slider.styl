@@ -1,0 +1,61 @@
+.vocabulary-slider {
+    .step-buttons {
+        margin: 10px;
+        text-align: center;
+
+        button {
+            margin: 0 20px;
+        }
+    }
+    ul.cards {
+        margin: 20px;
+        .card {
+            display: none;
+            list-style: none;
+            padding: 20px 20px 40px 20px;
+        }
+        .card.active {
+            display: block;
+        }
+
+        > li {
+            display: block;
+            position: relative;
+            padding: 0;
+
+            a {
+                min-height: 300px;
+                overflow: hidden;
+                white-space: normal;
+            }
+        }
+        .definitions {
+            li {
+                text-align: left;
+            }
+        }
+        .btn {
+            width: 100%;
+            padding: 50px;
+        }
+        .wordOrPhrase {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        .definitions {
+            font-size: 18px;
+        }
+        .uses h4 {
+            text-align: center;
+        }
+        .uses {
+            padding: 16px;
+            font-size: 14px;
+            text-align: left;
+        }
+    }
+    .noResults {
+        text-align: center;
+        margin: 40px;
+    }
+}

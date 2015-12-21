@@ -14,7 +14,7 @@ define [
 
       this.on('vocabularyUpdate', (words) ->
         this.set(
-          vocabularyCount: words.length
+          vocabularyCount: this.getUnknownCount(words)
         )
       )
 
@@ -34,12 +34,18 @@ define [
           success: (res) =>
             if res?.words?
               this.set(
-                vocabularyCount: res.words.length
+                vocabularyCount: this.getUnknownCount(res.words)
               )
           error: (err) =>
             console.log('Error: ' + err)
         )
 
+    getUnknownCount: (words) ->
+      unknownCount = 0
+      for word in words
+        if not word.known
+          unknownCount++
+      return unknownCount
   )
 
   return HeaderModel

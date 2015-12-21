@@ -1,28 +1,15 @@
-<ul class="vocabulary">
-    {{#each words}}
-        <li data-index="{{@index}}" class="card">
-            <a href="#" class="btn btn-primary btn-lg wordOrPhrase">
-                {{this.wordOrPhrase}}
-                <button type="button" class="remove action close" title="Remove Card">I know this!</button>
-            </a>
-            <a href="#" class="btn btn-default btn-lg definition" style="display:none;">
-                <div class="definitions">
-                    <div class="wordOrPhrase">{{this.wordOrPhrase}}</div>
-                    <ul class="definitions">
-                        {{#each definition}}
-                            <li>
-                                <span>{{#each definition}}{{#if @index}},&nbsp;{{/if}}<b>{{this}}</b>{{/each}}</span>,&nbsp;<i class="wordType">{{partOfSpeech}}</i>
-                                {{#if context}}
-                                    <div>
-                                        <i>{{context}}</i>
-                                    </div>
-                                {{/if}}
-                            </li>
-                        {{/each}}
-                    </ul>
-                </div>
-                <button type="button" class="remove action close" title="Remove Card">I know this!</button>
-            </a>
-        </li>
-    {{/each}}
-</ul>
+<div class="vocabulary-page">
+    <div class="col-lg-2 panel panel-default vocabularyStats">
+        <div class="panel-heading"><h4>Vocabulary</h4></div>
+        <div class="panel-body">
+            <div>
+                <p><span class="badge">{{unknownCount}}</span> being studied</p>
+            </div>
+            <div>
+                <p><span class="badge learned">{{knownCount}}</span> learned</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 vocabularySliderContainer"></div>
+    <div class="col-lg-2"></div>
+</div>

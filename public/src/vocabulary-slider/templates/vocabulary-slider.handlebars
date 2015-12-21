@@ -1,0 +1,33 @@
+<div class="step-buttons">
+    <button type="button" class="prev btn btn-primary" title="Previous">
+        <span class="buttonText"><span class="glyphicon glyphicon-step-backward"></span> PREV</span>
+    </button>
+    <button type="button" class="remove btn btn-primary" title="Remove Card">I know this!</button>
+    <button type="button" class="next btn btn-primary" title="Next">
+        <span class="buttonText">NEXT <span class="glyphicon glyphicon-step-forward"></span></span>
+    </button>
+</div>
+
+<div class="toStudy">
+    <ul class="cards panel">
+        {{#each words}}
+            <li class="card">
+                <div class="wordOrPhrase">{{this.wordOrPhrase}}</div>
+                <div class="definitions" {{#unless ../showDefinition}}style="visibility:hidden;"{{/unless}}>
+                    <ul class="definitions">
+                        {{#each definition}}
+                            <li>
+                                <span>{{#each definition}}{{#if @index}},&nbsp;{{/if}}<b>{{this}}</b>{{/each}}</span>,&nbsp;<i class="wordType">{{partOfSpeech}}</i>
+                                {{#if context}}
+                                    <div>
+                                        <i>{{context}}</i>
+                                    </div>
+                                {{/if}}
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</div>
