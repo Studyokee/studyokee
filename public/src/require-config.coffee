@@ -42,6 +42,8 @@ requirejs.config(
     'vocabulary.model': 'lib/vocabulary/vocabulary-model'
     'vocabulary.slider.view': 'lib/vocabulary-slider/vocabulary-slider-view'
     'vocabulary.slider.model': 'lib/vocabulary-slider/vocabulary-slider-model'
+    'vocabulary.list.view': 'lib/vocabulary-list/vocabulary-list-view'
+    'vocabulary.list.model': 'lib/vocabulary-list/vocabulary-list-model'
     'edit.songs.view': 'lib/edit-songs/edit-songs-view'
     'edit.songs.model': 'lib/edit-songs/edit-songs-model'
     'create.song.view': 'lib/create-song/create-song-view'

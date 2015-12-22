@@ -14,7 +14,6 @@ define [
 
     render: () ->
       console.log('render slider')
-      console.log(JSON.stringify(this.model.toJSON()))
       if this.model.get('words').length is 0
         this.$el.html('<div class="noResults">No words to study!</div>')
       else

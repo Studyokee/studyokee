@@ -4,8 +4,8 @@ define [
 ], (VocabularySliderModel, Backbone) ->
   VocabularyModel = Backbone.Model.extend(
     defaults:
-      knownCount: 0
-      unknownCount: 0
+      known: []
+      unknown: []
 
     initialize: () ->
       this.vocabularySliderModel = new VocabularySliderModel()
@@ -29,8 +29,8 @@ define [
             sortedWords = this.sortWords(res.words)
 
             this.set(
-              knownCount: sortedWords.known.length
-              unknownCount: sortedWords.unknown.length
+              known: sortedWords.known
+              unknown: sortedWords.unknown
             )
             this.vocabularySliderModel.set(
               rawWords: sortedWords.unknown
@@ -54,8 +54,8 @@ define [
             sortedWords = this.sortWords(res.words)
 
             this.set(
-              knownCount: sortedWords.known.length
-              unknownCount: sortedWords.unknown.length
+              known: sortedWords.known
+              unknown: sortedWords.unknown
             )
             this.trigger('vocabularyUpdate', res.words)
         error: (err) =>
