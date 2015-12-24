@@ -28,6 +28,8 @@ requirejs.config(
     'songs.data.provider':
       '/lib/songs-data-provider'
     'pagination.view': '/lib/pagination/pagination-view'
+    'vocabulary.view': 'lib/vocabulary/vocabulary-view'
+    'vocabulary.model': 'lib/vocabulary/vocabulary-model'
     #media
     'subtitles.scroller.view': '/lib/media/subtitles-scroller/subtitles-scroller-view'
     'subtitles.scroller.model': '/lib/media/subtitles-scroller/subtitles-scroller-model'
@@ -48,10 +50,10 @@ requirejs.config(
     'add.song.view': '/lib/media/add-song/add-song-view'
     'add.song.model': '/lib/media/add-song/add-song-model'
     #vocab metrics
-    'vocabulary.view': 'lib/vocabulary-metrics/vocabulary/vocabulary-view'
-    'vocabulary.model': 'lib/vocabulary-metrics/vocabulary/vocabulary-model'
     'vocabulary.list.view': 'lib/vocabulary-metrics/vocabulary-list/vocabulary-list-view'
     'vocabulary.list.model': 'lib/vocabulary-metrics/vocabulary-list/vocabulary-list-model'
+    'vocabulary.metrics.view': 'lib/vocabulary-metrics/vocabulary-metrics/vocabulary-metrics-view'
+    'vocabulary.metrics.model': 'lib/vocabulary-metrics/vocabulary-metrics/vocabulary-metrics-model'
     #voggles
     'dictionary.view': 'lib/voggles/dictionary/dictionary-view'
     'dictionary.model': 'lib/voggles/dictionary/dictionary-model'

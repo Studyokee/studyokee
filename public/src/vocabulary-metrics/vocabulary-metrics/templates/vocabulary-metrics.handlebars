@@ -1,0 +1,14 @@
+<div class="progressSection">
+    <h5>Level: {{currentLevel.label}}</h5>
+    Next Level: {{nextLevel.label}}<br>
+    <b>{{known.length}}/{{nextLevel.count}} words</b>
+    <div class="progress">
+      <a href="#known" title="Words Learned"><div class="progress-bar knownProgress"></div></a>
+      <a href="#unknown" class="progress-striped" title="Words to Study"><div class="progress-bar progress-bar-success unknownProgress"></div></a>
+      <div class="progress-bar remainingProgress" style="width: 0%;"></div>
+    </div>
+</div>
+<ul class="nav nav-pills nav-stacked">
+    <li><a href="#unknown" title="Words to Study"><span class="badge">{{unknown.length}}</span> words to study</a></li>
+    <li><a href="#known" title="Words Learned"><span class="badge learned">{{known.length}}</span> words learned</a></li>
+</ul>

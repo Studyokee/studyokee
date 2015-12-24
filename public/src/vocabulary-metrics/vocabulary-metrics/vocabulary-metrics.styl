@@ -1,0 +1,27 @@
+.vocabulary-metrics {
+    .progress {
+        height: 20px;
+
+        .progress-bar:last-child {
+            border-radius: 0;
+        }
+        .progress-bar.knownProgress {
+            background-color: $knownColor;
+        }
+        .progress-bar.unknownProgress {
+            background-color: $unknownColor;
+        }
+        .progress-bar.remainingProgress {
+            background-color: $knownColor;
+        }
+    }
+    .badge {
+        background-color: $unknownColor;
+    }
+    .badge.learned {
+        background-color: $knownColor;
+    }
+    .vocabLink {
+        text-transform: uppercase;
+    }
+}

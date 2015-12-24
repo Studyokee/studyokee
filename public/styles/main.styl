@@ -8,6 +8,8 @@ $textSubdued = #94999c
 $textTranslation = #A63A37
 $linkColor = #008fd5
 $borderNormal = 1px solid #e1e6e9
+$unknownColor = #4caf50
+$knownColor = #2196f3
 
 a {
     cursor: pointer;
@@ -79,8 +81,12 @@ body {
         .panel-default>.panel-heading {
             background-color: #fff;
         }
+        .btn {
+            padding: 2px 20px;
+        }
     }
 }
+
 
 @import '../src/media-item/media-item';
 @import '../src/media-item-list/media-item-list';
@@ -88,6 +94,7 @@ body {
 @import '../src/home/home';
 @import '../src/header/header';
 @import '../src/pagination/pagination';
+@import '../src/vocabulary/vocabulary';
 
 @import '../src/media/youtube/youtube-main/youtube-main';
 @import '../src/media/youtube/youtube-player/youtube-player';
@@ -103,7 +110,7 @@ body {
 @import '../src/curation/classrooms/classrooms';
 @import '../src/curation/classroom-preview/classroom-preview';
 
-@import '../src/vocabulary-metrics/vocabulary/vocabulary';
 @import '../src/vocabulary-metrics/vocabulary-list/vocabulary-list';
+@import '../src/vocabulary-metrics/vocabulary-metrics/vocabulary-metrics';
 
 @import '../src/vocabulary-study/vocabulary-slider/vocabulary-slider';

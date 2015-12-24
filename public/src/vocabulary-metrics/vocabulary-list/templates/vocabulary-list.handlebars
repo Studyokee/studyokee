@@ -1,5 +1,12 @@
 <div class="panel panel-default col-lg-12">
-    <div class="panel-heading"><h4>{{title}}</h4></div>
+    <div class="panel-heading">
+        <h4>{{title}}</h4>
+        {{#if link}}
+        <a href="#{{link}}" class="btn btn-primary" title="Study">
+            <span class="buttonText">Study</span>
+        </a>
+        {{/if}}
+    </div>
     <div class="panel-body">
         <ul>
             {{#each words}}

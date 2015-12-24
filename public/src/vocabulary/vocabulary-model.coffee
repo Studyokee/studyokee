@@ -28,6 +28,11 @@ define [
           if res?.words?
             sortedWords = this.sortWords(res.words)
 
+            ###for i in [0..900]
+              sortedWords.known.push({})
+            for j in [0..600]
+              sortedWords.unknown.push({})###
+
             this.set(
               known: sortedWords.known
               unknown: sortedWords.unknown
