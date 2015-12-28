@@ -11,6 +11,14 @@
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li><a href="/" class="openClassrooms">Home</a></li>
+                <li class="dropdown selectLanguage">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classrooms <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {{#each classrooms}}
+                            <li><a href="/classrooms/{{classroomId}}">{{name}}</a></li>
+                        {{/each}}
+                    </ul>
+                </li>
                 <li class="vocabulary-link"><a href="/vocabulary/{{fromLanguage}}/{{toLanguage}}" class="vocabulary">Vocabulary <span class="badge" {{#unless vocabularyCount}}style="display:none;"{{/unless}}>{{vocabularyCount}}</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -4,6 +4,7 @@ define [
   HeaderModel = Backbone.Model.extend(
     defaults:
       vocabularyCount: 0
+      classrooms: []
 
     initialize: () ->
       this.set(
@@ -19,6 +20,7 @@ define [
       )
 
       this.getVocabularyCount()
+      this.getClassrooms()
       
 
     getVocabularyCount: () ->
@@ -46,6 +48,21 @@ define [
         if not word.known
           unknownCount++
       return unknownCount
+
+    getClassrooms: () ->
+      url = '/api/classrooms/page/' + this.get('settings').get('fromLanguage').language
+      $.ajax(
+        type: 'GET'
+        url: url
+        dataType: 'json'
+        success: (res) =>
+          this.set(
+            classrooms: res.page
+          )
+
+        error: (err) =>
+          console.log('Error: ' + err)
+      )
   )
 
   return HeaderModel
