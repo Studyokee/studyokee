@@ -134,18 +134,13 @@ define [
 
     toggleTranslation: () ->
       console.log('SUBTITLES CONTROL TOGGLE TRANSLATION')
-      toggleButton = this.$('.toggle-translation')
-      toggleIcon = this.$('.toggle-translation .glyphicon')
-      if toggleIcon.hasClass('glyphicon-eye-close')
-        this.trigger('hideTranslation')
-        toggleIcon.removeClass('glyphicon-eye-close')
-        toggleIcon.addClass('glyphicon-eye-open')
-        toggleButton.prop('title', 'Show Translation')
+      this.trigger('toggleTranslation')
+
+      toggleTranslationButton = this.$('.toggle-translation')
+      if (toggleTranslationButton.hasClass('active'))
+        toggleTranslationButton.removeClass('active')
       else
-        this.trigger('showTranslation')
-        toggleIcon.addClass('glyphicon-eye-close')
-        toggleIcon.removeClass('glyphicon-eye-open')
-        toggleButton.prop('title', 'Hide Translation')
+        toggleTranslationButton.addClass('active')
 
     enableButtons: () ->
       this.$('.toStart').on('click', () =>
@@ -160,8 +155,10 @@ define [
         this.togglePresentationMode())
       this.$('.toggle-video').on('click', () =>
         this.toggleVideo())
-      this.$('.toggle-translation').on('click', () =>
-        this.toggleTranslation())
+      this.$('.toggle-translation').on('click', (event) =>
+        this.toggleTranslation()
+        event.preventDefault())
+
 
     onKeyDown: (event) ->
       if event.which is 49

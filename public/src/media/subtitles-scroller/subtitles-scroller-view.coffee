@@ -46,16 +46,6 @@ define [
           view.trigger('lookup', query)
         )
 
-        this.$('.in-english').on('mouseover', (event) ->
-          $(this).closest('.list-group-item').find('.rollover-mask').show()
-        )
-        this.$('.in-english').on('mouseout', (event) ->
-          $(this).closest('.list-group-item').find('.rollover-mask').hide()
-        )
-        this.$('.in-english').on('click', (event) ->
-          view.trigger('toggle')
-        )
-
         this.onPositionChange()
 
       return this

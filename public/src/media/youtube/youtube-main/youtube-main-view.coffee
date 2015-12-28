@@ -38,6 +38,15 @@ define [
         this.subtitlesScrollerView.trigger('sizeChange')
       )
 
+      this.youtubePlayerView.on('toggleTranslation', () =>
+        scrollerEl = this.$el.find('.subtitles-scroller')
+        if (scrollerEl.hasClass('show-translation'))
+          scrollerEl.removeClass('show-translation')
+        else
+          scrollerEl.addClass('show-translation')
+
+      )
+
     render: () ->
       this.$el.html(Handlebars.templates['youtube-main'](this.model.toJSON()))
 

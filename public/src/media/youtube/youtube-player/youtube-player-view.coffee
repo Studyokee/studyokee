@@ -30,11 +30,8 @@ define [
       this.subtitlesControlsView.on('showVideo', () =>
         this.$('.video-container').show()
       )
-      this.subtitlesControlsView.on('hideTranslation', () =>
-        $('.translated-subtitle').css('visibility', 'hidden')
-      )
-      this.subtitlesControlsView.on('showTranslation', () =>
-        $('.translated-subtitle').css('visibility', 'visible')
+      this.subtitlesControlsView.on('toggleTranslation', () =>
+        this.trigger('toggleTranslation')
       )
 
     render: () ->
