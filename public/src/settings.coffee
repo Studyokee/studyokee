@@ -18,8 +18,8 @@ define [
       fromLanguage: fromLanguages[0]
       user:
         id: ''
-        photo: ''
-        displayName: ''
+        firstName: ''
+        admin: false
       supportedLanguages: fromLanguages
 
     setFromLangauge: (language) ->

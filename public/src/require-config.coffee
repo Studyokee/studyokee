@@ -63,7 +63,7 @@ requirejs.config(
     'edit.songs.model': 'lib/curation/edit-songs/edit-songs-model'
     'create.classroom.view': 'lib/curation/create-classroom/create-classroom-view'
     'create.classroom.model': 'lib/curation/create-classroom/create-classroom-model'
-    'edit.classroom.view': 'lib/vedit-classroom/edit-classroom-view'
+    'edit.classroom.view': 'lib/curation/edit-classroom/edit-classroom-view'
     'edit.classroom.model': 'lib/curation/edit-classroom/edit-classroom-model'
     'classroom.view': 'lib/curation/classroom/classroom-view'
     'classroom.model': 'lib/curation/classroom/classroom-model'

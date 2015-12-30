@@ -31,8 +31,7 @@ require [
   dataDom = $('#data-dom')
   user =
     id: dataDom.attr('data-user-id')
-    displayName: dataDom.attr('data-user-display-name')
-    photo: dataDom.attr('data-user-photo')
+    admin: dataDom.attr('data-user-admin')
     firstName: dataDom.attr('data-user-first-name')
 
   settings = new Settings(

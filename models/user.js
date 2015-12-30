@@ -7,7 +7,8 @@ var User;
 
 var userSchema = mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    admin: Boolean
 });
 
 /*function findOne (query) {

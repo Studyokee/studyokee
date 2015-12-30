@@ -31,7 +31,8 @@ module.exports = function(passport){
         };
         data.user = {
             id: req.user ? req.user._id : '',
-            firstName: req.user ? req.user.username : ''
+            firstName: req.user ? req.user.username : '',
+            admin: req.user ? req.user.admin : false
         };
         res.render('base', data);
     });
@@ -54,7 +55,8 @@ module.exports = function(passport){
         };
         data.user = {
             id: req.user ? req.user._id : '',
-            firstName: req.user ? req.user.username : ''
+            firstName: req.user ? req.user.username : '',
+            admin: req.user ? req.user.admin : false
         };
         res.render('base', data);
     });
@@ -73,7 +75,8 @@ module.exports = function(passport){
             };
             data.user = {
                 id: req.user ? req.user._id : '',
-                firstName: req.user ? req.user.username : ''
+                firstName: req.user ? req.user.username : '',
+                admin: req.user ? req.user.admin : false
             };
             res.render('base', data);
         }

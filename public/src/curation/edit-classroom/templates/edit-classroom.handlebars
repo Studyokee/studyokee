@@ -1,49 +1,51 @@
-<div class="col-lg-6 editClassroom">
-    <form>
-        <fieldset>
-            <legend>Edit Classroom 
-                <a href="/classrooms/{{data.classroomId}}" class="btn btn-primary btn-xs viewClassroom">view</a>
-                <a href="/" class="btn btn-primary btn-xs deleteClassroom">delete</a>
-            </legend>
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label for="name" class="col-lg-6 control-label">Name</label>
-                    <div class="col-lg-6">
-                        <input type="text" id="name" class="form-control" placeholder="{{data.name}}" value="{{data.name}}" readonly>
+<div class="col-lg-6 editClassroom panel panel-default">
+    <div class="panel-body">
+        <form>
+            <fieldset>
+                <legend>Edit Classroom 
+                    <a href="/classrooms/{{data.classroomId}}" class="btn btn-primary btn-xs viewClassroom">view</a>
+                    <a href="/" class="btn btn-primary btn-xs deleteClassroom">delete</a>
+                </legend>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="col-lg-6 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input type="text" id="name" class="form-control" placeholder="{{data.name}}" value="{{data.name}}" readonly>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="language" class="col-lg-6 control-label">Language Being Taught</label>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control" id="language" placeholder="{{data.language}}" value="{{data.language}}" readonly>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-    <div>
-        <label class="control-label">Add Song</label>
-        <div class="input-group addSongSection">
-            <input type="text" class="form-control" id="searchSongs" placeholder="Search by artist or title" autocomplete="off">
-            <span class='separatingText'> or </span>
-            <button class="btn btn-primary addNewSong">Add New Song</button>
-            <div class="songSearchListContainer" style="display:none;"></div>
-            <div class="addNewSongModal" style="display:none;">
-                <div class="modal fade in">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close closeAddSongModal" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title">Create Song</h4>
-                            </div>
-                            <div class="modal-body addNewSongContainer"></div>
+                    <div class="form-group">
+                        <label for="language" class="col-lg-6 control-label">Language Being Taught</label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" id="language" placeholder="{{data.language}}" value="{{data.language}}" readonly>
                         </div>
                     </div>
                 </div>
-                <div class="modal-backdrop fade in"></div>
+            </fieldset>
+        </form>
+        <div>
+            <label class="control-label">Add Song</label>
+            <div class="input-group addSongSection">
+                <input type="text" class="form-control" id="searchSongs" placeholder="Search by artist or title" autocomplete="off">
+                <span class='separatingText'> or </span>
+                <button class="btn btn-primary addNewSong">Add New Song</button>
+                <div class="songSearchListContainer" style="display:none;"></div>
+                <div class="addNewSongModal" style="display:none;">
+                    <div class="modal fade in">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close closeAddSongModal" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title">Create Song</h4>
+                                </div>
+                                <div class="modal-body addNewSongContainer"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-backdrop fade in"></div>
+                </div>
             </div>
         </div>
+        <h3>Songs <span class="songCount"></span></h3>
+        <div class="songListContainer col-lg-8"></div>
     </div>
-    <h3>Songs <span class="songCount"></span></h3>
-    <div class="songListContainer col-lg-8"></div>
 </div>

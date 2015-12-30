@@ -51,8 +51,8 @@ define [
         Backbone.history.navigate('classrooms/' + this.model.get('data')?.classroomId + '/edit', {trigger: true})
         e.preventDefault()
       )
-
-      if this.model.get('settings')?.get('user')?.id is this.model.get('data')?.createdById
+      
+      if (this.model.get('settings')?.get('user')?.id is this.model.get('data')?.createdById) or this.model.get('settings')?.get('user')?.admin?
         this.$('.editClassroom').show()
 
       return this
