@@ -39,7 +39,7 @@ define [
       console.log('render header')
       this.$el.html(Handlebars.templates['header'](this.model.toJSON()))
 
-      this.$('.createClassroom').on('click', (event) =>
+      ###this.$('.createClassroom').on('click', (event) =>
         Backbone.history.navigate('classrooms/create', {trigger: true})
         event.preventDefault()
       )
@@ -58,7 +58,7 @@ define [
       this.$('.login').on('click', (event) =>
         document.location = '/auth/facebook?callbackURL=' + Backbone.history.location.pathname
         event.preventDefault()
-      )
+      )###
 
       ###view = this
       this.$('.selectLanguage .dropdown-menu a').on('click', (event) ->

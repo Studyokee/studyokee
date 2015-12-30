@@ -92,7 +92,10 @@ module.exports = function (grunt) {
                 },
                 options: {
                     'max_line_length': {
-                        level: 'warn'
+                        level: 'ignore'
+                    },
+                    'no_unnecessary_fat_arrows': {
+                        level: 'ignore'
                     }
                 }
             }

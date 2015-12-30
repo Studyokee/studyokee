@@ -14,7 +14,6 @@ app.use(function (req, res, next) {
         next();
     }
 });
-app.use(express.json());
 app.use('/songs', require('./songs'));
 app.use('/dictionary', require('./dictionary'));
 app.use('/classrooms', require('./classrooms'));

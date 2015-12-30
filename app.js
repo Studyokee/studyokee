@@ -4,92 +4,44 @@ var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOHQ_URL);
 
 var express = require('express');
+var favicon = require('static-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var app = express();
-var User = require('./models/user');
+
+app.use(favicon());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
 
 var passport = require('passport');
-var FacebookStrategy = require('passport-facebook').Strategy;
+//http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619
 
-app.use(express.logger());
-app.use(express.cookieParser());
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.session({ secret: 'keyboard cat' }));
+var expressSession = require('express-session');
+app.use(expressSession({secret: 'mySecretKey'}));
+
 app.use(express.static(__dirname + '/public'));
+
+app.set('views', __dirname + '/app/ui/views');
+app.set('view engine', 'ejs');
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new FacebookStrategy({
-        clientID: process.env.FACEBOOK_APP_ID,
-        clientSecret: process.env.FACEBOOK_APP_SECRET,
-        callbackURL: process.env.URL + '/auth/facebook/callback',
-        profileFields: ['id', 'displayName', 'photos', 'name']
-    },
-    function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ facebookId: profile.id }).then(function (user) {
-            var photo = '';
-            if (profile.photos && profile.photos.length > 0) {
-                photo = profile.photos[0].value;
-            }
-            var displayName = profile.displayName;
-            var firstName = profile.name.givenName;
-
-            var updates = {};
-            updates.photo = photo;
-            updates.displayName = displayName;
-            updates.firstName = firstName;
-            user.update(updates);
-
-            user.photo = photo;
-            user.displayName = displayName;
-            user.firstName = firstName;
-
-            return done(null, user);
-        });
-    })
-);
-
-passport.serializeUser(function(user, done) {
-    console.log('serialiaze user: ' + JSON.stringify(user));
-    done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-    console.log('deserialiaze user: ' + JSON.stringify(user));
-    //returns a q promise
-    done(null, user);
-});
-
-app.get('/auth/facebook',
-    function(req, res, next) {
-        req.session.redirectUrl = req.query.callbackURL;
-        next();
-    },
-    passport.authenticate('facebook'),
-    function(){}
-    // The request will be redirected to Facebook for authentication, so this
-    // function will not be called.
-);
-
-app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
-    function(req, res) {
-        var callbackURL = req.session.redirectUrl;
-        if (!callbackURL) {
-            callbackURL = '/';
-        }
-        res.redirect(callbackURL);
-    }
-);
-
-app.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
-});
+// Using the flash middleware provided by connect-flash to store messages in session
+// and displaying in templates
+var flash = require('connect-flash');
+app.use(flash());
 
 app.use('/api', require('./app/api'));
-app.use(require('./app/ui'));
+// Initialize Passport
+var initPassport = require('./app/passport/init');
+initPassport(passport);
+
+var routes = require('./app/ui/routes')(passport);
+app.use('/', routes);
 
 app.use(function (req, res) {
     res.send(404);

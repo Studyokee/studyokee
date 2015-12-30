@@ -17,7 +17,8 @@ require [
       'classrooms/:id': 'viewClassroom'
       'vocabulary/:from/:to': 'vocabulary'
       'login': 'login'
-      '*actions': 'defaultRoute'
+      'signup': 'signup'
+      '*actions': 'getClassrooms'
     execute: (callback, args) ->
       # cleanup keyboard events
       window.subtitlesControlsTeardown?()
@@ -172,6 +173,16 @@ require [
   appRouter.on('route:login', () ->
     require(['login.view'], (LoginView) ->
       this.view = new LoginView(
+        model: settings
+      )
+      homeHeaderView.setElement($('#skee header')).render()
+      this.view.setElement($('#skee .main')).render()
+      footerView.setElement($('#skee footer')).render()
+    )
+  )
+  appRouter.on('route:signup', () ->
+    require(['signup.view'], (SignupView) ->
+      this.view = new SignupView(
         model: settings
       )
       homeHeaderView.setElement($('#skee header')).render()

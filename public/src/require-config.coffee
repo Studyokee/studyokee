@@ -21,6 +21,7 @@ requirejs.config(
     'header.model': 'lib/header/header-model'
     'footer.view': 'lib/footer/footer-view'
     'login.view': 'lib/login/login-view'
+    'signup.view': 'lib/signup/signup-view'
     'media.item.view': 'lib/media-item/media-item-view'
     'media.item.list.view': '/lib/media-item-list/media-item-list-view'
     'media.item.list.model': '/lib/media-item-list/media-item-list-model'
