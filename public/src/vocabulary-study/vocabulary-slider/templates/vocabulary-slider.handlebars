@@ -9,23 +9,15 @@
 </div>
 
 <div class="toStudy">
-    <ul class="cards panel">
+    <ul class="cards panel panel-default">
         {{#each words}}
-            <li class="card">
-                <div class="wordOrPhrase">{{this.wordOrPhrase}}</div>
+            <li class="card panel-body">
+                <div class="wordOrPhrase">{{word}}</div>
                 <div class="definitions" {{#unless ../showDefinition}}style="visibility:hidden;"{{/unless}}>
-                    <ul class="definitions">
-                        {{#each definition}}
-                            <li>
-                                <span>{{#each definition}}{{#if @index}},&nbsp;{{/if}}<b>{{this}}</b>{{/each}}</span>,&nbsp;<i class="wordType">{{partOfSpeech}}</i>
-                                {{#if context}}
-                                    <div>
-                                        <i>{{context}}</i>
-                                    </div>
-                                {{/if}}
-                            </li>
-                        {{/each}}
-                    </ul>
+                    <p>
+                        <b>{{def}}</b>,&nbsp;<i class="wordType">{{part}}</i>
+                    </p>
+                    <p><b>ex.</b> {{example}}</p>
                 </div>
             </li>
         {{/each}}

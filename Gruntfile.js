@@ -106,7 +106,8 @@ module.exports = function (grunt) {
                     '**/*.js',
                     '!node_modules/**/*.js',
                     '!public/**/*.js',
-                    '!test/public/require-config.js'
+                    '!test/public/require-config.js',
+                    '!assets/*.js'
                 ],
                 options: {
                     jshint: {

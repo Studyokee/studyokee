@@ -28,11 +28,6 @@ define [
           if res?.words?
             sortedWords = this.sortWords(res.words)
 
-            ###for i in [0..900]
-              sortedWords.known.push({})
-            for j in [0..600]
-              sortedWords.unknown.push({})###
-
             this.set(
               known: sortedWords.known
               unknown: sortedWords.unknown
@@ -52,7 +47,7 @@ define [
         type: 'PUT'
         url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage + '/remove'
         data:
-          wordOrPhrase: word
+          word: word
         success: (res) =>
           console.log('Removed Word')
           if res?.words?

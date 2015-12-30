@@ -24,7 +24,7 @@ app.get('/:userId/:fromLanguage/:toLanguage', function (req, res) {
 // curl -H 'Content-Type: application/json' -X PUT -d '{"wordOrPhrase":"test"}' http://localhost:3000/api/vocabulary/5423ae3aca15c0d114000004/remove
 app.put('/:userId/:fromLanguage/:toLanguage/remove', function (req, res) {
     q.resolve().then(function () {
-        return Vocabulary.removeWordOrPhrase(req.params, req.body.wordOrPhrase);
+        return Vocabulary.removeWord(req.params, req.body.word);
     }).then(function (vocabulary) {
         res.json(200, vocabulary);
     }).fail(function (err) {
@@ -37,7 +37,7 @@ app.put('/:userId/:fromLanguage/:toLanguage/remove', function (req, res) {
 // curl -H 'Content-Type: application/json' -X PUT -d '{"wordOrPhrase":"test", "definition":"test2"}' http://localhost:3000/api/vocabulary/5406262930df1d0000000003/es/en/add
 app.put('/:userId/:fromLanguage/:toLanguage/add', function (req, res) {
     q.resolve().then(function () {
-        return Vocabulary.addWordOrPhrase(req.params, req.body.wordOrPhrase, req.body.definition);
+        return Vocabulary.addWord(req.params, req.body.word);
     }).then(function (vocabulary) {
         res.json(200, vocabulary);
     }).fail(function (err) {

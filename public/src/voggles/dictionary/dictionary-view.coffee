@@ -8,11 +8,13 @@ define [
     
     initialize: () ->
       this.listenTo(this.model, 'change', () =>
-        this.renderLookup()
+        this.render()
       )
 
+      this.inputOpen = false
+
     render: () ->
-      this.$el.html(Handlebars.templates['dictionary']())
+      this.$el.html(Handlebars.templates['dictionary'](this.model.toJSON()))
 
       this.$('.close').on('click', () =>
         this.trigger('close')
@@ -25,25 +27,14 @@ define [
       )
 
       this.$('.toggleSearch').on('click', () =>
+        this.inputOpen = !this.inputOpen
         this.$('.search').fadeToggle(200)
       )
 
+      if this.inputOpen
+        this.$('.search').show()
+
       return this
-
-    renderLookup: () ->
-      if this.model.get('isLoading')
-        this.$('.lookup').html(Handlebars.templates['spinner']())
-      else
-        originalTerm = this.model.get('originalTerm')
-
-        if not originalTerm
-          this.$('.lookup').html(Handlebars.templates['no-dictionary-results']())
-        else
-          if this.model.get('lookup')?
-            if this.model.get('translationType') is 'mw'
-              this.$('.lookup').html(Handlebars.templates['mw-definition'](this.model.toJSON()))
-            else
-              this.$('.lookup').html(Handlebars.templates['api-reference-definition'](this.model.toJSON()))
 
   )
 

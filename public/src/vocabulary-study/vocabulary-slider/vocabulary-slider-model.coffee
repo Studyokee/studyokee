@@ -27,7 +27,7 @@ define [
           index: index % words.length #if last word is removed
         )
         this.trigger('change')
-        this.trigger('removeWord', word.wordOrPhrase)
+        this.trigger('removeWord', word.word)
 
     getRandomOrder: (array) ->
       order = []

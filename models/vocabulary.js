@@ -19,8 +19,10 @@ var vocabularySchema = mongoose.Schema({
         required: true
     },
     words: [{
-        wordOrPhrase: String,
-        definition: Object,
+        word: String,
+        def: String,
+        part: String,
+        example: String,
         known: Boolean
     }]
 });
@@ -40,24 +42,31 @@ function save (saveObj) {
     });
 }
 
-function getIndex (words, wordOrPhrase) {
+function getIndex (words, word) {
     for (var i = 0; i < words.length; i++) {
-        if (words[i].wordOrPhrase === wordOrPhrase) {
+        if (words[i].word === word) {
             return i;
         }
     }
     return -1;
 }
 
-vocabularySchema.static('addWordOrPhrase', function(query, wordOrPhrase, definition) {
+vocabularySchema.static('addWord', function(query, word) {
     var toReturn = null;
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         toReturn = vocabulary;
-        if (getIndex(vocabulary.words, wordOrPhrase) === -1) {
-            console.log('inserted new vocab: ' + wordOrPhrase);
-            vocabulary.words.push({wordOrPhrase: wordOrPhrase, definition: definition});
+        if (getIndex(vocabulary.words, word) === -1) {
+            var toInsert = {
+                word: word.word,
+                def: word.def,
+                example: word.example,
+                part: word.part,
+                known: false
+            };
+            console.log('inserted new vocab: ' + JSON.stringify(toInsert, null, 4));
+            vocabulary.words.push(toInsert);
 
             var updates = {
                 words: vocabulary.words
@@ -74,13 +83,13 @@ vocabularySchema.static('addWordOrPhrase', function(query, wordOrPhrase, definit
     });
 });
 
-vocabularySchema.static('removeWordOrPhrase', function(query, wordOrPhrase) {
+vocabularySchema.static('removeWord', function(query, word) {
     var toReturn = null;
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         toReturn = vocabulary;
-        var i = getIndex(vocabulary.words, wordOrPhrase);
+        var i = getIndex(vocabulary.words, word);
         vocabulary.words[i].known = true;
 
         var updates = {
