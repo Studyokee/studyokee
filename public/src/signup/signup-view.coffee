@@ -45,6 +45,8 @@ define [
           redirectUrl = '/'
           if params.redirectUrl?
             redirectUrl = params.redirectUrl
+          this.setCookie('username', username)
+          this.setCookie('password', password)
           document.location = redirectUrl
         error: (err) =>
           console.log('Error: ' + err.responseText)
