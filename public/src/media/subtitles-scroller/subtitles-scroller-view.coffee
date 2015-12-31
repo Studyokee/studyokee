@@ -26,6 +26,9 @@ define [
       this.on('sizeChange', () =>
         this.onPositionChange()
       )
+      this.model.on('highlightUpdate', () =>
+        this.render()
+      )
 
     render: () ->
       subtitles = this.model.get('subtitles')
@@ -66,8 +69,17 @@ define [
         if translation? and translation[i]?
           translationLine = translation[i]
 
-        regex = /([ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇŒœßØøÅåÆæÞþÐð\w]+)/g
-        originalText = original[i].text.replace(regex, '<a href="javaScript:void(0);">$1</a>')
+        originalText = ''
+        # get all words
+        regex = /([ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇŒœßØøÅåÆæÞþÐð\w]+)/gi
+        words = original[i].text.match(regex)
+        if not words?
+          words = []
+          originalText = original[i].text
+        else
+          for word in words
+            tag = this.getTag(word)
+            originalText += '<a href="javaScript:void(0);" class="' + tag + '">' + word + '</a>&nbsp;'
 
         data.push(
           original: originalText
@@ -76,6 +88,27 @@ define [
         )
 
       return data
+
+    getTag: (word) ->
+      known = this.model.get('known')
+      unknown = this.model.get('unknown')
+      # add links
+      # highlight known vocabulary words with blue
+      # highlight unknown vocabulary words with green
+      lower = word.toLowerCase()
+      if known[lower]?
+        return'known'
+      else if unknown[lower]?
+        return 'unknown'
+
+      #stemming
+      ###if lower.length > 2
+        if known[lower.substr(0, word.length-1) + 'a']? or known[lower.substr(0, word.length-1) + 'o']?
+          return'known'
+        else if unknown[word.substr(0, lower.length-1) + 'a']? or unknown[lower.substr(0, word.length-1) + 'o']?
+          return 'unknown'###
+
+      return ''
 
     getLength: () ->
       subtitles = this.model.get('subtitles')

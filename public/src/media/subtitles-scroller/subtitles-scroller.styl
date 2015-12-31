@@ -30,12 +30,40 @@
         .translated-subtitle {
             color: #dddddd;
         }
+    
     }
     .list-group-item {
         border: none;
         border-radius: 4px;
         text-align: center;
-        padding: 16px 15px;
+        padding: 12px 15px;
+
+        .original-subtitle {
+            height: 32px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #666666;
+        }
+        a.known, a.unknown {
+            display: inline-block;
+            padding: 4px 10px;
+            color: #fff;
+        }
+        a.known {
+            background-color: $knownColor;
+        }
+        a.unknown {
+            background-color: $unknownColor;
+        }
+        a.unknown:hover, a.known:hover {
+            opacity: 1;
+            color: #fff;
+        }
+        a:hover {
+            color: #2196f3;
+        }
     }
 
     .no-subtitles {
@@ -43,15 +71,7 @@
         text-align: center;
     }
     .subtitles li {
-        line-height: 32px;
         overflow: hidden;
         white-space: nowrap;
-    }
-    .subtitles a {
-        text-decoration: none;
-        color: #666666;
-    }
-    .subtitles a:hover {
-        color: #2196f3;
     }
 }

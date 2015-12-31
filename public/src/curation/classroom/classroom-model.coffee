@@ -24,6 +24,7 @@ define [
 
       this.dictionaryModel.on('vocabularyUpdate', (words) =>
         this.trigger('vocabularyUpdate', words)
+        this.mainModel.trigger('vocabularyUpdate', words)
       )
 
       this.getClassroom()

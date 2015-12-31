@@ -5,6 +5,7 @@ var app = express();
 var q = require('q');
 
 var Word = require('../../../models/word');
+//var endings = ['a','o','as','os','es'];
 
 app.get('/:fromLanguage/:toLanguage', function (req, res) {
     q.resolve().then(function () {
@@ -21,6 +22,22 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
         return Word.find({word: req.query.word.toLowerCase(),
             fromLanguage: req.params.fromLanguage,
             toLanguage: req.params.toLanguage});
+    /*}).then(function (words) {
+        // check stem if we found nothing
+        var str = req.query.word;
+        if (words && words.length ===0 && str.length > 2) {
+            for (var i = 0; i < endings.length; i++) {
+                var suffix = endings[i];
+                // ends with ending
+                var start = str.indexOf(suffix, str.length - suffix.length);
+                if (start !== -1) {
+                    return Word.find({wordStem: str.substr(0, start),
+                        fromLanguage: req.params.fromLanguage,
+                        toLanguage: req.params.toLanguage});
+                }
+            }
+        }
+        return q.resolve(words);*/
     }).then(function (words) {
         res.json(200, words);
     }).fail(function (err) {
@@ -34,8 +51,6 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
 app.post('/add', function (req, res) {
     q.resolve().then(function () {
         var words = req.body.words;
-
-        console.log('test1:' + JSON.stringify(words, null, 4));
         return Word.create(words);
     }).then(function (words) {
         console.log('test2');

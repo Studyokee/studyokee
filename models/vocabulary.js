@@ -44,7 +44,7 @@ function save (saveObj) {
 
 function getIndex (words, word) {
     for (var i = 0; i < words.length; i++) {
-        if (words[i].word === word) {
+        if (words[i].word === word.toLowerCase()) {
             return i;
         }
     }
@@ -57,7 +57,7 @@ vocabularySchema.static('addWord', function(query, word) {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         toReturn = vocabulary;
-        if (getIndex(vocabulary.words, word) === -1) {
+        if (getIndex(vocabulary.words, word.word) === -1) {
             var toInsert = {
                 word: word.word,
                 def: word.def,

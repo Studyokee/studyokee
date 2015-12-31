@@ -12,11 +12,17 @@ define [
         settings: this.get('settings')
       )
 
-      this.subtitlesScrollerModel = new SubtitlesScrollerModel()
+      this.subtitlesScrollerModel = new SubtitlesScrollerModel(
+        settings: this.get('settings')
+      )
       this.listenTo(this.youtubePlayerModel, 'change:i', () =>
         this.subtitlesScrollerModel.set(
           i: this.youtubePlayerModel.get('i')
         )
+      )
+
+      this.on('vocabularyUpdate', (words) =>
+        this.subtitlesScrollerModel.trigger('vocabularyUpdate', words)
       )
 
       this.on('changeSong', (song) =>

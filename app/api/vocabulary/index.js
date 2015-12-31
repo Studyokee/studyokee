@@ -37,6 +37,10 @@ app.put('/:userId/:fromLanguage/:toLanguage/remove', function (req, res) {
 // curl -H 'Content-Type: application/json' -X PUT -d '{"wordOrPhrase":"test", "definition":"test2"}' http://localhost:3000/api/vocabulary/5406262930df1d0000000003/es/en/add
 app.put('/:userId/:fromLanguage/:toLanguage/add', function (req, res) {
     q.resolve().then(function () {
+        if (!req.body.word) {
+            return q.reject('No word provided');
+        }
+
         return Vocabulary.addWord(req.params, req.body.word);
     }).then(function (vocabulary) {
         res.json(200, vocabulary);

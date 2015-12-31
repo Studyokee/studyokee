@@ -9,6 +9,10 @@ var wordSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    stem: {
+        type: String,
+        required: true
+    },
     fromLanguage: {
         type: String,
         required: true

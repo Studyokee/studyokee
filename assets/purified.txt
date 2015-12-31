@@ -1,4 +1,5 @@
-1=el, la=art=the=esa mujer era la mujer que yo quería ser
+1=el=art=the=eso hombre era el hombre que yo quería ser
+1=la=art=the=esa mujer era la mujer que yo quería ser
 2=de=prep=of, from=el hijo de un hermano mío
 3=que=conj=that, which=dice que no
 4=y=conj=and=él y ella sabían leer y escribir

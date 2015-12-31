@@ -60,6 +60,21 @@ var mO = function(raw) {
             var word = {};
             word.rank = $.trim(subParts[0]);
             word.word = $.trim(subParts[1]);
+            word.stem = word.word;
+            // stemming
+            var endings = ['a','o','as','os','es'];
+            if (word.word.length > 2) {
+                for (var k = 0; k < endings.length; k++) {
+                    var suffix = endings[k];
+                    // ends with ending
+                    var start = str.indexOf(suffix, str.length - suffix.length);
+                    if (start !== -1) {
+                        // has stem ending, strip down to stem and use that 
+                        word.stem = str.substr(0, start);
+                    }
+                }
+            }
+
             word.part = $.trim(subParts[2]);
             word.def = $.trim(subParts[3]);
             word.example = $.trim(subParts[4]);
