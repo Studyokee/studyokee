@@ -24,6 +24,10 @@ var songSchema = mongoose.Schema({
     translations: [{
         language: String,
         data: [String]
+    }],
+    resolutions: [{
+        word: String,
+        resolution: String
     }]
 });
 
@@ -45,7 +49,7 @@ function save (saveObj) {
 songSchema.methods.getTranslation = function(toLanguage) {
     var song = this;
     return q.resolve().then(function () {
-        var translation = songHelpers.getTranslationByLanguageFromArray(song.translations, toLanguage);
+        var translation = songHelpers.getByLanguageFromArray(song.translations, toLanguage);
 
         if (translation && translation.data) {
             console.log('found existing translation');

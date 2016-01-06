@@ -45,7 +45,7 @@ define [
 
         view = this
         this.$('.subtitles a').on('click', (event) ->
-          query = $(this).html()
+          query = $(this).attr('data-lookup')
           view.trigger('lookup', query)
         )
 
@@ -78,8 +78,16 @@ define [
           originalText = original[i].text
         else
           for word in words
-            tag = this.getTag(word)
-            originalText += '<a href="javaScript:void(0);" class="' + tag + '">' + word + '</a>&nbsp;'
+            # if we have a resolution for this word, use that instead of word
+            resolutions = this.model.get('resolutions')
+            lower = word.toLowerCase()
+
+            if resolutions[lower]
+              lower = resolutions[lower].toLowerCase()
+              console.log('using: ' + lower + ' instead of ' + word)
+
+            tag = this.getTag(lower)
+            originalText += '<a href="javaScript:void(0);" class="' + tag + '" data-lookup="' + lower + '">' + word + '</a>&nbsp;'
 
         data.push(
           original: originalText
@@ -94,25 +102,25 @@ define [
       unknown = this.model.get('unknown')
       knownStems = this.model.get('knownStems')
       unknownStems = this.model.get('unknownStems')
-      lower = word.toLowerCase()
-      if known[lower]?
-        return'known'
-      else if unknown[lower]?
+
+      if known[word]?
+        return 'known'
+      else if unknown[word]?
         return 'unknown'
 
       #stemming
       endings = ['a','o','as','os','es']
       stem = null
-      if lower.length > 2
+      if word.length > 2
         for suffix in endings
-          start = lower.indexOf(suffix, lower.length - suffix.length)
+          start = word.indexOf(suffix, word.length - suffix.length)
           if start isnt -1
             # has stem ending, strip down to stem and use that
-            stem = lower.substr(0, start)
+            stem = word.substr(0, start)
             break
 
         if stem? and knownStems[stem]?
-          return'known'
+          return 'known'
         else if stem? and unknownStems[stem]?
           return 'unknown'
 

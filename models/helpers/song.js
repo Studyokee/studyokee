@@ -141,14 +141,14 @@ function getDefaultTranslation (subtitles, fromLanguage, toLanguage) {
     });
 }
 
-function getTranslationByLanguageFromArray (translations, language) {
-    if (!translations || !language) {
+function getByLanguageFromArray (arr, language) {
+    if (!arr || !language) {
         return q.reject('Proper params not provided');
     }
 
-    for (var i = 0; i < translations.length; i++) {
-        if (translations[i].language === language) {
-            return translations[i];
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].language === language) {
+            return arr[i];
         }
     }
 }
@@ -164,5 +164,5 @@ module.exports = {
     getLanguage: getLanguage,
     getTextChunks: getTextChunks,
     getDefaultTranslation: getDefaultTranslation,
-    getTranslationByLanguageFromArray: getTranslationByLanguageFromArray
+    getByLanguageFromArray: getByLanguageFromArray
 };

@@ -50,6 +50,27 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
     });
 });
 
+app.get('/:fromLanguage/:toLanguage/index', function (req, res) {
+    q.resolve().then(function () {
+        if (!req.params.fromLanguage) {
+            return q.reject('No from language provided');
+        }
+        if (!req.params.toLanguage) {
+            return q.reject('No to language provided');
+        }
+
+        return Word.find({fromLanguage: req.params.fromLanguage,
+            toLanguage: req.params.toLanguage}, 'word stem');
+    }).then(function (words) {
+        res.json(200, words);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
 app.post('/add', function (req, res) {
     q.resolve().then(function () {
         var words = req.body.words;

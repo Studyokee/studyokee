@@ -5,10 +5,13 @@ define [
     default:
       subtitles: []
       translation: []
+      resolutions: {}
       i: 0
       isLoading: true
-      known: []
-      unknown: []
+      known: {}
+      unknown: {}
+      knownStems: {}
+      unknownStems: {}
 
     initialize: () ->
       this.getVocabulary()

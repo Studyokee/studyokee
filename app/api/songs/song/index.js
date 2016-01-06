@@ -97,6 +97,7 @@ app.put('/:id', function (req, res) {
 
 app.use(require('./subtitles'));
 app.use(require('./translations'));
+app.use(require('./resolutions'));
 
 app.use(function (req, res) {
     res.json(404, {});

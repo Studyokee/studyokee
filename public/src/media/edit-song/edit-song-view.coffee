@@ -18,54 +18,48 @@ define [
       )
 
     render: () ->
-      model = this.model.toJSON()
-      if model.data?.subtitles?
-        model.subtitlesText = this.createTextFromSubtitles(model.data.subtitles)
-
-      if model.data?.translations?.length > 0
-        translation = model.data.translations[0].data
-        model.translationText = translation.join('\n')
+      model = {}
+      song = this.model.get('data')
+      if song?
+        formattedData = this.getFormattedData(song.subtitles, song.translations?[0]?.data)
+        model.data = formattedData
 
       this.$el.html(Handlebars.templates['edit-song'](model))
 
-      this.renderLyricsTable(model)
+      openModal = (word) ->
+        $('.addResolution .resolveWord').html(word)
+        $('.addResolution #metadata').val('')
+        $('.addResolution').show()
+
+      this.$('.notInDictionary').on('click', (event) ->
+        word = $(this).html()
+        openModal(word)
+        event.preventDefault()
+      )
+      this.$('.inResolutions').on('click', (event) ->
+        word = $(this).html()
+        openModal(word)
+        event.preventDefault()
+      )
+      $('.addResolution .saveResolution').on('click', (event) =>
+        this.model.addResolution($('.addResolution .resolveWord').html(), $('.addResolution #resolution').val())
+        $('.addResolution').hide()
+        event.preventDefault()
+      )
+      $('.addResolution .addDefinition').on('click', (event) =>
+        this.model.addToDictionary($('.addResolution #resolution').val())
+        $('.addResolution').hide()
+        event.preventDefault()
+      )
+      $('.addResolution .closeModal').on('click', (event) ->
+        $('.addResolution').hide()
+        event.preventDefault()
+      )
+
       this.renderForm()
       this.renderModals()
       
       return this
-
-    renderLyricsTable: (model) ->
-      if model.data?
-        subtitles = model.data.subtitles
-        if subtitles.length is 0
-          subtitles = [text: 'There are no subtitles yet.']
-
-        translation = []
-        if model.data?.translations?.length > 0
-          translation = model.data.translations[0].data
-        if translation.length is 0
-          translation = ['There is no translation yet.']
-
-        tableBody = ''
-        length = Math.max(subtitles.length, translation.length)
-        for i in [0..length]
-          subtitleLine = ''
-          if subtitles.length > i
-            if subtitles[i]?.ts?
-              subtitleLine = '(' + subtitles[i]?.ts + ') ' + subtitles[i].text
-            else
-              subtitleLine = subtitles[i].text
-
-          translationLine = ''
-          if translation.length > i
-            translationLine = translation[i]
-
-          tableBody += '<tr>'
-          tableBody += '<td class="col-lg-6">' + subtitleLine + '</td>'
-          tableBody += '<td class="col-lg-6">' + translationLine + '</td>'
-          tableBody += '</tr>'
-
-        this.$('.songText').html(tableBody)
 
     renderForm: () ->
       song = this.model.get('data')
@@ -195,6 +189,84 @@ define [
         
       this.model.saveSong(song, () ->
         window.history.back())
+
+    getFormattedData: (original, translation) ->
+      data = []
+      if not original?
+        return data
+
+      for i in [0..original.length]
+        if not original[i]
+          return data
+
+        translationLine = ''
+        if translation? and translation[i]?
+          translationLine = translation[i]
+
+        originalText = ''
+        # get all words
+        regex = /([ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇŒœßØøÅåÆæÞþÐð\w]+)/gi
+        words = original[i].text.match(regex)
+        if not words?
+          words = []
+          originalText = original[i].text
+        else
+          for word in words
+            tag = this.getTag(word)
+            originalText += '<a href="javaScript:void(0);" class="' + tag + '">' + word + '</a>&nbsp;'
+
+        data.push(
+          original: originalText
+          translation: translationLine
+          ts: original[i].ts
+        )
+
+      return data
+
+    getTag: (word) ->
+      dictionary = this.model.get('dictionary')
+      stems = this.model.get('stems')
+
+      if not dictionary? or not stems?
+        return ''
+
+      if this.isInDict(word)
+        return 'inDictionary'
+
+      resolutions = this.model.get('resolutions')
+      if resolutions?
+        userDefinedWord = resolutions[word.toLowerCase()]
+        if userDefinedWord? and this.isInDict(userDefinedWord)
+          return 'inResolutions'
+
+      return 'notInDictionary'
+
+    isInDict: (toCheck) ->
+      dictionary = this.model.get('dictionary')
+      stems = this.model.get('stems')
+
+      if not dictionary? or not stems?
+        return false
+
+      lower = toCheck.toLowerCase()
+      if dictionary[lower]?
+        return true
+
+      #stemming
+      endings = ['a','o','as','os','es']
+      stem = null
+      if lower.length > 2
+        for suffix in endings
+          start = lower.indexOf(suffix, lower.length - suffix.length)
+          if start isnt -1
+            # has stem ending, strip down to stem and use that
+            stem = lower.substr(0, start)
+            break
+
+        if stem? and stems[stem]?
+          return true
+
+      return false
   )
 
   return EditSongView

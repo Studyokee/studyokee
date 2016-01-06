@@ -52,18 +52,40 @@ define [
         lastCallbackId: song._id
       )
 
-      callback = (data) =>
+      callback = (song) =>
         if this.get('lastCallbackId') is song._id
+          resolutions = {}
+          if song?.resolutions?
+            resolutionsArray = song.resolutions
+            for resolution in resolutionsArray
+              resolutions[resolution.word] = resolution.resolution
+          console.log(JSON.stringify(resolutions, null, 4))
+          
           this.subtitlesScrollerModel.set(
             isLoading: false
-            subtitles: data.original
-            translation: data.translation
+            subtitles: song.subtitles
+            translation: song.translation?[0]?.data
+            resolutions: resolutions
           )
           this.youtubePlayerModel.set(
-            subtitles: data.original
+            subtitles: song.subtitles
           )
       
-      this.dataProvider.getSegments(song._id, this.get('language'), callback)
+      this.getSong(song._id, callback)
+
+    getSong: (id, callback) ->
+      if not id?
+        return
+
+      $.ajax(
+        type: 'GET'
+        url: '/api/songs/' + id
+        dataType: 'json'
+        success: (song) =>
+          callback(song)
+        error: (err) =>
+          console.log('Error: ' + err)
+      )
   )
 
   return YoutubeMainModel
