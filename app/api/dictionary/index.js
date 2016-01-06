@@ -5,7 +5,7 @@ var app = express();
 var q = require('q');
 
 var Word = require('../../../models/word');
-//var endings = ['a','o','as','os','es'];
+var endings = ['a','o','as','os','es'];
 
 app.get('/:fromLanguage/:toLanguage', function (req, res) {
     q.resolve().then(function () {
@@ -19,25 +19,27 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
             return q.reject('No to language provided');
         }
 
+        console.log('Looking for word: ' + req.query.word.toLowerCase());
         return Word.find({word: req.query.word.toLowerCase(),
             fromLanguage: req.params.fromLanguage,
             toLanguage: req.params.toLanguage});
-    /*}).then(function (words) {
+    }).then(function (words) {
         // check stem if we found nothing
-        var str = req.query.word;
+        var str = req.query.word.toLowerCase();
         if (words && words.length ===0 && str.length > 2) {
             for (var i = 0; i < endings.length; i++) {
                 var suffix = endings[i];
                 // ends with ending
                 var start = str.indexOf(suffix, str.length - suffix.length);
                 if (start !== -1) {
-                    return Word.find({wordStem: str.substr(0, start),
+                    console.log('Looking for word with stem match: ' + str.substr(0, start));
+                    return Word.find({stem: str.substr(0, start),
                         fromLanguage: req.params.fromLanguage,
                         toLanguage: req.params.toLanguage});
                 }
             }
         }
-        return q.resolve(words);*/
+        return q.resolve(words);
     }).then(function (words) {
         res.json(200, words);
     }).fail(function (err) {

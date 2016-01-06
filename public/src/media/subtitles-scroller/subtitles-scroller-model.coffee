@@ -19,6 +19,8 @@ define [
         this.set(
           known: sortedWords.known
           unknown: sortedWords.unknown
+          knownStems: sortedWords.knownStems
+          unknownStems: sortedWords.unknownStems
         )
         this.trigger('highlightUpdate')
       )
@@ -38,6 +40,8 @@ define [
             this.set(
               known: sortedWords.known
               unknown: sortedWords.unknown
+              knownStems: sortedWords.knownStems
+              unknownStems: sortedWords.unknownStems
             )
         error: (err) =>
           console.log('Error: ' + err)
@@ -46,15 +50,21 @@ define [
     sortWords: (words) ->
       known = {}
       unknown = {}
+      knownStems = {}
+      unknownStems = {}
       for word in words
         if word.known
           known[word.word] = 1
+          knownStems[word.stem] = 1
         else
           unknown[word.word] = 1
+          unknownStems[word.stem] = 1
 
       sortedWords =
         known: known
         unknown: unknown
+        knownStems: knownStems
+        unknownStems: unknownStems
 
       return sortedWords
   )

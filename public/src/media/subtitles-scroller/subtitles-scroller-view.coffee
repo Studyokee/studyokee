@@ -92,9 +92,8 @@ define [
     getTag: (word) ->
       known = this.model.get('known')
       unknown = this.model.get('unknown')
-      # add links
-      # highlight known vocabulary words with blue
-      # highlight unknown vocabulary words with green
+      knownStems = this.model.get('knownStems')
+      unknownStems = this.model.get('unknownStems')
       lower = word.toLowerCase()
       if known[lower]?
         return'known'
@@ -102,11 +101,20 @@ define [
         return 'unknown'
 
       #stemming
-      ###if lower.length > 2
-        if known[lower.substr(0, word.length-1) + 'a']? or known[lower.substr(0, word.length-1) + 'o']?
+      endings = ['a','o','as','os','es']
+      stem = null
+      if lower.length > 2
+        for suffix in endings
+          start = lower.indexOf(suffix, lower.length - suffix.length)
+          if start isnt -1
+            # has stem ending, strip down to stem and use that
+            stem = lower.substr(0, start)
+            break
+
+        if stem? and knownStems[stem]?
           return'known'
-        else if unknown[word.substr(0, lower.length-1) + 'a']? or unknown[lower.substr(0, word.length-1) + 'o']?
-          return 'unknown'###
+        else if stem? and unknownStems[stem]?
+          return 'unknown'
 
       return ''
 

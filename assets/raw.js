@@ -56,14 +56,16 @@ var mO = function(raw) {
         var rawPart = rawParts[i];
         var subParts = rawPart.split('=');
 
-        if (subParts.length === 5 && ((parseInt(subParts[0]) - 1) === words.length)) {
+        if (subParts.length === 5) {
             var word = {};
             word.rank = $.trim(subParts[0]);
             word.word = $.trim(subParts[1]);
+            word.part = $.trim(subParts[2]);
             word.stem = word.word;
             // stemming
             var endings = ['a','o','as','os','es'];
-            if (word.word.length > 2) {
+            var str = word.word;
+            if (str.length > 2 && (word.part === 'adj' || word.part === 'nm' || word.part === 'nf')) {
                 for (var k = 0; k < endings.length; k++) {
                     var suffix = endings[k];
                     // ends with ending
@@ -75,7 +77,7 @@ var mO = function(raw) {
                 }
             }
 
-            word.part = $.trim(subParts[2]);
+            
             word.def = $.trim(subParts[3]);
             word.example = $.trim(subParts[4]);
             word.fromLanguage = 'es';
@@ -100,7 +102,7 @@ var mO = function(raw) {
 
     }
     
-    return;
+    return words;
 }
 
 

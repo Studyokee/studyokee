@@ -23,6 +23,7 @@ var vocabularySchema = mongoose.Schema({
         def: String,
         part: String,
         example: String,
+        stem: String,
         known: Boolean
     }]
 });
@@ -63,6 +64,7 @@ vocabularySchema.static('addWord', function(query, word) {
                 def: word.def,
                 example: word.example,
                 part: word.part,
+                stem: word.stem,
                 known: false
             };
             console.log('inserted new vocab: ' + JSON.stringify(toInsert, null, 4));
