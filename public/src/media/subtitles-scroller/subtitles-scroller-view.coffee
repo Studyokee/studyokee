@@ -31,13 +31,11 @@ define [
       )
 
     render: () ->
-      subtitles = this.model.get('subtitles')
-      translation = this.model.get('translation')
 
       if this.getLength() is 0
         this.$el.html(this.getNoSubtitlesMessage())
       else
-        formattedData = this.getFormattedData(subtitles, translation)
+        formattedData = this.getFormattedData()
         model =
           data: formattedData
           showTimestamps: this.model.get('showTimestamps')
@@ -56,80 +54,33 @@ define [
     getNoSubtitlesMessage: () ->
       return Handlebars.templates['no-subtitles']()
 
-    getFormattedData: (original, translation) ->
+    getFormattedData: () ->
       data = []
-      if not original?
+      processedLines = this.model.get('processedLines')
+      if not processedLines?.length > 0
         return data
 
-      for i in [0..this.getLength()-1]
-        if not original[i]
-          return data
-
-        translationLine = ''
-        if translation? and translation[i]?
-          translationLine = translation[i]
-
-        originalText = ''
-        # get all words
-        regex = /([ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇŒœßØøÅåÆæÞþÐð\w]+)/gi
-        words = original[i].text.match(regex)
-        if not words?
-          words = []
-          originalText = original[i].text
-        else
-          for word in words
-            # if we have a resolution for this word, use that instead of word
-            resolutions = this.model.get('resolutions')
-            lower = word.toLowerCase()
-
-            if resolutions[lower]
-              lower = resolutions[lower].toLowerCase()
-              console.log('using: ' + lower + ' instead of ' + word)
-
-            tag = this.getTag(lower)
-            originalText += '<a href="javaScript:void(0);" class="' + tag + '" data-lookup="' + lower + '">' + word + '</a>&nbsp;'
-
+      for line in processedLines
+        subtitlesElements = ''
+        for word in line.subtitles
+          # it is either an object or a string, the object should become a link, otherwise just pass along text
+          if word.word?
+            subtitlesElements += '<a href="javaScript:void(0);" class="' + word.tag + '" data-lookup="' + word.lookup + '">' + word.word + '</a>&nbsp;'
+          else
+            subtitlesElements += word
+            
         data.push(
-          original: originalText
-          translation: translationLine
-          ts: original[i].ts
+          original: subtitlesElements
+          translation: line.translation
+          ts: line.ts
         )
 
       return data
 
-    getTag: (word) ->
-      known = this.model.get('known')
-      unknown = this.model.get('unknown')
-      knownStems = this.model.get('knownStems')
-      unknownStems = this.model.get('unknownStems')
-
-      if known[word]?
-        return 'known'
-      else if unknown[word]?
-        return 'unknown'
-
-      #stemming
-      endings = ['a','o','as','os','es']
-      stem = null
-      if word.length > 2
-        for suffix in endings
-          start = word.indexOf(suffix, word.length - suffix.length)
-          if start isnt -1
-            # has stem ending, strip down to stem and use that
-            stem = word.substr(0, start)
-            break
-
-        if stem? and knownStems[stem]?
-          return 'known'
-        else if stem? and unknownStems[stem]?
-          return 'unknown'
-
-      return ''
-
     getLength: () ->
-      subtitles = this.model.get('subtitles')
-      if subtitles
-        return subtitles.length
+      lines = this.model.get('processedLines')
+      if lines
+        return lines.length
       else
         return 0
 

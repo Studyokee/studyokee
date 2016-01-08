@@ -11,6 +11,10 @@ define [
     className: 'youtube-main'
     
     initialize: () ->
+      this.listenTo(this.model, 'change', () =>
+        this.render()
+      )
+
       this.subtitlesScrollerView = new SubtitlesScrollerView(
         model: this.model.subtitlesScrollerModel
       )
