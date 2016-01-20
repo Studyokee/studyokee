@@ -52,6 +52,12 @@ define [
 
         this.$('.progress').attr('title', currentCount + '/' + nextLevel.count + ' words')
 
+      view = this
+      this.$('.addNext').on('click', (event) ->
+        view.model.addNext()
+        event.preventDefault()
+      )
+
       return this
   )
 

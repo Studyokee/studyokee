@@ -53,12 +53,25 @@ function getIndex (words, word) {
 }
 
 vocabularySchema.static('addWord', function(query, word) {
+    return q.resolve().then(function () {
+        return Vocabulary.findOrCreate(query);
+    }).then(function (vocabulary) {
+        if (getIndex(vocabulary.words, word) === -1) {
+            return Vocabulary.addWords(query, [word]);
+        }
+
+        return q.resolve();
+    });
+});
+
+vocabularySchema.static('addWords', function(query, words) {
     var toReturn = null;
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         toReturn = vocabulary;
-        if (getIndex(vocabulary.words, word.word) === -1) {
+        for (var i = 0; i < words.length; i++) {
+            var word = words[i];
             var toInsert = {
                 word: word.word,
                 def: word.def,
@@ -67,19 +80,17 @@ vocabularySchema.static('addWord', function(query, word) {
                 stem: word.stem,
                 known: false
             };
-            console.log('inserted new vocab: ' + JSON.stringify(toInsert, null, 4));
             vocabulary.words.push(toInsert);
-
-            var updates = {
-                words: vocabulary.words
-            };
-
-            var updateRequest = q.defer();
-            vocabulary.update(updates, updateRequest.makeNodeResolver());
-
-            return updateRequest.promise;
         }
-        return q.resolve();
+        
+        var updates = {
+            words: vocabulary.words
+        };
+
+        var updateRequest = q.defer();
+        vocabulary.update(updates, updateRequest.makeNodeResolver());
+
+        return updateRequest.promise;
     }).then(function () {
         return toReturn;
     });

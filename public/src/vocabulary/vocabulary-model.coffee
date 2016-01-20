@@ -39,6 +39,29 @@ define [
           console.log('Error: ' + err)
       )
 
+    addNext: () ->
+      userId = this.get('settings').get('user').id
+      fromLanguage = this.get('settings').get('fromLanguage').language
+      toLanguage = this.get('settings').get('toLanguage').language
+      $.ajax(
+        type: 'PUT'
+        url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage + '/addNext'
+        data:
+          quantity: 50
+        success: (res) =>
+          console.log('Success!')
+          if res?.words?
+            sortedWords = this.sortWords(res.words)
+
+            this.set(
+              known: sortedWords.known
+              unknown: sortedWords.unknown
+            )
+            this.trigger('vocabularyUpdate', res.words)
+        error: (err) =>
+          console.log('Error: ' + err)
+      )
+
     remove: (word) ->
       userId = this.get('settings').get('user').id
       fromLanguage = this.get('settings').get('fromLanguage').language

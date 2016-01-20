@@ -14,12 +14,12 @@ define [
 
       # if this is a redirect, try logging in from cookies and redirect
       params = $.url(document.location).param()
-      if params.redirectUrl?
-        username = this.readCookie('username')
-        password = this.readCookie('password')
-        if username? and password?
-          this.$('.mask').show()
-          this.login(username, password)
+      # if params.redirectUrl?
+      #   username = this.readCookie('username')
+      #   password = this.readCookie('password')
+      #   if username? and password?
+      #     this.$('.mask').show()
+      #     this.login(username, password)
 
       this.$('#submit').on('click', (event) =>
         username = this.$('#username').val()
