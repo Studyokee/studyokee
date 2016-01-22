@@ -1,4 +1,5 @@
 define [
+  'import.words.view',
   'vocabulary.slider.view',
   'vocabulary.list.view',
   'vocabulary.metrics.view',
@@ -6,10 +7,14 @@ define [
   'handlebars',
   'purl',
   'templates'
-], (VocabularySliderView, VocabularyListView, VocabularyMetricsView, Backbone, Handlebars, Purl) ->
+], (ImportWordsView, VocabularySliderView, VocabularyListView, VocabularyMetricsView, Backbone, Handlebars, Purl) ->
   VocabularyView = Backbone.View.extend(
 
     initialize: () ->
+      this.importWordsView = new ImportWordsView(
+        model: this.model.importWordsModel
+      )
+
       this.vocabularySliderView = new VocabularySliderView(
         model: this.model.vocabularySliderModel
       )
@@ -55,6 +60,7 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['vocabulary'](this.model.toJSON()))
       this.$('.vocabularyMetricsContainer').html(this.vocabularyMetricsView.render().el)
+      this.$('.importWordsContainer').html(this.importWordsView.render().el)
       
       subView = $.url(document.location).attr('fragment')
       console.log(subView)
@@ -64,8 +70,15 @@ define [
         this.$('.vocabularyContentContainer').html(this.unknownVocabularyListView.render().el)
       else
         this.$('.vocabularyContentContainer').html(this.vocabularySliderView.render().el)
+      
+      this.$('.addNext').on('click', (event) =>
+        this.model.addNext()
+        event.preventDefault()
+      )
 
       return this
+
+
   )
 
   return VocabularyView

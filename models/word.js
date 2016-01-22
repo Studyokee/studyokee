@@ -7,7 +7,8 @@ var Word;
 var wordSchema = mongoose.Schema({
     word: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     stem: {
         type: String,

@@ -56,7 +56,7 @@ vocabularySchema.static('addWord', function(query, word) {
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
-        if (getIndex(vocabulary.words, word) === -1) {
+        if (getIndex(vocabulary.words, word.word) === -1) {
             return Vocabulary.addWords(query, [word]);
         }
 

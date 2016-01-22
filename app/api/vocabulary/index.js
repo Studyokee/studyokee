@@ -54,6 +54,76 @@ app.put('/:userId/:fromLanguage/:toLanguage/add', function (req, res) {
     });
 });
 
+app.put('/:userId/:fromLanguage/:toLanguage/import', function (req, res) {
+    // Get vocabulary
+    // Get dictionary results for words
+    // Create vocabulary and dictionary maps
+
+    var vocabulary, dictionary, wordsNotInDictionary, wordsLowerCase;
+    q.resolve().then(function () {
+        if (!req.body.words) {
+            return q.reject('No words provided');
+        }
+
+        return Vocabulary.findOrCreate({userId: req.params.userId,
+            fromLanguage: req.params.fromLanguage,
+            toLanguage: req.params.toLanguage});
+    }).then(function (result) {
+        vocabulary = result;
+
+        var words = req.body.words;
+        wordsLowerCase = [];
+        for (var i = 0; i < words.length; i++) {
+            wordsLowerCase.push(words[i].toLowerCase());
+        }
+
+        return Word.find({ word: { '$in': wordsLowerCase },
+            fromLanguage: req.params.fromLanguage,
+            toLanguage: req.params.toLanguage});
+    }).then(function (result) {
+        dictionary = result;
+
+        var vocabularyMap = {};
+        for (var i = 0; i < vocabulary.words.length; i++) {
+            vocabularyMap[vocabulary.words[i].word] = 1;
+        }
+
+        var dictionaryMap = {};
+        for (var k = 0; k < dictionary.length; k++) {
+            dictionaryMap[dictionary[k].word] = dictionary[k];
+        }
+
+        var words = wordsLowerCase;
+        var wordsToAdd = [];
+        wordsNotInDictionary = [];
+        for (var j = 0; j < words.length; j++) {
+            var word = words[j];
+            if (dictionaryMap[word]) {
+                if (!vocabularyMap[word]) {
+                    wordsToAdd.push(dictionaryMap[word]);
+                }
+            } else {
+                wordsNotInDictionary.push(word);
+            }
+        }
+        console.log('attempting to insert ' + wordsToAdd.length + ' new words: ' + JSON.stringify(wordsToAdd, null, 4));
+        console.log('words not in dictionary ' + wordsNotInDictionary.length + ' words: ' + JSON.stringify(wordsNotInDictionary, null, 4));
+        
+        return Vocabulary.addWords(req.params, wordsToAdd);
+    }).then(function (updatedVocabulary) {
+        var toReturn = {
+            vocabulary: updatedVocabulary,
+            wordsNotInDictionary: wordsNotInDictionary
+        };
+        res.json(200, toReturn);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
 app.put('/:userId/:fromLanguage/:toLanguage/addNext', function (req, res) {
     var vocabulary, dictionary;
     q.resolve().then(function () {
@@ -89,7 +159,7 @@ app.put('/:userId/:fromLanguage/:toLanguage/addNext', function (req, res) {
             }
         }
 
-        console.log('attempting to insert ' + wordsToAdd.length + ' new words');
+        //console.log('attempting to insert ' + wordsToAdd.length + ' new words: ' + JSON.stringify(wordsToAdd));
         
         return Vocabulary.addWords(req.params, wordsToAdd);
     }).then(function (vocabulary) {

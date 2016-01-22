@@ -1,7 +1,8 @@
 define [
+  'import.words.model',
   'vocabulary.slider.model',
   'backbone'
-], (VocabularySliderModel, Backbone) ->
+], (ImportWordsModel, VocabularySliderModel, Backbone) ->
   VocabularyModel = Backbone.Model.extend(
     defaults:
       known: []
@@ -9,9 +10,16 @@ define [
 
     initialize: () ->
       this.vocabularySliderModel = new VocabularySliderModel()
+      this.importWordsModel = new ImportWordsModel(
+        settings: this.get('settings')
+      )
 
       this.vocabularySliderModel.on('removeWord', (word) =>
         this.remove(word)
+      )
+
+      this.importWordsModel.on('vocabularyUpdate', (vocabulary) =>
+        this.updateVocabulary(vocabulary)
       )
 
       this.getVocabulary()
@@ -25,16 +33,7 @@ define [
         url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage
         dataType: 'json'
         success: (res) =>
-          if res?.words?
-            sortedWords = this.sortWords(res.words)
-
-            this.set(
-              known: sortedWords.known
-              unknown: sortedWords.unknown
-            )
-            this.vocabularySliderModel.set(
-              rawWords: sortedWords.unknown
-            )
+          this.updateVocabulary(res)
         error: (err) =>
           console.log('Error: ' + err)
       )
@@ -50,14 +49,7 @@ define [
           quantity: 50
         success: (res) =>
           console.log('Success!')
-          if res?.words?
-            sortedWords = this.sortWords(res.words)
-
-            this.set(
-              known: sortedWords.known
-              unknown: sortedWords.unknown
-            )
-            this.trigger('vocabularyUpdate', res.words)
+          this.updateVocabulary(res)
         error: (err) =>
           console.log('Error: ' + err)
       )
@@ -73,17 +65,23 @@ define [
           word: word
         success: (res) =>
           console.log('Removed Word')
-          if res?.words?
-            sortedWords = this.sortWords(res.words)
-
-            this.set(
-              known: sortedWords.known
-              unknown: sortedWords.unknown
-            )
-            this.trigger('vocabularyUpdate', res.words)
+          this.updateVocabulary(res)
         error: (err) =>
           console.log('Error: ' + err)
       )
+
+    updateVocabulary: (vocabulary) ->
+      if vocabulary?.words?
+        sortedWords = this.sortWords(vocabulary.words)
+
+        this.set(
+          known: sortedWords.known
+          unknown: sortedWords.unknown
+        )
+        this.vocabularySliderModel.set(
+          rawWords: sortedWords.unknown
+        )
+        this.trigger('vocabularyUpdate', vocabulary.words)
 
     sortWords: (words) ->
       known = []

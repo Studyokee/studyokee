@@ -1,0 +1,57 @@
+<a href="#" class="btn btn-primary openImportModal">Import Words</a>
+<div class="modal importModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Paste in words to add to your vocabulary</h4>
+      </div>
+      <div class="modal-body">
+        <textarea></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary import">Import</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal addWords">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Add new word to dictionary</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label class="control-label" for="word">Word</label>
+            <input class="form-control" id="word" type="text" value="">
+
+            <label for="part" class="control-label">Part of Speech</label>
+            <select class="form-control" id="part">
+                <option></option>
+                <option>v</option>
+                <option>nm</option>
+                <option>nf</option>
+                <option>pron</option>
+                <option>conj</option>
+                <option>prep</option>
+                <option>adj</option>
+                <option>art</option>
+                <option>adv</option>
+            </select>
+
+            <label class="control-label" for="def">Definition</label>
+            <input class="form-control" id="def" type="text" value="">
+
+            <label class="control-label" for="ex">Example</label>
+            <input class="form-control" id="ex" type="text" value="">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary addNewWord">Add Word</button>
+      </div>
+    </div>
+  </div>
+</div>

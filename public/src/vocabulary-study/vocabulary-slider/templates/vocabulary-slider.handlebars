@@ -15,9 +15,11 @@
                 <div class="wordOrPhrase">{{word}}</div>
                 <div class="definitions" {{#unless ../showDefinition}}style="visibility:hidden;"{{/unless}}>
                     <p>
-                        <b>{{def}}</b>,&nbsp;<i class="wordType">{{part}}</i>
+                        <b>{{def}}</b>{{#if part}},&nbsp;<i class="wordType">{{part}}</i>{{/if}}
                     </p>
-                    <p><b>ex.</b> {{example}}</p>
+                    {{#if example}}
+                        <p><b>ex.</b> {{example}}</p>
+                    {{/if}}
                 </div>
             </li>
         {{/each}}

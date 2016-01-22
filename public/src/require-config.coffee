@@ -74,6 +74,8 @@ requirejs.config(
       #vocab study
     'vocabulary.slider.view': 'lib/vocabulary-study/vocabulary-slider/vocabulary-slider-view'
     'vocabulary.slider.model': 'lib/vocabulary-study/vocabulary-slider/vocabulary-slider-model'
+    'import.words.view': 'lib/vocabulary-study/import-words/import-words-view'
+    'import.words.model': 'lib/vocabulary-study/import-words/import-words-model'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]
