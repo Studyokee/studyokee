@@ -7,7 +7,7 @@ define [
       this.on('vocabularyUpdate', (sorted) =>
         if not sorted?
           return
-          
+
         knownMap = {}
         for item in sorted.known
           knownMap[item.word + '&' + item.part] = item
@@ -40,7 +40,7 @@ define [
                 orderedDictionary.push(item)
               else
                 overflow.push(item)
-            orderedDictionary.concat(overflow)
+            orderedDictionary = orderedDictionary.concat(overflow)
 
             this.set(
               orderedDictionary: orderedDictionary

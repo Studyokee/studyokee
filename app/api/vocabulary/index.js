@@ -156,7 +156,7 @@ app.put('/:userId/:fromLanguage/:toLanguage/addNext', function (req, res) {
                 overflow.push(item);
             }
         }
-        orderedDictionary.concat(overflow);
+        orderedDictionary = orderedDictionary.concat(overflow);
 
         var vocabularyMap = {};
         for (var i = 0; i < vocabulary.words.length; i++) {

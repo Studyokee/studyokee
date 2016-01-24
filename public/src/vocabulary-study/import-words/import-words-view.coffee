@@ -39,6 +39,7 @@ define [
         this.model.addWords(wordAndDefinitions)
 
         this.$('.importModal').hide()
+        this.$('.importModal textarea').val('')
         event.preventDefault()
       )
 
