@@ -142,20 +142,39 @@ app.put('/:userId/:fromLanguage/:toLanguage/addNext', function (req, res) {
     }).then(function (result) {
         dictionary = result;
 
-        // go through dictionary checking against vocab map until quantity found
+        var orderedDictionary = [];
+        var overflow = [];
+        for (var k = 0; k < dictionary.length; k++) {
+            var item = dictionary[k];
+            var rank = parseInt(item.rank, 10);
+            if (rank <= 5000) {
+                orderedDictionary.push(item);
+                if (rank <= 30) {
+                    console.log('word: ' + JSON.stringify(item));
+                }
+            } else {
+                overflow.push(item);
+            }
+        }
+        orderedDictionary.concat(overflow);
+
         var vocabularyMap = {};
         for (var i = 0; i < vocabulary.words.length; i++) {
-            vocabularyMap[vocabulary.words[i].word] = 1;
+            vocabularyMap[vocabulary.words[i].word + '&' + vocabulary.words[i].part] = 1;
         }
 
         var wordsToAdd = [];
-        for (var j = 0; j < dictionary.length; j++) {
+        for (var j = 0; j < orderedDictionary.length; j++) {
             if (wordsToAdd.length >= req.body.quantity) {
                 break;
             }
 
-            if (!vocabularyMap[dictionary[j].word]) {
-                wordsToAdd.push(dictionary[j]);
+            var entry = orderedDictionary[j];
+            if (!vocabularyMap[entry.word + '&' + entry.part]) {
+                wordsToAdd.push(entry);
+                console.log('GOOD: ' + entry.word + ', ' + entry.part);
+            } else {
+                console.log('PROBLEM: ' + entry.word + ', ' + entry.part);
             }
         }
 

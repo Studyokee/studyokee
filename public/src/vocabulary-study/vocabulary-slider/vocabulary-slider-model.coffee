@@ -3,17 +3,19 @@ define [
 ], (Backbone) ->
   VocabularySliderModel = Backbone.Model.extend(
     defaults:
-      rawWords: []
       words: []
       index: 0
       showDefinition: false
 
     initialize: () ->
-      this.listenTo(this, 'change:rawWords', () =>
-        console.log('change raw words')
-        this.set(
-          words: this.getRandomOrder(this.get('rawWords'))
-        )
+      this.on('vocabularyUpdate', (unknown) =>
+        # Only get new order if more words added
+        if this.get('words')?.length < unknown.length - 1
+          console.log('had ' + this.get('words').length + ' words')
+          console.log('now has ' + unknown.length + ' words')
+          this.set(
+            words: this.getRandomOrder(unknown)
+          )
       )
 
     remove: (index) ->
@@ -27,7 +29,7 @@ define [
           index: index % words.length #if last word is removed
         )
         this.trigger('change')
-        this.trigger('removeWord', word.word)
+        this.trigger('removeWord', word)
 
     getRandomOrder: (array) ->
       order = []

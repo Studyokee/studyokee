@@ -45,7 +45,7 @@ function save (saveObj) {
 
 function getIndex (words, word) {
     for (var i = 0; i < words.length; i++) {
-        if (words[i].word === word.toLowerCase()) {
+        if (words[i].word === word.word.toLowerCase() && words[i].part === word.part) {
             return i;
         }
     }
@@ -56,7 +56,7 @@ vocabularySchema.static('addWord', function(query, word) {
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
-        if (getIndex(vocabulary.words, word.word) === -1) {
+        if (getIndex(vocabulary.words, word) === -1) {
             return Vocabulary.addWords(query, [word]);
         }
 
@@ -98,12 +98,15 @@ vocabularySchema.static('addWords', function(query, words) {
 
 vocabularySchema.static('removeWord', function(query, word) {
     var toReturn = null;
+    var i;
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         toReturn = vocabulary;
-        var i = getIndex(vocabulary.words, word);
+        i = getIndex(vocabulary.words, word);
         vocabulary.words[i].known = true;
+        console.log('marking word: ' + vocabulary.words[i].word + ' as known');
+        console.log('now: ' + vocabulary.words[i].known);
 
         var updates = {
             words: vocabulary.words
@@ -114,6 +117,8 @@ vocabularySchema.static('removeWord', function(query, word) {
 
         return updateRequest.promise;
     }).then(function () {
+        console.log('tmarking word: ' + toReturn.words[i].word + ' as known');
+        console.log('tnow: ' + toReturn.words[i].known);
         return toReturn;
     });
 });

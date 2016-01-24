@@ -60,7 +60,7 @@ app.get('/:fromLanguage/:toLanguage/index', function (req, res) {
         }
 
         return Word.find({fromLanguage: req.params.fromLanguage,
-            toLanguage: req.params.toLanguage}, 'word stem');
+            toLanguage: req.params.toLanguage}, 'word stem rank part');
     }).then(function (words) {
         res.json(200, words);
     }).fail(function (err) {

@@ -3,11 +3,12 @@ define [
   'vocabulary.slider.view',
   'vocabulary.list.view',
   'vocabulary.metrics.view',
+  'vocabulary.map.view',
   'backbone',
   'handlebars',
   'purl',
   'templates'
-], (ImportWordsView, VocabularySliderView, VocabularyListView, VocabularyMetricsView, Backbone, Handlebars, Purl) ->
+], (ImportWordsView, VocabularySliderView, VocabularyListView, VocabularyMetricsView, VocabularyMapView, Backbone, Handlebars, Purl) ->
   VocabularyView = Backbone.View.extend(
 
     initialize: () ->
@@ -21,6 +22,9 @@ define [
 
       this.vocabularyMetricsView = new VocabularyMetricsView(
         model: this.model
+      )
+      this.vocabularyMapView = new VocabularyMapView(
+        model: this.model.vocabularyMapModel
       )
 
       this.unknownVocabularyListModel = new Backbone.Model(
@@ -61,6 +65,7 @@ define [
       this.$el.html(Handlebars.templates['vocabulary'](this.model.toJSON()))
       this.$('.vocabularyMetricsContainer').html(this.vocabularyMetricsView.render().el)
       this.$('.importWordsContainer').html(this.importWordsView.render().el)
+      this.$('.vocabularyMapContainer').html(this.vocabularyMapView.render().el)
       
       subView = $.url(document.location).attr('fragment')
       console.log(subView)

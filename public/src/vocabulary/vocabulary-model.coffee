@@ -1,8 +1,9 @@
 define [
   'import.words.model',
   'vocabulary.slider.model',
+  'vocabulary.map.model',
   'backbone'
-], (ImportWordsModel, VocabularySliderModel, Backbone) ->
+], (ImportWordsModel, VocabularySliderModel, VocabularyMapModel, Backbone) ->
   VocabularyModel = Backbone.Model.extend(
     defaults:
       known: []
@@ -13,9 +14,21 @@ define [
       this.importWordsModel = new ImportWordsModel(
         settings: this.get('settings')
       )
+      this.vocabularyMapModel = new VocabularyMapModel(
+        settings: this.get('settings')
+      )
 
       this.vocabularySliderModel.on('removeWord', (word) =>
         this.remove(word)
+      )
+
+      this.on('vocabularyUpdate', () =>
+        sorted =
+          known: this.get('known')
+          unknown: this.get('unknown')
+        this.vocabularyMapModel.trigger('vocabularyUpdate', sorted)
+          
+        this.vocabularySliderModel.trigger('vocabularyUpdate', this.get('unknown'))
       )
 
       this.importWordsModel.on('vocabularyUpdate', (vocabulary) =>
@@ -78,9 +91,6 @@ define [
           known: sortedWords.known
           unknown: sortedWords.unknown
         )
-        this.vocabularySliderModel.set(
-          rawWords: sortedWords.unknown
-        )
         this.trigger('vocabularyUpdate', vocabulary.words)
 
     sortWords: (words) ->
@@ -91,6 +101,8 @@ define [
           known.push(word)
         else
           unknown.push(word)
+      console.log('known count: ' + known.length)
+      console.log('unknown count: ' + unknown.length)
 
       sortedWords =
         known: known
