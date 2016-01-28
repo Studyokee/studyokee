@@ -24,7 +24,7 @@ define [
             for resolution in resolutionsArray
               resolutions[resolution.word] = resolution.resolution
           console.log(JSON.stringify(resolutions, null, 4))
-
+          
           this.set(
             data: song
             resolutions: resolutions

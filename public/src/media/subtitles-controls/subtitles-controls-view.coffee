@@ -167,7 +167,7 @@ define [
       if event.which is 50
         this.next()
         event.preventDefault()
-      if event.which is 51
+      if event.which is 32
         this.togglePlay()
         event.preventDefault()
   )

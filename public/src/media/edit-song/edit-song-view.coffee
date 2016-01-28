@@ -18,11 +18,12 @@ define [
       )
 
     render: () ->
-      model = {}
       song = this.model.get('data')
+      model =
+        data: song
       if song?
         formattedData = this.getFormattedData(song.subtitles, song.translations?[0]?.data)
-        model.data = formattedData
+        model.lyrics = formattedData
 
       this.$el.html(Handlebars.templates['edit-song'](model))
 
