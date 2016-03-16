@@ -4,7 +4,11 @@
             <div class="col-md-3"><div class="headerIllustration"></div></div>
             <div class="col-md-6">
                 <h2>Spanish Vocabulary Through Song</h2>
-                <button type="button" class="btn callToAction">Try It Out!</button>
+                {{#if user.id}}
+                <a href="/classrooms/language/es/en" class="signup btn callToAction" role="button">Get Started!</a>
+                {{else}}
+                <a href="/try" class="signup btn callToAction" role="button">Try It Out!</a>
+                {{/if}}
             </div>
             <div class="col-md-3"><div class="headerIllustration"></div></div>
         </div>

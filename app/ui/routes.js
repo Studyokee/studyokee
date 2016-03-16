@@ -11,6 +11,7 @@ var isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
+
     // if the user is not authenticated then redirect him to the login page
     res.redirect('/login?redirectUrl=' + req.url);
 };
@@ -79,6 +80,13 @@ module.exports = function(passport){
             };
             res.render('base', data);
         }
+    );
+
+    router.get('/try', passport.authenticate('create', {
+            successRedirect: '/classrooms/language/es/en',
+            failureRedirect: '/login',
+            failureFlash : true
+        })
     );
 
     router.get('*', isAuthenticated,
