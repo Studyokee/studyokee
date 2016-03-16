@@ -11,6 +11,14 @@ $borderNormal = 1px solid #e1e6e9
 $unknownColor = #ff9800
 $knownColor = #4caf50
 
+$darkGray = #0C121B
+$gray = #69818D
+$lightGray = #BFD8D7
+$red = #DC5B74
+$darkRed = #5C2631
+$yellow = #F1DC65
+$darkYellow = #BF9919
+
 a {
     cursor: pointer;
 }
@@ -30,57 +38,41 @@ a {
 .styClose:hover {
     cursor: pointer;
 }
-.presentation-mode {
-    .center {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 60px 20px;
-        z-index: 100;
-        background-color: #FFFFFF;
-        
-        .youtube-main {
-            .video-player-container {
-                .video-player {
-                    #ytPlayer {
-                        width: 100%;
-                    }
-                }
-            }
 
-            .subtitles-scroller {
-                height: 600px;
-
-                .gradient {
-                    z-index: 102;
-                    height: 120px;
-                }
-
-                .subtitles li {
-                    line-height: 48px;
-                    font-size: 24px;
-                }
-            }
-        }
-    }
-    footer {
-        display: none;
-    }
-}
 footer {
-    margin: 5em 0;
+    border-top: 0.4rem solid $gray;
 }
+
+@font-face {
+    font-family: 'GOVERNOR';
+    font-style: normal;
+    font-weight: normal;
+    src: local('GOVERNOR'), url('../fonts/governor.ttf') format('ttf');
+}
+
+html {
+    font-size: 16px;
+    line-height: 1.5em;
+}
+
 body {
-    background: url("../img/dimension.png");
+    font-family: Futura, Open Sans, sans-serif;
+    color: $darkGray;
+
+    background: $lightGray;
+
+    .icon {
+        background-image: url(../img/studyokee_logo.svg);
+    }
+
+    .icon.light {
+    }
 
     .main {
         min-height: 580px;
+        background: $darkGray;
+        padding-bottom: 8.5em;
 
-        .panel-default>.panel-heading {
-            background-color: #fff;
-        }
         .btn {
             padding: 2px 20px;
         }
@@ -97,6 +89,13 @@ body {
         padding-top: 3em;
         font-size: 16px;
     }
+
+    .btn.callToAction {
+        font-family: GOVERNOR, Open Sans, sans-serif !important;
+        color: #fff !important;
+        background-color: $red !important;
+        padding: 0.5em;
+    }
 }
 
 
@@ -105,6 +104,7 @@ body {
 @import '../src/utilities/utilities';
 @import '../src/home/home';
 @import '../src/header/header';
+@import '../src/footer/footer';
 @import '../src/pagination/pagination';
 @import '../src/vocabulary/vocabulary';
 @import '../src/login/login';

@@ -1,43 +1,52 @@
 header {
-    .navbar-brand {
-        padding-right: 70px;
+    .navbar {
+        background-color: $lightGray;
+        border-radius: 0;
+        border: 0;
+        margin-bottom: 0;
     }
-    .brandName {
+    .navbar-nav>li>a.link {
+        font-family: Futura, Open Sans, sans-serif;
+        color: $gray;
+        padding-top: 16px;
     }
-    .icon img {
-        height: 24px;
-        width: 24px;
-        margin: 0 8px;
+    .btn.callToAction {
+        margin-top: 0.5em;
+        font-size: 0.9em;
+        padding: 0.8em 0.5em 0.4em 0.5em;
     }
-    .languageIcon {
+    .navbar {
+        background-color: $lightGray;
+    }
+    .icon {    
+        height: 1.2em;
+        width: 1.3em;
         display: inline-block;
-        height: 16px;
-        width: 18px;
-        background-size: 18px 12px;
-        vertical-align: middle;
-        background-position: 0 2px;
         background-repeat: no-repeat;
+        float: left;
+        margin-top: -1px;
     }
-    small {
-        font-size: 0.5em;
-        margin-left: -55px;
-        margin-top: 20px;
-        position: absolute;
+    .navbar-toggle .icon-bar {
+        height: 4px;
     }
-    .languageIcon.es {
-        background-image: url('../img/esflag_small.png');
+
+    .brandName {
+        font-family: GOVERNOR, Open Sans, sans-serif;
+        color: $gray;
+        font-size: 1.1em;
+        line-height: 1.2em;
     }
-    .languageIcon.fr {
-        background-image: url('../img/frflag_small.png');
+    .connectingWord {
+        line-height: 50px;
+        padding: 2px 20px 0 0;
+        color: $gray;
+        font-size: 0.8em;
     }
-    .languageIcon.de {
-        background-image: url('../img/deflag_small.png');
-    }
-    .languageIcon.it {
-        background-image: url('../img/itflag_small.png');
-    }
-    .languageIcon.pt {
-        background-image: url('../img/ptflag_small.png');
+    .headerBottom {    
+        height: 4px;
+        background-image: url("../img/studyokee_header_border.png");
+        width: 100%;
+        background-size: 100%;
     }
     .badge {
         background-color: $unknownColor;

@@ -1,55 +1,54 @@
 .home {
-    .title {
-        text-align: center;
+    text-align: center;
+    font-family: Futura, Open Sans, sans-serif;;
+
+    .panel {
+        background-color: $lightGray;
     }
 
-    h1 {
-        font-size: 4em;
+    .callout h2 {
+        color: $lightGray;
+        margin-top: 3.7rem;
+        margin-bottom: 3.65rem;
+        border-bottom: 0.4rem solid $yellow;
+        padding-bottom: 0.65rem;
     }
-
-    .nav-pills {
-        li {
-            border-radius: 4px;
-            margin: 0;
-            padding: 0;
-
-            .linkBg {
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
-                margin: 20px;
-                border-radius: 8px;
-                max-width: 300px;
-            }
-
-            a {
-                background-color: rgba(255, 255, 255, 0.8);
-                color: #333;
-                border-radius: 0;
-                height: 180px;
-                line-height: 180px;
-                display: inline-block;
-                width: 100%;
-                font-size: 3em;
-            }
-            a:hover {
-                text-decoration: none;
-                background-color: rgba(255, 255, 255, 0.5);
-            }
-            .es {
-                background-image: url('../img/esflag.png');
-            }
-            .fr {
-                background-image: url('../img/frflag.png');
-            }
-            .de {
-                background-image: url('../img/deflag.png');
-            }
-            .it {
-                background-image: url('../img/itflag.png');
-            }
-            .pt {
-                background-image: url('../img/ptflag.png');
-            }
-        }
+    .highlights h3 {
+        font-size: 1.2em;
+        color: $lightGray;
+        margin-top: 2em;
+    }
+    .callout {
+        margin-bottom: 5.05rem;
+    }
+    .highlights .illustrationContainer {
+        width: 16rem;
+        height: 16rem;
+        border-radius: 50%;
+        background-color: $lightGray;
+        display: inline-block;
+        border: 0.4rem solid $gray;
+    }
+    .highlights .illustration {
+        margin-top: 3rem;
+        width: 10rem;
+        height: 10rem;
+        background-image: url(../../img/studyokee_icons.png);
+        background-size: 100%;
+        display: inline-block;
+    }
+    .highlights .illustration.musicVideo {
+        background-position: 0 10rem;
+    }
+    .highlights .illustration.vocabBuilder {
+        background-position: 0 20rem;
+    }
+    .highlights .illustration.metrics {
+        background-position: 0 0;
+    }
+    .btn.callToAction {
+        border: 0.3em solid $darkRed;
+        padding: 0.5rem 1.5rem 0.15rem;
+        font-size: 1.4em;
     }
 }

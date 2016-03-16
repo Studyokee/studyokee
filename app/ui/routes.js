@@ -67,6 +67,20 @@ module.exports = function(passport){
         res.redirect('/login');
     });
 
+    router.get('/',
+        function(req, res) {
+            var data = {
+                page: '/lib/app.js'
+            };
+            data.user = {
+                id: req.user ? req.user._id : '',
+                firstName: req.user ? req.user.username : '',
+                admin: req.user ? req.user.admin : false
+            };
+            res.render('base', data);
+        }
+    );
+
     router.get('*', isAuthenticated,
         function(req, res) {
             console.log('user: ' + JSON.stringify(req.user, null, 4));
