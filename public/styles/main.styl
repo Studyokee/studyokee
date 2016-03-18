@@ -1,97 +1,58 @@
-@import '/bootstrap/index';
+@import "fonts"
 
-$img = '../img'
+// Core variables
+@import "bootstrap-overrides"
 
-$bgMain = #FFFFFF
-$bgOverlay = #FFFFFF
-$bgHighlight = #f0f2f4
-$textNormal = #32393d
-$textSubdued = #94999c
-$textTranslation = #A63A37
-$linkColor = #008fd5
-$borderNormal = 1px solid #e1e6e9
-$unknownColor = #ff9800
-$knownColor = #4caf50
+// Core mixins
+@import "bootstrap/mixins"
 
-$darkGray = #0C121B
-$gray = #69818D
-$lightGray = #BFD8D7
-$red = #DC5B74
-$darkRed = #5C2631
-$yellow = #F1DC65
-$darkYellow = #BF9919
+// Reset and dependencies
+@import "bootstrap/normalize"
+@import "bootstrap/print"
+@import "bootstrap/glyphicons"
 
-a {
-    cursor: pointer;
-}
-.styClose {
-    position: absolute;
-    top: 0;
-    right: 6px;
-    color: $textSubdued;
-    font-size: 18px;
-    padding: 12px;
-}
-.styClose {
-    margin-right: -48px;
-    margin-top: 12px;
-    font-size: 36px;
-}
-.styClose:hover {
-    cursor: pointer;
-}
+// Core CSS
+@import "bootstrap/scaffolding"
+@import "bootstrap/utilities"
+@import "bootstrap/type"
+@import "bootstrap/code"
+@import "bootstrap/grid"
+@import "bootstrap/tables"
+@import "bootstrap/forms"
+@import "bootstrap/buttons"
 
-footer {
-    border-top: 0.4rem solid $gray;
-}
+// Components
+@import "bootstrap/component-animations"
+@import "bootstrap/dropdowns"
+@import "bootstrap/button-groups"
+@import "bootstrap/input-groups"
+@import "bootstrap/navs"
+@import "bootstrap/navbar"
+@import "bootstrap/breadcrumbs"
+@import "bootstrap/pagination"
+@import "bootstrap/pager"
+@import "bootstrap/labels"
+@import "bootstrap/badges"
+@import "bootstrap/jumbotron"
+@import "bootstrap/thumbnails"
+@import "bootstrap/alerts"
+@import "bootstrap/progress-bars"
+@import "bootstrap/media"
+@import "bootstrap/list-group"
+@import "bootstrap/panels"
+@import "bootstrap/responsive-embed"
+@import "bootstrap/wells"
+@import "bootstrap/close"
 
-@font-face {
-    font-family: 'GOVERNOR';
-    font-style: normal;
-    font-weight: normal;
-    src: local('GOVERNOR'), url('../fonts/governor.ttf') format('ttf');
-}
+// Components w/ JavaScript
+@import "bootstrap/modals"
+@import "bootstrap/tooltip"
+@import "bootstrap/popovers"
+@import "bootstrap/carousel"
 
-html {
-    font-size: 16px;
-    line-height: 1.5em;
-}
+// Utility classes
+@import "bootstrap/responsive-utilities"
 
-body {
-    font-family: Futura, Open Sans, sans-serif;
-    color: $darkGray;
-
-    background: $lightGray;
-
-    .main {
-        min-height: 580px;
-        background: $darkGray;
-        padding-bottom: 8.5em;
-
-        .btn {
-            padding: 2px 20px;
-        }
-    }
-
-    .mask {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-        text-align: center;
-        padding-top: 3em;
-        font-size: 16px;
-    }
-
-    .btn.callToAction {
-        font-family: GOVERNOR, Open Sans, sans-serif !important;
-        color: #fff !important;
-        background-color: $red !important;
-        padding: 0.5em;
-    }
-}
 
 
 @import '../src/media-item/media-item';
@@ -123,3 +84,5 @@ body {
 @import '../src/vocabulary-metrics/vocabulary-map/vocabulary-map';
 
 @import '../src/vocabulary-study/vocabulary-slider/vocabulary-slider';
+
+@import 'helper';
