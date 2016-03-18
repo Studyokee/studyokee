@@ -1,11 +1,10 @@
 define [
-  'dictionary.view',
   'youtube.main.view',
   'media.item.list.view',
   'backbone',
   'handlebars',
   'templates'
-], (DictionaryView, MainView, MenuView, Backbone, Handlebars) ->
+], (MainView, MenuView, Backbone, Handlebars) ->
   ClassroomView = Backbone.View.extend(
     
     initialize: () ->
@@ -15,14 +14,6 @@ define [
       this.menuView = new MenuView(
         model: this.model.menuModel
         allowSelect: true
-      )
-
-      this.dictionaryView = new DictionaryView(
-        model: this.model.dictionaryModel
-      )
-
-      this.mainView.on('lookup', (query) =>
-        this.model.lookup(query)
       )
       
       this.mainView.on('enterPresentationMode', () =>
@@ -45,15 +36,14 @@ define [
 
       this.$('.mediaItemListContainer').html(this.menuView.render().el)
       this.$('.center').html(this.mainView.render().el)
-      this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
 
       this.$('.editClassroom').on('click', (e) =>
         Backbone.history.navigate('classrooms/' + this.model.get('data')?.classroomId + '/edit', {trigger: true})
         e.preventDefault()
       )
       
-      if (this.model.get('settings')?.get('user')?.id is this.model.get('data')?.createdById) or this.model.get('settings')?.get('user')?.admin?
-        this.$('.editClassroom').show()
+      #if (this.model.get('settings')?.get('user')?.id is this.model.get('data')?.createdById) or this.model.get('settings')?.get('user')?.admin?
+      #  this.$('.editClassroom').show()
 
       return this
   )

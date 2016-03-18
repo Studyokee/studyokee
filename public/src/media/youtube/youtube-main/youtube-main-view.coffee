@@ -1,16 +1,27 @@
 define [
-  'subtitles.scroller.view',
-  'youtube.player.view',
   'dictionary.view',
+  'subtitles.scroller.view',
+  'subtitles.controls.view'
+  'youtube.player.view',
   'backbone',
   'handlebars',
   'templates'
-], (SubtitlesScrollerView, YoutubePlayerView, DictionaryView, Backbone, Handlebars) ->
+], (DictionaryView, SubtitlesScrollerView, SubtitlesControlsView, YoutubePlayerView, Backbone, Handlebars) ->
   YoutubeMainView = Backbone.View.extend(
     tagName:  'div'
     className: 'youtube-main'
     
     initialize: () ->
+
+      this.subtitlesControlsView = new SubtitlesControlsView(
+        model: this.model
+        allowHideTranslation: true
+      )
+
+      this.subtitlesControlsView.on('toggleTranslation', () =>
+        this.trigger('toggleTranslation')
+      )
+
       this.listenTo(this.model, 'change', () =>
         this.render()
       )
@@ -23,8 +34,14 @@ define [
         model: this.model.youtubePlayerModel
       )
 
+      this.dictionaryView = new DictionaryView(
+        model: this.model.dictionaryModel
+      )
+
       this.subtitlesScrollerView.on('lookup', (query) =>
-        this.trigger('lookup', query)
+        this.dictionaryModel.set(
+          query: query
+        )
         this.model.youtubePlayerModel.pause()
       )
       this.subtitlesScrollerView.on('toggle', (query) =>
@@ -56,6 +73,7 @@ define [
 
       this.$('.video-player-container').html(this.youtubePlayerView.render().el)
       this.$('.player-container').html(this.subtitlesScrollerView.render().el)
+      this.$('.controls-container').html(this.subtitlesControlsView.render().el)
 
       return this
 

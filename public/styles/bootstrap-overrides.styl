@@ -15,7 +15,7 @@ $gray-darker ?=         #0C121B
 $gray-dark ?=           #536670
 $gray ?=                #69818D
 $gray-light ?=          #BFD8D7
-$gray-lighter ?=        lighten($gray-base, 93.5) // #eee
+$gray-lighter ?=        lighten($gray-light, 10)
 
 $brand-primary ?=       $red
 $brand-success ?=       #5cb85c
@@ -79,7 +79,7 @@ $headings-color ?=         inherit
 //## Specify custom location and filename of the included Glyphicons icon font. Useful for those including Bootstrap via Bower.
 
 //** Load fonts from this directory.
-$icon-font-path ?=         "../fonts/"
+$icon-font-path ?=         "../../bower_components/bootstrap/fonts/"
 //** File name for all font files.
 $icon-font-name ?=         "glyphicons-halflings-regular"
 //** Element ID within SVG icon file.
@@ -112,7 +112,7 @@ $border-radius-small ?=      3px
 //** Global color for active items (e.g., navs or dropdowns).
 $component-active-color ?=   #fff
 //** Global background color for active items (e.g., navs or dropdowns).
-$component-active-bg ?=      $brand-primary
+$component-active-bg ?=      $gray-dark
 
 //** Width of the `border` for generating carets that indicator dropdowns.
 $caret-width-base ?=         4px
@@ -705,19 +705,19 @@ $list-group-link-heading-color ?= #333
 //
 //##
 
-$panel-bg ?=                  #fff
-$panel-body-padding ?=        15px
-$panel-heading-padding ?=     10px 15px
+$panel-bg ?=                  $gray-light
+$panel-body-padding ?=        1rem
+$panel-heading-padding ?=     0.75rem 1rem
 $panel-footer-padding ?=      $panel-heading-padding
-$panel-border-radius ?=       $border-radius-base
+$panel-border-radius ?=       0
 
 //** Border color for elements within panels
 $panel-inner-border ?=        #ddd
 $panel-footer-bg ?=           #f5f5f5
 
 $panel-default-text ?=        $gray-dark
-$panel-default-border ?=      #ddd
-$panel-default-heading-bg ?=  #f5f5f5
+$panel-default-border ?=      $gray-dark
+$panel-default-heading-bg ?=  $gray-light
 
 $panel-primary-text ?=        #fff
 $panel-primary-border ?=      $brand-primary

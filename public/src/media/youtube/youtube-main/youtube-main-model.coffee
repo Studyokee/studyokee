@@ -1,9 +1,10 @@
 define [
+  'dictionary.model',
   'songs.data.provider',
   'youtube.player.model',
   'subtitles.scroller.model',
   'backbone'
-], (SongsDataProvider, YoutubePlayerModel, SubtitlesScrollerModel, Backbone) ->
+], (DictionaryModel, SongsDataProvider, YoutubePlayerModel, SubtitlesScrollerModel, Backbone) ->
   YoutubeMainModel = Backbone.Model.extend(
     default:
       subtitles: []
@@ -23,6 +24,17 @@ define [
         this.subtitlesScrollerModel.set(
           i: this.youtubePlayerModel.get('i')
         )
+      )
+
+      this.dictionaryModel = new DictionaryModel(
+        fromLanguage: this.get('settings').get('fromLanguage').language
+        toLanguage: this.get('settings').get('toLanguage').language
+        settings: this.get('settings')
+      )
+
+      this.dictionaryModel.on('vocabularyUpdate', (words) =>
+        this.trigger('vocabularyUpdate', words)
+        this.mainModel.trigger('vocabularyUpdate', words)
       )
 
       this.on('vocabularyUpdate', (words) =>

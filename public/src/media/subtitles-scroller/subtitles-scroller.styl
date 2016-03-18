@@ -19,55 +19,45 @@
 
     .list-group-item.active {
         z-index: 2;
-        color: #ffffff;
+        background-color: $gray-lighter;
 
         a {
-            color: #ffffff;
+            color: $gray-dark;
         }
         a:hover, a:active {
-            color: #ffffff;
+            color: $gray-darker;
         }
         .translated-subtitle {
-            color: #dddddd;
+            color: $gray-dark;
         }
     
     }
     .list-group-item {
         border: none;
-        border-radius: 4px;
         text-align: center;
-        padding: 12px 15px;
+        padding: 1rem;
+        background-color: $gray-light;
 
         .original-subtitle {
-            height: 32px;
+            height: 2rem;
         }
 
         a {
             text-decoration: none;
-            background-color: #e51c23;
-            padding: 4px 10px;
+            border-bottom: 0.2rem solid $red;
             display: inline-block;
-            color: #fff;
+            color: $gray-dark;
         }
         a.known {
-            color: #666666;
-            background-color: transparent;
-            padding: 4px 2px;
+            border-color: $darkYellow;
         }
         a.unknown {
-            background-color: $unknownColor;
-        }
-        a.unknown:hover, a.known:hover {
-            opacity: 1;
-            color: #fff;
-        }
-        a:hover {
-            color: #2196f3;
+            border-color: $red;
         }
     }
 
     .no-subtitles {
-        padding: 16px;
+        padding: 1rem;
         text-align: center;
     }
     .subtitles li {

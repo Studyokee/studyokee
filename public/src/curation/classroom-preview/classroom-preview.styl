@@ -1,25 +1,17 @@
 .classroom-preview {
     cursor: pointer;
+    color: $gray;
     
     .panel {
-        height: 250px;
+        height: 20rem;
+        border: 0.4rem solid $gray;
+        background-color: $gray-light;
     }
-
-    a.classroomLink {
-        height: 100%;
-        border-radius: 0;
-        overflow: hidden;
-        height: 100%;
-        width: 100%;
-        display: inline-block;
-        cursor: pointer;
+    .panel:hover {
+        border-color: $gray-dark;
+        background-color: $gray-lighter;
     }
     .hasMoreItems {
-        font-size: 24px;
-        margin-top: -18px;
-    }
-    h5 {
-        margin: 0;
-        padding-top: 16px;
+        font-size: 1.5rem;
     }
 }

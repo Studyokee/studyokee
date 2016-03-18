@@ -1,19 +1,13 @@
-<div class="progress-container">
-    <button type="button" class="toggle-play btn btn-primary" title="Toggle Play"">
-        <span class="glyphicon {{#if playing}}glyphicon-pause{{else}}glyphicon-play{{/if}}"></span>
-    </button>
-    <span class="progress">
-        <div class="progress-timer">0:00/0:00</div>
-        <div class="progress-bar" style="width: 0;"></div>
-    </span>
-</div>
-<div class="step-buttons">
+<div class="step-buttons text-center">
     <!--<button type="button" class="toStart btn btn-primary" title="To Start">
         <span class="glyphicon glyphicon-step-backward"></span>
     </button>-->
     <button type="button" class="prev btn btn-primary" title="Previous">
         <span class="glyphicon glyphicon-step-backward"></span>
         <span class="buttonText">PREV LINE</span>
+    </button>
+    <button type="button" class="toggle-play btn btn-primary" title="Toggle Play"">
+        <span class="glyphicon {{#if playing}}glyphicon-pause{{else}}glyphicon-play{{/if}}"></span>
     </button>
     <button type="button" class="next btn btn-primary" title="Next">
         <span class="buttonText">NEXT LINE</span>

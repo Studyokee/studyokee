@@ -1,9 +1,8 @@
 define [
-  'dictionary.model',
   'youtube.main.model',
   'media.item.list.model',
   'backbone'
-], (DictionaryModel, MainModel, MenuModel, Backbone) ->
+], (MainModel, MenuModel, Backbone) ->
   ClassroomModel = Backbone.Model.extend(
 
     initialize: () ->
@@ -16,23 +15,7 @@ define [
         settings: this.get('settings')
       )
 
-      this.dictionaryModel = new DictionaryModel(
-        fromLanguage: this.get('settings').get('fromLanguage').language
-        toLanguage: this.get('settings').get('toLanguage').language
-        settings: this.get('settings')
-      )
-
-      this.dictionaryModel.on('vocabularyUpdate', (words) =>
-        this.trigger('vocabularyUpdate', words)
-        this.mainModel.trigger('vocabularyUpdate', words)
-      )
-
       this.getClassroom()
-
-    lookup: (query) ->
-      this.dictionaryModel.set(
-        query: query
-      )
 
     getClassroom: () ->
       $.ajax(
@@ -42,9 +25,6 @@ define [
         success: (res) =>
           this.set(
             data: res.classroom
-          )
-          this.dictionaryModel.set(
-            fromLanguage: res.classroom.language
           )
           this.menuModel.set(
             rawData: res.displayInfos
