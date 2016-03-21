@@ -14,7 +14,7 @@ define [
     initialize: () ->
 
       this.subtitlesControlsView = new SubtitlesControlsView(
-        model: this.model
+        model: this.model.youtubePlayerModel
         allowHideTranslation: true
       )
 
@@ -48,18 +48,7 @@ define [
         this.model.youtubePlayerModel.toggle()
       )
 
-      this.youtubePlayerView.on('enterPresentationMode', () =>
-        this.trigger('enterPresentationMode')
-        this.enterPresentationMode()
-        this.subtitlesScrollerView.trigger('sizeChange')
-      )
-      this.youtubePlayerView.on('leavePresentationMode', () =>
-        this.trigger('leavePresentationMode')
-        this.leavePresentationMode()
-        this.subtitlesScrollerView.trigger('sizeChange')
-      )
-
-      this.youtubePlayerView.on('toggleTranslation', () =>
+      this.subtitlesControlsView.on('toggleTranslation', () =>
         scrollerEl = this.$el.find('.subtitles-scroller')
         if (scrollerEl.hasClass('show-translation'))
           scrollerEl.removeClass('show-translation')

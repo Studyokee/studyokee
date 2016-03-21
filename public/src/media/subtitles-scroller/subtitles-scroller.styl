@@ -1,37 +1,8 @@
 .subtitles-scroller {
     overflow: hidden;
     position: relative;
-    font-size: 1.4em;
+    font-size: 1.4rem;
 
-    .gradient {
-        z-index: 4;
-        height: 100px;
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-
-        /* Gradient */
-        background: -webkit-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1.0) 80%); /* For Safari and Chrome */
-        background: -o-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1.0) 80%); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1.0) 80%); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1.0) 80%); /* Standard syntax */
-    }
-
-    .list-group-item.active {
-        z-index: 2;
-        background-color: $gray-lighter;
-
-        a {
-            color: $gray-dark;
-        }
-        a:hover, a:active {
-            color: $gray-darker;
-        }
-        .translated-subtitle {
-            color: $gray-dark;
-        }
-    
-    }
     .list-group-item {
         border: none;
         text-align: center;
@@ -40,6 +11,7 @@
 
         .original-subtitle {
             height: 2rem;
+            margin-bottom: 1rem;
         }
 
         a {
@@ -54,6 +26,12 @@
         a.unknown {
             border-color: $red;
         }
+        a:hover, a:active {
+            color: $gray-darker;
+        }
+    }
+    .list-group-item.active {
+        background-color: $gray-lighter;
     }
 
     .no-subtitles {
