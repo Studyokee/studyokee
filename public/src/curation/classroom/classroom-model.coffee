@@ -31,7 +31,9 @@ define [
           )
           if res.displayInfos?.length > 0
             firstItem = res.displayInfos[0]
-            this.mainModel.trigger('changeSong', firstItem.song)
+            this.mainModel.set(
+              currentSong: firstItem.song
+            )
         error: (err) =>
           console.log('Error: ' + err)
       )

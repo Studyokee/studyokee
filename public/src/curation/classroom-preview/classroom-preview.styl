@@ -1,17 +1,22 @@
 .classroom-preview {
     cursor: pointer;
-    color: $gray;
+    color: $gray-dark;
     
+    h3 {
+        border-bottom: 0.4rem solid $yellow;
+        padding-top: 0;
+    }
+
     .panel {
         height: 21rem;
         border: 0.8rem solid $gray;
-        background-color: $gray-light;
+        background-color: $gray-lighter;
         border-radius: 3rem;
         padding: 0.5rem;
-        margin: 1.5rem;
+        margin: 1rem;
     }
     .panel:hover {
-        border-color: $gray-dark;
+        border-color: $red;
         background-color: $gray-lighter;
     }
     .hasMoreItems {

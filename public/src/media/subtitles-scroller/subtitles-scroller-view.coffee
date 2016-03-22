@@ -20,14 +20,16 @@ define [
       this.listenTo(this.model, 'change:i', () =>
         this.onPositionChange()
       )
-      this.listenTo(this.model, 'change:subtitles', () =>
+      this.listenTo(this.model, 'change:processedLines', () =>
         this.render()
       )
-      this.on('sizeChange', () =>
-        this.onPositionChange()
-      )
-      this.model.on('highlightUpdate', () =>
-        this.render()
+
+      this.on('toggleTranslation', () =>
+        scrollerEl = this.$el
+        if (scrollerEl.hasClass('show-translation'))
+          scrollerEl.removeClass('show-translation')
+        else
+          scrollerEl.addClass('show-translation')
       )
 
     render: () ->

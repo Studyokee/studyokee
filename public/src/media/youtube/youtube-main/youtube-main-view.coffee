@@ -18,14 +18,6 @@ define [
         allowHideTranslation: true
       )
 
-      this.subtitlesControlsView.on('toggleTranslation', () =>
-        this.trigger('toggleTranslation')
-      )
-
-      this.listenTo(this.model, 'change', () =>
-        this.render()
-      )
-
       this.subtitlesScrollerView = new SubtitlesScrollerView(
         model: this.model.subtitlesScrollerModel
       )
@@ -38,23 +30,19 @@ define [
         model: this.model.dictionaryModel
       )
 
-      this.subtitlesScrollerView.on('lookup', (query) =>
-        this.dictionaryModel.set(
-          query: query
-        )
-        this.model.youtubePlayerModel.pause()
-      )
-      this.subtitlesScrollerView.on('toggle', (query) =>
-        this.model.youtubePlayerModel.toggle()
+      this.listenTo(this.model, 'change:currentSong', () =>
+        this.render()
       )
 
       this.subtitlesControlsView.on('toggleTranslation', () =>
-        scrollerEl = this.$el.find('.subtitles-scroller')
-        if (scrollerEl.hasClass('show-translation'))
-          scrollerEl.removeClass('show-translation')
-        else
-          scrollerEl.addClass('show-translation')
+        this.subtitlesScrollerView.trigger('toggleTranslation')
+      )
 
+      this.subtitlesScrollerView.on('lookup', (query) =>
+        this.model.dictionaryModel.set(
+          query: query
+        )
+        this.model.youtubePlayerModel.pause()
       )
 
     render: () ->
@@ -63,21 +51,9 @@ define [
       this.$('.video-player-container').html(this.youtubePlayerView.render().el)
       this.$('.player-container').html(this.subtitlesScrollerView.render().el)
       this.$('.controls-container').html(this.subtitlesControlsView.render().el)
+      this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
 
       return this
-
-    enterPresentationMode: () ->
-      this.$('.video-player-container').addClass('col-lg-6')
-      this.$('.player-container').addClass('col-lg-6')
-
-    leavePresentationMode: () ->
-      this.$('.video-player-container').removeClass('col-lg-6')
-      this.$('.player-container').removeClass('col-lg-6')
-
-    calculateYTPlayerHeight: () ->
-      ytPlayerWidth = this.$('#ytPlayer').width()
-      ytPlayerHeight = ytPlayerWidth * 0.75
-      this.$('#ytPlayer').height(ytPlayerHeight + 'px')
 
   )
 

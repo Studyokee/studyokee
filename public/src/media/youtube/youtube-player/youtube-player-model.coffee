@@ -8,17 +8,25 @@ define [
       playing: false
 
     initialize: () ->
+      this.on('change:currentSong', () =>
+        # Reset
+        this.cueSong()
+        this.pause()
+        this.set(
+          subtitles: []
+          i: 0
+          playing: false
+        )
+      )
+
+      this.on('cueSong', () =>
+        this.cueSong()
+      )
+
       this.offset = 0
       this.quickPrev = false
       this.timer = null
-      this.listenTo(this, 'change:currentSong', () =>
-        if this.get('ytPlayerReady')
-          this.pause()
-          this.onChangeSong()
-          this.set(
-            i: 0
-          )
-      )
+
       this.listenTo(this, 'change:playing', () =>
         if not this.get('playing')
           this.clearTimer()
@@ -115,7 +123,7 @@ define [
       this.quickPrev = true
       return result
 
-    onChangeSong: () ->
+    cueSong: () ->
       currentSong = this.get('currentSong')
       if this.ytPlayer?.cueVideoById? and currentSong?
         this.ytPlayer.cueVideoById(currentSong.youtubeKey)

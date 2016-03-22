@@ -29,7 +29,7 @@ define [
         this.model.set(
           ytPlayerReady: true
         )
-        this.model.trigger('change:currentSong')
+        this.model.trigger('cueSong')
 
       onStateChange = (state) =>
         fn = () =>
