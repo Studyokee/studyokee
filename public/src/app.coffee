@@ -76,8 +76,8 @@ require [
         model: classroomModel
       )
 
-      classroomModel.on('vocabularyUpdate', (words) ->
-        headerModel.trigger('vocabularyUpdate', words)
+      classroomModel.on('change:vocabulary', () ->
+        headerModel.trigger('vocabularyUpdate', classroomModel.get('vocabulary'))
       )
 
       headerView.setElement($('#skee header')).render()

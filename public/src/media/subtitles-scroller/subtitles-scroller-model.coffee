@@ -5,23 +5,19 @@ define [
     default:
       processedLines: []
       i: 0
-      isLoading: true
 
     initialize: () ->
-      this.on('change:currentSong', () =>
-        # Reset
+      this.on('change:subtitles', () =>
         this.set(
           processedLines: []
-          i: 0
-          isLoading: true
         )
-      )
-
-      this.on('change:subtitles', () =>
         this.processWords()
       )
 
       this.on('change:vocabulary', () =>
+        this.set(
+          processedLines: []
+        )
         this.processWords()
       )
 

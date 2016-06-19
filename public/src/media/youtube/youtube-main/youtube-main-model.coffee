@@ -9,6 +9,7 @@ define [
     
     initialize: () ->
       this.dataProvider = new SongsDataProvider(this.get('settings'))
+      
       this.youtubePlayerModel = new YoutubePlayerModel(
         settings: this.get('settings')
       )
