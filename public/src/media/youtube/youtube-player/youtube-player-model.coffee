@@ -71,6 +71,7 @@ define [
         )
 
     play: () ->
+      console.log('PLAYER: play')
       if this.ytPlayer?.playVideo?
         this.ytPlayer.playVideo()
         this.set(
@@ -78,6 +79,7 @@ define [
         )
 
     pause: () ->
+      console.log('PLAYER: pause')
       if this.ytPlayer?.pauseVideo?
         this.ytPlayer.pauseVideo()
         this.set(
@@ -92,10 +94,12 @@ define [
         this.play()
 
     next: () ->
+      console.log('PLAYER: next')
       i = this.get('i') + 1
       this.jumpTo(i)
 
     prev: () ->
+      console.log('PLAYER: prev')
       i = this.get('i')
       if this.isQuickPrev() or not this.get('playing')
         i = Math.max(i-1, 0)

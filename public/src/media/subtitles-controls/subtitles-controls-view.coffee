@@ -132,10 +132,10 @@ define [
 
 
     onKeyDown: (event) ->
-      if event.which is 49
+      if event.which is 37
         this.prev()
         event.preventDefault()
-      if event.which is 50
+      if event.which is 39
         this.next()
         event.preventDefault()
       if event.which is 32

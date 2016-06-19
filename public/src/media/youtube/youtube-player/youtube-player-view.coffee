@@ -12,24 +12,19 @@ define [
 
     render: () ->
       this.$el.html(Handlebars.templates['youtube-player'](this.model.toJSON()))
-      
+
       postRender = () =>
         this.postRender()
       setTimeout(postRender)
 
       return this
 
-    calculateYTPlayerHeight: () ->
-      ytPlayerWidth = this.$('#' + this.playerId).width()
-      ytPlayerHeight = ytPlayerWidth * 0.75
-      this.$('#' + this.playerId).height(ytPlayerHeight + 'px')
-
     postRender: () ->
       onReady = () =>
         this.model.set(
           ytPlayerReady: true
         )
-        this.model.trigger('cueSong')
+        this.model.trigger('change:currentSong')
 
       onStateChange = (state) =>
         fn = () =>
@@ -42,6 +37,7 @@ define [
         params =
           height: height
           width: width
+          videoId: this.model.get('currentSong')?.youtubeKey
           playerVars:
             modestbranding: 1
             fs: 0
@@ -60,6 +56,8 @@ define [
         $.getScript('//www.youtube.com/iframe_api?noext')
       else
         onAPIReady()
+
+
   )
 
   return YoutubePlayerView

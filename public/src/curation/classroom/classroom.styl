@@ -1,24 +1,26 @@
 .classroom {
     .menu {
-        margin-top: 2rem;
-
-        .panel-body {
-            padding: 0;
+        background-color: $gray-light;
+    }
+    .menuContent {
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        
+        h2 {
+            margin: 0;
+            color: $gray-dark;
         }
     }
     .panel {
         border-width: 0;
-        border-top-width: 0.8rem;
-        border-bottom-width: 0.8rem;
+        background-color: $gray-lighter;
+        box-shadow: none;
     }
     .panel-heading {
         border-width: 0;
     }
-
-
-
     .center .panel {
-        border-color: $yellow;
+        border-bottom: 0.4rem solid #536670
         margin-top: 1.3rem;
     }
     .center {
@@ -26,5 +28,18 @@
     }
     .mediaItemLink {
         cursor: pointer;
+    }
+    .mediaItemLink:hover {
+        background-color: $gray-light;
+    }
+    .songSelection {
+        float: right;
+    }
+    .dropdown-menu {
+        width: 400px;
+    }
+    .btn-info, .open > .dropdown-toggle.btn-info {
+        color: $gray-lighter;
+        background-color: $gray;
     }
 }

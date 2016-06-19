@@ -1,13 +1,17 @@
 <div class="classroom">
-    <div class="container-fluid">
-        <div class="menu col-md-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>{{data.name}} <a href="/classrooms/{{data.classroomId}}/edit" class="btn btn-primary btn-xs editClassroom" style="display:none;">edit</a></h4>
-                </div> 
-                <div class="mediaItemListContainer panel-body"></div>
+    <div class="container-fluid menu">
+        <div class="col-md-6 col-md-offset-3 menuContent">
+            <div class="dropdown songSelection">
+                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    {{currentSong.metadata.trackName}} by {{currentSong.metadata.artist}} <span class="caret"></span>
+                </button>
+                <div class="mediaItemListContainer dropdown-menu"></div>
             </div>
+            <h2><u>{{data.name}}</u></h2>
         </div>
-        <div class="center"></div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="center container"></div>
     </div>
 </div>

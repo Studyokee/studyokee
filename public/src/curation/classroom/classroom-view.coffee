@@ -1,10 +1,11 @@
 define [
   'youtube.main.view',
   'media.item.list.view',
+  'media.item.view',
   'backbone',
   'handlebars',
   'templates'
-], (MainView, MenuView, Backbone, Handlebars) ->
+], (MainView, MenuView, MediaItemView, Backbone, Handlebars) ->
   ClassroomView = Backbone.View.extend(
     
     initialize: () ->
@@ -14,6 +15,9 @@ define [
       this.menuView = new MenuView(
         model: this.model.menuModel
         allowSelect: true
+      )
+      this.currentSongView = new MediaItemView(
+        model: this.model.currentSongModel
       )
       
       this.mainView.on('enterPresentationMode', () =>
@@ -29,6 +33,9 @@ define [
 
       this.menuView.on('select', (item) =>
         this.model.mainModel.set(
+          currentSong: item.song
+        )
+        this.model.set(
           currentSong: item.song
         )
       )

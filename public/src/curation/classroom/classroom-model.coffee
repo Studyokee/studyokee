@@ -15,6 +15,8 @@ define [
         settings: this.get('settings')
       )
 
+      this.currentSongModel = new Backbone.Model()
+
       this.getClassroom()
 
     getClassroom: () ->
@@ -32,6 +34,9 @@ define [
           if res.displayInfos?.length > 0
             firstItem = res.displayInfos[0]
             this.mainModel.set(
+              currentSong: firstItem.song
+            )
+            this.set(
               currentSong: firstItem.song
             )
         error: (err) =>
