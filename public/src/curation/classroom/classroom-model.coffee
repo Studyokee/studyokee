@@ -19,8 +19,6 @@ define [
         settings: this.get('settings')
       )
 
-      this.currentSongModel = new Backbone.Model()
-
       this.getClassroom()
 
     getClassroom: () ->
@@ -29,6 +27,7 @@ define [
         url: '/api/classrooms/' + this.get('id')
         dataType: 'json'
         success: (res) =>
+          console.log('Classroom: retrieved classroom data')
           this.set(
             data: res.classroom
           )
@@ -36,6 +35,7 @@ define [
             rawData: res.displayInfos
           )
           if res.displayInfos?.length > 0
+            console.log('Classroom: update current song')
             firstItem = res.displayInfos[0]
             this.mainModel.set(
               currentSong: firstItem.song

@@ -25,6 +25,7 @@ define [
       )
 
       this.menuView.on('select', (item) =>
+        console.log('Classroom: update current song')
         this.model.mainModel.set(
           currentSong: item.song
         )

@@ -22,8 +22,7 @@ define [
       )
 
       this.on('change:currentSong', () =>
-        console.log('change current song')
-
+        console.log('YoutubeMainModel:change current song')
         this.youtubePlayerModel.set(
           currentSong: this.get('currentSong')
         )
@@ -35,7 +34,7 @@ define [
       )
 
       this.on('change:subtitles', () =>
-        console.log('loaded new subtitles')
+        console.log('YoutubeMainModel:change subtitles')
         this.youtubePlayerModel.set(
           subtitles: this.get('subtitles')
         )
@@ -67,6 +66,7 @@ define [
       this.getVocabulary()
 
     getSubtitles: (song) ->
+      console.log('YoutubeMainModel: retrieved song data')
       if not song?
         this.youtubePlayerModel.set(
           subtitles: []
@@ -85,8 +85,8 @@ define [
             resolutionsArray = song.resolutions
             for resolution in resolutionsArray
               resolutions[resolution.word] = resolution.resolution
-          console.log(JSON.stringify(resolutions, null, 4))
           
+          console.log('YoutubeMainModel: update song data')
           this.set(
             subtitles: song.subtitles
             translation: song.translations[0].data
@@ -104,7 +104,6 @@ define [
         url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage
         dataType: 'json'
         success: (res) =>
-          console.log('vocabulary retrieved')
           this.set(
             vocabulary: res?.words
           )

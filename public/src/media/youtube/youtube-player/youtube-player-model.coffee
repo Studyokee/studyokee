@@ -9,7 +9,6 @@ define [
 
     initialize: () ->
       this.on('change:currentSong', () =>
-        console.log('YoutubePlayerModel:change current song')
         # Reset
         this.cueSong()
         this.pause()

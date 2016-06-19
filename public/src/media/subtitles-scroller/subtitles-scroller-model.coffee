@@ -18,12 +18,10 @@ define [
       )
 
       this.on('change:subtitles', () =>
-        console.log('process words to match new subtitles')
         this.processWords()
       )
 
       this.on('change:vocabulary', () =>
-        console.log('process words to match new vocabulary')
         this.processWords()
       )
 
@@ -31,10 +29,8 @@ define [
       vocabulary = this.get('vocabulary')
       subtitles = this.get('subtitles')
       if not vocabulary
-        console.log('no vocabulary loaded yet')
         return
       if not subtitles
-        console.log('no subtitles loaded yet')
         return
 
       console.log('processWords')
@@ -70,7 +66,6 @@ define [
 
             if resolutions[lower]
               lower = resolutions[lower].toLowerCase()
-              console.log('using: ' + lower + ' instead of ' + word)
 
             tag = this.getTag(lower, vocabularyMaps)
 
@@ -97,10 +92,6 @@ define [
         unknownLyricsCount: Object.keys(unknownLyricsMap).length
         otherLyricsCount: Object.keys(otherLyricsMap).length
       )
-
-      console.log('knownLyricsCount: ' + this.get('knownLyricsCount'))
-      console.log('unknownLyricsCount: ' + this.get('unknownLyricsCount'))
-      console.log('otherLyricsCount: ' + this.get('otherLyricsCount'))
 
     createVocabularyMaps: (vocabulary) ->
       known = {}
