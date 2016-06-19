@@ -1,30 +1,34 @@
-<div class="signup col-lg-6 panel panel-default">
+<div class="signup col-md-6 col-md-offset-3">
+  <div class="panel panel-default">
     <div class="panel-body">
-        <form class="form-horizontal">
-          <fieldset>
-            <legend>Register</legend>
-            <div class="form-group">
-              <label for="username" class="col-lg-3 control-label">User Name</label>
-              <div class="col-lg-9">
-                <input type="text" class="form-control" id="username" placeholder="User Name">
-              </div>
+      <div class="alert alert-warning registerWarning" role="alert" style="display:none;"></div>
+      <form class="form-horizontal">
+        <fieldset>
+          <legend>Register</legend>
+          <div class="form-group">
+            <label for="username" class="col-lg-3">User Name</label>
+            <div class="col-lg-9">
+              <input type="text" class="form-control" id="username" placeholder="User Name">
             </div>
-            <div class="form-group">
-              <label for="password" class="col-lg-3 control-label">Password</label>
-              <div class="col-lg-9">
-                <input type="password" class="form-control" id="password" placeholder="Password">
-              </div>
+          </div>
+          <div class="form-group">
+            <label for="password" class="col-lg-3">Password</label>
+            <div class="col-lg-9">
+              <input type="password" class="form-control" id="password" placeholder="Password">
             </div>
-            <div class="form-group">
-              <div class="col-lg-9 col-lg-offset-3">
-                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-              </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-9 col-lg-offset-3">
+              <button type="submit" class="btn btn-primary" id="submit">Submit</button>
             </div>
-          </fieldset>
-        </form>
-        Already have an account? <a href="/login" class="open-login">Login</a>
+          </div>
+        </fieldset>
+      </form>
+      Already have an account? <a href="/login" class="open-login">Login</a>
     </div>
     <div class="mask" style="display:none;">
       Loading...
     </div>
+  </div>
 </div>
+<div style="clear: both;"></div>

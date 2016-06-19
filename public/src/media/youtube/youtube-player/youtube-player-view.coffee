@@ -20,11 +20,12 @@ define [
       return this
 
     postRender: () ->
-      onReady = () =>
+      onReady = (event) =>
+        this.model.ytPlayer = event.target
+        console.log('YT player ready')
         this.model.set(
           ytPlayerReady: true
         )
-        this.model.trigger('change:currentSong')
 
       onStateChange = (state) =>
         fn = () =>
@@ -49,13 +50,15 @@ define [
           events:
             'onReady': onReady
             'onStateChange': onStateChange
-        this.model.ytPlayer = new YT.Player(this.playerId, params)
+        new YT.Player(this.playerId, params)
 
       if typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined'
         window.onYouTubeIframeAPIReady = onAPIReady
-        $.getScript('//www.youtube.com/iframe_api?noext')
+        $.getScript('https://www.youtube.com/iframe_api')
       else
         onAPIReady()
+
+      
 
 
   )

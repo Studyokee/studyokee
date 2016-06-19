@@ -19,13 +19,6 @@ define [
       this.currentSongView = new MediaItemView(
         model: this.model.currentSongModel
       )
-      
-      this.mainView.on('enterPresentationMode', () =>
-        $('body').addClass('presentation-mode')
-      )
-      this.mainView.on('leavePresentationMode', () =>
-        $('body').removeClass('presentation-mode')
-      )
 
       this.listenTo(this.model, 'change', () =>
         this.render()

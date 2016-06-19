@@ -9,8 +9,8 @@ define [
 
     initialize: () ->
       this.on('vocabularyUpdate', (unknown) =>
-        # Only get new order if more words added
-        if this.get('words')?.length < unknown.length - 1
+        # Only get new order if more words added or there are no words
+        if this.get('words')?.length is 0 or this.get('words')?.length < unknown.length - 1
           console.log('had ' + this.get('words').length + ' words')
           console.log('now has ' + unknown.length + ' words')
           this.set(

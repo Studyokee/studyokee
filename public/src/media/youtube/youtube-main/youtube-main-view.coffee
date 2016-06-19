@@ -39,6 +39,7 @@ define [
       )
 
       this.subtitlesScrollerView.on('lookup', (query) =>
+        this.trigger('lookup', query)
         this.model.dictionaryModel.set(
           query: query
         )

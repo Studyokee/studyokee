@@ -30,7 +30,6 @@ define [
     processWords: (vocabulary) ->
       vocabulary = this.get('vocabulary')
       subtitles = this.get('subtitles')
-
       if not vocabulary
         console.log('no vocabulary loaded yet')
         return

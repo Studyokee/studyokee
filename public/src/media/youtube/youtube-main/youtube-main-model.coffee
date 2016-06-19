@@ -35,6 +35,7 @@ define [
       )
 
       this.on('change:subtitles', () =>
+        console.log('loaded new subtitles')
         this.youtubePlayerModel.set(
           subtitles: this.get('subtitles')
         )

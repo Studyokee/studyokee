@@ -7,7 +7,8 @@ var User = require('../../models/user');
 module.exports = function(passport){
 
     passport.use('signup', new LocalStrategy({
-            passReqToCallback : true
+            passReqToCallback : true,
+            failureFlash: true // optional, see text as well
         },
         function(req, username, password, done) {
             var findOrCreateUser = function(){
@@ -21,7 +22,7 @@ module.exports = function(passport){
                     // already exists
                     if (user) {
                         console.log('User already exists');
-                        return done(null, false, req.flash('message','User Already Exists'));
+                        return done(null, false, req.flash('message', 'User Already Exists'));
                     } else {
                         // if there is no user with that email
                         // create the user
@@ -34,7 +35,7 @@ module.exports = function(passport){
                         newUser.save(function(err) {
                             if (err){
                                 console.log('Error in Saving user: '+err);
-                                throw err;
+                                return done(null, false, req.flash('message', err));
                             }
                             console.log('User Registration succesful');
                             return done(null, newUser);

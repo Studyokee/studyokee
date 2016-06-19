@@ -11,6 +11,10 @@ define [
         language: this.get('settings').get('toLanguage').language
       )
 
+      this.mainModel.on('change:vocabulary', () =>
+        this.trigger('vocabularyUpdate', this.mainModel.get('vocabulary'))
+      )
+
       this.menuModel = new MenuModel(
         settings: this.get('settings')
       )

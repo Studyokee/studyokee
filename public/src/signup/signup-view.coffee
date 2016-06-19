@@ -39,18 +39,31 @@ define [
         type: 'POST'
         url: '/signup'
         data: user
-        success: () =>
+        success: (response, s, t) =>
           console.log('Success!')
-          params = $.url(document.location).param()
-          redirectUrl = '/'
-          if params.redirectUrl?
-            redirectUrl = params.redirectUrl
           this.setCookie('username', username)
           this.setCookie('password', password)
-          document.location = redirectUrl
-        error: (err) =>
+          document.location = '/classrooms/language/es/en'
+        error: (err, t, s) =>
           console.log('Error: ' + err.responseText)
       )
+
+    readCookie: (name) ->
+      nameEQ = name + '='
+      ca = document.cookie.split(';')
+      for c in ca
+        while c.charAt(0) is ' '
+          c = c.substring(1,c.length)
+        if c.indexOf(nameEQ) is 0
+          return c.substring(nameEQ.length,c.length)
+      
+      return null
+
+    setCookie: (name, value) ->
+      document.cookie = name + '=' + value + '; Path=/;'
+
+    deleteCookie: (name) ->
+      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
   )
 
   return SignupView
