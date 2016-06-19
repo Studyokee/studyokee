@@ -44,7 +44,7 @@ module.exports = function (grunt) {
                 ]
             },
             stylus: {
-                files: ['public/src/**/*.styl'],
+                files: ['public/**/*.styl'],
                 tasks: [
                     'stylus'
                 ]

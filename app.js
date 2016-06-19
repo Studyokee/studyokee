@@ -4,13 +4,13 @@ var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOHQ_URL);
 
 var express = require('express');
-var favicon = require('static-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 
-app.use(favicon());
+app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());

@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>Studyokee</title>
+        <link rel='shortcut icon' href='/img/favicon.ico?r=1' type='image/x-icon'/ >
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript">
            if (window.location.hash === '#_=_') {
                window.location.hash = ''
@@ -11,15 +13,14 @@
         <script src="/lib/require-config.js"></script>
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/styles/bootstrap-paper.min.css">
         <link rel="stylesheet" type="text/css" href="/styles/main.css">
+        <!--<link rel="stylesheet" href="http://basehold.it/16">-->
     </head>
     <body>
         <div class="skee" id="skee">
             <header></header>
-            <div class="main container"></div>
-            <footer class="container"></footer>
+            <div class="main"></div>
+            <footer></footer>
         </div>
         <div id="data-dom" data-user-id="<%= user.id %>" data-user-admin="<%= user.admin %>" data-user-first-name="<%= user.firstName %>" style="display:none"></div>
 

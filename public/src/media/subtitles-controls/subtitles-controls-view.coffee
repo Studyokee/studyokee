@@ -107,31 +107,6 @@ define [
         console.log('SUBTITLES CONTROL PLAY')
         this.model.play()
 
-    togglePresentationMode: () ->
-      console.log('SUBTITLES CONTROL TOGGLE PREZ')
-      if this.model.get('presentationMode')
-        this.trigger('leavePresentationMode')
-      else
-        this.trigger('enterPresentationMode')
-      this.model.set(
-        presentationMode: not this.model.get('presentationMode')
-      )
-
-    toggleVideo: () ->
-      console.log('SUBTITLES CONTROL TOGGLE VIDEO')
-      toggleVideoButton = this.$('.toggle-video')
-      toggleVideoIcon = this.$('.toggle-video .glyphicon')
-      if toggleVideoIcon.hasClass('glyphicon-collapse-up')
-        this.trigger('hideVideo')
-        toggleVideoIcon.removeClass('glyphicon-collapse-up')
-        toggleVideoIcon.addClass('glyphicon-collapse-down')
-        toggleVideoButton.prop('title', 'Show Video')
-      else
-        this.trigger('showVideo')
-        toggleVideoIcon.addClass('glyphicon-collapse-up')
-        toggleVideoIcon.removeClass('glyphicon-collapse-down')
-        toggleVideoButton.prop('title', 'Hide Video')
-
     toggleTranslation: () ->
       console.log('SUBTITLES CONTROL TOGGLE TRANSLATION')
       this.trigger('toggleTranslation')
@@ -151,20 +126,16 @@ define [
         this.next())
       this.$('.toggle-play').on('click', () =>
         this.togglePlay())
-      this.$('.toggle-presentation-mode').on('click', () =>
-        this.togglePresentationMode())
-      this.$('.toggle-video').on('click', () =>
-        this.toggleVideo())
       this.$('.toggle-translation').on('click', (event) =>
         this.toggleTranslation()
         event.preventDefault())
 
 
     onKeyDown: (event) ->
-      if event.which is 49
+      if event.which is 37
         this.prev()
         event.preventDefault()
-      if event.which is 50
+      if event.which is 39
         this.next()
         event.preventDefault()
       if event.which is 32

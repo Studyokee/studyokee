@@ -1,9 +1,8 @@
 define [
-  'subtitles.controls.view'
   'backbone',
   'handlebars',
   'templates'
-], (SubtitlesControlsView, Backbone, Handlebars) ->
+], (Backbone, Handlebars) ->
   YoutubePlayerView = Backbone.View.extend(
     tagName:  'div'
     className: 'video-player'
@@ -11,50 +10,22 @@ define [
     initialize: () ->
       this.playerId = 'ytPlayer'
 
-      this.subtitlesControlsView = new SubtitlesControlsView(
-        model: this.model
-        allowHideTranslation: true
-      )
-
-      this.subtitlesControlsView.on('enterPresentationMode', () =>
-        this.trigger('enterPresentationMode')
-        this.calculateYTPlayerHeight()
-      )
-      this.subtitlesControlsView.on('leavePresentationMode', () =>
-        this.trigger('leavePresentationMode')
-        this.calculateYTPlayerHeight()
-      )
-      this.subtitlesControlsView.on('hideVideo', () =>
-        this.$('.video-container').hide()
-      )
-      this.subtitlesControlsView.on('showVideo', () =>
-        this.$('.video-container').show()
-      )
-      this.subtitlesControlsView.on('toggleTranslation', () =>
-        this.trigger('toggleTranslation')
-      )
-
     render: () ->
       this.$el.html(Handlebars.templates['youtube-player'](this.model.toJSON()))
-      this.$('.controls-container').html(this.subtitlesControlsView.render().el)
-      
+
       postRender = () =>
         this.postRender()
       setTimeout(postRender)
 
       return this
 
-    calculateYTPlayerHeight: () ->
-      ytPlayerWidth = this.$('#' + this.playerId).width()
-      ytPlayerHeight = ytPlayerWidth * 0.75
-      this.$('#' + this.playerId).height(ytPlayerHeight + 'px')
-
     postRender: () ->
-      onReady = () =>
+      onReady = (event) =>
+        this.model.ytPlayer = event.target
+        console.log('YT player ready')
         this.model.set(
           ytPlayerReady: true
         )
-        this.model.trigger('change:currentSong')
 
       onStateChange = (state) =>
         fn = () =>
@@ -67,6 +38,7 @@ define [
         params =
           height: height
           width: width
+          videoId: this.model.get('currentSong')?.youtubeKey
           playerVars:
             modestbranding: 1
             fs: 0
@@ -78,13 +50,17 @@ define [
           events:
             'onReady': onReady
             'onStateChange': onStateChange
-        this.model.ytPlayer = new YT.Player(this.playerId, params)
+        new YT.Player(this.playerId, params)
 
       if typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined'
         window.onYouTubeIframeAPIReady = onAPIReady
-        $.getScript('//www.youtube.com/iframe_api?noext')
+        $.getScript('https://www.youtube.com/iframe_api')
       else
         onAPIReady()
+
+      
+
+
   )
 
   return YoutubePlayerView

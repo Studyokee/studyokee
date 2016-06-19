@@ -1,46 +1,60 @@
 header {
-    .navbar-brand {
-        padding-right: 70px;
+    .navbar {
+        border: 0;
+        margin-bottom: 0;
     }
-    .brandName {
+    .navbar .btn.callToAction {    
+        margin: 0.2rem;
+        font-size: 0.9rem;
+        padding: 0.7rem 0.6rem 0.3rem 0.6rem;
+        border-width: 0;
+        color: #fff;
     }
-    .icon img {
-        height: 24px;
-        width: 24px;
-        margin: 0 8px;
+    .navbar .btnLink {
+        padding: 0.1rem;
     }
-    .languageIcon {
+    .navbar .navbar-header .navbar-brand {
+        height: 0;    
+        margin-top: 0.75rem;
+        margin-left: 0;
+        margin-right: 2em;
+    }
+    .navbar-nav > li > a {
+        padding-top: 0.9rem;
+    }
+
+    .navbar-brand .icon {
+        background-image: url(../img/studyokee_logo.svg);
+        height: 1.2em;
+        width: 1.3em;
         display: inline-block;
-        height: 16px;
-        width: 18px;
-        background-size: 18px 12px;
-        vertical-align: middle;
-        background-position: 0 2px;
         background-repeat: no-repeat;
+        float: left;
+        margin-top: -1px;
     }
-    small {
-        font-size: 0.5em;
-        margin-left: -55px;
-        margin-top: 20px;
+    .navbar-toggle .icon-bar {
+        height: 4px;
+    }
+
+    .brandName {
+        font-family: GOVERNOR, Open Sans, sans-serif;
+    }
+    .connectingWord {
+        line-height: 2rem;
+        padding: 0.75rem 1.2rem 0 0;
+        font-size: 0.8rem;
+        color: $gray;
+    }
+    .headerBottom {    
+        height: 0.25rem;
+        background-image: url("../img/studyokee_header_border.png");
+        width: 100%;
+        background-size: 100%;
         position: absolute;
-    }
-    .languageIcon.es {
-        background-image: url('../img/esflag_small.png');
-    }
-    .languageIcon.fr {
-        background-image: url('../img/frflag_small.png');
-    }
-    .languageIcon.de {
-        background-image: url('../img/deflag_small.png');
-    }
-    .languageIcon.it {
-        background-image: url('../img/itflag_small.png');
-    }
-    .languageIcon.pt {
-        background-image: url('../img/ptflag_small.png');
+        top: 3em;
     }
     .badge {
-        background-color: $unknownColor;
+        background-color: $gray;
         margin-top: -1px;
     }
     .badge.throb {

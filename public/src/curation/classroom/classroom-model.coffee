@@ -1,9 +1,8 @@
 define [
-  'dictionary.model',
   'youtube.main.model',
   'media.item.list.model',
   'backbone'
-], (DictionaryModel, MainModel, MenuModel, Backbone) ->
+], (MainModel, MenuModel, Backbone) ->
   ClassroomModel = Backbone.Model.extend(
 
     initialize: () ->
@@ -12,27 +11,17 @@ define [
         language: this.get('settings').get('toLanguage').language
       )
 
+      this.mainModel.on('change:vocabulary', () =>
+        this.trigger('vocabularyUpdate', this.mainModel.get('vocabulary'))
+      )
+
       this.menuModel = new MenuModel(
         settings: this.get('settings')
       )
 
-      this.dictionaryModel = new DictionaryModel(
-        fromLanguage: this.get('settings').get('fromLanguage').language
-        toLanguage: this.get('settings').get('toLanguage').language
-        settings: this.get('settings')
-      )
-
-      this.dictionaryModel.on('vocabularyUpdate', (words) =>
-        this.trigger('vocabularyUpdate', words)
-        this.mainModel.trigger('vocabularyUpdate', words)
-      )
+      this.currentSongModel = new Backbone.Model()
 
       this.getClassroom()
-
-    lookup: (query) ->
-      this.dictionaryModel.set(
-        query: query
-      )
 
     getClassroom: () ->
       $.ajax(
@@ -43,15 +32,17 @@ define [
           this.set(
             data: res.classroom
           )
-          this.dictionaryModel.set(
-            fromLanguage: res.classroom.language
-          )
           this.menuModel.set(
             rawData: res.displayInfos
           )
           if res.displayInfos?.length > 0
             firstItem = res.displayInfos[0]
-            this.mainModel.trigger('changeSong', firstItem.song)
+            this.mainModel.set(
+              currentSong: firstItem.song
+            )
+            this.set(
+              currentSong: firstItem.song
+            )
         error: (err) =>
           console.log('Error: ' + err)
       )

@@ -1,103 +1,58 @@
-$img = '../img'
+@import "fonts"
 
-$bgMain = #FFFFFF
-$bgOverlay = #FFFFFF
-$bgHighlight = #f0f2f4
-$textNormal = #32393d
-$textSubdued = #94999c
-$textTranslation = #A63A37
-$linkColor = #008fd5
-$borderNormal = 1px solid #e1e6e9
-$unknownColor = #ff9800
-$knownColor = #4caf50
+// Core variables
+@import "bootstrap-overrides"
 
-a {
-    cursor: pointer;
-}
-.styClose {
-    position: absolute;
-    top: 0;
-    right: 6px;
-    color: $textSubdued;
-    font-size: 18px;
-    padding: 12px;
-}
-.styClose {
-    margin-right: -48px;
-    margin-top: 12px;
-    font-size: 36px;
-}
-.styClose:hover {
-    cursor: pointer;
-}
-.presentation-mode {
-    .center {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 60px 20px;
-        z-index: 100;
-        background-color: #FFFFFF;
-        
-        .youtube-main {
-            .video-player-container {
-                .video-player {
-                    #ytPlayer {
-                        width: 100%;
-                    }
-                }
-            }
+// Core mixins
+@import "bootstrap/mixins"
 
-            .subtitles-scroller {
-                height: 600px;
+// Reset and dependencies
+@import "bootstrap/normalize"
+@import "bootstrap/print"
+@import "bootstrap/glyphicons"
 
-                .gradient {
-                    z-index: 102;
-                    height: 120px;
-                }
+// Core CSS
+@import "bootstrap/scaffolding"
+@import "bootstrap/utilities"
+@import "bootstrap/type"
+@import "bootstrap/code"
+@import "bootstrap/grid"
+@import "bootstrap/tables"
+@import "bootstrap/forms"
+@import "bootstrap/buttons"
 
-                .subtitles li {
-                    line-height: 48px;
-                    font-size: 24px;
-                }
-            }
-        }
-    }
-    footer {
-        display: none;
-    }
-}
-footer {
-    margin: 5em 0;
-}
-body {
-    background: url("../img/dimension.png");
+// Components
+@import "bootstrap/component-animations"
+@import "bootstrap/dropdowns"
+@import "bootstrap/button-groups"
+@import "bootstrap/input-groups"
+@import "bootstrap/navs"
+@import "bootstrap/navbar"
+@import "bootstrap/breadcrumbs"
+@import "bootstrap/pagination"
+@import "bootstrap/pager"
+@import "bootstrap/labels"
+@import "bootstrap/badges"
+@import "bootstrap/jumbotron"
+@import "bootstrap/thumbnails"
+@import "bootstrap/alerts"
+@import "bootstrap/progress-bars"
+@import "bootstrap/media"
+@import "bootstrap/list-group"
+@import "bootstrap/panels"
+@import "bootstrap/responsive-embed"
+@import "bootstrap/wells"
+@import "bootstrap/close"
 
-    .main {
-        min-height: 580px;
+// Components w/ JavaScript
+@import "bootstrap/modals"
+@import "bootstrap/tooltip"
+@import "bootstrap/popovers"
+@import "bootstrap/carousel"
 
-        .panel-default>.panel-heading {
-            background-color: #fff;
-        }
-        .btn {
-            padding: 2px 20px;
-        }
-    }
+// Utility classes
+@import "bootstrap/responsive-utilities"
 
-    .mask {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-        text-align: center;
-        padding-top: 3em;
-        font-size: 16px;
-    }
-}
 
 
 @import '../src/media-item/media-item';
@@ -105,9 +60,11 @@ body {
 @import '../src/utilities/utilities';
 @import '../src/home/home';
 @import '../src/header/header';
+@import '../src/footer/footer';
 @import '../src/pagination/pagination';
 @import '../src/vocabulary/vocabulary';
 @import '../src/login/login';
+@import '../src/signup/signup';
 
 @import '../src/media/youtube/youtube-main/youtube-main';
 @import '../src/media/youtube/youtube-player/youtube-player';
@@ -121,6 +78,7 @@ body {
 
 @import '../src/curation/edit-classroom/edit-classroom';
 @import '../src/curation/classrooms/classrooms';
+@import '../src/curation/classroom/classroom';
 @import '../src/curation/classroom-preview/classroom-preview';
 
 @import '../src/vocabulary-metrics/vocabulary-list/vocabulary-list';
@@ -128,3 +86,5 @@ body {
 @import '../src/vocabulary-metrics/vocabulary-map/vocabulary-map';
 
 @import '../src/vocabulary-study/vocabulary-slider/vocabulary-slider';
+
+@import 'helper';

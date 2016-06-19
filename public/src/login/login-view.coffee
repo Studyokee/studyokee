@@ -42,7 +42,7 @@ define [
         success: (response) =>
           console.log('Success!')
           params = $.url(document.location).param()
-          redirectUrl = '/'
+          redirectUrl = '/classrooms/language/es/en'
           if params.redirectUrl?
             redirectUrl = params.redirectUrl
           this.setCookie('username', username)

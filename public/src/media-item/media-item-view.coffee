@@ -9,6 +9,7 @@ define [
     
     initialize: () ->
       this.listenTo(this.model, 'change', () =>
+        console.log('change model')
         this.render()
       )
 

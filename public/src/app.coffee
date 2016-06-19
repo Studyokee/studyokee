@@ -9,7 +9,7 @@ require [
 
   AppRouter = Backbone.Router.extend(
     routes:
-      '': 'getClassrooms'
+      '': 'home'
       'classrooms/language/:from/:to': 'getClassrooms'
       'songs/:id/edit': 'editSong'
       'classrooms/create': 'createClassroom'
@@ -53,7 +53,7 @@ require [
     model: settings
   )
 
-  ###appRouter.on('route:home', () ->
+  appRouter.on('route:home', () ->
     require(['home.model', 'home.view'], (HomeModel, HomeView) ->
       this.view = new HomeView(
         model: new HomeModel(
@@ -64,7 +64,7 @@ require [
       this.view.setElement($('#skee .main')).render()
       footerView.setElement($('#skee footer')).render()
     )
-  )###
+  )
   appRouter.on('route:viewClassroom', (id) ->
     require(['classroom.model','classroom.view'], (ClassroomModel, ClassroomView) ->
 
