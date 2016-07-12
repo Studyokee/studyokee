@@ -10,16 +10,23 @@ define [
 
     initialize: (options) ->
       this.options = options
-      this.listenTo(this.model, 'change:playing', () =>
+      this.listenTo(this.model, 'change:state', () =>
         togglePlayButtonIcon = this.$('.toggle-play .glyphicon')
-        if this.model.get('playing')
+        if this.model.get('state') is 3
           togglePlayButtonIcon.removeClass('glyphicon-play')
-          togglePlayButtonIcon.addClass('glyphicon-pause')
-          this.updateProgressBar()
-        else
           togglePlayButtonIcon.removeClass('glyphicon-pause')
-          togglePlayButtonIcon.addClass('glyphicon-play')
-          clearTimeout(this.progressTick)
+          togglePlayButtonIcon.addClass('glyphicon-spin')
+        else
+          if this.model.get('playing')
+            togglePlayButtonIcon.removeClass('glyphicon-play')
+            togglePlayButtonIcon.removeClass('glyphicon-spin')
+            togglePlayButtonIcon.addClass('glyphicon-pause')
+            this.updateProgressBar()
+          else
+            togglePlayButtonIcon.removeClass('glyphicon-pause')
+            togglePlayButtonIcon.removeClass('glyphicon-spin')
+            togglePlayButtonIcon.addClass('glyphicon-play')
+            clearTimeout(this.progressTick)
       )
       this.listenTo(this.model, 'change:currentSong', () =>
         this.$('.progress-bar').width('0%')
@@ -27,17 +34,8 @@ define [
       this.listenTo(this.model, 'change:i', () =>
         this.setProgressBar()
       )
-      this.listenTo(this.model, 'change:presentationMode', () =>
-        togglePresentationModeButton = this.$('.toggle-presentation-mode')
-        togglePresentationModeIcon = this.$('.toggle-presentation-mode .glyphicon')
-        if this.model.get('presentationMode')
-          togglePresentationModeIcon.removeClass('glyphicon-resize-full')
-          togglePresentationModeIcon.addClass('glyphicon-resize-small')
-          togglePresentationModeButton.prop('title', 'Leave Presentation Mode')
-        else
-          togglePresentationModeIcon.removeClass('glyphicon-resize-small')
-          togglePresentationModeIcon.addClass('glyphicon-resize-full')
-          togglePresentationModeButton.prop('title', 'Enter Presentation Mode')
+      this.listenTo(this.model, 'change:loadingVideo', () =>
+        this.render()
       )
 
       this.onKeyDownEvent = (event) =>

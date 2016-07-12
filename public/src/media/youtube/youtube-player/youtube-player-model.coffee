@@ -6,6 +6,7 @@ define [
       subtitles: []
       i: 0
       playing: false
+      state: -1
 
     initialize: () ->
       this.on('change:currentSong', () =>
@@ -16,6 +17,7 @@ define [
           subtitles: []
           i: 0
           playing: false
+          state: -1
         )
       )
 
@@ -49,6 +51,7 @@ define [
         this.trigger('play', this.getCurrentTime())
         this.set(
           playing: true
+          state: state
         )
         i = this.get('i')
         console.log('start playing:i ' + i)
@@ -57,17 +60,20 @@ define [
         this.trigger('songFinished')
         this.set(
           playing: false
+          state: state
           i: 0
         )
       else if state is 3
         this.trigger('pause')
         this.set(
           playing: true
+          state: state
         )
       else
         this.trigger('pause')
         this.set(
           playing: false
+          state: state
         )
 
     play: () ->

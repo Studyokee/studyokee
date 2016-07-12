@@ -22,6 +22,8 @@ define [
     postRender: () ->
       onReady = (event) =>
         this.model.ytPlayer = event.target
+
+        this.model.ytPlayer.setPlaybackQuality('small')
         console.log('YT player ready')
         this.model.set(
           ytPlayerReady: true
@@ -50,6 +52,8 @@ define [
           events:
             'onReady': onReady
             'onStateChange': onStateChange
+            'onPlaybackQualityChange': (quality) ->
+              console.log(quality)
         new YT.Player(this.playerId, params)
 
       if typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined'

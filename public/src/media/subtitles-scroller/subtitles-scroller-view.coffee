@@ -30,6 +30,7 @@ define [
           scrollerEl.removeClass('show-translation')
         else
           scrollerEl.addClass('show-translation')
+        this.onPositionChange()
       )
 
     render: () ->
