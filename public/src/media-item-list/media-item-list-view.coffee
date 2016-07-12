@@ -54,9 +54,6 @@ define [
           links = this.$('.mediaItemLink')
           for i in [0..links.length - 1]
             $(links[i]).html(this.mediaItemViews[i].render().el)
-          
-          if this.options.allowSelect
-            this.$('li:first').addClass('active')
 
           view = this
           this.$('.mediaItemLink').on('click', (event) ->
@@ -64,10 +61,6 @@ define [
             li = $(this).parent('li')
             index = li.attr('data-index')
             view.trigger('select', data[index])
-
-            if view.options.allowSelect
-              view.$('li.active').removeClass('active')
-              li.addClass('active')
           )
 
           if this.options.allowActions

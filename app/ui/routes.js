@@ -16,6 +16,15 @@ var isAuthenticated = function (req, res, next) {
     res.redirect('/login?redirectUrl=' + req.url);
 };
 
+var getUserObject = function (req) {
+    return {
+        id: (req.user && req.user._id) ? req.user._id : '',
+        username: (req.user && req.user.username) ? req.user.username : '',
+        firstName: (req.user && req.user.displayName) ? req.user.displayName : '',
+        admin: (req.user && req.user.admin) ? req.user.admin : false
+    };
+};
+
 module.exports = function(passport){
 
     /* Handle Login POST */
@@ -30,11 +39,7 @@ module.exports = function(passport){
         var data = {
             page: '/lib/app.js'
         };
-        data.user = {
-            id: req.user ? req.user._id : '',
-            firstName: req.user ? req.user.username : '',
-            admin: req.user ? req.user.admin : false
-        };
+        data.user = getUserObject(req);
         res.render('base', data);
     });
 
@@ -54,11 +59,7 @@ module.exports = function(passport){
         var data = {
             page: '/lib/app.js'
         };
-        data.user = {
-            id: req.user ? req.user._id : '',
-            firstName: req.user ? req.user.username : '',
-            admin: req.user ? req.user.admin : false
-        };
+        data.user = getUserObject(req);
         res.render('base', data);
     });
 
@@ -73,11 +74,7 @@ module.exports = function(passport){
             var data = {
                 page: '/lib/app.js'
             };
-            data.user = {
-                id: req.user ? req.user._id : '',
-                firstName: req.user ? req.user.username : '',
-                admin: req.user ? req.user.admin : false
-            };
+            data.user = getUserObject(req);
             res.render('base', data);
         }
     );
@@ -95,11 +92,7 @@ module.exports = function(passport){
             var data = {
                 page: '/lib/app.js'
             };
-            data.user = {
-                id: req.user ? req.user._id : '',
-                firstName: req.user ? req.user.username : '',
-                admin: req.user ? req.user.admin : false
-            };
+            data.user = getUserObject(req);
             res.render('base', data);
         }
     );

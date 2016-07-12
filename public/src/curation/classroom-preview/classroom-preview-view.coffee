@@ -5,7 +5,7 @@ define [
   'templates'
 ], (Backbone, MediaItemList, Handlebars) ->
   ClassroomPreviewView = Backbone.View.extend(
-    className: 'classroom-preview col-lg-3'
+    className: 'classroom-preview col-md-4 col-sm-6'
     tagName: 'div'
     
     initialize: () ->

@@ -52,6 +52,7 @@ define [
           query: query
         )
         this.model.youtubePlayerModel.pause()
+        $('.dictionaryContainerWrapper').show()
       )
 
     render: () ->
@@ -71,6 +72,10 @@ define [
       #if (this.model.get('settings')?.get('user')?.id is this.model.get('data')?.createdById) or this.model.get('settings')?.get('user')?.admin?
       #  this.$('.editClassroom').show()
       ###
+
+      $('.dictionaryContainerWrapper .close').click(() ->
+        $('.dictionaryContainerWrapper').hide()
+      )
 
       return this
   )

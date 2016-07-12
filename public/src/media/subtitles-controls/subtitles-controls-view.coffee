@@ -60,6 +60,8 @@ define [
 
       this.enableButtons()
 
+      this.$('[data-toggle="popover"]').popover()
+
       return this
 
     setProgressBar: () ->

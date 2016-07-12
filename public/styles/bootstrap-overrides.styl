@@ -26,6 +26,13 @@ $brand-danger ?=        #d9534f
 $knownColor ?= $brand-success
 $unknownColor ?= $brand-warning
 
+$padding-xs ?= 4px
+$padding-sm ?= 8px
+$padding-mds ?= 12px
+$padding-md ?= 16px
+$padding-lg ?= 32px
+$padding-xl ?= 80px
+
 
 //== Scaffolding
 //
@@ -56,7 +63,7 @@ $font-family-base ?=       $font-family-sans-serif
 
 $font-size-base ?=         16px
 $font-size-large ?=        ceil($font-size-base * 1.25) // ~18px
-$font-size-small ?=        ceil($font-size-base * 0.85) // ~12px
+$font-size-small ?=        14px // ~12px
 
 $font-size-h1 ?=           floor($font-size-base * 2.6) // ~36px
 $font-size-h2 ?=           2.1rem
@@ -162,9 +169,9 @@ $btn-success-color ?=            #fff
 $btn-success-bg ?=               $brand-success
 $btn-success-border ?=           darken($btn-success-bg, 5)
 
-$btn-info-color ?=               #fff
-$btn-info-bg ?=                  $brand-info
-$btn-info-border ?=              darken($btn-info-bg, 5)
+$btn-info-color ?=               $text-color
+$btn-info-bg ?=                  darken($gray-light,10)
+$btn-info-border ?=              darken($gray-light,10)
 
 $btn-warning-color ?=            #fff
 $btn-warning-bg ?=               $brand-warning
@@ -363,11 +370,11 @@ $container-lg ?=               $container-large-desktop
 //##
 
 // Basics of a navbar
-$navbar-height ?=                  3em
+$navbar-height ?=                  48px
 $navbar-margin-bottom ?=           $line-height-computed
 $navbar-border-radius ?=           0
 $navbar-padding-horizontal ?=      floor($grid-gutter-width / 2)
-$navbar-padding-vertical ?=        (($navbar-height - $line-height-computed) / 2)
+$navbar-padding-vertical ?=        0
 $navbar-collapse-max-height ?=     340px
 
 $navbar-default-color ?=           $gray-lighter

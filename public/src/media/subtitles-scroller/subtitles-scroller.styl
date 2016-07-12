@@ -2,9 +2,11 @@
     overflow: hidden;
     position: relative;
     font-size: 1.4rem;
+    margin: $padding-md;
 
     .list-group-item {
-        border: none;
+        border: 3px solid transparent !important;
+        border-top: 3px solid transparent !important;
         text-align: center;
         padding: 1rem;
         background-color: $gray-lighter;
@@ -32,6 +34,8 @@
     }
     .list-group-item.active {
         background-color: $gray-light;
+        border: 3px solid darken($gray-light, 10) !important;
+        border-top: 3px solid darken($gray-light, 10) !important;
     }
 
     .no-subtitles {
@@ -41,5 +45,9 @@
     .subtitles li {
         overflow: hidden;
         white-space: nowrap;
+        text-transform: lowercase;
+    }
+    @media (max-width: $screen-sm-min) {
+        font-size: $font-size-small;
     }
 }

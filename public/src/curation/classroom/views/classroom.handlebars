@@ -1,15 +1,19 @@
 <div class="classroom">
     <div class="container menu">
-        <div class="col-md-6 col-md-offset-3 menuContent">
-            <div class="dropdown songSelection">Song: 
+        <div class="col-md-8 col-md-offset-2 menuContent">
+            <div class="titleContainer">
+                <div class="titleDescription">Classroom:&nbsp;&nbsp;</div>
+                <h2>{{data.name}}</h2>
+            </div>
+            <div class="dropdown songSelection text-right">
+                <div class="titleDescription">SELECT SONG:&nbsp;&nbsp;</div>
                 <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    {{currentSong.metadata.trackName}} by {{currentSong.metadata.artist}} <span class="caret"></span>
+                    <span class="classTitle">{{currentSong.metadata.trackName}} by {{currentSong.metadata.artist}}</span>&nbsp;<span class="caret"></span>
                 </button>
                 <div class="mediaItemListContainer dropdown-menu"></div>
             </div>
-            <h2><a href="/classrooms/{{data.classroomId}}">{{data.name}}</a></h2>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-2"></div>
     </div>
     <div class="center container">
         <div class="col-md-8">
@@ -17,9 +21,14 @@
             <div class="player-container"></div>
         </div>
         <div class="col-md-4">
-            <div class="video-player-container"></div>
-            <div class="dictionaryContainer"></div>
-            <img src="../../../img/pencils.png" class="pencilIllustration">
+            <div class="video-player-container hidden-xs"></div>
+            <div class="dictionaryContainerWrapper">
+                <button type="button" class="close visible-xs-block" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="dictionaryContainer"></div>
+            </div>
+            <img src="../../../img/pencils.png" class="pencilIllustration hidden-xs">
         </div>
     </div>
 </div>

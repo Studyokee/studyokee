@@ -1,14 +1,18 @@
 <div class="vocabulary-page container">
-    <div class="col-lg-3 panel panel-default vocabularyStats">
+    <button class="btn btn-info visible-xs-block collapseStatsBtn" type="button" data-toggle="collapse" data-target="#collapseStats" aria-expanded="false" aria-controls="collapseStats">
+      Stats
+    </button>
+    <h4 class="visible-xs-block">Vocabulary</h4>
+    <div class="vocabularyStats panel collapse" id="collapseStats">
+        <div class="panel-body">
+            <div class="vocabularyMetricsContainer"></div>
+        </div>
+    </div>
+    <div class="col-md-3 vocabularyStats panel hidden-xs">
         <div class="panel-heading"><h4>Vocabulary</h4></div>
         <div class="panel-body">
             <div class="vocabularyMetricsContainer"></div>
-            <div class="vocabularyBtns">
-              <a href="#" class="btn btn-primary addNext">Add Next 50</a>
-              <div class="importWordsContainer"></div>
-            </div>
-            <div class="vocabularyMapContainer"></div>
         </div>
     </div>
-    <div class="col-lg-9 vocabularyContentContainer"></div>
+    <div class="col-md-9 vocabularyContentContainer"></div>
 </div>

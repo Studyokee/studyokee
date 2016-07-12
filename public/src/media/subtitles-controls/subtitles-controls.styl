@@ -31,14 +31,22 @@
         margin-right: 20px;
     }
     .toggle-translation {
-        position: absolute;
-        right: 20px;
-    }
-    .btn-info {
-        color: $gray-lighter;
-        background-color: $gray;
+        float: right;
     }
     .btn-info.active {
         background-color: $gray-dark;
+        color: $gray-lighter;
+    }
+    .popover {
+        font-size: $font-size-small;
+    }
+    @media (max-width: $screen-sm-min) {
+        .toggle-translation {
+            position: initial;
+        }
+        .btn {
+            min-width: 3.5em;
+        }
     }
 }
+    

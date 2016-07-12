@@ -2,13 +2,25 @@
     background: $gray-lighter;
     padding-bottom: 8.5em;
 }
+@media (max-width: $screen-sm-min) {
+    .main {
+      padding-bottom: 1.5em;
+    }
+}
 footer {
 }
 
 .btn {
-    font-family: GOVERNOR, Open Sans, sans-serif !important;
     min-width: 4em;
     border-width: 0;
+    text-transform: uppercase;
+}
+.btn-link {
+    min-width: initial;
+    color: $text-color;
+}
+.btn-link:hover, .btn-link:focus {
+    color: darken($text-color,20);
 }
 
 html {
@@ -17,4 +29,21 @@ html {
 
 a, a:hover, a:focus {
   color: $gray-dark;
+}
+
+.panel {
+  background-color: $gray-light;
+  border: 3px solid darken($gray-light, 10) !important;
+  border-top: 3px solid darken($gray-light, 10) !important;
+  border-radius: 5px;
+  padding: 16px 16px 32px 16px;
+}
+.panel-link:hover {
+  border-color: darken($gray-light, 20);
+  background-color: darken($gray-light, 5);
+  cursor: pointer;
+}
+.navbar-collapse {
+  border-top: 0;
+  box-shadow: none;
 }

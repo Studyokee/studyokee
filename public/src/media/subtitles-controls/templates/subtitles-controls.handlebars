@@ -2,17 +2,18 @@
     <!--<button type="button" class="toStart btn btn-primary" title="To Start">
         <span class="glyphicon glyphicon-step-backward"></span>
     </button>-->
-    <button type="button" class="prev btn btn-primary" title="Previous">
+    <button type="button" class="prev btn btn-info" title="Previous">
         <span class="glyphicon glyphicon-step-backward"></span>
-        <span class="buttonText">PREV LINE</span>
+        <span class="buttonText hidden-xs">PREV LINE</span>
     </button>
-    <button type="button" class="toggle-play btn btn-primary" title="Toggle Play"">
+    <button type="button" class="toggle-play btn btn-primary" title="Toggle Play">
         <span class="glyphicon {{#if playing}}glyphicon-pause{{else}}glyphicon-play{{/if}}"></span>
     </button>
-    <button type="button" class="next btn btn-primary" title="Next">
-        <span class="buttonText">NEXT LINE</span>
+    <button type="button" class="next btn btn-info" title="Next">
+        <span class="buttonText hidden-xs">NEXT LINE</span>
         <span class="glyphicon glyphicon-step-forward"></span>
     </button>
+    <a tabindex="0" class="btn btn-link infoBubble hidden-xs" role="button" data-toggle="popover" data-trigger="focus" title="Keyboard Controls" data-html="true" data-content="<div>Play/Pause:&nbsp;&nbsp;<kbd>space</kbd></div><div>Prev Line:&nbsp;&nbsp;<kbd>←</kbd></div><div>Next Line:&nbsp;&nbsp;<kbd>→</kbd></div>"><span class="glyphicon glyphicon-info-sign"></span></a>
     <!--<button type="button" class="toggle-presentation-mode btn btn-primary" title="Enter Presentation Mode">
         <span class="glyphicon glyphicon-resize-full"></span>
     </button>
@@ -22,5 +23,8 @@
     <button type="button" class="toggle-translation btn btn-primary" title="Hide Translation">
         <span class="glyphicon glyphicon-eye-close"></span>
     </button>-->
-    <a href="#" class="btn btn-info toggle-translation">English</a>
+    <a href="#" class="btn btn-info toggle-translation">
+        <span class="buttonText hidden-xs">Translate</span>
+        <span class="glyphicon glyphicon-eye-open visible-xs-inline"></span>
+    </a>
 </div>

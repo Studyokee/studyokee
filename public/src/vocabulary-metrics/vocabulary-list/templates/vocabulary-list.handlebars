@@ -1,4 +1,4 @@
-<div class="panel panel-default col-lg-12">
+<div class="panel col-lg-12">
     <div class="panel-heading">
         <h4>{{title}}</h4>
         {{#if link}}
@@ -8,10 +8,10 @@
         {{/if}}
     </div>
     <div class="panel-body">
-        <ul>
-            {{#each words}}
-                <li class="col-lg-3">{{word}}</li>
-            {{/each}}
-        </ul>
+        {{#each words}}
+            <span class="wordListWord">{{word}}</span>
+        {{else}}
+            No words in this list.
+        {{/each}}
     </div>
 </div>

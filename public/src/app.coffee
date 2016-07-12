@@ -32,6 +32,7 @@ require [
   user =
     id: dataDom.attr('data-user-id')
     admin: dataDom.attr('data-user-admin')
+    username: dataDom.attr('data-username')
     firstName: dataDom.attr('data-user-first-name')
 
   settings = new Settings(

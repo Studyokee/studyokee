@@ -13,7 +13,7 @@ define [
   ####################################################################
   SubtitlesScrollerView = Backbone.View.extend(
     tagName:  "div"
-    className: "subtitles-scroller panel panel-default"
+    className: "subtitles-scroller"
     pageSize: 3
 
     initialize: () ->

@@ -12,6 +12,15 @@ define [
         this.render()
       )
 
+      this.onKeyDownEvent = (event) =>
+        this.onKeyDown(event)
+      $(window).on('keydown', this.onKeyDownEvent)
+      window.subtitlesControlsTeardown = this.teardown
+
+    teardown: ->
+      console.log('teardown keyboard')
+      $(window).off('keydown', this.onKeyDownEvent)
+
     render: () ->
       console.log('render slider')
       if this.model.get('words').length is 0
@@ -20,37 +29,42 @@ define [
         this.$el.html(Handlebars.templates['vocabulary-slider'](this.model.toJSON()))
         $(this.$el.find('.card')[this.model.get('index')]).addClass('active')
 
-        view = this
-        this.$('.next').on('click', () ->
-          if !view.model.get('showDefinition')
-            view.model.set(
-              showDefinition: true
-            )
-          else
-            view.model.set(
-              index: (view.model.get('index')+1) % view.model.get('words').length
-              showDefinition: false
-            )
+        this.$('.next').on('click', () =>
+          this.next()
         )
-        this.$('.prev').on('click', () ->
-          if view.model.get('showDefinition')
-            view.model.set(
-              showDefinition: false
-            )
-          else
-            nextIndex = view.model.get('index')-1
-            if nextIndex < 0
-              return
-            view.model.set(
-              index: nextIndex
-              showDefinition: true
-            )
+        this.$('.prev').on('click', () =>
+          this.prev()
         )
-        this.$('.remove').on('click', () ->
-          view.model.remove(view.model.get('index'))
+        this.$('.remove').on('click', () =>
+          this.remove()
+        )
+        this.$('.panel-link').on('click', () =>
+          this.next()
         )
 
       return this
+
+    next: () ->
+      if this.$('.flip-container').hasClass('flip')
+        this.model.set(
+          index: (this.model.get('index')+1) % this.model.get('words').length
+        )
+        this.model.trigger('change')
+      else
+        this.$('.flip-container').addClass('flip')
+
+
+    remove: () ->
+      this.model.remove(this.model.get('index'))
+
+
+    onKeyDown: (event) ->
+      if event.which is 39
+        this.next()
+        event.preventDefault()
+      if event.which is 32
+        this.remove()
+        event.preventDefault()
       
   )
 
