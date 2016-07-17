@@ -86,7 +86,18 @@ define [
           )
           if res.displayInfos?.length > 0
             console.log('Classroom: update current song')
-            currentSong = res.displayInfos[0].song
+
+            currentSongIndex = 0
+            if (window.location.hash.length > 0)
+              currentSongTitle = window.location.hash.substring(1)
+              if currentSongTitle.length > 0
+                for info, index in res.displayInfos
+                  if info.song.metadata.trackName is currentSongTitle
+                    currentSongIndex = index
+                    console.log('Selecting song: ' + currentSongTitle)
+                    break
+
+            currentSong = res.displayInfos[currentSongIndex].song
             this.set(
               currentSong: currentSong
             )

@@ -38,6 +38,7 @@ define [
 
       this.menuView.on('select', (item) =>
         console.log('Classroom: update current song')
+        window.location.hash = '#' + item.title
         this.model.set(
           currentSong: item.song
         )

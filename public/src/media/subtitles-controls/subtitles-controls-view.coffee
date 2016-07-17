@@ -112,10 +112,12 @@ define [
       this.trigger('toggleTranslation')
 
       toggleTranslationButton = this.$('.toggle-translation')
-      if (toggleTranslationButton.hasClass('active'))
-        toggleTranslationButton.removeClass('active')
-      else
+      if (!toggleTranslationButton.hasClass('active'))
         toggleTranslationButton.addClass('active')
+        toggleTranslationButton.find('.buttonText').text('Show English')
+      else
+        toggleTranslationButton.removeClass('active')
+        toggleTranslationButton.find('.buttonText').text('Hide English')
 
     enableButtons: () ->
       this.$('.toStart').on('click', () =>

@@ -35,12 +35,15 @@
     }
     .mediaItemLink:hover {
         background-color: darken($gray-light, 10);
+    }\
+    .dropdown-toggle {
+        max-width : 100%;
+        padding-right: $padding-md;
     }
     .dropdown-toggle .classTitle {
-        width : 150px;
+        max-width : 100%;
         overflow:hidden;
         display:inline-block;
-        text-overflow: ellipsis;
         white-space: nowrap;
         vertical-align: middle;
     }
@@ -80,12 +83,6 @@
         margin: 0 auto 2px auto;
         height: 12px;
         margin-bottom: 6px;
-    }
-    .titleContainer {
-        float: left;
-    }
-    .songSelection {
-        float: right;
     }
     @media (max-width: $screen-sm-min) {
         .menuContent {
