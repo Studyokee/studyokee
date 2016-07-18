@@ -4,11 +4,13 @@
             <div class="titleContainer text-center col-md-6">
                 <h2>{{data.name}}</h2>
             </div>
-            <div class="dropdown songSelection text-right col-md-6">
-                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="classTitle">{{currentSong.metadata.trackName}} by {{currentSong.metadata.artist}}</span>&nbsp;<span class="caret"></span>
-                </button>
-                <div class="mediaItemListContainer dropdown-menu"></div>
+            <div class="text-right col-md-6">
+                <div class="dropdown songSelection">
+                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="classTitle">{{currentSong.metadata.trackName}} by {{currentSong.metadata.artist}}</span>&nbsp;<span class="caret"></span>
+                    </button>
+                    <div class="mediaItemListContainer dropdown-menu dropdown-menu-right"></div>
+                </div>
             </div>
         </div>
     </div>
