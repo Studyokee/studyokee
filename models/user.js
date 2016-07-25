@@ -6,10 +6,10 @@ var mongoose = require('mongoose');
 var User;
 
 var userSchema = mongoose.Schema({
-    username: String,
+    username: { type : String , unique : true, required : true },
     displayName: String,
     password: String,
-    admin: Boolean
+    admin: { type : Boolean, default: false}
 });
 
 /*function findOne (query) {

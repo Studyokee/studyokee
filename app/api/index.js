@@ -18,5 +18,6 @@ app.use('/songs', require('./songs'));
 app.use('/dictionary', require('./dictionary'));
 app.use('/classrooms', require('./classrooms'));
 app.use('/vocabulary', require('./vocabulary'));
+app.use('/user', require('./user'));
 
 module.exports = app;

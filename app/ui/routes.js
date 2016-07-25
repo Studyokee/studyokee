@@ -20,7 +20,7 @@ var getUserObject = function (req) {
     return {
         id: (req.user && req.user._id) ? req.user._id : '',
         username: (req.user && req.user.username) ? req.user.username : '',
-        firstName: (req.user && req.user.displayName) ? req.user.displayName : '',
+        displayName: (req.user && req.user.displayName) ? req.user.displayName : '',
         admin: (req.user && req.user.admin) ? req.user.admin : false
     };
 };

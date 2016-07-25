@@ -63,6 +63,23 @@ define [
         error: (err) =>
           console.log('Error: ' + err)
       )
+
+    updateUser: (updates, callback) ->
+      $.ajax(
+        type: 'PUT'
+        url: '/api/user/'
+        data: updates
+        success: (response) =>
+          console.log('success save: ' + JSON.stringify(response))
+          user = this.get('user')
+          user.displayName = updates.displayName
+          user.username = updates.username
+          this.trigger('change:user')
+          if ($.isFunction(callback))
+            callback()
+        error: (err) =>
+          console.log('err:' + err.responseText)
+      )
   )
 
   return HeaderModel

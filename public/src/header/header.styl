@@ -39,7 +39,7 @@ header {
     .navbar-toggle .icon-bar {
         height: 3px;
     }
-    .navbar-nav > li > a.dropdown-toggle {
+    .navbar-nav > li > a.dropdown-toggle, .navbar-nav > li > a.userInfoDrawer {
         padding-bottom: 10px;
     }
 
@@ -69,6 +69,14 @@ header {
         animation-direction: alternate;
         -webkit-animation: shadowThrob 0.9s ease-out 1;
         -webkit-animation-direction: alternate;
+    }
+    .popover-content {
+        min-width: 200px;
+    }
+    #password {
+        -webkit-text-security: disc;
+        -moz-text-security: disc;
+        text-security: disc;
     }
     @keyframes shadowThrob {
         from {box-shadow: 0 0 0 0 rgba(190,190,190, 0.9);}

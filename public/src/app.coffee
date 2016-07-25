@@ -33,15 +33,10 @@ require [
     id: dataDom.attr('data-user-id')
     admin: dataDom.attr('data-user-admin')
     username: dataDom.attr('data-username')
-    firstName: dataDom.attr('data-user-first-name')
+    displayName: dataDom.attr('data-user-displayName')
 
   settings = new Settings(
     user: user
-  )
-
-  homeHeaderView = new HeaderView(
-    model: settings
-    sparse: true
   )
 
   headerModel = new HeaderModel(
@@ -61,7 +56,7 @@ require [
           settings: settings
         )
       )
-      homeHeaderView.setElement($('#skee header')).render()
+      headerView.setElement($('#skee header')).render()
       this.view.setElement($('#skee .main')).render()
       footerView.setElement($('#skee footer')).render()
     )
@@ -175,7 +170,7 @@ require [
       this.view = new LoginView(
         model: settings
       )
-      homeHeaderView.setElement($('#skee header')).render()
+      headerView.setElement($('#skee header')).render()
       this.view.setElement($('#skee .main')).render()
       footerView.setElement($('#skee footer')).render()
     )
@@ -185,7 +180,7 @@ require [
       this.view = new SignupView(
         model: settings
       )
-      homeHeaderView.setElement($('#skee header')).render()
+      headerView.setElement($('#skee header')).render()
       this.view.setElement($('#skee .main')).render()
       footerView.setElement($('#skee footer')).render()
     )

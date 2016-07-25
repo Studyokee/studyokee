@@ -35,6 +35,10 @@ define [
           setTimeout(hide, 1000)
       )
 
+      this.listenTo(this.model, 'change:user', () =>
+        this.render()
+      )
+
     render: () ->
       console.log('render header')
       this.$el.html(Handlebars.templates['header'](this.model.toJSON()))
@@ -73,6 +77,26 @@ define [
       )
       this.$('.selectLanguage .dropdown-toggle .languageIcon').addClass(this.model.get('fromLanguage').language)
       ###
+      $('.userInfoDrawer').on('shown.bs.popover', () =>
+        this.$('.updateUser').click(() =>
+          this.$('.updateUser').html('Saving...')
+          updates = {}
+          displayName = $('#displayName').val()
+          username = $('#username').val()
+          password = $('#password').val()
+
+          if (displayName)
+            updates.displayName = displayName
+          if (username)
+            updates.username = username
+          if (password)
+            updates.password = password
+          callback = () ->
+            this.$('.updateUser').html('Update')
+          this.model.updateUser(updates, callback)
+        )
+      )
+
       if this.options.sparse
         this.$('.navbar-left').hide()
 
