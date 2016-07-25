@@ -29,51 +29,54 @@ requirejs.config(
     'songs.data.provider':
       '/lib/songs-data-provider'
     'pagination.view': '/lib/pagination/pagination-view'
-    'vocabulary.view': 'lib/vocabulary/vocabulary-view'
-    'vocabulary.model': 'lib/vocabulary/vocabulary-model'
-    #media
-    'subtitles.scroller.view': '/lib/media/subtitles-scroller/subtitles-scroller-view'
-    'subtitles.scroller.model': '/lib/media/subtitles-scroller/subtitles-scroller-model'
-    'subtitles.player.model': '/lib/media/subtitles-player/subtitles-player-model'
-    'subtitles.player.view': '/lib/media/subtitles-player/subtitles-player-view'
-    'subtitles.controls.view': '/lib/media/subtitles-controls/subtitles-controls-view'
-    'youtube.main.model': '/lib/media/youtube/youtube-main/youtube-main-model'
-    'youtube.main.view': '/lib/media/youtube/youtube-main/youtube-main-view'
-    'youtube.player.model': '/lib/media/youtube/youtube-player/youtube-player-model'
-    'youtube.player.view': '/lib/media/youtube/youtube-player/youtube-player-view'
-    'youtube.sync.model': '/lib/media/youtube/youtube-sync/youtube-sync-model'
-    'youtube.sync.view': '/lib/media/youtube/youtube-sync/youtube-sync-view'
-    'youtube.sync.subtitles.view': '/lib/media/youtube/youtube-sync/youtube-sync-subtitles-view'
-    'create.song.view': 'lib/media/create-song/create-song-view'
-    'create.song.model': 'lib/media/create-song/create-song-model'
-    'edit.song.view': 'lib/media/edit-song/edit-song-view'
-    'edit.song.model': 'lib/media/edit-song/edit-song-model'
-    'add.song.view': '/lib/media/add-song/add-song-view'
-    'add.song.model': '/lib/media/add-song/add-song-model'
-    #vocab metrics
-    'vocabulary.list.view': 'lib/vocabulary-metrics/vocabulary-list/vocabulary-list-view'
-    'vocabulary.list.model': 'lib/vocabulary-metrics/vocabulary-list/vocabulary-list-model'
-    'vocabulary.metrics.view': 'lib/vocabulary-metrics/vocabulary-metrics/vocabulary-metrics-view'
-    'vocabulary.metrics.model': 'lib/vocabulary-metrics/vocabulary-metrics/vocabulary-metrics-model'
-    #voggles
-    'dictionary.view': 'lib/voggles/dictionary/dictionary-view'
-    'dictionary.model': 'lib/voggles/dictionary/dictionary-model'
-    #curation
-    'edit.songs.view': 'lib/curation/edit-songs/edit-songs-view'
-    'edit.songs.model': 'lib/curation/edit-songs/edit-songs-model'
-    'create.classroom.view': 'lib/curation/create-classroom/create-classroom-view'
-    'create.classroom.model': 'lib/curation/create-classroom/create-classroom-model'
-    'edit.classroom.view': 'lib/curation/edit-classroom/edit-classroom-view'
-    'edit.classroom.model': 'lib/curation/edit-classroom/edit-classroom-model'
-    'classroom.view': 'lib/curation/classroom/classroom-view'
-    'classroom.model': 'lib/curation/classroom/classroom-model'
-    'classrooms.view': 'lib/curation/classrooms/classrooms-view'
-    'classrooms.model': 'lib/curation/classrooms/classrooms-model'
-    'classroom.preview.view': 'lib/curation/classroom-preview/classroom-preview-view'
-    'classroom.preview.model': 'lib/curation/classroom-preview/classroom-preview-model'
-      #vocab study
-    'vocabulary.slider.view': 'lib/vocabulary-study/vocabulary-slider/vocabulary-slider-view'
-    'vocabulary.slider.model': 'lib/vocabulary-study/vocabulary-slider/vocabulary-slider-model'
+
+
+
+    #vocabulary-page
+    'vocabulary.view': 'lib/vocabulary-page/vocabulary/vocabulary-view'
+    'vocabulary.model': 'lib/vocabulary-page/vocabulary/vocabulary-model'
+    'vocabulary.list.view': 'lib/vocabulary-page/vocabulary-list/vocabulary-list-view'
+    'vocabulary.list.model': 'lib/vocabulary-page/vocabulary-list/vocabulary-list-model'
+    'vocabulary.metrics.view': 'lib/vocabulary-page/vocabulary-metrics/vocabulary-metrics-view'
+    'vocabulary.metrics.model': 'lib/vocabulary-page/vocabulary-metrics/vocabulary-metrics-model'
+    'vocabulary.slider.view': 'lib/vocabulary-page/vocabulary-slider/vocabulary-slider-view'
+    'vocabulary.slider.model': 'lib/vocabulary-page/vocabulary-slider/vocabulary-slider-model'
+
+    #classroom-page
+    'classroom.view': 'lib/classroom-page/classroom/classroom-view'
+    'classroom.model': 'lib/classroom-page/classroom/classroom-model'
+    'subtitles.scroller.view': '/lib/classroom-page/subtitles-scroller/subtitles-scroller-view'
+    'subtitles.scroller.model': '/lib/classroom-page/subtitles-scroller/subtitles-scroller-model'
+    'subtitles.controls.view': '/lib/classroom-page/subtitles-controls/subtitles-controls-view'
+    'youtube.main.model': '/lib/classroom-page/youtube-main/youtube-main-model'
+    'youtube.main.view': '/lib/classroom-page/youtube-main/youtube-main-view'
+    'youtube.player.model': '/lib/classroom-page/youtube-player/youtube-player-model'
+    'youtube.player.view': '/lib/classroom-page/youtube-player/youtube-player-view'
+    'dictionary.view': 'lib/classroom-page/dictionary/dictionary-view'
+    'dictionary.model': 'lib/classroom-page/dictionary/dictionary-model'
+
+    #classrooms-page
+    'classrooms.view': 'lib/classrooms-page/classrooms/classrooms-view'
+    'classrooms.model': 'lib/classrooms-page/classrooms/classrooms-model'
+    'classroom.preview.view': 'lib/classrooms-page/classroom-preview/classroom-preview-view'
+    'classroom.preview.model': 'lib/classrooms-page/classroom-preview/classroom-preview-model'
+
+    #admin-pages
+    'youtube.sync.model': '/lib/admin-pages/youtube/youtube-sync/youtube-sync-model'
+    'youtube.sync.view': '/lib/admin-pages/youtube/youtube-sync/youtube-sync-view'
+    'youtube.sync.subtitles.view': '/lib/admin-pages/youtube/youtube-sync/youtube-sync-subtitles-view'
+    'create.song.view': 'lib/admin-pages/create-song/create-song-view'
+    'create.song.model': 'lib/admin-pages/create-song/create-song-model'
+    'edit.song.view': 'lib/admin-pages/edit-song/edit-song-view'
+    'edit.song.model': 'lib/admin-pages/edit-song/edit-song-model'
+    'add.song.view': '/lib/admin-pages/add-song/add-song-view'
+    'add.song.model': '/lib/admin-pages/add-song/add-song-model'
+    'edit.songs.view': 'lib/admin-pages/edit-songs/edit-songs-view'
+    'edit.songs.model': 'lib/admin-pages/edit-songs/edit-songs-model'
+    'create.classroom.view': 'lib/admin-pages/create-classroom/create-classroom-view'
+    'create.classroom.model': 'lib/admin-pages/create-classroom/create-classroom-model'
+    'edit.classroom.view': 'lib/admin-pages/edit-classroom/edit-classroom-view'
+    'edit.classroom.model': 'lib/admin-pages/edit-classroom/edit-classroom-model'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]
