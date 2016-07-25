@@ -55,8 +55,6 @@ requirejs.config(
     'vocabulary.list.model': 'lib/vocabulary-metrics/vocabulary-list/vocabulary-list-model'
     'vocabulary.metrics.view': 'lib/vocabulary-metrics/vocabulary-metrics/vocabulary-metrics-view'
     'vocabulary.metrics.model': 'lib/vocabulary-metrics/vocabulary-metrics/vocabulary-metrics-model'
-    'vocabulary.map.view': 'lib/vocabulary-metrics/vocabulary-map/vocabulary-map-view'
-    'vocabulary.map.model': 'lib/vocabulary-metrics/vocabulary-map/vocabulary-map-model'
     #voggles
     'dictionary.view': 'lib/voggles/dictionary/dictionary-view'
     'dictionary.model': 'lib/voggles/dictionary/dictionary-model'
@@ -76,8 +74,6 @@ requirejs.config(
       #vocab study
     'vocabulary.slider.view': 'lib/vocabulary-study/vocabulary-slider/vocabulary-slider-view'
     'vocabulary.slider.model': 'lib/vocabulary-study/vocabulary-slider/vocabulary-slider-model'
-    'import.words.view': 'lib/vocabulary-study/import-words/import-words-view'
-    'import.words.model': 'lib/vocabulary-study/import-words/import-words-model'
   shim:
     backbone:
       deps: [ 'underscore', 'jquery' ]
