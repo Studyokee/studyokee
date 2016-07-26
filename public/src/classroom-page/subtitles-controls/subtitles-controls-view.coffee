@@ -39,6 +39,8 @@ define [
       )
 
       this.onKeyDownEvent = (event) =>
+        if $(event.target).is('input')
+          return
         this.onKeyDown(event)
       $(window).on('keydown', this.onKeyDownEvent)
       window.subtitlesControlsTeardown = this.teardown
