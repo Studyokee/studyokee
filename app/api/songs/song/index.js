@@ -5,8 +5,9 @@ var app = express();
 var q = require('q');
 var Song = require('../../../../models/song');
 var mongoose = require('mongoose');
+var utilities = require('../../utilities');
 
-app.delete('/:id', function (req, res) {
+app.delete('/:id', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
     console.log('Delete: ' + req.params.id);
     q.resolve().then(function () {
         var deleteRequest = q.defer();
@@ -56,7 +57,7 @@ app.get('/:id', function (req, res) {
     });
 });
 
-app.put('/:id', function (req, res) {
+app.put('/:id', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
     var song = req.body.song;
     var set = {};
     if (song.metadata) {

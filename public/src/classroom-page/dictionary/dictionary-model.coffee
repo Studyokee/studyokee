@@ -56,7 +56,7 @@ define [
       toLanguage = this.get('settings').get('toLanguage').language
       $.ajax(
         type: 'PUT'
-        url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage + '/add'
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/add'
         data:
           word: word
         success: (res) =>

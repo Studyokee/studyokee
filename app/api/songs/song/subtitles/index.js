@@ -3,13 +3,7 @@
 var express = require('express');
 var app = express();
 var q = require('q');
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.json(500, {
-        err: 'User is not logged in or does not have permission to do this action'
-    });
-}
+var utilities = require('../../../utilities');
 
 app.get('/:id/subtitles', function (req, res) {
     q.resolve().then(function () {
@@ -25,7 +19,7 @@ app.get('/:id/subtitles', function (req, res) {
     });
 });
 
-app.put('/:id/subtitles', ensureAuthenticated, function (req, res) {
+app.put('/:id/subtitles', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
     q.resolve().then(function () {
         var song = req.song;
         var newSubtitles = req.body.subtitles;

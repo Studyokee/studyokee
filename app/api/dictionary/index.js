@@ -6,6 +6,7 @@ var q = require('q');
 
 var Word = require('../../../models/word');
 var endings = ['a','o','as','os','es'];
+var utilities = require('../utilities');
 
 app.get('/:fromLanguage/:toLanguage', function (req, res) {
     q.resolve().then(function () {
@@ -71,7 +72,7 @@ app.get('/:fromLanguage/:toLanguage/index', function (req, res) {
     });
 });
 
-app.post('/add', function (req, res) {
+app.post('/add', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
     q.resolve().then(function () {
         var words = req.body.words;
         return Word.create(words);

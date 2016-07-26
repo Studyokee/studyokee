@@ -26,7 +26,7 @@ define [
       toLanguage = this.get('settings').get('toLanguage').language
       $.ajax(
         type: 'GET'
-        url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage
         dataType: 'json'
         success: (res) =>
           this.updateVocabulary(res)
@@ -40,7 +40,7 @@ define [
       toLanguage = this.get('settings').get('toLanguage').language
       $.ajax(
         type: 'PUT'
-        url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage + '/addNext'
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/addNext'
         data:
           quantity: 50
         success: (res) =>
@@ -56,7 +56,7 @@ define [
       toLanguage = this.get('settings').get('toLanguage').language
       $.ajax(
         type: 'PUT'
-        url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage + '/remove'
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/remove'
         data:
           word: word
         success: (res) =>

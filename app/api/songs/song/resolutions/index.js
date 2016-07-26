@@ -3,13 +3,7 @@
 var express = require('express');
 var app = express();
 var q = require('q');
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.json(500, {
-        err: 'User is not logged in or does not have permission to do this action'
-    });
-}
+var utilities = require('../../../utilities');
 
 app.get('/:id/resolutions', function (req, res) {
     q.resolve().then(function () {
@@ -23,7 +17,7 @@ app.get('/:id/resolutions', function (req, res) {
     });
 });
 
-app.put('/:id/resolutions', ensureAuthenticated, function (req, res) {
+app.put('/:id/resolutions', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
     q.resolve().then(function () {
         var data = req.body;
         if (!data) {

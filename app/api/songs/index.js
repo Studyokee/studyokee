@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 var q = require('q');
 var Song = require('../../../models/song');
-var Utilities = require('../utilities');
+var utilities = require('../utilities');
 var mongoose = require('mongoose');
 
 // function trimPrefix (req, res, next) {
@@ -65,7 +65,7 @@ app.get('/search', function (req, res) {
     });
 });
 
-app.post('/', Utilities.ensureAuthenticated, function (req, res) {
+app.post('/', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
     q.resolve().then(function () {
         return Song.create(req.body.artist, req.body.trackName, req.body.language, req.body.youtubeKey);
     }).then(function (song) {

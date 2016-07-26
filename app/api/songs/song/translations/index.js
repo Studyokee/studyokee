@@ -4,13 +4,7 @@ var express = require('express');
 var q = require('q');
 var app = express();
 var assert = require('assert');
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.json(500, {
-        err: 'User is not logged in or does not have permission to do this action'
-    });
-}
+var utilities = require('../../../utilities');
 
 app.get('/:id/translations/:language', function (req, res) {
     q.resolve().then(function () {
@@ -30,7 +24,7 @@ app.get('/:id/translations/:language', function (req, res) {
     });
 });
 
-app.put('/:id/translations/:language', ensureAuthenticated, function (req, res) {
+app.put('/:id/translations/:language', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
     q.resolve().then(function () {
         assert(req.hasOwnProperty('song'));
         assert(req.params.hasOwnProperty('language'));

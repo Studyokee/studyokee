@@ -102,7 +102,7 @@ define [
       toLanguage = this.get('settings').get('toLanguage').language
       $.ajax(
         type: 'GET'
-        url: '/api/vocabulary/' + userId + '/' + fromLanguage + '/' + toLanguage
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage
         dataType: 'json'
         success: (res) =>
           this.set(
