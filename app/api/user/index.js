@@ -15,9 +15,15 @@ app.put('/', function (req, res) {
     q.resolve().then(function () {
         // get current user
         var currentUserInfo = req.user;
-        var newUserInfo = req.body;
-        if (newUserInfo && newUserInfo.password) {
+        var newUserInfo = {};
+        if (req.body.password) {
             newUserInfo.password = createHash(newUserInfo.password);
+        }
+        if (req.body.displayName) {
+            newUserInfo.displayName = req.body.displayName;
+        }
+        if (req.body.userName) {
+            newUserInfo.userName = req.body.userName;
         }
 
         var updates = {
