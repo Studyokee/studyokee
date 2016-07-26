@@ -19,8 +19,15 @@ app.use(cookieParser());
 var passport = require('passport');
 //http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619
 
-var expressSession = require('express-session');
-app.use(expressSession({secret: 'mySecretKey'}));
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+app.use(session({
+    secret: 'mySecretKey',
+    cookie : {
+        maxAge: 3600000
+    },
+    store : new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 app.use(express.static(__dirname + '/public'));
 
