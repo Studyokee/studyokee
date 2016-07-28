@@ -5,13 +5,14 @@ var User = require('../../../models/user');
 var bCrypt = require('bcrypt-nodejs');
 var express = require('express');
 var app = express();
+var utilities = require('../utilities');
 
 // Generates hash using bCrypt
 var createHash = function(password){
     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 };
 
-app.put('/', function (req, res) {
+app.put('/', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
         // get current user
         var currentUserInfo = req.user;

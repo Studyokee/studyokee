@@ -24,21 +24,29 @@ module.exports = function(passport){
                         console.log('User already exists');
                         return done(null, false, req.flash('message', 'User Already Exists'));
                     } else {
-                        // if there is no user with that email
-                        // create the user
-                        var newUser = new User();
-                        // set the user's local credentials
-                        newUser.username = username;
-                        newUser.password = createHash(password);
+                        User.count({}, function(err, c) {
+                            if (c < process.env.USER_LIMIT) {
+                                // if there is no user with that email
+                                // create the user
+                                var newUser = new User();
+                                // set the user's local credentials
+                                newUser.username = username;
+                                newUser.password = createHash(password);
 
-                        // save the user
-                        newUser.save(function(err) {
-                            if (err){
-                                console.log('Error in Saving user: '+err);
-                                return done(null, false, req.flash('message', err));
+                                // save the user
+                                newUser.save(function(err) {
+                                    if (err){
+                                        console.log('Error in Saving user: '+err);
+                                        return done(null, false, req.flash('message', err));
+                                    }
+                                    console.log('User Registration succesful');
+                                    return done(null, newUser);
+                                });
+                            } else {
+                                var error = 'User signup limit reached: ' + c;
+                                console.log(error);
+                                return done(error);
                             }
-                            console.log('User Registration succesful');
-                            return done(null, newUser);
                         });
                     }
                 });

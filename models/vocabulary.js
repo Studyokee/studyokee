@@ -71,16 +71,18 @@ vocabularySchema.static('addWords', function(query, words) {
     }).then(function (vocabulary) {
         toReturn = vocabulary;
         for (var i = 0; i < words.length; i++) {
-            var word = words[i];
-            var toInsert = {
-                word: word.word,
-                def: word.def,
-                example: word.example,
-                part: word.part,
-                stem: word.stem,
-                known: false
-            };
-            vocabulary.words.push(toInsert);
+            if (vocabulary.words.length < process.env.VOCABULARY_LIMIT) {
+                var word = words[i];
+                var toInsert = {
+                    word: word.word,
+                    def: word.def,
+                    example: word.example,
+                    part: word.part,
+                    stem: word.stem,
+                    known: false
+                };
+                vocabulary.words.push(toInsert);
+            }
         }
         
         var updates = {
