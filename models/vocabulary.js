@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var q = require('q');
+var Word = require('./word');
 
 var Vocabulary;
 
@@ -19,11 +20,8 @@ var vocabularySchema = mongoose.Schema({
         required: true
     },
     words: [{
+        wordId: mongoose.Schema.Types.ObjectId,
         word: String,
-        def: String,
-        part: String,
-        example: String,
-        stem: String,
         known: Boolean
     }]
 });
@@ -43,9 +41,9 @@ function save (saveObj) {
     });
 }
 
-function getIndex (words, word) {
+function getIndex (words, wordId) {
     for (var i = 0; i < words.length; i++) {
-        if (words[i].word === word.word.toLowerCase() && words[i].part === word.part) {
+        if (words[i].wordId.toString() === wordId.toString()) {
             return i;
         }
     }
@@ -56,7 +54,7 @@ vocabularySchema.static('addWord', function(query, word) {
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
-        if (getIndex(vocabulary.words, word) === -1) {
+        if (getIndex(vocabulary.words, word._id) === -1) {
             return Vocabulary.addWords(query, [word]);
         }
 
@@ -74,11 +72,8 @@ vocabularySchema.static('addWords', function(query, words) {
             if (vocabulary.words.length < process.env.VOCABULARY_LIMIT) {
                 var word = words[i];
                 var toInsert = {
+                    wordId: word._id,
                     word: word.word,
-                    def: word.def,
-                    example: word.example,
-                    part: word.part,
-                    stem: word.stem,
                     known: false
                 };
                 vocabulary.words.push(toInsert);
@@ -105,7 +100,7 @@ vocabularySchema.static('removeWord', function(query, word) {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         toReturn = vocabulary;
-        i = getIndex(vocabulary.words, word);
+        i = getIndex(vocabulary.words, word.wordId);
         vocabulary.words[i].known = true;
         console.log('marking word: ' + vocabulary.words[i].word + ' as known');
         console.log('now: ' + vocabulary.words[i].known);
@@ -146,6 +141,50 @@ vocabularySchema.static('findOrCreate', function (fields) {
             // Save failed, try to get again in case concurrent request caused failure
             return findOne({ userId: fields.userId, fromLanguage: fields.fromLanguage, toLanguage: fields.toLanguage });
         });
+    });
+});
+
+
+vocabularySchema.static('fillWords', function (vocabulary) {
+    if (!vocabulary.words) {
+        return q.resolve().then(function () {
+            return vocabulary;
+        });
+    }
+
+    return q.resolve().then(function () {
+        // Match words to words in dictionary
+        var wordIds = vocabulary.words.map(function(word) {
+            return word.wordId;
+        });
+        
+        var findOneRequest = q.defer();
+        var query = {
+            '_id': { $in: wordIds }
+        };
+        Word.find(query, findOneRequest.makeNodeResolver());
+        return findOneRequest.promise;
+    }).then(function (dictionaryWords) {
+        // Create map of dictionary lookups
+        var dictionaryWordsMap = {};
+        for (var j = 0; j < dictionaryWords.length; j++) {
+            dictionaryWordsMap[dictionaryWords[j]._id.toString()] = dictionaryWords[j];
+        }
+
+        for (var i = 0; i < vocabulary.words.length; i++) {
+            var wordWithInfo = vocabulary.words[i];
+
+            // Get dictionary
+            var dictionaryWord = dictionaryWordsMap[wordWithInfo.wordId.toString()];
+            if (dictionaryWord) {
+                wordWithInfo.stem = dictionaryWord.stem;
+                wordWithInfo.def = dictionaryWord.def;
+                wordWithInfo.example = dictionaryWord.example;
+                wordWithInfo.rank = dictionaryWord.rank;
+                wordWithInfo.part = dictionaryWord.part;
+            }
+        }
+        return vocabulary;
     });
 });
 

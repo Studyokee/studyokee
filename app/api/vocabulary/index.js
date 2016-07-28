@@ -15,6 +15,8 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
             fromLanguage: req.params.fromLanguage,
             toLanguage: req.params.toLanguage});
     }).then(function (vocabulary) {
+        return Vocabulary.fillWords(vocabulary);
+    }).then(function (vocabulary) {
         res.json(200, vocabulary);
     }).fail(function (err) {
         console.log(err);
@@ -31,6 +33,8 @@ app.put('/:fromLanguage/:toLanguage/remove', utilities.ensureAuthenticated, func
         }
 
         return Vocabulary.removeWord(req.params, req.body.word);
+    }).then(function (vocabulary) {
+        return Vocabulary.fillWords(vocabulary);
     }).then(function (vocabulary) {
         res.json(200, vocabulary);
     }).fail(function (err) {
@@ -51,6 +55,8 @@ app.put('/:fromLanguage/:toLanguage/add', utilities.ensureAuthenticated, functio
         }
 
         return Vocabulary.addWord(req.params, req.body.word);
+    }).then(function (vocabulary) {
+        return Vocabulary.fillWords(vocabulary);
     }).then(function (vocabulary) {
         res.json(200, vocabulary);
     }).fail(function (err) {
