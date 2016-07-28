@@ -165,14 +165,15 @@ vocabularySchema.static('fillWords', function (vocabulary) {
         Word.find(query, findOneRequest.makeNodeResolver());
         return findOneRequest.promise;
     }).then(function (dictionaryWords) {
+        var vocabularyObj = vocabulary.toJSON();
         // Create map of dictionary lookups
         var dictionaryWordsMap = {};
         for (var j = 0; j < dictionaryWords.length; j++) {
             dictionaryWordsMap[dictionaryWords[j]._id.toString()] = dictionaryWords[j];
         }
 
-        for (var i = 0; i < vocabulary.words.length; i++) {
-            var wordWithInfo = vocabulary.words[i];
+        for (var i = 0; i < vocabularyObj.words.length; i++) {
+            var wordWithInfo = vocabularyObj.words[i];
 
             // Get dictionary
             var dictionaryWord = dictionaryWordsMap[wordWithInfo.wordId.toString()];
@@ -184,7 +185,7 @@ vocabularySchema.static('fillWords', function (vocabulary) {
                 wordWithInfo.part = dictionaryWord.part;
             }
         }
-        return vocabulary;
+        return vocabularyObj;
     });
 });
 

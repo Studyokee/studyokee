@@ -10,3 +10,4 @@ dist
 .env
 _SpecRunner.html
 .grunt/
+npm-debug.log
