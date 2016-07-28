@@ -95,6 +95,9 @@ define [
             this.$('.updateUser').html('Update')
           this.model.updateUser(updates, callback)
         )
+        this.$('.closeUpdateUser').click(() =>
+          $('.userInfoDrawer').popover('hide')
+        )
       )
 
       if this.options.sparse
