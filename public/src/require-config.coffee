@@ -30,8 +30,6 @@ requirejs.config(
       '/lib/songs-data-provider'
     'pagination.view': '/lib/pagination/pagination-view'
 
-
-
     #vocabulary-page
     'vocabulary.view': 'lib/vocabulary-page/vocabulary/vocabulary-view'
     'vocabulary.model': 'lib/vocabulary-page/vocabulary/vocabulary-model'
@@ -48,8 +46,6 @@ requirejs.config(
     'subtitles.scroller.view': '/lib/classroom-page/subtitles-scroller/subtitles-scroller-view'
     'subtitles.scroller.model': '/lib/classroom-page/subtitles-scroller/subtitles-scroller-model'
     'subtitles.controls.view': '/lib/classroom-page/subtitles-controls/subtitles-controls-view'
-    'youtube.main.model': '/lib/classroom-page/youtube-main/youtube-main-model'
-    'youtube.main.view': '/lib/classroom-page/youtube-main/youtube-main-view'
     'youtube.player.model': '/lib/classroom-page/youtube-player/youtube-player-model'
     'youtube.player.view': '/lib/classroom-page/youtube-player/youtube-player-view'
     'dictionary.view': 'lib/classroom-page/dictionary/dictionary-view'
