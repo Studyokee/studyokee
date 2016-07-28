@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOHQ_URL);
+//const mongooseConnection = mongoose.c(process.env.MONGOHQ_URL);
 
 var express = require('express');
 var favicon = require('serve-favicon');
@@ -23,10 +24,8 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 app.use(session({
     secret: 'mySecretKey',
-    cookie : {
-        maxAge: 3600000
-    },
-    store : new MongoStore({ mongooseConnection: mongoose.connection })
+    maxAge: new Date(Date.now() + 3600000),
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 app.use(express.static(__dirname + '/public'));
