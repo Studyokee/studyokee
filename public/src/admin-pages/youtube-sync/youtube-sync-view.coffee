@@ -59,13 +59,13 @@ define [
       if this.model.get('syncing')
         toggleSync.addClass('btn-primary')
         toggleSync.removeClass('btn-default')
-        toggleSync.attr('title', 'Turn Sync Off')
-        toggleSync.html('Turn Sync Off')
+        toggleSync.attr('title', 'Sync Off')
+        toggleSync.html('Sync Off')
       else
         toggleSync.removeClass('btn-primary')
         toggleSync.addClass('btn-default')
-        toggleSync.attr('title', 'Turn Sync On')
-        toggleSync.html('Turn Sync On')
+        toggleSync.attr('title', 'Sync On')
+        toggleSync.html('Sync On')
 
     calculateYTPlayerHeight: () ->
       ytPlayerWidth = this.$('#' + this.playerId).width()

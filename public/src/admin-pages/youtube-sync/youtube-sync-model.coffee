@@ -248,6 +248,10 @@ define [
         ts = 0
         if i > 0
           ts = subtitles[i-1].ts
+
+        if toRemove > 0
+          ts = subtitles[i].ts
+
         item =
           text: text
           ts: ts
