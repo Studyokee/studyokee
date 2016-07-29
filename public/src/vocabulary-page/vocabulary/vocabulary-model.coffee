@@ -9,6 +9,7 @@ define [
 
     initialize: () ->
       this.vocabularySliderModel = new VocabularySliderModel()
+      this.vocabularySliderModelKnown = new VocabularySliderModel()
 
       this.vocabularySliderModel.on('removeWord', (word) =>
         this.remove(word)
@@ -16,6 +17,7 @@ define [
 
       this.on('vocabularyUpdate', () =>
         this.vocabularySliderModel.trigger('vocabularyUpdate', this.get('unknown'))
+        this.vocabularySliderModelKnown.trigger('vocabularyUpdate', this.get('known'))
       )
 
       this.getVocabulary()

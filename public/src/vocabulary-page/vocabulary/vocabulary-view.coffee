@@ -14,6 +14,10 @@ define [
         model: this.model.vocabularySliderModel
       )
 
+      this.vocabularySliderViewKnown = new VocabularySliderView(
+        model: this.model.vocabularySliderModelKnown
+      )
+
       this.vocabularyMetricsView = new VocabularyMetricsView(
         model: this.model
       )
@@ -21,7 +25,7 @@ define [
       this.unknownVocabularyListModel = new Backbone.Model(
         words: this.model.get('unknown')
         title: 'Words to Study'
-        link: 'study'
+        link: 'study-unknown'
       )
       this.unknownVocabularyListView = new VocabularyListView(
         model: this.unknownVocabularyListModel
@@ -35,6 +39,7 @@ define [
       this.knownVocabularyListModel = new Backbone.Model(
         words: this.model.get('known')
         title: 'Words Learned'
+        link: 'study-known'
       )
       this.knownVocabularyListView = new VocabularyListView(
         model: this.knownVocabularyListModel
@@ -62,6 +67,8 @@ define [
         this.$('.vocabularyContentContainer').html(this.knownVocabularyListView.render().el)
       else if 'unknown' is subView
         this.$('.vocabularyContentContainer').html(this.unknownVocabularyListView.render().el)
+      else if 'study-known' is subView
+        this.$('.vocabularyContentContainer').html(this.vocabularySliderViewKnown.render().el)
       else
         this.$('.vocabularyContentContainer').html(this.vocabularySliderView.render().el)
       
