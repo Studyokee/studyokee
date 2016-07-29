@@ -65,11 +65,6 @@ define [
       else
         this.$('.vocabularyContentContainer').html(this.vocabularySliderView.render().el)
       
-      this.$('.addNext').on('click', (event) =>
-        this.model.addNext()
-        event.preventDefault()
-      )
-
       return this
 
 

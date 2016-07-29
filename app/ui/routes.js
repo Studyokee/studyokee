@@ -29,7 +29,7 @@ module.exports = function(passport){
 
     /* Handle Login POST */
     router.post('/login', passport.authenticate('login', {
-        successRedirect: '/',
+        successRedirect: '/classrooms/',
         failureRedirect: '/login',
         failureFlash : true
     }));
@@ -80,7 +80,7 @@ module.exports = function(passport){
     );
 
     router.get('/try', passport.authenticate('create', {
-            successRedirect: '/classrooms/language/es/en',
+            successRedirect: '/classrooms/1',
             failureRedirect: '/login',
             failureFlash : true
         })

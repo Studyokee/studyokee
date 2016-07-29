@@ -9,6 +9,7 @@ var utilities = require('../utilities');
 
 // Return all classrooms
 app.get('/', function (req, res) {
+    console.log('Getting all classrooms');
     q.resolve().then(function () {
         var findRequest = q.defer();
         Classroom.find({}, findRequest.makeNodeResolver());
@@ -25,6 +26,7 @@ app.get('/', function (req, res) {
 
 // Return page of classrooms for one language
 app.get('/page/:language', function (req, res) {
+    console.log('Getting page of classrooms');
     var classrooms = {};
     var pageStart = 0;
     if (req.query.pageStart) {

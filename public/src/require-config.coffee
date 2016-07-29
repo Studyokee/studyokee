@@ -34,9 +34,7 @@ requirejs.config(
     'vocabulary.view': 'lib/vocabulary-page/vocabulary/vocabulary-view'
     'vocabulary.model': 'lib/vocabulary-page/vocabulary/vocabulary-model'
     'vocabulary.list.view': 'lib/vocabulary-page/vocabulary-list/vocabulary-list-view'
-    'vocabulary.list.model': 'lib/vocabulary-page/vocabulary-list/vocabulary-list-model'
     'vocabulary.metrics.view': 'lib/vocabulary-page/vocabulary-metrics/vocabulary-metrics-view'
-    'vocabulary.metrics.model': 'lib/vocabulary-page/vocabulary-metrics/vocabulary-metrics-model'
     'vocabulary.slider.view': 'lib/vocabulary-page/vocabulary-slider/vocabulary-slider-view'
     'vocabulary.slider.model': 'lib/vocabulary-page/vocabulary-slider/vocabulary-slider-model'
 

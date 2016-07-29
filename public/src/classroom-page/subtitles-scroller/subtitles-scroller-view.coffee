@@ -34,8 +34,11 @@ define [
       )
 
     render: () ->
+      lines = this.model.get('processedLines')
 
-      if this.getLength() is 0
+      if lines is null
+        this.$el.html('<span class="glyphicon glyphicon-refresh glyphicon-spin large-spinner"></span>')
+      else if lines is []
         this.$el.html(this.getNoSubtitlesMessage())
       else
         formattedData = this.getFormattedData()

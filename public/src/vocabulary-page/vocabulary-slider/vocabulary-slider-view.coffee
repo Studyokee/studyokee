@@ -22,8 +22,9 @@ define [
       $(window).off('keydown', this.onKeyDownEvent)
 
     render: () ->
-      console.log('render slider')
-      if this.model.get('words').length is 0
+      if this.model.get('words') is null
+        this.$el.html('<span class="glyphicon glyphicon-refresh glyphicon-spin large-spinner"></span>')
+      else if this.model.get('words').length is 0
         this.$el.html('<div class="noResults">No words to study!</div>')
       else
         this.$el.html(Handlebars.templates['vocabulary-slider'](this.model.toJSON()))
@@ -41,6 +42,8 @@ define [
         this.$('.panel-link').on('click', () =>
           this.next()
         )
+
+        this.$('[data-toggle="popover"]').popover()
 
       return this
 

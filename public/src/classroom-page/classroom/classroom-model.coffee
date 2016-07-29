@@ -107,12 +107,14 @@ define [
 
     getSubtitles: (song) ->
       console.log('ClassroomModel: retrieved song data')
-      if not song?
-        this.youtubePlayerModel.set(
-          subtitles: []
-          processedLines: []
-        )
-        return
+      this.youtubePlayerModel.set(
+        subtitles: null
+        processedLines: null
+      )
+      this.subtitlesScrollerModel.set(
+        subtitles: null
+        processedLines: null
+      )
 
       this.set(
         lastCallbackId: song._id
@@ -127,9 +129,13 @@ define [
               resolutions[resolution.word] = resolution.resolution
           
           console.log('ClassroomModel: update song data')
+          translation = []
+          if song.translations.length > 0
+            translation = song.translations[0].data
+
           this.set(
             subtitles: song.subtitles
-            translation: song.translations[0].data
+            translation: translation
             resolutions: resolutions
           )
       

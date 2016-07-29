@@ -34,22 +34,6 @@ define [
           console.log('Error: ' + err)
       )
 
-    addNext: () ->
-      userId = this.get('settings').get('user').id
-      fromLanguage = this.get('settings').get('fromLanguage').language
-      toLanguage = this.get('settings').get('toLanguage').language
-      $.ajax(
-        type: 'PUT'
-        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/addNext'
-        data:
-          quantity: 50
-        success: (res) =>
-          console.log('Success!')
-          this.updateVocabulary(res)
-        error: (err) =>
-          console.log('Error: ' + err)
-      )
-
     remove: (word) ->
       userId = this.get('settings').get('user').id
       fromLanguage = this.get('settings').get('fromLanguage').language

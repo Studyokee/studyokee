@@ -3,30 +3,31 @@ define [
 ], (Backbone) ->
   SubtitlesScrollerModel = Backbone.Model.extend(
     default:
-      processedLines: []
+      processedLines: null
       i: 0
 
     initialize: () ->
+      # When subtitles are null, info is loading, when subtitles are empty array, info loaded, but no subtitles
       this.on('change:subtitles', () =>
-        this.set(
-          processedLines: []
-        )
-        this.processWords()
+        subtitles = this.get('subtitles')
+        if subtitles isnt null
+          this.processWords()
       )
 
       this.on('change:vocabulary', () =>
-        this.set(
-          processedLines: []
-        )
         this.processWords()
       )
 
-    processWords: (vocabulary) ->
+    processWords: () ->
       vocabulary = this.get('vocabulary')
       subtitles = this.get('subtitles')
-      if not vocabulary
-        return
-      if not subtitles
+      if not vocabulary or not subtitles or subtitles.length is 0
+        this.set(
+          processedLines: []
+          knownLyricsCount: 0
+          unknownLyricsCount: 0
+          otherLyricsCount: 0
+        )
         return
 
       console.log('processWords')
