@@ -37,6 +37,11 @@ define [
         openModal(word)
         event.preventDefault()
       )
+      this.$('.inDictionary').on('click', (event) ->
+        word = $(this).html()
+        openModal(word)
+        event.preventDefault()
+      )
       this.$('.inResolutions').on('click', (event) ->
         word = $(this).html()
         openModal(word)
@@ -73,13 +78,11 @@ define [
       this.$('.save').on('click', (event) =>
         song.metadata.trackName = this.$('#trackName').val()
         song.metadata.artist = this.$('#artist').val()
-        song.metadata.language = this.$('#language').val()
+        song.metadata.language = 'es'
         song.youtubeKey = $.url(this.$('#youtubeKey').val()).param('v')
         this.model.saveSong(song)
         event.preventDefault()
       )
-
-      this.$('#language').val(song?.metadata?.language)
 
       if song?.youtubeKey?
         this.$('#youtubeKey').val('http://www.youtube.com/watch?v=' + song.youtubeKey)
@@ -231,14 +234,14 @@ define [
       if not dictionary? or not stems?
         return ''
 
-      if this.isInDict(word)
-        return 'inDictionary'
-
       resolutions = this.model.get('resolutions')
       if resolutions?
         userDefinedWord = resolutions[word.toLowerCase()]
         if userDefinedWord? and this.isInDict(userDefinedWord)
           return 'inResolutions'
+
+      if this.isInDict(word)
+        return 'inDictionary'
 
       return 'notInDictionary'
 

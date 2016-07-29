@@ -56,9 +56,9 @@ requirejs.config(
     'classroom.preview.model': 'lib/classrooms-page/classroom-preview/classroom-preview-model'
 
     #admin-pages
-    'youtube.sync.model': '/lib/admin-pages/youtube/youtube-sync/youtube-sync-model'
-    'youtube.sync.view': '/lib/admin-pages/youtube/youtube-sync/youtube-sync-view'
-    'youtube.sync.subtitles.view': '/lib/admin-pages/youtube/youtube-sync/youtube-sync-subtitles-view'
+    'youtube.sync.model': '/lib/admin-pages/youtube-sync/youtube-sync-model'
+    'youtube.sync.view': '/lib/admin-pages/youtube-sync/youtube-sync-view'
+    'youtube.sync.subtitles.view': '/lib/admin-pages/youtube-sync/youtube-sync-subtitles-view'
     'create.song.view': 'lib/admin-pages/create-song/create-song-view'
     'create.song.model': 'lib/admin-pages/create-song/create-song-model'
     'edit.song.view': 'lib/admin-pages/edit-song/edit-song-view'
