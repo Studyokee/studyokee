@@ -1,5 +1,7 @@
-studyokee
+studyokee.com
 =============
+
+A language learning through karaoke application built using Node.js.  
 
 SETUP:
 
