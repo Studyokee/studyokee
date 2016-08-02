@@ -58,7 +58,7 @@ vocabularySchema.static('addWord', function(query, word) {
             return Vocabulary.addWords(query, [word]);
         }
 
-        return q.resolve();
+        return vocabulary;
     });
 });
 

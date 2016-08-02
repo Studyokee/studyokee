@@ -3,42 +3,46 @@ define [
 ], (Backbone) ->
   YoutubePlayerModel = Backbone.Model.extend(
     default:
-      subtitles: []
+      subtitles: null
       i: 0
       playing: false
       state: -1
 
     initialize: () ->
       this.on('change:currentSong', () =>
-        # Reset
         this.cueSong()
         this.pause()
-        this.set(
-          subtitles: []
-          i: 0
-          playing: false
-          state: -1
-        )
+        this.reset()
       )
 
-      this.on('cueSong', () =>
-        this.cueSong()
+      this.on('change:songData', () =>
+        songData = this.get('songData')
+        if songData?
+          this.set(
+            subtitles: songData.subtitles
+          )
+      )
+
+      this.on('change:playing', () =>
+        if not this.get('playing')
+          this.clearTimer()
       )
 
       this.offset = 0
       this.quickPrev = false
       this.timer = null
 
-      this.listenTo(this, 'change:playing', () =>
-        if not this.get('playing')
-          this.clearTimer()
+    reset: () ->
+      this.set(
+        i: 0
+        playing: false
+        state: -1
+        subtitles: null
+        songData: null
       )
 
     onStateChange: (event) ->
       state = event.data
-      console.log('YOUTUBEEVENT!!!!: ' + state)
-      console.log('\twith playing is: ' + this.get('playing'))
-      console.log('\twith player state is: ' + this.ytPlayer.getPlayerState())
 
       #-1 (unstarted)
       #0 (ended)
@@ -111,9 +115,6 @@ define [
         i = Math.max(i-1, 0)
       this.jumpTo(i)
 
-    toStart: () ->
-      this.jumpTo(0)
-
     jumpTo: (i) ->
       console.log('PLAYER: jump to: ' + i)
       subtitles = this.get('subtitles')
@@ -123,6 +124,7 @@ define [
           i: i
         )
 
+    # If the user hits previous quickly jump to previous line instead of beginning of line
     isQuickPrev: () ->
       clearTimeout(this.quickPrevTimeout)
       unset = () =>
@@ -147,24 +149,6 @@ define [
       if this.ytPlayer? and this.ytPlayer.getCurrentTime?
         return (this.ytPlayer.getCurrentTime() * 1000) - this.offset
       return 0
-
-    getDuration: () ->
-      if this.ytPlayer? and this.ytPlayer.getDuration?
-        return this.ytPlayer.getDuration()
-      return 0
-
-    getCurrentPercentageComplete: () ->
-      if this.ytPlayer? and this.ytPlayer.getDuration?
-        duration = this.ytPlayer.getDuration()
-        if duration? > 0
-          if this.get('playing')
-            return this.ytPlayer.getCurrentTime() * 100/duration
-          else
-            subtitles = this.get('subtitles')
-            if subtitles?.length > 0
-              time = this.get('subtitles')[this.get('i')].ts / 1000
-              return time*100/duration
-      return 0
       
     seek: (trackPosition) ->
       console.log('PLAYER: seek: ' + (trackPosition + this.offset))
@@ -172,7 +156,6 @@ define [
         this.ytPlayer.seekTo((trackPosition + this.offset)/1000, true)
 
     setTimer: (ts, currentIndex) ->
-      console.log('setTimer:currentIndex: ' + currentIndex)
       this.clearTimer()
       this.set(
         i: currentIndex
@@ -186,10 +169,6 @@ define [
       if subtitles?[nextIndex]?
         nextTs = subtitles[nextIndex].ts
         diff = nextTs - ts
-
-        console.log('PLAYER: nextTs: ' + nextTs)
-        console.log('PLAYER: ts: ' + ts)
-        console.log('PLAYER: Set timeout for: ' + diff)
 
         next = () =>
           this.setTimer(nextTs, nextIndex)
@@ -208,7 +187,6 @@ define [
         i++
 
       position = Math.max(i-1, 0)
-      console.log('PLAYER: position: ' + position)
       return position
 
   )

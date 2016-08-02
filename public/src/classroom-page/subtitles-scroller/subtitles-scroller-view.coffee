@@ -4,103 +4,64 @@ define [
   'templates'
 ], (Backbone, Handlebars) ->
 
-  ####################################################################
-  #
-  # SubtitlesScrollerView
-  #
-  # The view for a scrolling view of subtitles
-  #
-  ####################################################################
   SubtitlesScrollerView = Backbone.View.extend(
-    tagName:  "div"
     className: "subtitles-scroller show-translation"
     pageSize: 3
 
     initialize: () ->
       this.listenTo(this.model, 'change:i', () =>
-        this.onPositionChange()
+        i = this.model.get('i')
+        if i >= this.model.getLength() or i < 0
+          return
+
+        this.adjustView()
       )
-      this.listenTo(this.model, 'change:processedLines', () =>
+      this.listenTo(this.model, 'change:formattedData', () =>
         this.render()
       )
 
       this.on('toggleTranslation', () =>
-        scrollerEl = this.$el
-        if (scrollerEl.hasClass('show-translation'))
-          scrollerEl.removeClass('show-translation')
-        else
-          scrollerEl.addClass('show-translation')
-        this.onPositionChange()
+        this.$el.toggleClass('show-translation')
+        this.adjustView()
       )
 
     render: () ->
-      lines = this.model.get('processedLines')
+      length = this.model.getLength()
 
-      if lines is null
-        this.$el.html('<span class="glyphicon glyphicon-refresh glyphicon-spin large-spinner"></span>')
-      else if lines is []
+      if length is null
+        # Waiting for response from server
+        this.$el.html(this.getLoadingMessage())
+      else if length is []
+        # Response came back empty
         this.$el.html(this.getNoSubtitlesMessage())
       else
-        formattedData = this.getFormattedData()
-        model =
-          data: formattedData
-          showTimestamps: this.model.get('showTimestamps')
-        this.$el.html(Handlebars.templates['subtitles-scroller'](model))
+        this.$el.html(Handlebars.templates['subtitles-scroller'](
+          data: this.model.get('formattedData')
+        ))
 
-        view = this
-        this.$('.subtitles a').on('click', (event) ->
-          query = $(this).attr('data-lookup')
-          view.trigger('lookup', query)
-        )
+        lookup = (event) =>
+          query = $(event.target).attr('data-lookup')
+          this.trigger('lookup', query)
+          event.preventDefault()
+        this.$('.subtitles a').click(lookup)
 
-        this.onPositionChange()
+        this.adjustView()
 
       return this
 
+    getLoadingMessage: () ->
+      return '<span class="glyphicon glyphicon-refresh glyphicon-spin large-spinner"></span>'
+
     getNoSubtitlesMessage: () ->
-      return Handlebars.templates['no-subtitles']()
+      return '<div class="no-subtitles">Sorry, there are no subtitles for this song</div>'
 
-    getFormattedData: () ->
-      data = []
-      processedLines = this.model.get('processedLines')
-      if not processedLines?.length > 0
-        return data
-
-      for line in processedLines
-        subtitlesElements = ''
-        for word in line.subtitles
-          # it is either an object or a string, the object should become a link, otherwise just pass along text
-          if word.word?
-            subtitlesElements += '<a href="javaScript:void(0);" class="' + word.tag + '" data-lookup="' + word.lookup + '">' + word.word + '</a>&nbsp;'
-          else
-            subtitlesElements += word
-            
-        data.push(
-          original: subtitlesElements
-          translation: line.translation
-          ts: line.ts
-        )
-
-      return data
-
-    getLength: () ->
-      lines = this.model.get('processedLines')
-      if lines
-        return lines.length
-      else
-        return 0
-
-    onPositionChange: () ->
+    # Adjust the page and select the correct line, making sure that i never goes out of bounds
+    adjustView: () ->
       i = this.model.get('i')
-      length = this.getLength()
-      if i >= length
-        i = length - 1
-      if i < 0
-        i = 0
-
       this.shiftPage(i)
       this.selectLine(i)
 
+    # Adjust the view port on the scroller parent to show the correct lines
     shiftPage: (i) ->
       this.lineHeight = this.$('li.subtitle').outerHeight(true)
       page = Math.floor(i/this.pageSize)

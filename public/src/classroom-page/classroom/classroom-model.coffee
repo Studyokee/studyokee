@@ -6,6 +6,7 @@ define [
   'subtitles.scroller.model',
   'backbone'
 ], (MenuModel, DictionaryModel, SongsDataProvider, YoutubePlayerModel, SubtitlesScrollerModel, Backbone) ->
+  
   ClassroomModel = Backbone.Model.extend(
 
     initialize: () ->
@@ -21,32 +22,33 @@ define [
         settings: this.get('settings')
       )
       this.dictionaryModel = new DictionaryModel(
-        fromLanguage: this.get('settings').get('fromLanguage').language
-        toLanguage: this.get('settings').get('toLanguage').language
         settings: this.get('settings')
       )
 
       this.on('change:currentSong', () =>
-        console.log('ClassroomModel:change current song')
         this.youtubePlayerModel.set(
           currentSong: this.get('currentSong')
         )
+
         this.subtitlesScrollerModel.set(
-          i: 0
+          currentSong: this.get('currentSong')
         )
 
-        this.getSubtitles(this.get('currentSong'))
+        this.getSongData(this.get('currentSong')._id)
       )
 
-      this.on('change:subtitles', () =>
-        console.log('ClassroomModel:change subtitles')
+      this.on('change:songData', () =>
         this.youtubePlayerModel.set(
-          subtitles: this.get('subtitles')
+          songData: this.get('songData')
         )
         this.subtitlesScrollerModel.set(
-          subtitles: this.get('subtitles')
-          translation: this.get('translation')
-          resolutions: this.get('resolutions')
+          songData: this.get('songData')
+        )
+      )
+
+      this.youtubePlayerModel.on('change:i', () =>
+        this.subtitlesScrollerModel.set(
+          i: this.youtubePlayerModel.get('i')
         )
       )
 
@@ -62,14 +64,45 @@ define [
         )
       )
 
-      this.youtubePlayerModel.on('change:i', () =>
-        this.subtitlesScrollerModel.set(
-          i: this.youtubePlayerModel.get('i')
+      this.on('change:classroom', () =>
+        displayInfos = this.get('displayInfos')
+        this.menuModel.set(
+          rawData: displayInfos
+        )
+
+        title = this.getHash()
+        currentSong = this.chooseSongFromInfos(displayInfos, title)
+
+        this.set(
+          currentSong: currentSong
         )
       )
 
       this.getClassroom()
       this.getVocabulary()
+
+    # Given a list of song infos from API and a String
+    # Returns the first song unless title given matches title of one of the songs
+    chooseSongFromInfos: (infos, title) ->
+      if infos?.length > 0
+        songIndex = 0
+        if title
+          for info, index in infos
+            if info.song.metadata.trackName is title
+              songIndex = index
+              break
+        return infos[songIndex].song
+    
+      return null
+
+    # Returns the hash in the url as a String, or null if no hash or empty hash
+    getHash: () ->
+      if window.location.hash.length > 0
+        hash = window.location.hash.substring(1)
+        if hash.length > 0
+          return hash
+
+      return null
 
     getClassroom: () ->
       $.ajax(
@@ -77,72 +110,15 @@ define [
         url: '/api/classrooms/' + this.get('id')
         dataType: 'json'
         success: (res) =>
-          console.log('Classroom: retrieved classroom data')
           this.set(
-            data: res.classroom
+            classroom: res.classroom
+            displayInfos: res.displayInfos
           )
-          this.menuModel.set(
-            rawData: res.displayInfos
-          )
-          if res.displayInfos?.length > 0
-            console.log('Classroom: update current song')
-
-            currentSongIndex = 0
-            if (window.location.hash.length > 0)
-              currentSongTitle = window.location.hash.substring(1)
-              if currentSongTitle.length > 0
-                for info, index in res.displayInfos
-                  if info.song.metadata.trackName is currentSongTitle
-                    currentSongIndex = index
-                    console.log('Selecting song: ' + currentSongTitle)
-                    break
-
-            currentSong = res.displayInfos[currentSongIndex].song
-            this.set(
-              currentSong: currentSong
-            )
         error: (err) =>
-          console.log('Error: ' + err)
+          console.log('Error fetching classroom data')
       )
-
-    getSubtitles: (song) ->
-      console.log('ClassroomModel: retrieved song data')
-      this.youtubePlayerModel.set(
-        subtitles: null
-        processedLines: null
-      )
-      this.subtitlesScrollerModel.set(
-        subtitles: null
-        processedLines: null
-      )
-
-      this.set(
-        lastCallbackId: song._id
-      )
-
-      callback = (song) =>
-        if this.get('lastCallbackId') is song._id
-          resolutions = {}
-          if song?.resolutions?
-            resolutionsArray = song.resolutions
-            for resolution in resolutionsArray
-              resolutions[resolution.word] = resolution.resolution
-          
-          console.log('ClassroomModel: update song data')
-          translation = []
-          if song.translations.length > 0
-            translation = song.translations[0].data
-
-          this.set(
-            subtitles: song.subtitles
-            translation: translation
-            resolutions: resolutions
-          )
-      
-      this.getSong(song._id, callback)
 
     getVocabulary: () ->
-      userId = this.get('settings').get('user').id
       fromLanguage = this.get('settings').get('fromLanguage').language
       toLanguage = this.get('settings').get('toLanguage').language
       $.ajax(
@@ -150,26 +126,34 @@ define [
         url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage
         dataType: 'json'
         success: (res) =>
-          console.log('ClassroomModel: retrieved vocabulary')
           this.set(
             vocabulary: res?.words
           )
         error: (err) =>
-          console.log('Error: ' + err)
+          console.log('Error getting user vocabulary')
       )
 
-    getSong: (id, callback) ->
+    # Retrieve the data for a song, but only update the model if it is the most recent
+    # callback to protect when user switches quickly
+    getSongData: (id, callback) ->
       if not id?
         return
+
+      this.set(
+        lastCallbackId: id
+      )
 
       $.ajax(
         type: 'GET'
         url: '/api/songs/' + id
         dataType: 'json'
-        success: (song) =>
-          callback(song)
+        success: (songData) =>
+          if songData?._id is this.get('lastCallbackId')
+            this.set(
+              songData: songData
+            )
         error: (err) =>
-          console.log('Error: ' + err)
+          console.log('Error fetching song data')
       )
   )
 

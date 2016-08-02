@@ -3,8 +3,8 @@ define [
   'handlebars',
   'templates'
 ], (Backbone, Handlebars) ->
+
   YoutubePlayerView = Backbone.View.extend(
-    tagName:  'div'
     className: 'video-player'
     
     initialize: () ->
@@ -47,13 +47,9 @@ define [
             showInfo: 0
             rel: 0
             controls: 0
-            # theme: 'light'
-            # color: 'white'
           events:
             'onReady': onReady
             'onStateChange': onStateChange
-            'onPlaybackQualityChange': (quality) ->
-              console.log(quality)
         new YT.Player(this.playerId, params)
 
       if typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined'
@@ -61,9 +57,6 @@ define [
         $.getScript('https://www.youtube.com/iframe_api')
       else
         onAPIReady()
-
-      
-
 
   )
 

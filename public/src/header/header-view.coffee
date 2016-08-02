@@ -12,7 +12,6 @@ define [
       this.options = options
 
       this.listenTo(this.model, 'change:vocabularyCount', () ->
-        console.log('animate change')
         vocabularyCount = this.model.get('vocabularyCount')
         badge = $('.vocabulary-link .badge')
 

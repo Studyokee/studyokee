@@ -77,10 +77,8 @@ app.post('/add', utilities.ensureAuthenticated, utilities.ensureAdmin, function 
         var words = req.body.words;
         return Word.create(words);
     }).then(function (words) {
-        console.log('test2');
         res.json(200, words);
     }).fail(function (err) {
-        console.log('test3');
         console.log(err);
         res.json(500, {
             err: err

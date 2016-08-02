@@ -8,8 +8,9 @@ define [
   'handlebars',
   'templates'
 ], (MenuView, DictionaryView, SubtitlesScrollerView, SubtitlesControlsView, YoutubePlayerView, Backbone, Handlebars) ->
+  
   ClassroomView = Backbone.View.extend(
-    
+
     initialize: () ->
       this.menuView = new MenuView(
         model: this.model.menuModel
@@ -17,7 +18,6 @@ define [
       )
       this.subtitlesControlsView = new SubtitlesControlsView(
         model: this.model.youtubePlayerModel
-        allowHideTranslation: true
       )
 
       this.subtitlesScrollerView = new SubtitlesScrollerView(
@@ -37,7 +37,7 @@ define [
       )
 
       this.menuView.on('select', (item) =>
-        console.log('Classroom: update current song')
+        console.log('ClassroomView: update current song')
         window.location.hash = '#' + item.title
         this.model.set(
           currentSong: item.song
@@ -57,7 +57,6 @@ define [
       )
 
     render: () ->
-      console.log('ClassroomView: rerender')
       this.$el.html(Handlebars.templates['classroom'](this.model.toJSON()))
 
       this.$('.mediaItemListContainer').html(this.menuView.render().el)
@@ -65,14 +64,6 @@ define [
       this.$('.player-container').html(this.subtitlesScrollerView.render().el)
       this.$('.controls-container').html(this.subtitlesControlsView.render().el)
       this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
-
-      ###this.$('.editClassroom').on('click', (e) =>
-        Backbone.history.navigate('classrooms/' + this.model.get('data')?.classroomId + '/edit', {trigger: true})
-        e.preventDefault()
-      )
-      #if (this.model.get('settings')?.get('user')?.id is this.model.get('data')?.createdById) or this.model.get('settings')?.get('user')?.admin?
-      #  this.$('.editClassroom').show()
-      ###
 
       $('.dictionaryContainerWrapper .close').click(() ->
         $('.dictionaryContainerWrapper').hide()

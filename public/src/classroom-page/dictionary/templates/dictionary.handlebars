@@ -1,33 +1,24 @@
-<div>
-    <div class="panel-heading">
-        <!--<a class="toggleSearch"><span class="glyphicon glyphicon-search"></span></a>-->
-        <h4>Dictionary</h4>
-    </div>
-    <div class="panel-body">
-        <!--<div class="input-group search" style="display:none;">
-            <input type="text" class="form-control" placeholder="Word or phrase..." autocomplete="off" value={{lookup}}>
-            <span class="input-group-btn">
-                <button class="btn btn-primary" type="button">Lookup</button>
-            </span>
-        </div>-->
-        <div class="lookup">
-            {{#if word}}
-                {{#with word}}
-                    <b>"{{word}}"</b>
-                    <div>
-                        <p>
-                            <b>{{def}}</b>,&nbsp;<i class="wordType">{{part}}</i>
-                        </p>
-                        <p><b>ex.</b> {{example}}</p>
-                    </div>
-                {{/with}}
+<div class="panel-heading">
+    <h4>Dictionary</h4>
+</div>
+<div class="panel-body">
+    <div class="lookup">
+        {{#if word}}
+            {{#with word}}
+                <b>"{{word}}"</b>
+                <div>
+                    <p>
+                        <b>{{def}}</b>,&nbsp;<i class="wordType">{{part}}</i>
+                    </p>
+                    <p><b>ex.</b> {{example}}</p>
+                </div>
+            {{/with}}
+        {{else}}
+            {{#if noResult}}
+                <span class="text-muted">No result</span>
             {{else}}
-                {{#if noResult}}
-                    <span class="text-muted">No result</span>
-                {{else}}
-                    <span class="text-muted">Click on a word to lookup its definition</span>
-                {{/if}}
+                <span class="text-muted">Click on a word to lookup its definition</span>
             {{/if}}
-        </div>
+        {{/if}}
     </div>
 </div>
