@@ -138,10 +138,14 @@ define [
       return lower
 
     # Given a String
-    # Returns the separate words in that String as an array
+    # Returns the separate words in that String as an array. If no words, just return whole String in array of length one
     getWords: (line) ->
       regex = /([ÀÈÌÒÙàèìòùÁÉÍÓÚÝáéíóúýÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüŸçÇŒœßØøÅåÆæÞþÐð\w]+)/gi
-      return line.match(regex)
+      words = line.match(regex)
+      if not words?.length > 0
+        return [line]
+
+      return words
 
     # Creates the vocabulary maps necessary for lookups from the vocabulary array
     convertVocabularyArrayToMaps: () ->

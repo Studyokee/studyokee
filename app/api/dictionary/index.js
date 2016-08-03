@@ -21,28 +21,28 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
         }
 
         console.log('Looking for word: ' + req.query.word.toLowerCase());
-        return Word.find({word: req.query.word.toLowerCase(),
+        return Word.findOne({word: req.query.word.toLowerCase(),
             fromLanguage: req.params.fromLanguage,
             toLanguage: req.params.toLanguage});
-    }).then(function (words) {
+    }).then(function (word) {
         // check stem if we found nothing
         var str = req.query.word.toLowerCase();
-        if (words && words.length ===0 && str.length > 2) {
+        if (!word && str.length > 2) {
             for (var i = 0; i < endings.length; i++) {
                 var suffix = endings[i];
                 // ends with ending
                 var start = str.indexOf(suffix, str.length - suffix.length);
                 if (start !== -1) {
                     console.log('Looking for word with stem match: ' + str.substr(0, start));
-                    return Word.find({stem: str.substr(0, start),
+                    return Word.findOne({stem: str.substr(0, start),
                         fromLanguage: req.params.fromLanguage,
                         toLanguage: req.params.toLanguage});
                 }
             }
         }
-        return q.resolve(words);
-    }).then(function (words) {
-        res.json(200, words);
+        return q.resolve(word);
+    }).then(function (word) {
+        res.json(200, word);
     }).fail(function (err) {
         console.log(err);
         res.json(500, {

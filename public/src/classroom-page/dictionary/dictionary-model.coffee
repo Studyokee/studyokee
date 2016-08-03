@@ -3,26 +3,30 @@ define [
 ], (Backbone) ->
   
   DictionaryModel = Backbone.Model.extend(
+    defaults:
+      dictionaryResult: null
+      isLoading: false
+
     initialize: () ->
       this.listenTo(this, 'change:query', () =>
+        query = this.get('query')
         this.set(
-          word: null
-          lookup: this.get('query')
+          dictionaryResult: null
+          lookup: query
         )
 
-        fromLanguage = this.get('settings').get('fromLanguage').language
-        toLanguage = this.get('settings').get('toLanguage').language
-
-        this.lookup(fromLanguage, toLanguage, this.get('query'))
+        this.lookup(query)
       )
 
-      this.listenTo(this, 'change:word', () =>
-        word = this.get('word')
+      this.listenTo(this, 'change:dictionaryResult', () =>
+        word = this.get('dictionaryResult')
         if word?
           this.addToVocabulary(word)
       )
 
-    lookup: (fromLanguage, toLanguage, query) ->
+    lookup: (query) ->
+      fromLanguage = this.get('settings').get('fromLanguage').language
+      toLanguage = this.get('settings').get('toLanguage').language
       this.set(
         isLoading: true
       )
@@ -32,18 +36,9 @@ define [
         url: '/api/dictionary/' + fromLanguage + '/' + toLanguage + '?word=' + query
         success: (result) =>
           this.set(
+            dictionaryResult: result
             isLoading: false
           )
-
-          if result?.length > 0
-            this.set(
-              word: result[0]
-              noResult: false
-            )
-          else
-            this.set(
-              noResult: true
-            )
         error: (error) =>
           this.set(
             isLoading: false
