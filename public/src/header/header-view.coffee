@@ -35,7 +35,6 @@ define [
       )
 
     render: () ->
-      console.log('render header')
       this.$el.html(Handlebars.templates['header'](this.model.toJSON()))
       
       this.$('[data-toggle="popover"]').popover()

@@ -16,12 +16,15 @@ var isAuthenticated = function (req, res, next) {
     res.redirect('/login?redirectUrl=' + req.url);
 };
 
-var getUserObject = function (req) {
+var getDataObject = function (req) {
     return {
-        id: (req.user && req.user._id) ? req.user._id : '',
-        username: (req.user && req.user.username) ? req.user.username : '',
-        displayName: (req.user && req.user.displayName) ? req.user.displayName : '',
-        admin: (req.user && req.user.admin) ? req.user.admin : false
+        page: '/lib/app.js',
+        user: {
+            id: (req.user && req.user._id) ? req.user._id : '',
+            username: (req.user && req.user.username) ? req.user.username : '',
+            displayName: (req.user && req.user.displayName) ? req.user.displayName : '',
+            admin: (req.user && req.user.admin) ? req.user.admin : false
+        }
     };
 };
 
@@ -36,10 +39,7 @@ module.exports = function(passport){
 
     /* GET Registration Page */
     router.get('/signup', function(req, res){
-        var data = {
-            page: '/lib/app.js'
-        };
-        data.user = getUserObject(req);
+        var data = getDataObject(req);
         res.render('base', data);
     });
 
@@ -50,16 +50,9 @@ module.exports = function(passport){
         failureFlash : true
     }));
 
-    /* GET Home Page */
-    // router.get('/home', isAuthenticated, function(req, res){
-    //     res.render('home', { user: req.user });
-    // });
     /* GET login page. */
     router.get('/login', function(req, res) {
-        var data = {
-            page: '/lib/app.js'
-        };
-        data.user = getUserObject(req);
+        var data = getDataObject(req);
         res.render('base', data);
     });
 
@@ -71,10 +64,7 @@ module.exports = function(passport){
 
     router.get('/',
         function(req, res) {
-            var data = {
-                page: '/lib/app.js'
-            };
-            data.user = getUserObject(req);
+            var data = getDataObject(req);
             res.render('base', data);
         }
     );
@@ -88,11 +78,7 @@ module.exports = function(passport){
 
     router.get('*', isAuthenticated,
         function(req, res) {
-            console.log('user: ' + JSON.stringify(req.user, null, 4));
-            var data = {
-                page: '/lib/app.js'
-            };
-            data.user = getUserObject(req);
+            var data = getDataObject(req);
             res.render('base', data);
         }
     );

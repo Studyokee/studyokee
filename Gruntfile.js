@@ -26,6 +26,9 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            options: {
+                livereload: true,
+            },
             coffee: {
                 files: [
                     'public/src/**/*.coffee'
@@ -80,6 +83,16 @@ module.exports = function (grunt) {
                     runtime: 'inline',
                     sourceMap: true
                 }
+            }
+        },
+        uglify: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= coffee.compile.dest %>',
+                    src: '**/*.js',
+                    dest: 'public/lib/'
+                }]
             }
         },
         coffeelint: {
@@ -203,6 +216,8 @@ module.exports = function (grunt) {
             }
         }
     });
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+
     grunt.registerTask('lint', [
         'jshint2',
         'coffeelint'
