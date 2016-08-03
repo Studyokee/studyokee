@@ -16,13 +16,14 @@ module.exports = function(passport){
                 User.findOne({'username':username},function(err, user) {
                     // In case of any error return
                     if (err){
-                        console.log('Error in SignUp: '+err);
+                        console.log('Error in Sign Up: '+ err);
                         return done(err);
                     }
                     // already exists
                     if (user) {
-                        console.log('User already exists');
-                        return done(null, false, req.flash('message', 'User Already Exists'));
+                        var error = new Error('User already exists');
+                        console.log(error.stack);
+                        return done(error);
                     } else {
                         User.count({}, function(err, c) {
                             if (c < process.env.USER_LIMIT) {
@@ -37,14 +38,14 @@ module.exports = function(passport){
                                 newUser.save(function(err) {
                                     if (err){
                                         console.log('Error in Saving user: '+err);
-                                        return done(null, false, req.flash('message', err));
+                                        return done(err);
                                     }
                                     console.log('User Registration succesful');
                                     return done(null, newUser);
                                 });
                             } else {
-                                var error = 'User signup limit reached: ' + c;
-                                console.log(error);
+                                var error = new Error('User signup limit reached: ' + c);
+                                console.log(error.stack);
                                 return done(error);
                             }
                         });

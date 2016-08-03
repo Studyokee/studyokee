@@ -12,58 +12,41 @@ define [
     render: () ->
       this.$el.html(Handlebars.templates['signup'](this.model.toJSON()))
 
-      # if this is special register url, auto create user
-      # /signup?redirectUrl={{url}}&username={{username}}&password={{pw}}
-      params = $.url(document.location).param()
-      if params.redirectUrl? and params.username? and params.password?
-        if username? and password?
-          this.$('.mask').show()
-          this.signup(params.username, params.password)
-
       this.$('#submit').on('click', (event) =>
         username = this.$('#username').val()
         password = this.$('#password').val()
         
-        this.signup(username, password)
+        this.signup(username, password, $.url(document.location).param().redirectUrl)
 
         event.preventDefault()
       )
 
       return this
 
-    signup: (username, password) ->
+    signup: (username, password, redirectUrl) ->
       user =
         username: username
         password: password
+      $('.registerWarning .alert').alert('close')
       $.ajax(
         type: 'POST'
         url: '/signup'
         data: user
         success: (response, s, t) =>
-          console.log('Success!')
-          this.setCookie('username', username)
-          this.setCookie('password', password)
-          document.location = '/classrooms/language/es/en'
-        error: (err, t, s) =>
-          console.log('Error: ' + err.responseText)
+          if redirectUrl
+            document.location = redirectUrl
+          else
+            document.location = '/classrooms/1'
+        error: (err) =>
+          if err.responseText.indexOf('User already exists') > 0
+            $('.registerWarning').html(this.getAlert('Username already exists!'))
+          else if err.responseText.indexOf('User signup limit') > 0
+            $('.registerWarning').html(this.getAlert('User signup limit reached!'))
+            
       )
 
-    readCookie: (name) ->
-      nameEQ = name + '='
-      ca = document.cookie.split(';')
-      for c in ca
-        while c.charAt(0) is ' '
-          c = c.substring(1,c.length)
-        if c.indexOf(nameEQ) is 0
-          return c.substring(nameEQ.length,c.length)
-      
-      return null
-
-    setCookie: (name, value) ->
-      document.cookie = name + '=' + value + '; Path=/;'
-
-    deleteCookie: (name) ->
-      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    getAlert: (text) ->
+      return '<div class="alert alert-warning alert-dismissible fade in" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> ' + text + '</div>'
   )
 
   return SignupView

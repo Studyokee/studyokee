@@ -46,21 +46,9 @@ define [
         )
       )
 
-      this.youtubePlayerModel.on('change:i', () =>
-        this.subtitlesScrollerModel.set(
-          i: this.youtubePlayerModel.get('i')
-        )
-      )
-
       this.on('change:vocabulary', () =>
         this.subtitlesScrollerModel.set(
           vocabulary: this.get('vocabulary')
-        )
-      )
-
-      this.dictionaryModel.on('vocabularyUpdate', (words) =>
-        this.set(
-          vocabulary: words
         )
       )
 
@@ -76,6 +64,18 @@ define [
         this.set(
           currentSong: currentSong
         )
+      )
+
+      this.youtubePlayerModel.on('change:i', () =>
+        this.subtitlesScrollerModel.set(
+          i: this.youtubePlayerModel.get('i')
+        )
+      )
+
+      this.dictionaryModel.on('change:dictionaryResult', () =>
+        word = this.get('dictionaryResult')
+        if word?
+          this.addToVocabulary(word)
       )
 
       this.getClassroom()
@@ -154,6 +154,22 @@ define [
             )
         error: (err) =>
           console.log('Error fetching song data')
+      )
+
+    addToVocabulary: (word) ->
+      fromLanguage = this.get('settings').get('fromLanguage').language
+      toLanguage = this.get('settings').get('toLanguage').language
+      $.ajax(
+        type: 'PUT'
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/add'
+        data:
+          word: word
+        success: (res) =>
+          this.set(
+            vocabulary: res.words
+          )
+        error: (err) =>
+          console.log('Error adding to vocabulary')
       )
   )
 

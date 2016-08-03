@@ -18,12 +18,6 @@ define [
         this.lookup(query)
       )
 
-      this.listenTo(this, 'change:dictionaryResult', () =>
-        word = this.get('dictionaryResult')
-        if word?
-          this.addToVocabulary(word)
-      )
-
     lookup: (query) ->
       fromLanguage = this.get('settings').get('fromLanguage').language
       toLanguage = this.get('settings').get('toLanguage').language
@@ -45,20 +39,6 @@ define [
           )
 
           console.log('Error looking up word')
-      )
-
-    addToVocabulary: (word) ->
-      fromLanguage = this.get('settings').get('fromLanguage').language
-      toLanguage = this.get('settings').get('toLanguage').language
-      $.ajax(
-        type: 'PUT'
-        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/add'
-        data:
-          word: word
-        success: (res) =>
-          this.trigger('vocabularyUpdate', res.words)
-        error: (err) =>
-          console.log('Error adding to vocabulary')
       )
 
   )
