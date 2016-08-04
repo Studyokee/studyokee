@@ -18,7 +18,7 @@ var isAuthenticated = function (req, res, next) {
 
 var getDataObject = function (req) {
     return {
-        page: '/lib/app.js',
+        page: '/optimized/app.js',
         user: {
             id: (req.user && req.user._id) ? req.user._id : '',
             username: (req.user && req.user.username) ? req.user.username : '',
