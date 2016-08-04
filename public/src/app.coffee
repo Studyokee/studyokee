@@ -26,6 +26,9 @@ require [
       if callback then callback.apply(this, args)
   )
 
+  if window.location.hash is '#_=_'
+    window.location.hash = ''
+
   appRouter = new AppRouter
 
   dataDom = $('#data-dom')
