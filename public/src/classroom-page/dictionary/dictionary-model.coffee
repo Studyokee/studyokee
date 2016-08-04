@@ -29,6 +29,8 @@ define [
         dataType: 'json'
         url: '/api/dictionary/' + fromLanguage + '/' + toLanguage + '?word=' + query
         success: (result) =>
+          if result is null
+            result = undefined
           this.set(
             dictionaryResult: result
             isLoading: false

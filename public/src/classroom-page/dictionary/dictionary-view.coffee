@@ -23,7 +23,7 @@ define [
       else if dictionaryResult is null
         # Initial state
         this.$('.lookup').html(this.getInitialMessage())
-      else if dictionaryResult is {}
+      else if dictionaryResult is undefined
         # Response came back empty
         this.$('.lookup').html(this.getNoResultMessage())
 

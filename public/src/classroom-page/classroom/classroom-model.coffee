@@ -73,7 +73,7 @@ define [
       )
 
       this.dictionaryModel.on('change:dictionaryResult', () =>
-        word = this.get('dictionaryResult')
+        word = this.dictionaryModel.get('dictionaryResult')
         if word?
           this.addToVocabulary(word)
       )
