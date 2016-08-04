@@ -11,6 +11,10 @@ define [
     initialize: (options) ->
       this.options = options
 
+      this.listenTo(this.model, 'change:classrooms', () =>
+        this.render()
+      )
+
       this.listenTo(this.model, 'change:vocabularyCount', () ->
         vocabularyCount = this.model.get('vocabularyCount')
         badge = $('.vocabulary-link .badge')
