@@ -339,7 +339,6 @@ module.exports = function (grunt) {
                                 'backbone',
                                 'jquery',
                                 'bootstrap',
-                                'swfobject',
                                 'underscore',
                                 'handlebars',
                                 'purl',
