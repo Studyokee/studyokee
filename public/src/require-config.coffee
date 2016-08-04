@@ -10,7 +10,6 @@ requirejs.config(
     'jquery.ui.widget': '../bower_components/jquery-ui/ui/minified/jquery.ui.widget.min'
     'jquery.ui.sortable': '../bower_components/jquery-ui/ui/minified/jquery.ui.sortable.min'
     'jquery.ui.effect': '../bower_components/jquery-ui/ui/minified/jquery.ui.effect.min'
-    swfobject: '../bower_components/swfobject/swfobject/swfobject'
     underscore: '../bower_components/underscore/underscore-min'
     handlebars: '../bower_components/handlebars/handlebars.min'
     purl: '../bower_components/purl/purl'
@@ -99,6 +98,4 @@ requirejs.config(
       exports: '$'
     handlebars:
       exports: 'Handlebars'
-    swfobject:
-      exports: 'swfobject'
 )
