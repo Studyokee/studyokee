@@ -37,6 +37,7 @@ requirejs.config(
     'vocabulary.slider.model': 'vocabulary-page/vocabulary-slider/vocabulary-slider-model'
 
     #classroom-page
+    'classroom.page': 'classroom-page/classroom-page'
     'classroom.view': 'classroom-page/classroom/classroom-view'
     'classroom.model': 'classroom-page/classroom/classroom-model'
     'subtitles.scroller.view': 'classroom-page/subtitles-scroller/subtitles-scroller-view'

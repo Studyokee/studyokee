@@ -330,32 +330,12 @@ module.exports = function (grunt) {
                     },
                     modules: [
                         {
-                            //module names are relative to baseUrl
                             name: 'app',
-                            //List common dependencies here. Only need to list
-                            //top level dependencies, "include" will find
-                            //nested dependencies.
                             include: [
-                                'backbone',
-                                'jquery',
-                                'bootstrap',
-                                'underscore',
-                                'handlebars',
-                                'purl',
-                                'templates',
                                 'home.model',
                                 'home.view',
-                                'header.view',
-                                'header.model',
-                                'footer.view',
                                 'login.view',
                                 'signup.view',
-                                'media.item.view',
-                                'media.item.list.view',
-                                'media.item.list.model',
-                                'settings',
-                                'songs.data.provider',
-                                'pagination.view',
                                 'classroom.view',
                                 'classroom.model',
                                 'vocabulary.view',
