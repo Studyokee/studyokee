@@ -3,6 +3,7 @@
 /public/bower_components
 /public/lib
 /public/optimized
+/test/screenshots
 .sass-cache
 dist
 .tmp

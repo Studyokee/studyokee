@@ -58,8 +58,12 @@ define [
           rawData: displayInfos
         )
 
+        this.set(
+          songDisplayInfos: displayInfos
+        )
+
         title = this.getHash()
-        currentSong = this.chooseSongFromInfos(displayInfos, title)
+        currentSong = this.chooseSong(title)
 
         this.set(
           currentSong: currentSong
@@ -81,24 +85,25 @@ define [
       this.getClassroom()
       this.getVocabulary()
 
-    # Given a list of song infos from API and a String
-    # Returns the first song unless title given matches title of one of the songs
-    chooseSongFromInfos: (infos, title) ->
-      if infos?.length > 0
+    # Given a String
+    # Returns the song matching the given title or the first song if no matches, or null if no songs
+    chooseSong: (title) ->
+      displayInfos = this.get('songDisplayInfos')
+      if displayInfos?.length > 0
         songIndex = 0
         if title
-          for info, index in infos
+          for info, index in displayInfos
             if info.song.metadata.trackName is title
               songIndex = index
               break
-        return infos[songIndex].song
+        return displayInfos[songIndex].song
     
       return null
 
     # Returns the hash in the url as a String, or null if no hash or empty hash
     getHash: () ->
-      if window.location.hash.length > 0
-        hash = window.location.hash.substring(1)
+      if document.location.hash.length > 0
+        hash = document.location.hash.substring(1)
         if hash.length > 0
           return hash
 

@@ -11,6 +11,7 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-casperjs');
 
     grunt.initConfig({
         env: {
@@ -347,7 +348,16 @@ module.exports = function (grunt) {
                     ]
                 }
             }
-        }
+        },
+        casperjs: {
+            options: {
+                async: {
+                    parallel: false
+                },
+                silent: false
+            },
+            files: ['test/public/**/*.js']
+        },
     });
 
     grunt.registerTask('lint', [
@@ -364,7 +374,7 @@ module.exports = function (grunt) {
         this.async();
     });
     grunt.registerTask('travis', ['lint', 'env:travis', 'mochaTest']);
-    grunt.registerTask('test', ['lint', 'env:test', 'mongod', 'mochaTest']);
+    grunt.registerTask('test', ['env:development', 'mongod', 'server', 'casperjs']);
     grunt.registerTask('default', ['env:development', 'lint', 'preprocessor', 'copy:main', 'mongod', 'server', 'watch']);
     grunt.registerTask('prodtest', ['env:development', 'lint', 'preprocessor', 'requirejs', 'mongod', 'server', 'watch']);
 };

@@ -21,7 +21,7 @@ define [
       #     this.$('.mask').show()
       #     this.login(username, password)
 
-      this.$('#submit').on('click', (event) =>
+      this.$('#login').on('submit', (event) =>
         username = this.$('#username').val()
         password = this.$('#password').val()
         this.login(username, password)
@@ -44,7 +44,7 @@ define [
           params = $.url(document.location).param()
           redirectUrl = '/classrooms/language/es/en'
           if params.redirectUrl?
-            redirectUrl = params.redirectUrl
+            redirectUrl = params.redirectUrl + document.location.hash
           this.setCookie('username', username)
           this.setCookie('password', password)
           document.location = redirectUrl
