@@ -12,6 +12,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-casperjs');
+    grunt.loadNpmTasks('grunt-run');
 
     grunt.initConfig({
         env: {
@@ -358,6 +359,14 @@ module.exports = function (grunt) {
             },
             files: ['test/public/**/*.js']
         },
+        run: {
+            stopserver: {
+                cmd: 'killall',
+                args: [
+                    'node'
+                ]
+            }
+        },
     });
 
     grunt.registerTask('lint', [
@@ -375,7 +384,7 @@ module.exports = function (grunt) {
     });
     grunt.registerTask('travis', ['lint', 'env:travis', 'mochaTest']);
     grunt.registerTask('test', ['env:development', 'mongod', 'mochaTest']);
-    grunt.registerTask('tst', ['env:development', 'mongod', 'server', 'casperjs']);
+    grunt.registerTask('tst', ['env:development', 'mongod', 'server', 'casperjs', 'run:stopserver']);
     grunt.registerTask('default', ['env:development', 'lint', 'preprocessor', 'copy:main', 'mongod', 'server', 'watch']);
     grunt.registerTask('prodtest', ['env:development', 'lint', 'preprocessor', 'requirejs', 'mongod', 'server', 'watch']);
 };

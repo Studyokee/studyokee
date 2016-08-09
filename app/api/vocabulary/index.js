@@ -25,6 +25,7 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
         });
     });
 });
+
 // curl -H 'Content-Type: application/json' -X PUT -d '{"wordOrPhrase":"test"}' http://localhost:3000/api/vocabulary/es/en/remove
 app.put('/:fromLanguage/:toLanguage/remove', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
@@ -44,6 +45,25 @@ app.put('/:fromLanguage/:toLanguage/remove', utilities.ensureAuthenticated, func
         });
     });
 });
+
+app.delete('/:fromLanguage/:toLanguage', utilities.ensureAuthenticated, function (req, res) {
+    q.resolve().then(function () {
+        var query = {
+            userId: req.user._id,
+            fromLanguage: req.params.fromLanguage,
+            toLanguage: req.params.toLanguage
+        };
+        return Vocabulary.remove(query);
+    }).then(function (result) {
+        res.json(200, result);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
 // curl -H 'Content-Type: application/json' -X PUT -d '{"wordOrPhrase":"test", "definition":"test2"}' http://localhost:3000/api/vocabulary/es/en/add
 app.put('/:fromLanguage/:toLanguage/add', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
