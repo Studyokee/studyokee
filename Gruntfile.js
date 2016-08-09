@@ -38,9 +38,9 @@ module.exports = function (grunt) {
                     'public/src/**/*.coffee'
                 ],
                 tasks: [
-                    'coffeelint',
-                    'coffee',
-                    'copy:main'
+                    'newer:coffeelint',
+                    'newer:coffee',
+                    'newer:copy:main'
                 ]
             },
             handlebars: {
