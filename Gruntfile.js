@@ -383,7 +383,7 @@ module.exports = function (grunt) {
         this.async();
     });
     grunt.registerTask('travis', ['lint', 'env:travis', 'mochaTest']);
-    // grunt.registerTask('test', ['env:development', 'mongod', 'mochaTest']);
+    grunt.registerTask('test', []);
     grunt.registerTask('tst', ['env:development', 'mongod', 'server', 'casperjs', 'run:stopserver']);
     grunt.registerTask('default', ['env:development', 'lint', 'preprocessor', 'copy:main', 'mongod', 'server', 'watch']);
     grunt.registerTask('prodtest', ['env:development', 'lint', 'preprocessor', 'requirejs', 'mongod', 'server', 'watch']);
