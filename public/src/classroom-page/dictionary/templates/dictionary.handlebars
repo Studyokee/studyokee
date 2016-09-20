@@ -4,12 +4,12 @@
 <div class="panel-body">
     <div class="lookup">
         {{#with dictionaryResult }}
-            <b>"{{word}}"</b>
+            <p><b>"{{word}}"</b></p>
             <div>
                 <p>
-                    <b>{{def}}</b>,&nbsp;<i class="wordType">{{part}}</i>
+                    <b>{{def}}</b>{{#if part}},&nbsp;<i class="wordType">{{part}}</i>{{/if}}
                 </p>
-                <p><b>ex.</b> {{example}}</p>
+                {{#if example}}<p><b>ex.</b> {{example}}</p>{{/if}}
             </div>
         {{/with}}
     </div>

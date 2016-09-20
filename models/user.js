@@ -9,7 +9,8 @@ var userSchema = mongoose.Schema({
     username: { type : String , unique : true, required : true },
     displayName: String,
     password: String,
-    admin: { type : Boolean, default: false}
+    admin: { type : Boolean, default: false},
+    language: { type : String, default: 'es'}
 });
 
 /*function findOne (query) {

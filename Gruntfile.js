@@ -49,7 +49,8 @@ module.exports = function (grunt) {
                     'public/src/**/*.handlebars'
                 ],
                 tasks: [
-                    'handlebars'
+                    'handlebars',
+                    'newer:copy:main'
                 ]
             },
             stylus: {
@@ -116,6 +117,7 @@ module.exports = function (grunt) {
                     '!node_modules/**/*.js',
                     '!public/**/*.js',
                     '!test/public/require-config.js',
+                    '!test/**/*.js',
                     '!assets/*.js'
                 ],
                 options: {

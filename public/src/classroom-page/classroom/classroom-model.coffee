@@ -162,6 +162,9 @@ define [
       )
 
     addToVocabulary: (word) ->
+      if not word?
+        return
+
       fromLanguage = this.get('settings').get('fromLanguage').language
       toLanguage = this.get('settings').get('toLanguage').language
       $.ajax(

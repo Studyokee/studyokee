@@ -41,6 +41,9 @@ require [
   settings = new Settings(
     user: user
   )
+  language = dataDom.attr('data-language')
+  if language?
+    settings.setFromLangauge(language)
 
   headerModel = new HeaderModel(
     settings: settings

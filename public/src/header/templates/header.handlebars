@@ -9,6 +9,7 @@
             <a href="/" class="navbar-brand"><span class="icon"></span><span class="brandName">Studyokee</span></a>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
+            {{#if user.id}}
             <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown selectLanguage">
                     <a href="/" class="dropdown-toggle" data-toggle="dropdown">Classrooms <b class="caret"></b></a>
@@ -20,6 +21,7 @@
                 </li>
                 <li class="vocabulary-link"><a href="/vocabulary/{{fromLanguage}}/{{toLanguage}}" class="vocabulary">Vocabulary <span class="badge" {{#unless vocabularyCount}}style="display:none;"{{/unless}}>{{vocabularyCount}}</span></a></li>
             </ul>
+            {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if user.id}}
                 <li class="hidden-xs">

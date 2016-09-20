@@ -5,7 +5,8 @@ define [
     {'language': 'en', 'display': 'English'}
   ]
   fromLanguages = [
-    {'language': 'es', 'display': 'Spanish'}
+    {'language': 'es', 'display': 'Spanish'},
+    {'language': 'de', 'display': 'German'}
   ]
   SettingsModel = Backbone.Model.extend(
     defaults:
@@ -22,19 +23,12 @@ define [
       supportedLanguages: fromLanguages
 
     setFromLangauge: (language) ->
-      languages = this.get('supportedLanguages')
-      for item in languages
+      for item in fromLanguages
         if item.language is language
           this.set(
             fromLanguage: item
           )
           return
-
-    getDisplayLangauge: (language) ->
-      languages = this.get('supportedLanguages')
-      for item in languages
-        if item.language is language
-          return item.display
   )
 
   return SettingsModel

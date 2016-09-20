@@ -154,13 +154,14 @@ define [
       unknown = {}
       knownStems = {}
       unknownStems = {}
-      for word in vocabulary
-        if word.known
-          known[word.word] = 1
-          knownStems[word.stem] = 1
-        else
-          unknown[word.word] = 1
-          unknownStems[word.stem] = 1
+      if vocabulary?
+        for word in vocabulary
+          if word.known
+            known[word.word] = 1
+            knownStems[word.stem] = 1
+          else
+            unknown[word.word] = 1
+            unknownStems[word.stem] = 1
 
       maps =
         known: known

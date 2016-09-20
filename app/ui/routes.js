@@ -23,7 +23,8 @@ var getDataObject = function (req) {
             id: (req.user && req.user._id) ? req.user._id : '',
             username: (req.user && req.user.username) ? req.user.username : '',
             displayName: (req.user && req.user.displayName) ? req.user.displayName : '',
-            admin: (req.user && req.user.admin) ? req.user.admin : false
+            admin: (req.user && req.user.admin) ? req.user.admin : false,
+            language: (req.user && req.user.language) ? req.user.language : 'es',
         }
     };
 };
@@ -69,8 +70,15 @@ module.exports = function(passport){
         }
     );
 
-    router.get('/try', passport.authenticate('create', {
+    router.get('/try_es', passport.authenticate('create', {
             successRedirect: '/classrooms/1',
+            failureRedirect: '/login',
+            failureFlash : true
+        })
+    );
+
+    router.get('/try_de', passport.authenticate('create', {
+            successRedirect: '/classrooms/11',
             failureRedirect: '/login',
             failureFlash : true
         })

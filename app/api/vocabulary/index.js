@@ -67,7 +67,7 @@ app.delete('/:fromLanguage/:toLanguage', utilities.ensureAuthenticated, function
 // curl -H 'Content-Type: application/json' -X PUT -d '{"wordOrPhrase":"test", "definition":"test2"}' http://localhost:3000/api/vocabulary/es/en/add
 app.put('/:fromLanguage/:toLanguage/add', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
-        if (!req.body.word) {
+        if (!req.body.word || !req.body.word.word) {
             return q.reject('No word provided');
         }
         if (req.user._id) {
