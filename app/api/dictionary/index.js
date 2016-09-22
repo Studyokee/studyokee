@@ -68,6 +68,9 @@ function getSpanishTranslation(fromLanguage, toLanguage, word) {
                 }
             }
         }
+        if (wordObject) {
+            return q.resolve(wordObject);
+        }
         return q.resolve(null);
     });
 }
