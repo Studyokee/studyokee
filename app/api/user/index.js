@@ -9,7 +9,7 @@ var utilities = require('../utilities');
 
 // Generates hash using bCrypt
 var createHash = function(password){
-    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+    return bCrypt.hashSync(password);
 };
 
 app.put('/', utilities.ensureAuthenticated, function (req, res) {
@@ -18,13 +18,13 @@ app.put('/', utilities.ensureAuthenticated, function (req, res) {
         var currentUserInfo = req.user;
         var newUserInfo = {};
         if (req.body.password) {
-            newUserInfo.password = createHash(newUserInfo.password);
+            newUserInfo.password = createHash(req.body.password);
         }
         if (req.body.displayName) {
             newUserInfo.displayName = req.body.displayName;
         }
-        if (req.body.userName) {
-            newUserInfo.userName = req.body.userName;
+        if (req.body.username) {
+            newUserInfo.username = req.body.username;
         }
 
         var updates = {
