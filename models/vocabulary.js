@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose');
 var q = require('q');
-var Word = require('./word');
 
 var Vocabulary;
 
@@ -20,8 +19,8 @@ var vocabularySchema = mongoose.Schema({
         required: true
     },
     words: [{
-        wordId: mongoose.Schema.Types.ObjectId,
         word: String,
+        def: String,
         known: Boolean
     }]
 });
@@ -41,53 +40,41 @@ function save (saveObj) {
     });
 }
 
-function getIndex (words, wordId) {
+function getIndex (words, word) {
     for (var i = 0; i < words.length; i++) {
-        if (words[i].wordId.toString() === wordId.toString()) {
+        if (words[i].word === word) {
             return i;
         }
     }
     return -1;
 }
 
-vocabularySchema.static('addWord', function(query, word) {
-    return q.resolve().then(function () {
-        return Vocabulary.findOrCreate(query);
-    }).then(function (vocabulary) {
-        if (getIndex(vocabulary.words, word._id) === -1) {
-            return Vocabulary.addWords(query, [word]);
-        }
-
-        return vocabulary;
-    });
-});
-
-vocabularySchema.static('addWords', function(query, words) {
+vocabularySchema.static('addWord', function(query, word, def) {
     var toReturn = null;
+
     return q.resolve().then(function () {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         toReturn = vocabulary;
-        for (var i = 0; i < words.length; i++) {
-            if (vocabulary.words.length < process.env.VOCABULARY_LIMIT) {
-                var word = words[i];
-                var toInsert = {
-                    wordId: word._id,
-                    word: word.word,
-                    known: false
-                };
-                vocabulary.words.push(toInsert);
-            }
+        if (vocabulary.words.length < process.env.VOCABULARY_LIMIT &&
+            getIndex(vocabulary.words, word) === -1) {
+            var toInsert = {
+                word: word,
+                def: def,
+                known: false
+            };
+            vocabulary.words.push(toInsert);
+
+            var updates = {
+                words: vocabulary.words
+            };
+
+            var updateRequest = q.defer();
+            vocabulary.update(updates, updateRequest.makeNodeResolver());
+
+            return updateRequest.promise;
         }
-        
-        var updates = {
-            words: vocabulary.words
-        };
-
-        var updateRequest = q.defer();
-        vocabulary.update(updates, updateRequest.makeNodeResolver());
-
-        return updateRequest.promise;
+        return q.resolve();
     }).then(function () {
         return toReturn;
     });
@@ -100,10 +87,8 @@ vocabularySchema.static('removeWord', function(query, word) {
         return Vocabulary.findOrCreate(query);
     }).then(function (vocabulary) {
         toReturn = vocabulary;
-        i = getIndex(vocabulary.words, word.wordId);
+        i = getIndex(vocabulary.words, word);
         vocabulary.words[i].known = true;
-        console.log('marking word: ' + vocabulary.words[i].word + ' as known');
-        console.log('now: ' + vocabulary.words[i].known);
 
         var updates = {
             words: vocabulary.words
@@ -114,8 +99,6 @@ vocabularySchema.static('removeWord', function(query, word) {
 
         return updateRequest.promise;
     }).then(function () {
-        console.log('tmarking word: ' + toReturn.words[i].word + ' as known');
-        console.log('tnow: ' + toReturn.words[i].known);
         return toReturn;
     });
 });
@@ -141,51 +124,6 @@ vocabularySchema.static('findOrCreate', function (fields) {
             // Save failed, try to get again in case concurrent request caused failure
             return findOne({ userId: fields.userId, fromLanguage: fields.fromLanguage, toLanguage: fields.toLanguage });
         });
-    });
-});
-
-
-vocabularySchema.static('fillWords', function (vocabulary) {
-    if (!vocabulary.words) {
-        return q.resolve().then(function () {
-            return vocabulary;
-        });
-    }
-
-    return q.resolve().then(function () {
-        // Match words to words in dictionary
-        var wordIds = vocabulary.words.map(function(word) {
-            return word.wordId;
-        });
-        
-        var findOneRequest = q.defer();
-        var query = {
-            '_id': { $in: wordIds }
-        };
-        Word.find(query, findOneRequest.makeNodeResolver());
-        return findOneRequest.promise;
-    }).then(function (dictionaryWords) {
-        var vocabularyObj = vocabulary.toJSON();
-        // Create map of dictionary lookups
-        var dictionaryWordsMap = {};
-        for (var j = 0; j < dictionaryWords.length; j++) {
-            dictionaryWordsMap[dictionaryWords[j]._id.toString()] = dictionaryWords[j];
-        }
-
-        for (var i = 0; i < vocabularyObj.words.length; i++) {
-            var wordWithInfo = vocabularyObj.words[i];
-
-            // Get dictionary
-            var dictionaryWord = dictionaryWordsMap[wordWithInfo.wordId.toString()];
-            if (dictionaryWord) {
-                wordWithInfo.stem = dictionaryWord.stem;
-                wordWithInfo.def = dictionaryWord.def;
-                wordWithInfo.example = dictionaryWord.example;
-                wordWithInfo.rank = dictionaryWord.rank;
-                wordWithInfo.part = dictionaryWord.part;
-            }
-        }
-        return vocabularyObj;
     });
 });
 

@@ -77,9 +77,9 @@ define [
       )
 
       this.dictionaryModel.on('change:dictionaryResult', () =>
-        word = this.dictionaryModel.get('dictionaryResult')
-        if word?
-          this.addToVocabulary(word)
+        result = this.dictionaryModel.get('dictionaryResult')
+        if result?
+          this.addToVocabulary(result.word, result.def)
       )
 
       this.getClassroom()
@@ -161,7 +161,7 @@ define [
           console.log('Error fetching song data')
       )
 
-    addToVocabulary: (word) ->
+    addToVocabulary: (word, def) ->
       if not word?
         return
 
@@ -172,6 +172,7 @@ define [
         url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/add'
         data:
           word: word
+          def: def
         success: (res) =>
           this.set(
             vocabulary: res.words

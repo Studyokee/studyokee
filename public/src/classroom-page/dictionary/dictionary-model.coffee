@@ -8,6 +8,10 @@ define [
       isLoading: false
 
     initialize: () ->
+      this.set(
+        isDE: this.get('settings').get('fromLanguage').language is 'de'
+      )
+
       this.listenTo(this, 'change:query', () =>
         query = this.get('query')
         this.set(
@@ -20,6 +24,10 @@ define [
 
     lookup: (query) ->
       fromLanguage = this.get('settings').get('fromLanguage').language
+      # We are using an embedded German dictionary
+      if fromLanguage is 'de'
+        return
+
       toLanguage = this.get('settings').get('toLanguage').language
       this.set(
         isLoading: true

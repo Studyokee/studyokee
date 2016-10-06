@@ -15,8 +15,6 @@ app.get('/:fromLanguage/:toLanguage', function (req, res) {
             fromLanguage: req.params.fromLanguage,
             toLanguage: req.params.toLanguage});
     }).then(function (vocabulary) {
-        return Vocabulary.fillWords(vocabulary);
-    }).then(function (vocabulary) {
         res.json(200, vocabulary);
     }).fail(function (err) {
         console.log(err);
@@ -34,8 +32,6 @@ app.put('/:fromLanguage/:toLanguage/remove', utilities.ensureAuthenticated, func
         }
 
         return Vocabulary.removeWord(req.params, req.body.word);
-    }).then(function (vocabulary) {
-        return Vocabulary.fillWords(vocabulary);
     }).then(function (vocabulary) {
         res.json(200, vocabulary);
     }).fail(function (err) {
@@ -67,16 +63,14 @@ app.delete('/:fromLanguage/:toLanguage', utilities.ensureAuthenticated, function
 // curl -H 'Content-Type: application/json' -X PUT -d '{"wordOrPhrase":"test", "definition":"test2"}' http://localhost:3000/api/vocabulary/es/en/add
 app.put('/:fromLanguage/:toLanguage/add', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
-        if (!req.body.word || !req.body.word.word) {
+        if (!req.body.word) {
             return q.reject('No word provided');
         }
         if (req.user._id) {
             req.params.userId = req.user._id;
         }
 
-        return Vocabulary.addWord(req.params, req.body.word);
-    }).then(function (vocabulary) {
-        return Vocabulary.fillWords(vocabulary);
+        return Vocabulary.addWord(req.params, req.body.word, req.body.def);
     }).then(function (vocabulary) {
         res.json(200, vocabulary);
     }).fail(function (err) {

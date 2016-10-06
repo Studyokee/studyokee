@@ -27,6 +27,21 @@ define [
         # Response came back empty
         this.$('.lookup').html(this.getNoResultMessage())
 
+      that = this
+      this.$('.lookupEmbed').click((event) ->
+        that.render()
+        event.preventDefault()
+      )
+
+      this.$('.saveCard').click(() ->
+        card =
+          word: that.model.get('lookup')
+          def: that.$('.cardDef').val()
+        that.model.set(
+          dictionaryResult: card
+        )
+      )
+
       return this
 
     getLoadingMessage: () ->
