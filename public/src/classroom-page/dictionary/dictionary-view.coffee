@@ -7,7 +7,10 @@ define [
     className: "dictionary"
 
     initialize: () ->
-      this.listenTo(this.model, 'change', () =>
+      this.listenTo(this.model, 'change:lookup', () =>
+        this.render()
+      )
+      this.listenTo(this.model, 'update', () =>
         this.render()
       )
 
@@ -40,6 +43,7 @@ define [
         that.model.set(
           dictionaryResult: card
         )
+        $('#makeCardModal').modal('hide')
       )
 
       return this

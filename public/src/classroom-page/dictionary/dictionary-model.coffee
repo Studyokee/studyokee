@@ -43,6 +43,8 @@ define [
             dictionaryResult: result
             isLoading: false
           )
+          this.trigger('update')
+
         error: (error) =>
           this.set(
             isLoading: false
