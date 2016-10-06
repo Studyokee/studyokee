@@ -17,7 +17,7 @@ define [
       )
 
       this.onKeyDownEvent = (event) =>
-        if $(event.target).is('input')
+        if $(event.target).is('input') or $(event.target).is('textarea')
           return
         this.onKeyDown(event)
       $(window).on('keydown', this.onKeyDownEvent)
