@@ -38,7 +38,7 @@ define [
 
       this.$('.saveCard').click(() ->
         card =
-          word: that.model.get('lookup')
+          word: that.$('.cardWord').val()
           def: that.$('.cardDef').val()
         that.model.set(
           dictionaryResult: card
