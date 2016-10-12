@@ -62,7 +62,7 @@ define [
       this.$('.vocabularyMetricsContainer').html(this.vocabularyMetricsView.render().el)
       
       subView = $.url(document.location).attr('fragment')
-      console.log(subView)
+      
       if 'known' is subView
         this.$('.vocabularyContentContainer').html(this.knownVocabularyListView.render().el)
       else if 'unknown' is subView
