@@ -27,8 +27,6 @@ define [
       for i in [1..levels.length-1]
         nextLevel = levels[i]
         currentLevel = levels[i-1]
-        console.log('nl: ' + nextLevel.count)
-        console.log(currentCount)
         if nextLevel.count > currentCount
           break
 

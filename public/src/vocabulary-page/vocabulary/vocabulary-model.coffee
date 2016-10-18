@@ -15,6 +15,10 @@ define [
         this.remove(word)
       )
 
+      this.vocabularySliderModel.on('updateWord', (word) =>
+        this.updateWord(word)
+      )
+
       this.on('vocabularyUpdate', () =>
         this.vocabularySliderModel.trigger('vocabularyUpdate', this.get('unknown'))
         this.vocabularySliderModelKnown.trigger('vocabularyUpdate', this.get('known'))
@@ -46,8 +50,25 @@ define [
         data:
           word: word
         success: (res) =>
-          console.log('Removed Word')
           this.updateVocabulary(res)
+        error: (err) =>
+          console.log('Error: ' + err)
+      )
+
+    updateWord: (word, def) ->
+      if not word?
+        return
+
+      fromLanguage = this.get('settings').get('fromLanguage').language
+      toLanguage = this.get('settings').get('toLanguage').language
+      $.ajax(
+        type: 'PUT'
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/update'
+        data:
+          word: word
+        success: (res) =>
+          # we just edit inline
+          #this.updateVocabulary(res)
         error: (err) =>
           console.log('Error: ' + err)
       )
@@ -70,8 +91,6 @@ define [
           known.push(word)
         else
           unknown.push(word)
-      console.log('known count: ' + known.length)
-      console.log('unknown count: ' + unknown.length)
 
       sortedWords =
         known: known

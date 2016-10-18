@@ -9,9 +9,10 @@ define [
 
     initialize: () ->
       this.on('vocabularyUpdate', (unknown) =>
-        # Only get new order if more words added or there are no words
+        # dont update if just less cards, because remove should reorder
         words = this.get('words')
         if words is null or words.length < unknown.length
+          console.log('sort!')
           this.set(
             index: 0
             words: this.getRandomOrder(unknown)
@@ -28,7 +29,6 @@ define [
           showDefinition: false
           index: index % words.length #if last word is removed
         )
-        this.trigger('change')
         this.trigger('removeWord', word.word)
 
     getRandomOrder: (array) ->

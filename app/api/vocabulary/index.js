@@ -42,6 +42,23 @@ app.put('/:fromLanguage/:toLanguage/remove', utilities.ensureAuthenticated, func
     });
 });
 
+app.put('/:fromLanguage/:toLanguage/update', utilities.ensureAuthenticated, function (req, res) {
+    q.resolve().then(function () {
+        if (req.user._id) {
+            req.params.userId = req.user._id;
+        }
+
+        return Vocabulary.updateWord(req.params, req.body.word);
+    }).then(function (vocabulary) {
+        res.json(200, vocabulary);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
 app.delete('/:fromLanguage/:toLanguage', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
         var query = {

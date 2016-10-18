@@ -1,14 +1,28 @@
 <div class="step-buttons">
-    <!--<button type="button" class="prev btn btn-primary" title="Previous">
-        <span class="buttonText"><span class="glyphicon glyphicon-step-backward"></span> PREV</span>
-    </button>-->
+    <button type="button" class="editCard btn btn-primary" data-toggle="modal" data-target="#editCardModal">Edit</button>
+    <div class="modal fade" id="editCardModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Edit Card</h4>
+          </div>
+          <div class="modal-body">
+            <p class="cardWord">{{lookup}}</p>
+            <textarea class="cardDef" placeholder="Enter in the text for this card"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary saveCard">Save changes</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <button type="button" class="remove btn btn-primary" title="I know this!">
-        <span class="buttonText hidden-xs">I know this!</span>
-        <span class="glyphicon glyphicon-ok visible-xs-inline-block"></span>
+        <span class="buttonText">I know this!</span>
     </button>
     <button type="button" class="next btn btn-info" title="Next">
-        <span class="buttonText hidden-xs">NEXT</span>
-        <span class="glyphicon glyphicon-step-forward"></span>
+        <span class="buttonText">NEXT</span>
     </button>
     <a tabindex="0" class="btn btn-link hidden-xs" role="button" data-toggle="popover" data-trigger="focus" title="Keyboard Controls" data-html="true" data-content="<div>I KNOW THIS!:&nbsp;&nbsp;<kbd>space</kbd></div><div>NEXT:&nbsp;&nbsp;<kbd>→</kbd></div>"><span class="glyphicon glyphicon-info-sign"></span></a>
 </div>

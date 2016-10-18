@@ -73,15 +73,15 @@ define [
         this.$('.vocabularyContentContainer').html(this.vocabularySliderView.render().el)
 
       this.$('.saveCard').click(() =>
-        word = this.$('.cardWord').val()
-        def = this.$('.cardDef').val()
+        word = this.$('#makeCardModal .cardWord').val()
+        def = this.$('#makeCardModal .cardDef').val()
         if word and def
           $('#makeCardModal').modal('hide')
           $('body').removeClass('modal-open')
           $('.modal-backdrop').remove()
           this.model.addToVocabulary(word, def)
-          this.$('.cardWord').val('')
-          this.$('.cardDef').val('')
+          this.$('#makeCardModal .cardWord').val('')
+          this.$('#makeCardModal .cardDef').val('')
       )
 
       return this

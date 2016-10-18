@@ -13,12 +13,13 @@ define [
       )
 
       this.onKeyDownEvent = (event) =>
+        if $(event.target).is('input') or $(event.target).is('textarea')
+          return
         this.onKeyDown(event)
       $(window).on('keydown', this.onKeyDownEvent)
       window.subtitlesControlsTeardown = this.teardown
 
     teardown: ->
-      console.log('teardown keyboard')
       $(window).off('keydown', this.onKeyDownEvent)
 
     render: () ->
@@ -45,6 +46,16 @@ define [
 
         this.$('[data-toggle="popover"]').popover()
 
+      this.$('#editCardModal').on('show.bs.modal', () =>
+        currentWord = this.model.get('words')[this.model.get('index')]
+        this.$('#editCardModal .cardWord').text(currentWord.word)
+        this.$('#editCardModal .cardDef').val(currentWord.def)
+      )
+
+      this.$('#editCardModal .saveCard').click(() =>
+        this.edit()
+      )
+
       return this
 
     next: () ->
@@ -56,6 +67,15 @@ define [
       else
         this.$('.flip-container').addClass('flip')
 
+    edit: () ->
+      currentWord = this.model.get('words')[this.model.get('index')]
+      currentWord.def = this.$('#editCardModal .cardDef').val()
+      if currentWord.def
+        $('#editCardModal').modal('hide')
+        $('body').removeClass('modal-open')
+        $('.modal-backdrop').remove()
+        this.model.trigger('updateWord', currentWord)
+        this.render()
 
     remove: () ->
       this.model.remove(this.model.get('index'))

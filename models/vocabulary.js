@@ -103,6 +103,33 @@ vocabularySchema.static('removeWord', function(query, word) {
     });
 });
 
+vocabularySchema.static('updateWord', function(query, word) {
+    var toReturn = null;
+    var i;
+    return q.resolve().then(function () {
+        return Vocabulary.findOrCreate(query);
+    }).then(function (vocabulary) {
+        toReturn = vocabulary;
+        i = getIndex(vocabulary.words, word.word);
+        if (i < 0) {
+            q.resolve();
+        }
+
+        vocabulary.words[i].def = word.def;
+
+        var updates = {
+            words: vocabulary.words
+        };
+
+        var updateRequest = q.defer();
+        vocabulary.update(updates, updateRequest.makeNodeResolver());
+
+        return updateRequest.promise;
+    }).then(function () {
+        return toReturn;
+    });
+});
+
 vocabularySchema.static('findOrCreate', function (fields) {
     if (!fields.userId) {
         return q.reject('No user id provided');
