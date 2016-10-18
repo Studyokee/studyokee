@@ -13,6 +13,7 @@ define [
         words = this.get('words')
         if words is null or words.length < unknown.length
           this.set(
+            index: 0
             words: this.getRandomOrder(unknown)
           )
       )

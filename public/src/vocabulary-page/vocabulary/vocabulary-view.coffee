@@ -62,7 +62,7 @@ define [
       this.$('.vocabularyMetricsContainer').html(this.vocabularyMetricsView.render().el)
       
       subView = $.url(document.location).attr('fragment')
-      
+
       if 'known' is subView
         this.$('.vocabularyContentContainer').html(this.knownVocabularyListView.render().el)
       else if 'unknown' is subView
@@ -71,7 +71,19 @@ define [
         this.$('.vocabularyContentContainer').html(this.vocabularySliderViewKnown.render().el)
       else
         this.$('.vocabularyContentContainer').html(this.vocabularySliderView.render().el)
-      
+
+      this.$('.saveCard').click(() =>
+        word = this.$('.cardWord').val()
+        def = this.$('.cardDef').val()
+        if word and def
+          $('#makeCardModal').modal('hide')
+          $('body').removeClass('modal-open')
+          $('.modal-backdrop').remove()
+          this.model.addToVocabulary(word, def)
+          this.$('.cardWord').val('')
+          this.$('.cardDef').val('')
+      )
+
       return this
 
 

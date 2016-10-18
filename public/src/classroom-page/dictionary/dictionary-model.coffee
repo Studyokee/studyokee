@@ -53,6 +53,24 @@ define [
           console.log('Error looking up word')
       )
 
+    addToVocabulary: (word, def) ->
+      if not word?
+        return
+
+      fromLanguage = this.get('settings').get('fromLanguage').language
+      toLanguage = this.get('settings').get('toLanguage').language
+      $.ajax(
+        type: 'PUT'
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/add'
+        data:
+          word: word
+          def: def
+        success: (res) =>
+          this.trigger('wordAdded', res.words)
+        error: (err) =>
+          console.log('Error adding to vocabulary')
+      )
+
   )
 
   return DictionaryModel

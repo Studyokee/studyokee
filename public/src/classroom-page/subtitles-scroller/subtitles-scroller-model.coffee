@@ -180,9 +180,9 @@ define [
       knownStems = this.get('knownStems')
       unknownStems = this.get('unknownStems')
 
-      if known[word]?
+      if known[word.toLowerCase()]?
         return 'known'
-      else if unknown[word]?
+      else if unknown[word.toLowerCase()]?
         return 'unknown'
 
       #stemming
@@ -196,9 +196,9 @@ define [
             stem = word.substr(0, start)
             break
 
-        if stem? and knownStems[stem]?
+        if stem? and knownStems[stem.toLowerCase()]?
           return 'known'
-        else if stem? and unknownStems[stem]?
+        else if stem? and unknownStems[stem.toLowerCase()]?
           return 'unknown'
 
       return ''

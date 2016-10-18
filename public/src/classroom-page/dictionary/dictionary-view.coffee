@@ -36,14 +36,16 @@ define [
         event.preventDefault()
       )
 
-      this.$('.saveCard').click(() ->
-        card =
-          word: that.$('.cardWord').val()
-          def: that.$('.cardDef').val()
-        that.model.set(
-          dictionaryResult: card
-        )
-        $('#makeCardModal').modal('hide')
+      this.$('.saveCard').click(() =>
+        word = this.$('.cardWord').val()
+        def = this.$('.cardDef').val()
+        if word and def
+          $('#makeCardModal').modal('hide')
+          $('body').removeClass('modal-open')
+          $('.modal-backdrop').remove()
+          this.model.addToVocabulary(word, def)
+          this.$('.cardWord').val('')
+          this.$('.cardDef').val('')
       )
 
       return this

@@ -23,6 +23,7 @@ define [
       )
       this.dictionaryModel = new DictionaryModel(
         settings: this.get('settings')
+        vocabulary: this.get('vocabulary')
       )
 
       this.on('change:currentSong', () =>
@@ -52,6 +53,12 @@ define [
         )
       )
 
+      this.dictionaryModel.on('wordAdded', (vocabulary) =>
+        this.set(
+          vocabulary: vocabulary
+        )
+      )
+
       this.on('change:classroom', () =>
         displayInfos = this.get('displayInfos')
         this.menuModel.set(
@@ -74,12 +81,6 @@ define [
         this.subtitlesScrollerModel.set(
           i: this.youtubePlayerModel.get('i')
         )
-      )
-
-      this.dictionaryModel.on('change:dictionaryResult', () =>
-        result = this.dictionaryModel.get('dictionaryResult')
-        if result?
-          this.addToVocabulary(result.word, result.def)
       )
 
       this.getClassroom()
@@ -159,26 +160,6 @@ define [
             )
         error: (err) =>
           console.log('Error fetching song data')
-      )
-
-    addToVocabulary: (word, def) ->
-      if not word?
-        return
-
-      fromLanguage = this.get('settings').get('fromLanguage').language
-      toLanguage = this.get('settings').get('toLanguage').language
-      $.ajax(
-        type: 'PUT'
-        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/add'
-        data:
-          word: word
-          def: def
-        success: (res) =>
-          this.set(
-            vocabulary: res.words
-          )
-        error: (err) =>
-          console.log('Error adding to vocabulary')
       )
   )
 

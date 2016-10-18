@@ -2,17 +2,43 @@
     <button class="btn btn-info visible-xs-block collapseStatsBtn" type="button" data-toggle="collapse" data-target="#collapseStats" aria-expanded="false" aria-controls="collapseStats">
       Stats
     </button>
-    <h4 class="visible-xs-block">Vocabulary</h4>
+    <h4 class="visible-xs-block">
+        <button type="button" class="makeCard btn btn-primary" data-toggle="modal" data-target="#makeCardModal">Make Card</button>
+        Vocabulary
+    </h4>
     <div class="vocabularyStats panel collapse" id="collapseStats">
         <div class="panel-body">
             <div class="vocabularyMetricsContainer"></div>
         </div>
     </div>
-    <div class="col-md-3 vocabularyStats panel hidden-xs">
-        <div class="panel-heading"><h4>Vocabulary</h4></div>
+    <div class="col-md-4 vocabularyStats panel hidden-xs">
+        <div class="panel-heading">
+            <h4>
+                <button type="button" class="makeCard btn btn-primary" data-toggle="modal" data-target="#makeCardModal">Make Card</button>
+                Vocabulary
+            </h4> 
+        </div>
         <div class="panel-body">
             <div class="vocabularyMetricsContainer"></div>
         </div>
     </div>
-    <div class="col-md-9 vocabularyContentContainer"></div>
+    <div class="modal fade" id="makeCardModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Make a Card</h4>
+          </div>
+          <div class="modal-body">
+            <p><input class="cardWord" value="{{lookup}}"/></p>
+            <textarea class="cardDef" placeholder="Enter in the text for this card"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary saveCard">Save changes</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="col-md-8 vocabularyContentContainer"></div>
 </div>

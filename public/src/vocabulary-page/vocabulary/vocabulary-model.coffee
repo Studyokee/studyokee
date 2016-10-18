@@ -79,6 +79,24 @@ define [
 
       return sortedWords
 
+    addToVocabulary: (word, def) ->
+      if not word?
+        return
+
+      fromLanguage = this.get('settings').get('fromLanguage').language
+      toLanguage = this.get('settings').get('toLanguage').language
+      $.ajax(
+        type: 'PUT'
+        url: '/api/vocabulary/' + fromLanguage + '/' + toLanguage + '/add'
+        data:
+          word: word
+          def: def
+        success: (res) =>
+          this.updateVocabulary(res)
+        error: (err) =>
+          console.log('Error adding to vocabulary')
+      )
+
   )
 
   return VocabularyModel
