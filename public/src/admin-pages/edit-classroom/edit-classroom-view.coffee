@@ -80,6 +80,8 @@ define [
 
       )
       this.$('#searchSongs').focus((event) =>
+        this.$('#searchSongs').val('')
+        this.model.clearSongSearch()
         this.$('.songSearchListContainer').show()
       )
       this.$('#searchSongs').blur((event) =>
@@ -106,6 +108,21 @@ define [
           this.model.deleteClassroom(this.model.get('data'))
           Backbone.history.navigate('/', {trigger: true})
           event.preventDefault()
+      )
+
+      this.$('.classroomTitle').click(() =>
+        $('.classroomTitle').hide()
+        $('.editClassroomTitle').show()
+      )
+
+      this.$('.editClassroomTitle').on('blur', () =>
+        name = $('.editClassroomTitle').val()
+        if not name
+          return
+
+        this.model.saveClassroom(name)
+        $('.classroomTitle').text(name).show()
+        $('.editClassroomTitle').hide()
       )
 
       return this

@@ -1,19 +1,18 @@
 .editSong {
-    .lyricsGrid {
-        .notInDictionary {
-            display: inline-block;
-            padding: 1px 4px;
-            background-color: #FF0000;
-        }
-        .inDictionary {
-            display: inline-block;
-            padding: 1px 4px;
-            background-color: #00FF00;
-        }
-        .inResolutions {
-            display: inline-block;
-            padding: 1px 4px;
-            background-color: #00FFFF;
-        }
+    margin-top: 2em;
+    
+    .form-horizontal .control-label {
+        padding-top: 0;
+    }
+    td:hover, textarea:hover {
+        cursor: pointer;
+        background-color: $gray-lighter;
+    }
+    table .control-label {
+        padding-top: 0.5em;
+    }
+    legend .btn {
+        margin-top: -7px;
+        display: inline-block;
     }
 }

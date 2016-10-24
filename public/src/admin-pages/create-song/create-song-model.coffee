@@ -21,6 +21,17 @@ define [
           console.log('Error: ' + err)
       )
 
+    getSongDetails: (id, callback) ->
+      $.ajax(
+        type: 'GET'
+        url: '/api/songs/youtube/' + id
+        dataType: 'json'
+        success: (result) =>
+          callback(result)
+        error: (err) =>
+          console.log('Error: ' + err)
+      )
+
   )
 
   return CreateSongModel

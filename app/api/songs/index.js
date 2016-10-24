@@ -6,6 +6,7 @@ var q = require('q');
 var Song = require('../../../models/song');
 var utilities = require('../utilities');
 var mongoose = require('mongoose');
+var request = require('request');
 
 // function trimPrefix (req, res, next) {
 //     var match = req.url.match('/[^\/]*(.*)');
@@ -65,11 +66,46 @@ app.get('/search', function (req, res) {
     });
 });
 
-app.post('/', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
+app.post('/', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
         return Song.create(req.body.artist, req.body.trackName, req.body.language, req.body.youtubeKey);
     }).then(function (song) {
         res.json(200, song);
+    }).fail(function (err) {
+        console.log(err);
+        res.json(500, {
+            err: err
+        });
+    });
+});
+
+function getYoutubeSongInfo(id) {
+    return q.resolve().then(function () {
+        var getVideoRequest = q.defer();
+        var url = '';
+        url = 'https://www.googleapis.com/youtube/v3/videos?';
+        url += 'id=' + id;
+        url += '&key=' + process.env.YOUTUBE_API_KEY;
+        url += '&fields=items(snippet(title))&part=snippet';
+        console.log('url: ' + url);
+        request(url, getVideoRequest.makeNodeResolver());
+        return getVideoRequest.promise;
+    }).spread(function (res, body) {
+        console.log('worked!');
+        // transform result shape
+        var result = JSON.parse(body);
+        if (result && result.items.length > 0 && result.items[0].snippet) {
+            return result.items[0].snippet.title;
+        }
+        return result;
+    });
+}
+
+app.get('/youtube/:id', utilities.ensureAuthenticated, function (req, res) {
+    q.resolve().then(function () {
+        return getYoutubeSongInfo(req.params.id);
+    }).then(function (result) {
+        res.json(200, result);
     }).fail(function (err) {
         console.log(err);
         res.json(500, {

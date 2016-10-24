@@ -1,144 +1,153 @@
-<div class="editSong col-lg-12 panel panel-default">
-    <div class="panel-body">
-        <form>
-            <fieldset>
-                <legend>Edit Song</legend>
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-lg-8 col-lg-offset-3">
-                            <button class="btn btn-default done">Done</button> 
-                            <button type="submit" class="btn btn-primary save">Save</button> 
+<div class="container ">
+    <div class="row">
+        <div class="editSong col-lg-12">
+            <form>
+                <fieldset>
+                    <legend>
+                        Edit Song
+                        <a href="/classrooms/{{data.classroomId}}" class="btn btn-info btn-sm viewClassroom">view</a>
+                        <a href="/" class="btn btn-info btn-sm deleteClassroom">delete</a>
+                    </legend>
+                    <div class="form-horizontal songDetails">
+                        <div class="form-group">
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="trackName" class="col-lg-3 control-label">Track Name</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" id="trackName" placeholder="Track Name" value="{{data.metadata.trackName}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="artist" class="col-lg-3 control-label">Artist</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" id="artist" placeholder="Artist" value="{{data.metadata.artist}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="youtubeKey" class="col-lg-3 control-label">Youtube Link</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" id="youtubeKey" placeholder="https://www.youtube.com/watch?v=..." value="http://www.youtube.com/watch?v={{data.youtubeKey}}">
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="trackName" class="col-lg-3 control-label">Track Name</label>
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" id="trackName" placeholder="Track Name" value="{{data.metadata.trackName}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="artist" class="col-lg-3 control-label">Artist</label>
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" id="artist" placeholder="Artist" value="{{data.metadata.artist}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="youtubeKey" class="col-lg-3 control-label">Youtube Link</label>
-                        <div class="col-lg-6">
-                            <input type="text" class="form-control" id="youtubeKey" placeholder="https://www.youtube.com/watch?v=...">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-lg-6">
-                    <h3>
-                        Subtitles 
-                        <button class="btn btn-primary btn-xs editSubtitles">edit</button>
-                        <button class="btn btn-primary btn-xs syncSubtitles">sync</button>
-                        <div class="editSubtitlesModal" style="display:none;">
-                            <div class="modal fade in">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close closeEditSubtitlesModal" data-dismiss="modal" aria-hidden="true">×</button>
-                                            <h4 class="modal-title">Edit Subtitles</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <textarea rows="8" class="form-control" id="subtitlesEdit" placeholder="Enter subtitles...">{{{subtitlesText}}}</textarea>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default closeEditSubtitlesModal" data-dismiss="modal" title="Cancel">Cancel</button>
-                                            <button type="button" class="btn btn-primary saveSubtitles" title="Save changes">Save changes</button>
+                    <div class="form-group col-lg-6">
+                        <h3>
+                            Subtitles 
+                            <button type="button" class="btn btn-primary btn-sm uploadSubtitles">upload</button>
+                            <button type="button" class="btn btn-primary btn-sm clearSubtitles">clear</button>
+                            <button type="button" class="btn btn-primary btn-sm syncSubtitles">sync</button>
+                            <div class="editSubtitlesModal" style="display:none;">
+                                <div class="modal fade in">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close closeEditSubtitlesModal" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h4 class="modal-title">Edit Subtitles</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <textarea rows="8" class="form-control" id="subtitlesEdit" placeholder="Enter subtitles...">{{{subtitlesText}}}</textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default closeEditSubtitlesModal" data-dismiss="modal" title="Cancel">Cancel</button>
+                                                <button type="button" class="btn btn-primary saveSubtitles" title="Save changes">Save changes</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal-backdrop fade in"></div>
                             </div>
-                            <div class="modal-backdrop fade in"></div>
-                        </div>
-                        <div class="syncSubtitlesModal" style="display:none;">
-                            <div class="modal fade in">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close closeSyncSubtitlesModal" data-dismiss="modal" aria-hidden="true">×</button>
-                                            <h4 class="modal-title">Sync Subtitles</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="syncSubtitlesContainer"></div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default closeSyncSubtitlesModal" data-dismiss="modal" title="Cancel">Cancel</button>
-                                            <button type="button" class="btn btn-primary saveSyncSubtitles" title="Save changes">Save changes</button>
+                            <div class="syncSubtitlesModal" style="display:none;">
+                                <div class="modal fade in">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close closeSyncSubtitlesModal" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h4 class="modal-title">Sync Subtitles</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="syncSubtitlesContainer"></div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default closeSyncSubtitlesModal" data-dismiss="modal" title="Cancel">Cancel</button>
+                                                <button type="button" class="btn btn-primary saveSyncSubtitles" title="Save changes">Save changes</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal-backdrop fade in"></div>
                             </div>
-                            <div class="modal-backdrop fade in"></div>
-                        </div>
-                    </h3>
-                    <p class="subtitlesText"></p>
-                </div>
-                <div class="form-group col-lg-6">
-                    <h3>
-                        Translation
-                        <button class="btn btn-primary btn-xs editTranslation">edit</button>
-                        <div class="editTranslationModal" style="display:none;">
-                            <div class="modal fade in">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close closeTranslationModal" data-dismiss="modal" aria-hidden="true">×</button>
-                                            <h4 class="modal-title">Edit Translation</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <textarea rows="8" class="form-control" id="translationEdit" placeholder="Enter translation...">{{{translationText}}}</textarea>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default closeTranslationModal" data-dismiss="modal" title="Cancel">Cancel</button>
-                                            <button type="button" class="btn btn-primary saveTranslation" title="Save changes">Save changes</button>
+                        </h3>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <h3>
+                            Translation
+                            <button type="button" class="btn btn-primary btn-sm uploadTranslation">upload</button>
+                            <button type="button" class="btn btn-primary btn-sm clearTranslation">clear</button>
+                            <div class="editTranslationModal" style="display:none;">
+                                <div class="modal fade in">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close closeTranslationModal" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h4 class="modal-title">Upload Translation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <textarea rows="8" class="form-control" id="translationEdit" placeholder="Enter translation..."></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default closeTranslationModal" data-dismiss="modal" title="Cancel">Cancel</button>
+                                                <button type="button" class="btn btn-primary saveTranslation" title="Save changes">Save changes</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal-backdrop fade in"></div>
                             </div>
-                            <div class="modal-backdrop fade in"></div>
-                        </div>
-                    </h3>
-                    <div class="translationText"></div>
+                        </h3>
+                    </div>
+                    <div class="col-lg-12 lyricsGrid">
+                        <table class="col-lg-12 songText table table-striped">
+                            <tbody>
+                            {{#each lyrics}}
+                                <tr data-index="{{i}}">
+                                    <td class="col-lg-6 subtitles editSubtitleLineLink">
+                                        <span class="col-lg-2 control-label">{{ts}}:&nbsp;</span>
+                                        <span class="col-lg-10">
+                                            <textarea type="text" class="form-control editSubtitleLine textInput">{{{text}}}</textarea>
+                                        </span>
+                                    </td>
+                                    <td class="col-lg-6 editTranslationLineLink">
+                                        <textarea type="text" class="form-control editTranslationLine textInput">{{{translation}}}</textarea>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="modal addResolution" style="display:none">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close closeModal" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title">Resolve Word</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label class="control-label" for="resolution">Resolve '<span class="resolveWord"></span>' to:</label>
+                  <input class="form-control" id="resolution" type="text" value="">
                 </div>
-                <div class="col-lg-12 lyricsGrid">
-                    <div class="directions col-lg-12">In Dictionary: <span class="inDictionary">word</span> Not: <span class="notInDictionary">word</span> Resolved: <span class="inResolutions">word</span></div>
-                    <table class="col-lg-12 songText">
-                        <tbody>
-                        {{#each lyrics}}
-                            <tr>
-                                <td class="col-lg-6 subtitles">({{ts}})&nbsp;{{{original}}}</td>
-                                <td class="col-lg-6">{{{translation}}}</td>
-                            </tr>
-                        {{/each}}
-                        </tbody>
-                    </table>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="modal addResolution" style="display:none">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close closeModal" data-dismiss="modal" aria-hidden="true">x</button>
-            <h4 class="modal-title">Resolve Word</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label class="control-label" for="resolution">Resolve '<span class="resolveWord"></span>' to:</label>
-              <input class="form-control" id="resolution" type="text" value="">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary addDefinition">Define</button>
+                <button type="button" class="btn btn-primary saveResolution">Save</button>
+              </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary addDefinition">Define</button>
-            <button type="button" class="btn btn-primary saveResolution">Save</button>
-          </div>
         </div>
-      </div>
     </div>
 </div>

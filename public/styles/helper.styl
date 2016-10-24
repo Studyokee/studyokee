@@ -1,5 +1,5 @@
 .main {
-    background: $gray-lighter;
+    background: #fff;
     padding-bottom: 8.5em;
 }
 @media (max-width: $screen-sm-min) {
@@ -8,6 +8,20 @@
     }
 }
 footer {
+}
+
+.textInput {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.form-horizontal .control-label {
+  padding-top: 0.5em;
 }
 
 .btn {
@@ -32,7 +46,7 @@ a, a:hover, a:focus {
 }
 
 .panel {
-  background-color: $gray-light;
+  background-color: $gray-lighter;
   border: 3px solid darken($gray-light, 10) !important;
   border-top: 3px solid darken($gray-light, 10) !important;
   border-radius: 5px;

@@ -79,10 +79,9 @@ define [
           console.log('err:' + err.responseText)
       )
 
-    saveClassroom: (name, language) ->
+    saveClassroom: (name) ->
       updates =
         name: name
-        language: language
       $.ajax(
         type: 'PUT'
         url: '/api/classrooms/' + this.get('id')
@@ -118,6 +117,11 @@ define [
         error: (err) =>
           console.log('Error: ' + err.responseText)
           callback?()
+      )
+
+    clearSongSearch: () ->
+      this.songSearchListModel.set(
+        rawData: {}
       )
 
     deleteClassroom: (classroom) ->

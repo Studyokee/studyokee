@@ -24,7 +24,7 @@ var getDataObject = function (req) {
             username: (req.user && req.user.username) ? req.user.username : '',
             displayName: (req.user && req.user.displayName) ? req.user.displayName : '',
             admin: (req.user && req.user.admin) ? req.user.admin : false,
-            language: (req.user && req.user.language) ? req.user.language : 'es',
+            language: (req.user && req.user.language) ? req.user.language : 'de',
         }
     };
 };

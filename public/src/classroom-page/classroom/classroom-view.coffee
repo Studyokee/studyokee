@@ -65,9 +65,13 @@ define [
       this.$('.controls-container').html(this.subtitlesControlsView.render().el)
       this.$('.dictionaryContainer').html(this.dictionaryView.render().el)
 
-      $('.dictionaryContainerWrapper .close').click(() ->
+      $('.dictionaryContainerWrapper > .close').click(() ->
         $('.dictionaryContainerWrapper').hide()
       )
+
+      user = this.model.get('settings').get('user')
+      if user.admin is 'true' || this.model.get('classroom')?.createdById is user.id
+        $('.editClassroomButton').show()
 
       return this
   )

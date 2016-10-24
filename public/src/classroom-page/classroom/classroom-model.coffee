@@ -35,7 +35,8 @@ define [
           currentSong: this.get('currentSong')
         )
 
-        this.getSongData(this.get('currentSong')._id)
+        if this.get('currentSong')
+          this.getSongData(this.get('currentSong')._id)
       )
 
       this.on('change:songData', () =>

@@ -75,10 +75,10 @@ define [
       toggleTranslationButton = this.$('.toggle-translation')
       if (!toggleTranslationButton.hasClass('active'))
         toggleTranslationButton.addClass('active')
-        toggleTranslationButton.find('.buttonText').text('Show English')
+        toggleTranslationButton.text('Show English')
       else
         toggleTranslationButton.removeClass('active')
-        toggleTranslationButton.find('.buttonText').text('Hide English')
+        toggleTranslationButton.text('Hide English')
 
     enableButtons: () ->
       this.$('.prev').on('click', () =>

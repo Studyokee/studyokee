@@ -1,4 +1,17 @@
 .editClassroom {
+    margin-top: 2em;
+    
+    h2 {
+        margin-bottom: 1em;
+        
+        input {
+            font-size: $font-size-h2;
+            height: 48px;
+            width: auto;
+            display: inline-block;
+        }
+    }
+
     .songSearchListContainer {
         position: absolute;
         z-index: 2;
@@ -16,6 +29,18 @@
         .form-control {
             width: 300px;
         }
+        input {
+            height: 40px;
+        }
+    }
+    
+    .createSong {
+        button {
+            margin: 16px 0;
+        }
+    }
+    .classroomTitle:hover {
+        cursor: pointer;
     }
 
 }

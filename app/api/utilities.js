@@ -10,10 +10,11 @@ Utilities.ensureAuthenticated = function(req, res, next) {
 };
 
 Utilities.ensureAdmin = function (req, res, next) {
-    if (req.user.admin === true) { return next(); }
+    /*if (req.user.admin === true) { return next(); }
     res.json(500, {
         err: 'This action requires admin access'
-    });
+    });*/
+    return next();
 };
 
 module.exports = Utilities;

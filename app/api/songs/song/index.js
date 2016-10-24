@@ -59,7 +59,18 @@ app.get('/:id', function (req, res) {
 
 app.put('/:id', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
     var song = req.body.song;
-    var set = {};
+
+    if (!song) {
+        return q.reject('No to song data provided');
+    }
+
+    var set = {
+        subtitles: song.subtitles || [],
+        translations: song.translations || [],
+        resolutions: song.resolutions || [],
+        youtubeKey: song.youtubeKey
+    };
+
     if (song.metadata) {
         set.metadata = {
             artist: song.metadata.artist,
@@ -67,15 +78,7 @@ app.put('/:id', utilities.ensureAuthenticated, utilities.ensureAdmin, function (
             language: song.metadata.language
         };
     }
-    if (song.subtitles) {
-        set.subtitles = song.subtitles;
-    }
-    if (song.translations) {
-        set.translations = song.translations;
-    }
-    if (song.youtubeKey) {
-        set.youtubeKey = song.youtubeKey;
-    }
+
     var updates = {
         '$set': set
     };

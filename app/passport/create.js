@@ -9,8 +9,9 @@ module.exports = function(passport){
         },
         function(req, done) {
             User.count({}, function(err, c) {
+                console.log('req.query.language: ' + req.query.language);
                 if (c < process.env.USER_LIMIT) {
-                    User.create({ username: 't' + new Date().getTime(), displayName: 'User', language: req.query.language }, function (err, user) {
+                    User.create({ username: 't' + new Date().getTime(), displayName: 'User', language: req.body.language }, function (err, user) {
                         if (err) { return done(err); }
                         if (!user) { return done(null, false); }
                         return done(null, user);

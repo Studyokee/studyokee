@@ -65,7 +65,7 @@ app.get('/page/:language', function (req, res) {
 });
 
 // Create a new classroom
-app.post('/', utilities.ensureAuthenticated, utilities.ensureAdmin, function (req, res) {
+app.post('/', utilities.ensureAuthenticated, function (req, res) {
     q.resolve().then(function () {
         return Classroom.create(req.body.name, req.body.language, req.user._id);
     }).then(function (classroom) {
