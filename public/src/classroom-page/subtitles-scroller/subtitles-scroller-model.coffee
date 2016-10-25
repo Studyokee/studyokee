@@ -90,7 +90,10 @@ define [
       for line, i in processedSubtitles
         subtitlesElements = ''
         for word in line
-          subtitlesElements += '<a href="javaScript:void(0);" class="' + word.tag + '" data-lookup="' + word.lookup + '">' + word.word + '</a>&nbsp;'
+          if word.word
+            subtitlesElements += '<a href="javaScript:void(0);" class="' + word.tag + '" data-lookup="' + word.lookup + '">' + word.word + '</a>'
+          else
+            subtitlesElements += word
 
         formattedData.push(
           original: subtitlesElements
@@ -111,17 +114,28 @@ define [
       processedSubtitles = []
 
       for i in [0..subtitles.length-1]
+        cLoc = 0
         processedSubtitleLine = []
-        subtitleWords = this.getWords(subtitles[i].text)
+        rawLine = subtitles[i].text
+        subtitleWords = this.getWords(rawLine)
 
         if subtitleWords
           for word in subtitleWords
+            wordLoc = rawLine.substr(cLoc).indexOf(word)
+            if wordLoc > 0
+              processedSubtitleLine.push(rawLine.substr(cLoc, wordLoc))
+
             resolvedWord = this.resolveWord(word)
             processedWord =
               word: word
               tag: this.getTag(resolvedWord)
               lookup: resolvedWord
             processedSubtitleLine.push(processedWord)
+
+            cLoc = cLoc + wordLoc + word.length
+
+        if cLoc < rawLine.length
+          processedSubtitleLine.push(rawLine.substr(cLoc))
 
         processedSubtitles.push(processedSubtitleLine)
 
