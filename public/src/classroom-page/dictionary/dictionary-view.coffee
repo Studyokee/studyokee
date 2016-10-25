@@ -10,6 +10,9 @@ define [
       this.listenTo(this.model, 'change:lookup', () =>
         this.render()
       )
+      this.listenTo(this.model, 'change:isLoading', () =>
+        this.render()
+      )
       this.listenTo(this.model, 'update', () =>
         this.render()
       )
@@ -19,6 +22,9 @@ define [
 
       dictionaryResult = this.model.get('dictionaryResult')
       isLoading = this.model.get('isLoading')
+
+      console.log('isLoading: ' + isLoading)
+      console.log('dictionaryResult: ' + dictionaryResult)
 
       if isLoading
         # Waiting for response from server
@@ -35,6 +41,12 @@ define [
         that.render()
         event.preventDefault()
       )
+
+      # this.$('iframe').load(() =>
+      #   this.model.set(
+      #     isLoading: false
+      #   )
+      # )
 
       this.$('.saveCard').click(() =>
         word = this.$('.cardWord').val()

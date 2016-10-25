@@ -3,12 +3,10 @@ define [
 ], (Backbone) ->
   
   DictionaryModel = Backbone.Model.extend(
-    defaults:
-      dictionaryResult: null
-      isLoading: false
-
     initialize: () ->
       this.set(
+        isLoading: false
+        dictionaryResult: null
         isDE: this.get('settings').get('fromLanguage').language is 'de'
       )
 
@@ -24,14 +22,15 @@ define [
 
     lookup: (query) ->
       fromLanguage = this.get('settings').get('fromLanguage').language
+      this.set(
+        isLoading: true
+      )
+
       # We are using an embedded German dictionary
       if fromLanguage is 'de'
         return
 
       toLanguage = this.get('settings').get('toLanguage').language
-      this.set(
-        isLoading: true
-      )
       $.ajax(
         type: 'GET'
         dataType: 'json'
