@@ -11,6 +11,7 @@ define [
       this.offset = 0
       this.quickPrev = false
       this.timer = null
+      this.syncOffset = 500
       this.set(
         i: 0
         syncing: true
@@ -99,7 +100,7 @@ define [
       i = this.get('i') + 1
       subtitles = this.get('currentSong')?.subtitles
       if subtitles?[i]
-        ts = Math.max(Math.round(this.getCurrentTime() - 100), 0)
+        ts = Math.max(Math.round(this.getCurrentTime() - this.syncOffset), 0)
         this.addNewTime(i, ts)
         this.set(
           i: i
