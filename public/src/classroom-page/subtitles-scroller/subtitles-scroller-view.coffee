@@ -42,6 +42,7 @@ define [
         lookup = (event) =>
           query = $(event.target).attr('data-lookup')
           this.trigger('lookup', query)
+          $(event.target).focus
           event.preventDefault()
         this.$('.subtitles a').click(lookup)
 

@@ -28,7 +28,7 @@
             <p>
                 <a href="#" class="lookupEmbed">"{{lookup}}"</a>
             </p>
-            <div class="embeddedLookup"><iframe src="http://dict.tu-chemnitz.de/?mini=1&query={{lookup}}" width="100%" height="400" frameborder="0" id="dictionaryIframe"></iframe></div>
+            <div class="embeddedLookup"><iframe sandbox="allow-same-origin allow-popups allow-forms" src="http://dict.tu-chemnitz.de/?mini=1&query={{lookup}}" width="100%" height="400" frameborder="0" id="dictionaryIframe"></iframe></div>
         {{else}}
             <span class="text-muted explanation">Click on a word to lookup its definition</span>
         {{/if}}
