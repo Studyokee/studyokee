@@ -56,6 +56,10 @@ define [
         $('.dictionaryContainerWrapper').show()
       )
 
+      this.subtitlesScrollerView.on('selectLine', (i) =>
+        this.model.youtubePlayerModel.jumpTo(i)
+      )
+
     render: () ->
       this.$el.html(Handlebars.templates['classroom'](this.model.toJSON()))
 

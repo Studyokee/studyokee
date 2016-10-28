@@ -48,6 +48,11 @@ define [
 
         this.adjustView()
 
+        that = this
+        $('.subtitle').click(() ->
+          that.trigger('selectLine', $(this).index())
+        )
+
       return this
 
     getLoadingMessage: () ->

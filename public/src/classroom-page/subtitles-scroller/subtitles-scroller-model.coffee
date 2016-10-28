@@ -147,9 +147,9 @@ define [
       resolutions = this.get('resolutions')
       lower = word.toLowerCase()
       if resolutions[lower]
-        lower = resolutions[lower].toLowerCase()
+        word = resolutions[lower]
 
-      return lower
+      return word
 
     # Given a String
     # Returns the separate words in that String as an array. If no words, just return whole String in array of length one
