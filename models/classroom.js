@@ -24,7 +24,8 @@ var classroomSchema = mongoose.Schema({
     createdById: {
         type: 'String',
         required: true
-    }
+    },
+    type: String
 });
 
 classroomSchema.static('create', function (name, language, createdById) {
@@ -35,7 +36,8 @@ classroomSchema.static('create', function (name, language, createdById) {
             name: name,
             language: language,
             classroomId: classroomId,
-            createdById: createdById
+            createdById: createdById,
+            isPublic: 'public'
         };
         var classroom = new Classroom(toSave);
         var saveRequest = q.defer();

@@ -29,6 +29,13 @@ app.get('/page/:language', function (req, res) {
     console.log('Getting page of classrooms');
     var classrooms = {};
     var pageStart = 0;
+    var query = {
+        language: req.params.language
+    };
+    // Only allow normal users to see classrooms set to public
+    if (req.user.admin !== true) {
+        query.type = 'public';
+    }
     if (req.query.pageStart) {
         pageStart = req.query.pageStart;
     }
@@ -39,7 +46,7 @@ app.get('/page/:language', function (req, res) {
 
     q.resolve().then(function () {
         var findRequest = q.defer();
-        Classroom.find({language: req.params.language}).
+        Classroom.find(query).
             limit(pageSize).
             skip(pageStart).
             sort('-_id').
@@ -48,7 +55,7 @@ app.get('/page/:language', function (req, res) {
     }).then(function (classroomsResult) {
         classrooms = classroomsResult;
         var countRequest = q.defer();
-        Classroom.count({language: req.params.language}, countRequest.makeNodeResolver());
+        Classroom.count(query, countRequest.makeNodeResolver());
         return countRequest.promise;
     }).then(function (count) {
         var toReturn = {
