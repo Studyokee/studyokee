@@ -60,6 +60,19 @@ define [
           this.$('.cardDef').val('')
       )
 
+      this.$('.makeCard').click(() =>
+        if this.model.get('settings').get('fromLanguage').language is 'es'
+          defText = this.$('.lookup').text()
+          textParts = defText.split('\n')
+          def = ''
+          for textPart in textParts
+            strippedTextPart = textPart.replace(/^\s+|\s+$/g, '')
+            if strippedTextPart.length > 0
+              def += strippedTextPart + ', '
+          this.$('.cardDef').val(def)
+        $('#makeCardModal').modal('show')
+      )
+
       return this
 
     getLoadingMessage: () ->

@@ -171,11 +171,11 @@ define [
       if vocabulary?
         for word in vocabulary
           if word.known
-            known[word.word] = 1
-            knownStems[word.stem] = 1
+            known[word.word?.toLowerCase()] = 1
+            knownStems[word.stem?.toLowerCase()] = 1
           else
-            unknown[word.word] = 1
-            unknownStems[word.stem] = 1
+            unknown[word.word?.toLowerCase()] = 1
+            unknownStems[word.stem?.toLowerCase()] = 1
 
       maps =
         known: known

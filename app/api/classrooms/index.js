@@ -26,12 +26,12 @@ app.get('/', function (req, res) {
 
 // Return page of classrooms for one language
 app.get('/page/:language', function (req, res) {
-    console.log('Getting page of classrooms');
     var classrooms = {};
     var pageStart = 0;
     var query = {
         language: req.params.language
     };
+    console.log('Getting page of classrooms: ' + query.language);
     // Only allow normal users to see classrooms set to public
     if (req.user.admin !== true) {
         query.type = 'public';

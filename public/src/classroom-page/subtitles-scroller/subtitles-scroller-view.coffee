@@ -40,16 +40,19 @@ define [
         ))
 
         lookup = (event) =>
+          console.log('clicked lookup')
           query = $(event.target).attr('data-lookup')
           this.trigger('lookup', query)
           $(event.target).focus
           event.preventDefault()
+          event.stopPropagation()
         this.$('.subtitles a').click(lookup)
 
         this.adjustView()
 
         that = this
         $('.subtitle').click(() ->
+          console.log('clicked line')
           that.trigger('selectLine', $(this).index())
         )
 

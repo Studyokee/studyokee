@@ -24,7 +24,7 @@ var getDataObject = function (req) {
             username: (req.user && req.user.username) ? req.user.username : '',
             displayName: (req.user && req.user.displayName) ? req.user.displayName : '',
             admin: (req.user && req.user.admin) ? req.user.admin : false,
-            language: (req.user && req.user.language) ? req.user.language : 'de',
+            language: (req.user && req.user.language) ? req.user.language : '',
         }
     };
 };
@@ -70,14 +70,23 @@ module.exports = function(passport){
         }
     );
 
-    router.get('/try_es', passport.authenticate('create', {
+    router.get('/try_es',
+        function(req, res, next) {
+            req.query.language = 'es';
+            next();
+        },
+        passport.authenticate('create', {
             successRedirect: '/classrooms/1',
             failureRedirect: '/login',
             failureFlash : true
         })
     );
 
-    router.get('/try_de', passport.authenticate('create', {
+    router.get('/try_de',
+        function(req, res, next) {
+            req.query.language = 'de';
+            next();
+        }, passport.authenticate('create', {
             successRedirect: '/classrooms/11',
             failureRedirect: '/login',
             failureFlash : true
