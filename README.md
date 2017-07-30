@@ -44,7 +44,9 @@ APIs: Youtube API
 Download the source code, then run:
 
 npm install
+
 bower install
+
 grunt
 
 ## Creator
