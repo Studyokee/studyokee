@@ -14,7 +14,7 @@ var compression = require('compression');
 
 app.use(compression({threshold: 0}));
 
-app.use(favicon(__dirname + '/public/img/favicon.ico'));
+app.use(favicon(__dirname + '/client/img/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -31,9 +31,9 @@ app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/client'));
 
-app.set('views', __dirname + '/app/ui/views');
+app.set('views', __dirname + '/server/ui/views');
 app.set('view engine', 'ejs');
 
 app.use(passport.initialize());
@@ -44,12 +44,12 @@ app.use(passport.session());
 var flash = require('connect-flash');
 app.use(flash());
 
-app.use('/api', require('./app/api'));
+app.use('/api', require('./server/api'));
 // Initialize Passport
-var initPassport = require('./app/passport/init');
+var initPassport = require('./server/passport/init');
 initPassport(passport);
 
-var routes = require('./app/ui/routes')(passport);
+var routes = require('./server/ui/routes')(passport);
 app.use('/', routes);
 
 app.use(function (req, res) {

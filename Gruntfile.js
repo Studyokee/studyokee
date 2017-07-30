@@ -36,7 +36,7 @@ module.exports = function (grunt) {
             },
             coffee: {
                 files: [
-                    'public/src/**/*.coffee'
+                    'client/src/**/*.coffee'
                 ],
                 tasks: [
                     'newer:coffeelint',
@@ -46,7 +46,7 @@ module.exports = function (grunt) {
             },
             handlebars: {
                 files: [
-                    'public/src/**/*.handlebars'
+                    'client/src/**/*.handlebars'
                 ],
                 tasks: [
                     'handlebars',
@@ -54,13 +54,13 @@ module.exports = function (grunt) {
                 ]
             },
             stylus: {
-                files: ['public/**/*.styl'],
+                files: ['client/**/*.styl'],
                 tasks: [
                     'stylus'
                 ]
             },
             styles: {
-                files: ['public/styles/{,*/}*.css'],
+                files: ['client/styles/{,*/}*.css'],
                 tasks: ['autoprefixer']
             }
         },
@@ -75,15 +75,15 @@ module.exports = function (grunt) {
                     }
                 },
                 files: {
-                    'public/lib/templates.js': 'public/src/**/*.handlebars'
+                    'client/lib/templates.js': 'client/src/**/*.handlebars'
                 }
             }
         },
         coffee: {
             compile: {
-                cwd: 'public/src/',
+                cwd: 'client/src/',
                 src: ['**/*.coffee'],
-                dest: 'public/lib/',
+                dest: 'client/lib/',
                 ext: '.js',
                 expand: true,
                 options: {
@@ -96,8 +96,8 @@ module.exports = function (grunt) {
             app: {
                 files: {
                     src: [
-                        'public/src/**/*.coffee',
-                        '!public/bower_components/**/*'
+                        'client/src/**/*.coffee',
+                        '!client/bower_components/**/*'
                     ]
                 },
                 options: {
@@ -115,10 +115,10 @@ module.exports = function (grunt) {
                 src: [
                     '**/*.js',
                     '!node_modules/**/*.js',
-                    '!public/**/*.js',
-                    '!test/public/require-config.js',
+                    '!client/**/*.js',
+                    '!test/client/require-config.js',
                     '!test/**/*.js',
-                    '!assets/*.js'
+                    '!models/assets/*.js'
                 ],
                 options: {
                     jshint: {
@@ -160,11 +160,11 @@ module.exports = function (grunt) {
             }
         },
         jasmine: {
-            all: 'test/public/index.html'
+            all: 'test/client/index.html'
         },
         mochaTest: {
             files: [
-                'test/app/**/*.js',
+                'test/server/**/*.js',
                 'test/models/**/*.js',
                 'test/utils/**/*.js'
             ]
@@ -192,7 +192,7 @@ module.exports = function (grunt) {
                 exclude: ['modernizr']
             },
             all: {
-                rjsConfig: 'public/scripts/main.js'
+                rjsConfig: 'client/scripts/main.js'
             }
         },
         stylus: {
@@ -201,7 +201,7 @@ module.exports = function (grunt) {
                     compress: true
                 },
                 files: {
-                    'public/styles/main.css': 'public/styles/main.styl'
+                    'client/styles/main.css': 'client/styles/main.styl'
                 }
             },
             dev: {
@@ -209,25 +209,25 @@ module.exports = function (grunt) {
                     compress: false
                 },
                 files: {
-                    'public/styles/main.css': 'public/styles/main.styl',
+                    'client/styles/main.css': 'client/styles/main.styl',
                 }
             }
         },
         copy: {
             main: {
                 expand: true,
-                cwd: 'public/lib',
+                cwd: 'client/lib',
                 src: '**',
-                dest: 'public/optimized/',
+                dest: 'client/optimized/',
             }
         },
         requirejs: {
             compile: {
                 options: {
-                    appDir: 'public/lib',
-                    dir: 'public/optimized',
+                    appDir: 'client/lib',
+                    dir: 'client/optimized',
                     baseUrl: '.',
-                    //mainConfigFile: 'public/lib/require-config.js',
+                    //mainConfigFile: 'client/lib/require-config.js',
                     //name: 'path/to/almond', /* assumes a production build using almond, if you don't use almond, you
                     //                           need to set the "includes" or "modules" option instead of name */
                     //include: [ 'src/main.js' ],
@@ -359,7 +359,7 @@ module.exports = function (grunt) {
                 },
                 silent: false
             },
-            files: ['test/public/**/*.js']
+            files: ['test/client/**/*.js']
         },
         run: {
             stopserver: {
