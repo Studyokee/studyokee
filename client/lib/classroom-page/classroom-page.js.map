@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "classroom-page.js",
+  "sourceRoot": "../../src/classroom-page/",
+  "sources": [
+    "classroom-page.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,CAGG,GAHH,GAGG,OAHI,CAAA;CAAP"
+}

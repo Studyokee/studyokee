@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "vocabulary-list-model.js",
+  "sourceRoot": "../../../src/vocabulary-page/vocabulary-list/",
+  "sources": [
+    "vocabulary-list-model.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,CAEG,GAFH,EAEG,CAAC,CAFG;CAGL,OAAA,WAAA;CAAA,EAAsB,CAAtB,CAAoC,CAAd,EAAQ,WAA9B;CAEE,CAAY,CAAA,GAAZ,GAAY,CAAZ;CAFF,KAAsB;CAKtB,UAAO,QAAP;CARF,EAEG;CAFH"
+}

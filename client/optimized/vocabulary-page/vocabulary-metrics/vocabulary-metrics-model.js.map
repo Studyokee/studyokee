@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "vocabulary-metrics-model.js",
+  "sourceRoot": "../../../src/vocabulary-page/vocabulary-metrics/",
+  "sources": [
+    "vocabulary-metrics-model.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;CAAA,CAAA,CAEG,GAFH,EAEG,CAAC,CAFG;CAGL,OAAA,cAAA;CAAA,EAAyB,CAAzB,CAAuC,CAAd,EAAQ,cAAjC;CAEE,CAAY,CAAA,GAAZ,GAAY,CAAZ;CAFF,KAAyB;CAKzB,UAAO,WAAP;CARF,EAEG;CAFH"
+}
