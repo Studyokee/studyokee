@@ -19,6 +19,8 @@ A web application for learning language through karaoke created by [Erik Ulberg]
 * Tools/Ops: Grunt, Bower, npm, Heroku, Travis CI
 * APIs: Youtube API
 
+## Screenshots
+
 **Classroom Page**
 
 ![Classroom](https://user-images.githubusercontent.com/1115068/28757858-ee2ba27c-7540-11e7-830c-e251839f1554.jpg)
