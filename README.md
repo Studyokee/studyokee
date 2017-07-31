@@ -14,10 +14,10 @@ A web application for learning language through karaoke created by [Erik Ulberg]
 
 ## Technologies
 
-Front End: Backbone.js, CoffeeScript, jQuery, Bootstrap, Handlebars, Stylus, RequireJS
-Server: Node.js, JavaScript, mongodb
-Tools/Ops: Grunt, Bower, npm, Heroku, Travis CI
-APIs: Youtube API
+* Front End: Backbone.js, CoffeeScript, jQuery, Bootstrap, Handlebars, Stylus, RequireJS
+* Server: Node.js, JavaScript, mongodb
+* Tools/Ops: Grunt, Bower, npm, Heroku, Travis CI
+* APIs: Youtube API
 
 **Classroom Page**
 
