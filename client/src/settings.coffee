@@ -5,8 +5,7 @@ define [
     {'language': 'en', 'display': 'English'}
   ]
   fromLanguages = [
-    {'language': 'es', 'display': 'Spanish'},
-    {'language': 'de', 'display': 'German'}
+    {'language': 'es', 'display': 'Spanish'}
   ]
   SettingsModel = Backbone.Model.extend(
     defaults:

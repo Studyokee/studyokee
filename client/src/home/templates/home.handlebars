@@ -3,19 +3,19 @@
         <div class="row">
             <div class="col-md-2"><div class="headerIllustration"></div></div>
             <div class="col-md-8">
-                <h2>Vocabulary Through Song</h2>
+                <h2>Learn Spanish Through Song</h2>
                 {{#if user.id}}
                 <a href="/classrooms/language/{{fromLanguage.language}}/en" class="signup btn callToAction btn-primary enter" role="button">Enter <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i></a>
                 {{else}}
                 <div class="selectLanguage">
-                    <div class="dropdown btn-group">
+                    {{!-- <div class="dropdown btn-group">
                         <a href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown" data-selected="{{fromLanguage.language}}"><span class="displayLanguage">{{fromLanguage.display}}</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             {{#each supportedLanguages}}
                                 <li><a href="#" data-index="{{@index}}" data-language="{{language}}"><span class="languageIcon {{language}}"></span>&nbsp;&nbsp;&nbsp;{{display}}</a></li>
                             {{/each}}
                         </ul>
-                    </div>
+                    </div> --}}
                     <a href="/try_{{fromLanguage.language}}" class="signup try btn callToAction btn-primary" role="button">Try It Out!</a>
                 </div>
                 <!--<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or</span>

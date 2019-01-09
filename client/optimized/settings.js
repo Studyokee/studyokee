@@ -11,9 +11,6 @@
       {
         'language': 'es',
         'display': 'Spanish'
-      }, {
-        'language': 'de',
-        'display': 'German'
       }
     ];
     SettingsModel = Backbone.Model.extend({

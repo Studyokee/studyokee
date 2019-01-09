@@ -506,44 +506,17 @@ function program1(depth0,data) {
 
 function program3(depth0,data) {
   
-  var buffer = "", stack1, stack2;
-  buffer += "\n                <div class=\"selectLanguage\">\n                    <div class=\"dropdown btn-group\">\n                        <a href=\"#\" class=\"dropdown-toggle btn btn-info\" data-toggle=\"dropdown\" data-selected=\""
+  var buffer = "", stack1;
+  buffer += "\n                <div class=\"selectLanguage\">\n                    \n                    <a href=\"/try_"
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.fromLanguage)),stack1 == null || stack1 === false ? stack1 : stack1.language)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\"><span class=\"displayLanguage\">"
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.fromLanguage)),stack1 == null || stack1 === false ? stack1 : stack1.display)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</span> <b class=\"caret\"></b></a>\n                        <ul class=\"dropdown-menu\">\n                            ";
-  stack2 = helpers.each.call(depth0, (depth0 && depth0.supportedLanguages), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
-  if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n                        </ul>\n                    </div>\n                </div>\n                <a href=\"/try_"
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.fromLanguage)),stack1 == null || stack1 === false ? stack1 : stack1.language)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" class=\"signup try btn callToAction btn-primary\" role=\"button\">Try It Out!</a>\n                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or</span>\n                <a href=\"/signup\" class=\"signup btn callToAction btn-link\">Create Account</a>\n                ";
-  return buffer;
-  }
-function program4(depth0,data) {
-  
-  var buffer = "", stack1, stack2;
-  buffer += "\n                                <li><a href=\"#\" data-index=\""
-    + escapeExpression(((stack1 = ((stack1 = data),stack1 == null || stack1 === false ? stack1 : stack1.index)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" data-language=\"";
-  if (stack2 = helpers.language) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
-  else { stack2 = (depth0 && depth0.language); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
-  buffer += escapeExpression(stack2)
-    + "\"><span class=\"languageIcon ";
-  if (stack2 = helpers.language) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
-  else { stack2 = (depth0 && depth0.language); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
-  buffer += escapeExpression(stack2)
-    + "\"></span>&nbsp;&nbsp;&nbsp;";
-  if (stack2 = helpers.display) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
-  else { stack2 = (depth0 && depth0.display); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
-  buffer += escapeExpression(stack2)
-    + "</a></li>\n                            ";
+    + "\" class=\"signup try btn callToAction btn-primary\" role=\"button\">Try It Out!</a>\n                </div>\n                <!--<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or</span>\n                <a href=\"/signup\" class=\"signup btn callToAction btn-link\">Create Account</a>-->\n                ";
   return buffer;
   }
 
-  buffer += "<div class=\"home container\">\n    <div class=\"callout\">\n        <div class=\"row\">\n            <div class=\"col-md-2\"><div class=\"headerIllustration\"></div></div>\n            <div class=\"col-md-8\">\n                <h2>Vocabulary Through Song</h2>\n                ";
+  buffer += "<div class=\"home container\">\n    <div class=\"callout\">\n        <div class=\"row\">\n            <div class=\"col-md-2\"><div class=\"headerIllustration\"></div></div>\n            <div class=\"col-md-8\">\n                <h2>Learn Spanish Through Song</h2>\n                ";
   stack2 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.user)),stack1 == null || stack1 === false ? stack1 : stack1.id), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n            </div>\n            <div class=\"col-md-2\"><div class=\"headerIllustration\"></div></div>\n        </div>\n    </div>\n    <div class=\"row highlights\">\n        <div class=\"col-md-4\">\n            <div class=\"illustrationContainer hidden-xs\">\n                <span class=\"illustration musicVideo\"></span>\n            </div>\n            <h3>Music videos with scrolling lyrics</h3>\n        </div>\n        <div class=\"col-md-4\">\n\n            <div class=\"illustrationContainer hidden-xs\">\n                <span class=\"illustration vocabBuilder\"></span>\n            </div>\n            <h3>Add words to vocabulary builder</h3>\n        </div>\n        <div class=\"col-md-4\">\n\n            <div class=\"illustrationContainer hidden-xs\">\n                <span class=\"illustration metrics\"></span>\n            </div>\n            <h3>Track learning with metrics</h3>\n        </div>\n    </div>\n</div>";
+  buffer += "\n            </div>\n            <div class=\"col-md-2\"><div class=\"headerIllustration\"></div></div>\n        </div>\n    </div>\n    <div class=\"row highlights\">\n        <div class=\"col-md-4\">\n            <div class=\"illustrationContainer hidden-xs\">\n                <span class=\"illustration musicVideo\"></span>\n            </div>\n            <h3>Music videos with scrolling lyrics</h3>\n        </div>\n        <div class=\"col-md-4\">\n\n            <div class=\"illustrationContainer hidden-xs\">\n                <span class=\"illustration vocabBuilder\"></span>\n            </div>\n            <h3>Add words to vocabulary builder</h3>\n        </div>\n        <div class=\"col-md-4\">\n\n            <div class=\"illustrationContainer hidden-xs\">\n                <span class=\"illustration metrics\"></span>\n            </div>\n            <h3>Track learning with metrics</h3>\n        </div>\n    </div>\n</div>\n";
   return buffer;
   });
 
